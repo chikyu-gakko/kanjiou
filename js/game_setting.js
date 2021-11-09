@@ -7,12 +7,14 @@ export default class GameSetting extends Phaser.Scene {
 
   preload() {
     // メニュー画面に出てくる画像のロード
-    this.load.image("sound", "../img/sound.png");
+    this.load.path = window.location.href.replace("index.html","");
+    
+    this.load.image("sound", "img/sound.png");
+    this.load.image("mogura", "img/fun_mogura1.png");
 
     // bgm
-    this.load.audio("top_bgm", "../audio/top.mp3");
-    this.load.audio("game_start_se", "../audio/game_start.mp3");
-
+    this.load.audio("top_bgm", "audio/top.mp3");
+    this.load.audio("game_start_se", "audio/game_start.mp3");
   }
 
   init() {
@@ -88,7 +90,6 @@ export default class GameSetting extends Phaser.Scene {
     // ゲームスタートSE
     const gameStartSe = this.sound.add("game_start_se");
 
-
     // ゲームスタートボタン・テキスト
     this.add
       .graphics()
@@ -144,6 +145,10 @@ export default class GameSetting extends Phaser.Scene {
         },
         this
       );
+      
+      // mogura画像
+      const mogura = this.add.image(410, 680, "mogura");
+      // mogura1.depth = 3;
 
     // 遊び方ボタン
     this.add

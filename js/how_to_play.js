@@ -16,14 +16,19 @@ export default class HowToPlay extends Phaser.Scene {
   }
 
   preload() {
+    this.load.path = window.location.href.replace("index.html","");
+
     // もぐらんボタン
-    this.load.image("mogura", "../img/min_mogura.png");
+    // this.load.image("mogura", "img/fun_mogura2.png");
+    this.load.image("mogura", "img/fun_mogura.png");
+    
     // サウンドアイコン
-    this.load.image("sound", "../img/sound.png");
+    this.load.image("sound", "img/sound.png");
+
     // ミニゲーム中bgm
-    this.load.audio("top_bgm", "../audio/top.mp3");
-    this.load.audio("correct_se", "../audio/correct.mp3");
-    this.load.audio("but_se", "../audio/but_se.mp3");
+    this.load.audio("top_bgm", "audio/top.mp3");
+    this.load.audio("correct_se", "audio/correct.mp3");
+    this.load.audio("but_se", "audio/but_se.mp3");
   }
 
   create() {
@@ -83,7 +88,7 @@ export default class HowToPlay extends Phaser.Scene {
     );
 
     // もぐら
-    const moguraIcon = this.add.sprite(385, 650, "mogura");
+    const moguraIcon = this.add.sprite(430, 650, "mogura");
     moguraIcon.depth = 2;
 
     // 音楽
