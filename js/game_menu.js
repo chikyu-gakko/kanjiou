@@ -5,7 +5,7 @@ export default class GameMenu extends Phaser.Scene {
 
   preload() {
     // メニュー画面に出てくる画像のロード
-    this.load.path = 'https://github.com/chikyu-gakko/kanjiou/blob/main/';
+    this.load.path = window.location.href.replace("index.html","");
     // bgm
     this.load.audio("top_bgm", "audio/top.mp3");
     // SE
