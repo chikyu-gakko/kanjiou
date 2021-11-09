@@ -2,15 +2,19 @@ export default class GameMenu extends Phaser.Scene {
   constructor() {
     super({ key: "game_menu", active: false });
   }
-  
+
   preload() {
     // メニュー画面に出てくる画像のロード
-    // this.load.path = 'https://github.com/chikyu-gakko/kanjiou/blob/main/';
-    // this.load.path = '../';
+    this.load.path = 'https://github.com/chikyu-gakko/kanjiou/blob/main/';
+    // bgm
+    this.load.audio("top_bgm", "audio/top.mp3");
+    // SE
+    this.load.audio("mode_decide_se", "audio/mode_decide.mp3");
+   
     this.load.image("sound", "img/sound.png");
     this.load.image("cloud", "img/game_cloud.png");
-    
-    this.load.image("top_mogura", "../img/lay_mogura.png");
+
+    this.load.image("top_mogura", "img/lay_mogura.png");
     // 木
     this.load.image("tree1", "assets/animation/tree/tree_1.png");
     this.load.image("tree2", "assets/animation/tree/tree_2.png");
@@ -19,7 +23,7 @@ export default class GameMenu extends Phaser.Scene {
     this.load.image("tree5", "assets/animation/tree/tree_5.png");
     this.load.image("tree6", "assets/animation/tree/tree_6.png");
     this.load.image("tree7", "assets/animation/tree/tree_7.png");
-    
+
     // 地面
     this.load.image("ground1", "assets/animation/soil/soil_1.png");
     this.load.image("ground2", "assets/animation/soil/soil_2.png");
@@ -28,7 +32,7 @@ export default class GameMenu extends Phaser.Scene {
     this.load.image("ground5", "assets/animation/soil/soil_5.png");
     this.load.image("ground6", "assets/animation/soil/soil_6.png");
     this.load.image("ground7", "assets/animation/soil/soil_7.png");
-    
+
     // もぐら
     this.load.image("mogura1", "assets/animation/mogura/moguraAnim01.png");
     this.load.image("mogura2", "assets/animation/mogura/moguraAnim02.png");
@@ -67,12 +71,7 @@ export default class GameMenu extends Phaser.Scene {
     this.load.image("mogura35", "assets/animation/mogura/moguraAnim35.png");
     this.load.image("mogura36", "assets/animation/mogura/moguraAnim36.png");
     this.load.image("mogura37", "assets/animation/mogura/moguraAnim37.png");
-  
- 
-    // bgm
-    this.load.audio("top_bgm", "../audio/top.mp3");
-    // SE
-    this.load.audio("mode_decide_se", "../audio/mode_decide.mp3");
+
   }
 
   create() {
@@ -93,11 +92,7 @@ export default class GameMenu extends Phaser.Scene {
       setTimeout(() => {
         this.gameMenuFade();
       }, 8000);
-      
     });
-
-    
-
 
     // 画像表示
 
@@ -258,8 +253,6 @@ export default class GameMenu extends Phaser.Scene {
         { key: "mogura35", duration: 20 },
         { key: "mogura36", duration: 20 },
         { key: "mogura37", duration: 1000 },
-
-        
       ],
       frameRate: 24,
     });
@@ -302,9 +295,7 @@ export default class GameMenu extends Phaser.Scene {
       fill: "#333333",
     });
 
-    fndDiffText
-      .setPadding(4)
-      .depth = 3;
+    fndDiffText.setPadding(4).depth = 3;
 
     // 作成中にする
     // 多言語
@@ -318,12 +309,11 @@ export default class GameMenu extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath().depth = 2;
-    
+
     const mnyLngText = this.add.text(150, 260, "作成中", {
       fontSize: "32px",
       fill: "#ffffff",
     });
-
 
     mnyLngText.setPadding(4).depth = 2;
 
@@ -364,7 +354,7 @@ export default class GameMenu extends Phaser.Scene {
     });
 
     tgtherText.setPadding(4).depth = 2;
-    
+
     const mogura1 = this.add.image(95, 275, "top_mogura");
     mogura1.depth = 3;
     const mogura2 = this.add.image(95, 400, "top_mogura");
