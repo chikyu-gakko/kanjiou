@@ -194,7 +194,7 @@ export default class GameResult extends Phaser.Scene {
     retryGameButton.on(
       "pointerdown",
       () => {
-        this.scene.start("Hituji_game");
+        this.scene.start("hitsuji_game");
       },
       this
     );
