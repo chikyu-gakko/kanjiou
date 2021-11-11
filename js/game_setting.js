@@ -7,8 +7,8 @@ export default class GameSetting extends Phaser.Scene {
 
   preload() {
     // メニュー画面に出てくる画像のロード
-    this.load.path = window.location.href.replace("index.html","");
-    
+    this.load.path = window.location.href.replace("index.html", "");
+
     this.load.image("sound", "img/sound.png");
     this.load.image("mogura", "img/fun_mogura1.png");
 
@@ -96,15 +96,11 @@ export default class GameSetting extends Phaser.Scene {
       .lineStyle(5, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(340, 642, 368, 80, 40)
-      .strokePath();
-
-    this.add
-      .text(417, 666, "ゲームスタート", {
-        fontSize: "32px",
-        fill: "#ffffff",
-        fontFamily: "Arial",
-      })
-      .setInteractive()
+      .setInteractive(
+        new Phaser.Geom.Rectangle(340, 642, 368, 80),
+        Phaser.Geom.Rectangle.Contains
+      )
+      .strokePath()
       .on(
         "pointerdown",
         () => {
@@ -145,10 +141,18 @@ export default class GameSetting extends Phaser.Scene {
         },
         this
       );
+
+    this.add
+      .text(417, 666, "ゲームスタート", {
+        fontSize: "32px",
+        fill: "#ffffff",
+        fontFamily: "Arial",
+      })
       
-      // mogura画像
-      const mogura = this.add.image(410, 680, "mogura");
-      // mogura1.depth = 3;
+
+    // mogura画像
+    this.add.image(410, 680, "mogura");
+    // mogura1.depth = 3;
 
     // 遊び方ボタン
     this.add
@@ -160,16 +164,7 @@ export default class GameSetting extends Phaser.Scene {
         new Phaser.Geom.Rectangle(787, 645, 189, 75),
         Phaser.Geom.Rectangle.Contains
       )
-      .strokePath();
-
-    this.add
-      .text(830, 665, "遊び方", {
-        fontSize: "32px",
-        fill: "#ffffff",
-        fontFamily: "Arial",
-      })
-
-      .setInteractive()
+      .strokePath()
       .on(
         "pointerdown",
         () => {
@@ -178,6 +173,15 @@ export default class GameSetting extends Phaser.Scene {
         },
         this
       );
+
+    this.add
+      .text(830, 665, "遊び方", {
+        fontSize: "32px",
+        fill: "#ffffff",
+        fontFamily: "Arial",
+      })
+
+      
 
     this.categoryButtons = [
       // ゲームサイズ
