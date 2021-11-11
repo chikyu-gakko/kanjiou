@@ -5,7 +5,7 @@ export default class GameResult extends Phaser.Scene {
 
   preload() {
     // メニュー画面に出てくる画像のロード
-    this.load.path = window.location.href.replace("index.html","");
+    this.load.path = window.location.href.replace("index.html", "");
 
     this.load.image("sound", "img/sound.png");
     this.load.image("bg", "img/bg.png");
@@ -24,45 +24,44 @@ export default class GameResult extends Phaser.Scene {
     this.load.image("fire6", "assets/animation/fireFlower/fire6.png");
 
     // もぐらんGIF
-    this.load.image("mogura1", "assets/animation/mogura2/moguraAnim2_01.png");
-    this.load.image("mogura2", "assets/animation/mogura2/moguraAnim2_02.png");
-    this.load.image("mogura3", "assets/animation/mogura2/moguraAnim2_03.png");
-    this.load.image("mogura4", "assets/animation/mogura2/moguraAnim2_04.png");
-    this.load.image("mogura5", "assets/animation/mogura2/moguraAnim2_05.png");
-    this.load.image("mogura6", "assets/animation/mogura2/moguraAnim2_06.png");
-    this.load.image("mogura7", "assets/animation/mogura2/moguraAnim2_07.png");
-    this.load.image("mogura8", "assets/animation/mogura2/moguraAnim2_08.png");
-    this.load.image("mogura9", "assets/animation/mogura2/moguraAnim2_09.png");
-    this.load.image("mogura10", "assets/animation/mogura2/moguraAnim2_10.png");
-    this.load.image("mogura11", "assets/animation/mogura2/moguraAnim2_11.png");
-    this.load.image("mogura12", "assets/animation/mogura2/moguraAnim2_12.png");
-    this.load.image("mogura13", "assets/animation/mogura2/moguraAnim2_13.png");
-    this.load.image("mogura14", "assets/animation/mogura2/moguraAnim2_14.png");
-    this.load.image("mogura15", "assets/animation/mogura2/moguraAnim2_15.png");
-    this.load.image("mogura16", "assets/animation/mogura2/moguraAnim2_16.png");
-    this.load.image("mogura17", "assets/animation/mogura2/moguraAnim2_17.png");
-    this.load.image("mogura18", "assets/animation/mogura2/moguraAnim2_18.png");
-    this.load.image("mogura19", "assets/animation/mogura2/moguraAnim2_19.png");
-    this.load.image("mogura20", "assets/animation/mogura2/moguraAnim2_20.png");
-    this.load.image("mogura21", "assets/animation/mogura2/moguraAnim2_21.png");
-    this.load.image("mogura22", "assets/animation/mogura2/moguraAnim2_22.png");
-    this.load.image("mogura23", "assets/animation/mogura2/moguraAnim2_23.png");
-    this.load.image("mogura24", "assets/animation/mogura2/moguraAnim2_24.png");
-    this.load.image("mogura25", "assets/animation/mogura2/moguraAnim2_25.png");
-    this.load.image("mogura26", "assets/animation/mogura2/moguraAnim2_26.png");
-    this.load.image("mogura27", "assets/animation/mogura2/moguraAnim2_27.png");
-    this.load.image("mogura28", "assets/animation/mogura2/moguraAnim2_28.png");
-    this.load.image("mogura29", "assets/animation/mogura2/moguraAnim2_29.png");
-    this.load.image("mogura30", "assets/animation/mogura2/moguraAnim2_30.png");
-    this.load.image("mogura31", "assets/animation/mogura2/moguraAnim2_31.png");
-    this.load.image("mogura32", "assets/animation/mogura2/moguraAnim2_32.png");
-    this.load.image("mogura33", "assets/animation/mogura2/moguraAnim2_33.png");
-    this.load.image("mogura34", "assets/animation/mogura2/moguraAnim2_34.png");
-    this.load.image("mogura35", "assets/animation/mogura2/moguraAnim2_35.png");
-    this.load.image("mogura36", "assets/animation/mogura2/moguraAnim2_36.png");
-    this.load.image("mogura37", "assets/animation/mogura2/moguraAnim2_37.png");
-    this.load.image("mogura38", "assets/animation/mogura2/moguraAnim2_38.png");
-    this.load.image("mogura39", "assets/animation/mogura2/moguraAnim2_39.png");
+    this.load.image("moguraAnim1", "assets/animation/mogura2/moguraAnim2_01.png");
+    this.load.image("moguraAnim2", "assets/animation/mogura2/moguraAnim2_02.png");
+    this.load.image("moguraAnim3", "assets/animation/mogura2/moguraAnim2_03.png");
+    this.load.image("moguraAnim4", "assets/animation/mogura2/moguraAnim2_04.png");
+    this.load.image("moguraAnim5", "assets/animation/mogura2/moguraAnim2_05.png");
+    this.load.image("moguraAnim6", "assets/animation/mogura2/moguraAnim2_06.png");
+    this.load.image("moguraAnim7", "assets/animation/mogura2/moguraAnim2_07.png");
+    this.load.image("moguraAnim8", "assets/animation/mogura2/moguraAnim2_08.png");
+    this.load.image("moguraAnim9", "assets/animation/mogura2/moguraAnim2_09.png");
+    this.load.image("moguraAnim10", "assets/animation/mogura2/moguraAnim2_10.png");
+    this.load.image("moguraAnim11", "assets/animation/mogura2/moguraAnim2_11.png");
+    this.load.image("moguraAnim12", "assets/animation/mogura2/moguraAnim2_12.png");
+    this.load.image("moguraAnim13", "assets/animation/mogura2/moguraAnim2_13.png");
+    this.load.image("moguraAnim14", "assets/animation/mogura2/moguraAnim2_14.png");
+    this.load.image("moguraAnim15", "assets/animation/mogura2/moguraAnim2_15.png");
+    this.load.image("moguraAnim16", "assets/animation/mogura2/moguraAnim2_16.png");
+    this.load.image("moguraAnim17", "assets/animation/mogura2/moguraAnim2_17.png");
+    this.load.image("moguraAnim18", "assets/animation/mogura2/moguraAnim2_18.png");
+    this.load.image("moguraAnim19", "assets/animation/mogura2/moguraAnim2_19.png");
+    this.load.image("moguraAnim20", "assets/animation/mogura2/moguraAnim2_20.png");
+    this.load.image("moguraAnim21", "assets/animation/mogura2/moguraAnim2_21.png");
+    this.load.image("moguraAnim22", "assets/animation/mogura2/moguraAnim2_22.png");
+    this.load.image("moguraAnim23", "assets/animation/mogura2/moguraAnim2_23.png");
+    this.load.image("moguraAnim24", "assets/animation/mogura2/moguraAnim2_24.png");
+    this.load.image("moguraAnim25", "assets/animation/mogura2/moguraAnim2_25.png");
+    this.load.image("moguraAnim26", "assets/animation/mogura2/moguraAnim2_26.png");
+    this.load.image("moguraAnim27", "assets/animation/mogura2/moguraAnim2_27.png");
+    this.load.image("moguraAnim28", "assets/animation/mogura2/moguraAnim2_28.png");
+    this.load.image("moguraAnim29", "assets/animation/mogura2/moguraAnim2_29.png");
+    this.load.image("moguraAnim30", "assets/animation/mogura2/moguraAnim2_30.png");
+    this.load.image("moguraAnim31", "assets/animation/mogura2/moguraAnim2_31.png");
+    this.load.image("moguraAnim32", "assets/animation/mogura2/moguraAnim2_32.png");
+    this.load.image("moguraAnim33", "assets/animation/mogura2/moguraAnim2_33.png");
+    this.load.image("moguraAnim34", "assets/animation/mogura2/moguraAnim2_34.png");
+    this.load.image("moguraAnim35", "assets/animation/mogura2/moguraAnim2_35.png");
+    this.load.image("moguraAnim36", "assets/animation/mogura2/moguraAnim2_36.png");
+   
+
   }
 
   init(data) {
@@ -115,7 +114,7 @@ export default class GameResult extends Phaser.Scene {
       fontFamily: "SemiBold",
       fontSize: "64px",
     });
-    
+
     // 正解数
     this.add.text(350, 230, `クリアした問題数:${this.answers}問`, {
       fill: 0x333333,
@@ -157,10 +156,10 @@ export default class GameResult extends Phaser.Scene {
     backGameSetButton
       .lineStyle(5, 0x645246)
       .fillStyle(0xffffff, 1)
-      .fillRoundedRect(697, 332, 265, 72, 35)
+      .fillRoundedRect(377, 332, 265, 72, 35)
       .strokePath()
       .setInteractive(
-        new Phaser.Geom.Rectangle(697, 332, 265, 72),
+        new Phaser.Geom.Rectangle(377, 332, 265, 72),
         Phaser.Geom.Rectangle.Contains
       ).depth = 2;
 
@@ -185,10 +184,10 @@ export default class GameResult extends Phaser.Scene {
     retryGameButton
       .lineStyle(5, 0x645246)
       .fillStyle(0xffffff, 1)
-      .fillRoundedRect(377, 332, 265, 72, 35)
+      .fillRoundedRect(697, 332, 265, 72, 35)
       .strokePath()
       .setInteractive(
-        new Phaser.Geom.Rectangle(377, 332, 265, 72),
+        new Phaser.Geom.Rectangle(697, 332, 265, 72),
         Phaser.Geom.Rectangle.Contains
       ).depth = 2;
 
@@ -229,54 +228,60 @@ export default class GameResult extends Phaser.Scene {
     fireFlower2.setOrigin(0, 1).play("fireFlower").depth = 1;
 
     // 仮もぐらんGIF
-    this.anims.create({
-      key: "mogura",
+    const moguraAnim2 = this.anims.create({
+      key: "moguraAnimation2",
       frames: [
-        { key: "mogura1", duration: 100 },
-        { key: "mogura2", duration: 100 },
-        { key: "mogura3", duration: 100 },
-        { key: "mogura4", duration: 100 },
-        { key: "mogura5", duration: 100 },
-        { key: "mogura6", duration: 100 },
-        { key: "mogura7", duration: 100 },
-        { key: "mogura8", duration: 100 },
-        { key: "mogura9", duration: 100 },
-        { key: "mogura10", duration: 100 },
-        { key: "mogura11", duration: 100 },
-        { key: "mogura12", duration: 100 },
-        { key: "mogura13", duration: 100 },
-        { key: "mogura14", duration: 100 },
-        { key: "mogura15", duration: 100 },
-        { key: "mogura16", duration: 100 },
-        { key: "mogura17", duration: 100 },
-        { key: "mogura18", duration: 100 },
-        { key: "mogura19", duration: 100 },
-        { key: "mogura20", duration: 100 },
-        { key: "mogura21", duration: 100 },
-        { key: "mogura22", duration: 100 },
-        { key: "mogura23", duration: 100 },
-        { key: "mogura24", duration: 100 },
-        { key: "mogura25", duration: 100 },
-        { key: "mogura26", duration: 100 },
-        { key: "mogura27", duration: 100 },
-        { key: "mogura28", duration: 100 },
-        { key: "mogura29", duration: 100 },
-        { key: "mogura30", duration: 100 },
-        { key: "mogura31", duration: 100 },
-        { key: "mogura32", duration: 100 },
-        { key: "mogura33", duration: 100 },
-        { key: "mogura34", duration: 100 },
-        { key: "mogura35", duration: 100 },
-        { key: "mogura36", duration: 100 },
-        { key: "mogura37", duration: 100 },
-        { key: "mogura38", duration: 100 },
-        { key: "mogura39", duration: 1000 },
+        { key: "moguraAnim1", duration: 100 },
+        { key: "moguraAnim2", duration: 100 },
+        { key: "moguraAnim3", duration: 100 },
+        { key: "moguraAnim4", duration: 100 },
+        { key: "moguraAnim5", duration: 100 },
+        { key: "moguraAnim6", duration: 100 },
+        { key: "moguraAnim7", duration: 100 },
+        { key: "moguraAnim8", duration: 100 },
+        { key: "moguraAnim9", duration: 100 },
+        { key: "moguraAnim10", duration: 100 },
+        { key: "moguraAnim11", duration: 100 },
+        { key: "moguraAnim12", duration: 100 },
+        { key: "moguraAnim13", duration: 100 },
+        { key: "moguraAnim14", duration: 100 },
+        { key: "moguraAnim15", duration: 100 },
+        { key: "moguraAnim16", duration: 100 },
+        { key: "moguraAnim17", duration: 100 },
+        { key: "moguraAnim18", duration: 100 },
+        { key: "moguraAnim19", duration: 100 },
+        { key: "moguraAnim20", duration: 100 },
+        { key: "moguraAnim21", duration: 100 },
+        { key: "moguraAnim22", duration: 100 },
+        { key: "moguraAnim23", duration: 100 },
+        { key: "moguraAnim24", duration: 100 },
+        { key: "moguraAnim25", duration: 100 },
+        { key: "moguraAnim26", duration: 100 },
+        { key: "moguraAnim27", duration: 100 },
+        { key: "moguraAnim28", duration: 100 },
+        { key: "moguraAnim29", duration: 100 },
+        { key: "moguraAnim30", duration: 100 },
+        { key: "moguraAnim31", duration: 100 },
+        { key: "moguraAnim32", duration: 100 },
+        { key: "moguraAnim33", duration: 100 },
+        { key: "moguraAnim34", duration: 100 },
+        { key: "moguraAnim35", duration: 100 },
+        { key: "moguraAnim36", duration: 100 },
+        { key: "moguraAnim23", duration: 100 },
+        { key: "moguraAnim24", duration: 100 },
+        { key: "moguraAnim25", duration: 100 },
       ],
       frameRate: 24,
       repeat: -1,
     });
 
-    const mogura = this.add.sprite(400, 400, "mogura1");
-    mogura.setOrigin(0, 0).play("mogura").depth = 4;
+    const mogura1 = this.add.sprite(260, 400, "moguraAnim1");
+    mogura1.setOrigin(0, 0).play("moguraAnimation2").depth = 4;
+
+    const mogura2 = this.add.sprite(360, 400, "moguraAnim1");
+    mogura2.setOrigin(0, 0).play("moguraAnimation2").depth = 4;
+
+    const mogura3 = this.add.sprite(460, 400, "moguraAnim1");
+    mogura3.setOrigin(0, 0).play("moguraAnimation2").depth = 4;
   }
 }
