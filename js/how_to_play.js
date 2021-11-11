@@ -16,12 +16,11 @@ export default class HowToPlay extends Phaser.Scene {
   }
 
   preload() {
-    this.load.path = window.location.href.replace("index.html","");
+    this.load.path = window.location.href.replace("index.html", "");
 
     // もぐらんボタン
-    // this.load.image("mogura", "img/fun_mogura2.png");
-    this.load.image("mogura", "img/fun_mogura.png");
-    
+    this.load.image("funMoguraImg", "img/fun_mogura.png");
+
     // サウンドアイコン
     this.load.image("sound", "img/sound.png");
 
@@ -69,8 +68,16 @@ export default class HowToPlay extends Phaser.Scene {
       .setInteractive(
         new Phaser.Geom.Rectangle(331, 615, 368, 80),
         Phaser.Geom.Rectangle.Contains
-      ).depth = 1;
-
+      )
+      .on(
+        "pointerdown",
+        () => {
+          this.gameMusic.stop();
+          this.scene.start("game_setting");
+        },
+        this
+      );
+      
     const completeText = this.add.text(453, 635, "わかった！", {
       fontSize: "32px",
       fill: "#FFFFFF",
@@ -78,17 +85,9 @@ export default class HowToPlay extends Phaser.Scene {
     });
     completeText.depth = 2;
 
-    completeButton.setInteractive().on(
-      "pointerdown",
-      () => {
-        this.gameMusic.stop();
-        this.scene.start("game_setting");
-      },
-      this
-    );
 
     // もぐら
-    const moguraIcon = this.add.sprite(430, 650, "mogura");
+    const moguraIcon = this.add.sprite(400, 650, "funMoguraImg");
     moguraIcon.depth = 2;
 
     // 音楽
