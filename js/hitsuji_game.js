@@ -2,20 +2,20 @@ import { kanjiList } from "./kanjilist.js";
 
 export default class HitsujiGame extends Phaser.Scene {
   constructor() {
-    super({
-      key: "hitsuji_game",
-      active: false,
-    });
+    super({key: "hitsuji_game",active: false,});
   }
 
   preload() {
-    // bgm
-    this.load.audio("game_bgm", "../audio/timer.mp3");
-    this.load.audio("correct_se", "../audio/correct.mp3");
-    this.load.audio("but_se", "../audio/but_se.mp3");
 
-    this.load.image("maru", "../img/maru.png");
-    this.load.image("batu", "../img/batu.png");
+    this.load.path = window.location.href.replace("index.html", "");
+    
+    // bgm
+    this.load.audio("game_bgm", "audio/timer.mp3");
+    this.load.audio("correct_se", "audio/correct.mp3");
+    this.load.audio("but_se", "audio/but_se.mp3");
+
+    this.load.image("maru", "img/maru.png");
+    this.load.image("batu", "img/batu.png");
   }
 
   init(data) {
