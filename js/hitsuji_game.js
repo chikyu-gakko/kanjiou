@@ -131,15 +131,22 @@ export default class HitsujiGame extends Phaser.Scene {
     correctBg
       .fillStyle(0x333333, 0.5)
       .fillRect(0, 0, 1024, 768)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(0, 0, 1024, 768),
+        Phaser.Geom.Rectangle.Contains
+      )
       .depth = 2;
+
     const correctImg = this.add.sprite(512, 384, "maru");
     correctImg.depth = 3;
+
     const correctMoguraImg = this.add.sprite(700, 550, "correctmogura");
     correctMoguraImg.depth = 4;
+    
     const correctGroup = this.add.group();
     correctGroup.addMultiple([correctBg,correctMoguraImg,correctImg]);
-
     correctGroup.toggleVisible(true);
+    
     setTimeout(() => {
       correctGroup.toggleVisible(false);
     }, 1500);
@@ -151,6 +158,10 @@ export default class HitsujiGame extends Phaser.Scene {
     mistakeBg
       .fillStyle(0x333333, 0.5)
       .fillRect(0, 0, 1024, 768)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(0, 0, 1024, 768),
+        Phaser.Geom.Rectangle.Contains
+      )
       .depth = 2;
 
     const mistakeImg = this.add.sprite(512, 384, "batu");
@@ -162,6 +173,7 @@ export default class HitsujiGame extends Phaser.Scene {
     const mistakeGroup = this.add.group();
     mistakeGroup.addMultiple([mistakeBg,mistakeMogura,mistakeImg]);
     mistakeGroup.toggleVisible(true);
+    
     setTimeout(() => {
       mistakeGroup.toggleVisible(false);
     }, 1500);
