@@ -5,12 +5,12 @@ export default class GameMenu extends Phaser.Scene {
 
   preload() {
     // メニュー画面に出てくる画像のロード
-    this.load.path = window.location.href.replace("index.html","");
+    this.load.path = window.location.href.replace("index.html", "");
     // bgm
     this.load.audio("top_bgm", "audio/top.mp3");
     // SE
     this.load.audio("mode_decide_se", "audio/mode_decide.mp3");
-   
+
     this.load.image("sound", "img/sound.png");
     this.load.image("cloud", "img/game_cloud.png");
 
@@ -71,7 +71,6 @@ export default class GameMenu extends Phaser.Scene {
     this.load.image("mogura35", "assets/animation/mogura/moguraAnim35.png");
     this.load.image("mogura36", "assets/animation/mogura/moguraAnim36.png");
     this.load.image("mogura37", "assets/animation/mogura/moguraAnim37.png");
-
   }
 
   create() {
@@ -213,13 +212,13 @@ export default class GameMenu extends Phaser.Scene {
 
   moguraAnim() {
     // mogura
-    this.anims.create({
+    const moguraAnim1 = this.anims.create({
       key: "mogura",
       frames: [
         { key: "mogura1", duration: 20 },
         { key: "mogura2", duration: 20 },
         { key: "mogura3", duration: 20 },
-        { key: "mogura", duration: 20 },
+        { key: "mogura4", duration: 20 },
         { key: "mogura5", duration: 20 },
         { key: "mogura6", duration: 20 },
         { key: "mogura7", duration: 20 },

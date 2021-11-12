@@ -2,20 +2,20 @@ import { kanjiList } from "./kanjilist.js";
 
 export default class HitsujiGame extends Phaser.Scene {
   constructor() {
-    super({
-      key: "hitsuji_game",
-      active: false,
-    });
+    super({key: "hitsuji_game",active: false,});
   }
 
   preload() {
-    // bgm
-    this.load.audio("game_bgm", "../audio/timer.mp3");
-    this.load.audio("correct_se", "../audio/correct.mp3");
-    this.load.audio("but_se", "../audio/but_se.mp3");
 
-    this.load.image("maru","../img/maru.png");
-    this.load.image("batu","../img/batu.png");
+    this.load.path = window.location.href.replace("index.html", "");
+    
+    // bgm
+    this.load.audio("game_bgm", "audio/timer.mp3");
+    this.load.audio("correct_se", "audio/correct.mp3");
+    this.load.audio("but_se", "audio/but_se.mp3");
+
+    this.load.image("maru", "img/maru.png");
+    this.load.image("batu", "img/batu.png");
   }
 
   init(data) {
@@ -53,7 +53,6 @@ export default class HitsujiGame extends Phaser.Scene {
     this.fx = this.sound.add("game_bgm");
     this.fx.allowMultiple = false;
     this.fx.setLoop(true);
-
 
     soundIcon.on(
       "pointerdown",
@@ -124,30 +123,30 @@ export default class HitsujiGame extends Phaser.Scene {
     });
   }
 
-  correctAnim(){
+  correctAnim() {
     const correctBg = this.add.graphics();
     correctBg.fillStyle(0x333333, 0.5).fillRect(0, 0, 1024, 768);
     const correctImg = this.add.sprite(512, 384, "maru");
     const correctGroup = this.add.group();
-    correctGroup.addMultiple([correctImg,correctBg]);
-    
+    correctGroup.addMultiple([correctImg, correctBg]);
+
     correctGroup.toggleVisible(true);
     setTimeout(() => {
       correctGroup.toggleVisible(false);
-    }, 1500,);
+    }, 1500);
     correctGroup.toggleVisible(true);
   }
 
-  mistakeAnim(){
+  mistakeAnim() {
     const mistakeBg = this.add.graphics();
     mistakeBg.fillStyle(0x333333, 0.5).fillRect(0, 0, 1024, 768);
     const mistakeImg = this.add.sprite(512, 384, "batu");
     const mistakeGroup = this.add.group();
-    mistakeGroup.addMultiple([mistakeImg,mistakeBg]);
+    mistakeGroup.addMultiple([mistakeImg, mistakeBg]);
     mistakeGroup.toggleVisible(true);
     setTimeout(() => {
       mistakeGroup.toggleVisible(false);
-    }, 1500,);
+    }, 1500);
     mistakeGroup.toggleVisible(true);
   }
 
@@ -199,49 +198,49 @@ export default class HitsujiGame extends Phaser.Scene {
       for (let x = 0; x < this.sizeX; x += 1) {
         const kanji =
           y === answerY && x === answerX
-          ? this.kanjiList[i][1]
-          : this.kanjiList[i][0];
-          if(this.sizeX === 6){
-            this.kanjiComponents[y].push(
+            ? this.kanjiList[i][1]
+            : this.kanjiList[i][0];
+        if (this.sizeX === 6) {
+          this.kanjiComponents[y].push(
             this.add
-            .text(200 + x * 100, 250 + y * 100, kanji, {
-              fill: 0x333333,
-              fontSize: 50,
-              fontFamily: "Arial",
-            })
-            .setInteractive()
-            );
-          }else if(this.sizeX === 8){
-            this.kanjiComponents[y].push(
-              this.add
+              .text(200 + x * 100, 250 + y * 100, kanji, {
+                fill: 0x333333,
+                fontSize: 50,
+                fontFamily: "Arial",
+              })
+              .setInteractive()
+          );
+        } else if (this.sizeX === 8) {
+          this.kanjiComponents[y].push(
+            this.add
               .text(150 + x * 100, 200 + y * 100, kanji, {
                 fill: 0x333333,
                 fontSize: 50,
                 fontFamily: "Arial",
               })
               .setInteractive()
-              );
-          }else if(this.sizeX === 12){
-            this.kanjiComponents[y].push(
-              this.add
+          );
+        } else if (this.sizeX === 12) {
+          this.kanjiComponents[y].push(
+            this.add
               .text(100 + x * 70, 190 + y * 70, kanji, {
                 fill: 0x333333,
                 fontSize: 40,
                 fontFamily: "Arial",
               })
               .setInteractive()
-            );
-          }
-          
-          if (y === answerY && x === answerX) {
-            this.kanjiComponents[y][x].once("pointerdown", () => {
-              this.correctAnim();
-              correct.play();
-              this.answerCounter += 1;
-              this.check();
-              this.createAnswerComponent();
-              this.createKanji();
-            });
+          );
+        }
+
+        if (y === answerY && x === answerX) {
+          this.kanjiComponents[y][x].once("pointerdown", () => {
+            this.correctAnim();
+            correct.play();
+            this.answerCounter += 1;
+            this.check();
+            this.createAnswerComponent();
+            this.createKanji();
+          });
         } else {
           this.kanjiComponents[y][x].once("pointerdown", () => {
             this.mistakeAnim();
