@@ -136,6 +136,7 @@ export default class GameSetting extends Phaser.Scene {
             sizeY,
             sizeX,
             mode,
+            isChallenge: false,
             schoolYear: this.schoolYear,
           });
         },

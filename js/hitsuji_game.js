@@ -26,7 +26,8 @@ export default class HitsujiGame extends Phaser.Scene {
     this.mode = data.mode;
     this.sizeY = data.sizeY;
     this.sizeX = data.sizeX;
-    this.kanjiList = kanjiList[data.schoolYear];
+    this.isChallenge = data.isChallenge;
+    this.createKanjiList();
     this.kanjiIndex = 0;
     this.kanjiComponents = [];
     this.timer = 0;
@@ -289,6 +290,25 @@ export default class HitsujiGame extends Phaser.Scene {
       this.shuffleKanjiList();
       this.kanjiIndex %= this.kanjiList.length;
     }
+  }
+
+  createKanjiList() {
+    let kanji = [];
+    if (this.isChallenge) {
+      Object.values(kanjiList).forEach((element) => {
+        console.log(element);
+        let i = element.length;
+        while (i > 1) {
+          i -= 1;
+          const j = Math.floor(Math.random() * i);
+          [element[i], element[j]] = [element[j], element[i]];
+        }
+        kanji = kanji.concat(element);
+      });
+    } else {
+      kanji = kanjiList[this.schoolYear];
+    }
+    this.kanjiList = kanji;
   }
 
   clearKanji() {
