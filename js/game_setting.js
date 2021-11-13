@@ -133,11 +133,17 @@ export default class GameSetting extends Phaser.Scene {
             default:
               mode = "suddenDeath";
           }
+          switch (this.challenge) {
+            case "サドンデス":
+              mode = "suddenDeath";
+              break;
+            default:
+          }
           this.scene.start("hitsuji_game", {
             sizeY,
             sizeX,
             mode,
-            isChallenge: false,
+            isChallenge: Boolean(this.challenge),
             schoolYear: this.schoolYear,
           });
         },

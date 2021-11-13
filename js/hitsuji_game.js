@@ -189,7 +189,8 @@ export default class HitsujiGame extends Phaser.Scene {
   check() {
     if (
       (this.mode === "timeLimit" && this.timer >= 60) ||
-      (this.mode === "timeAttack" && this.answerCounter >= 10) ||
+      (this.mode === "timeAttack" &&
+        this.answerCounter >= this.kanjiList.length) ||
       (this.mode === "suddenDeath" && this.wrongFlag)
     ) {
       this.fx.stop();
