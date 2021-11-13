@@ -2,13 +2,12 @@ import { kanjiList } from "./kanjilist.js";
 
 export default class HitsujiGame extends Phaser.Scene {
   constructor() {
-    super({key: "hitsuji_game",active: false,});
+    super({ key: "hitsuji_game", active: false });
   }
 
   preload() {
-
     this.load.path = window.location.href.replace("index.html", "");
-    
+
     // bgm
     this.load.audio("game_bgm", "audio/timer.mp3");
     this.load.audio("correct_se", "audio/correct.mp3");
@@ -72,7 +71,6 @@ export default class HitsujiGame extends Phaser.Scene {
       this
     );
 
-    this.shuffleKanjiList();
     this.createKanji();
 
     this.add
@@ -296,19 +294,21 @@ export default class HitsujiGame extends Phaser.Scene {
     let kanji = [];
     if (this.isChallenge) {
       Object.values(kanjiList).forEach((element) => {
-        console.log(element);
         let i = element.length;
+        const list = element;
         while (i > 1) {
           i -= 1;
           const j = Math.floor(Math.random() * i);
-          [element[i], element[j]] = [element[j], element[i]];
+          [list[i], list[j]] = [list[j], list[i]];
         }
-        kanji = kanji.concat(element);
+        kanji = kanji.concat(list);
       });
+      this.kanjiList = kanji;
     } else {
       kanji = kanjiList[this.schoolYear];
+      this.kanjiList = kanji;
+      this.shuffleKanjiList();
     }
-    this.kanjiList = kanji;
   }
 
   clearKanji() {

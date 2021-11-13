@@ -62,4 +62,21 @@ export default class SettingButton extends Phaser.GameObjects.Container {
       )
       .strokePath();
   }
+
+  changeChallengeButton() {
+    this.buttonText.setStyle({
+      color: "#ffffff",
+    });
+    this.buttonGraphic
+      .lineStyle(4, 0xda999b)
+      .fillStyle(0xb63237, 1)
+      .fillRoundedRect(
+        0,
+        0,
+        this.width,
+        this.height,
+        Math.ceil(this.height / 2)
+      )
+      .strokePath();
+  }
 }
