@@ -16,6 +16,9 @@ export default class HitsujiGame extends Phaser.Scene {
 
     this.load.image("maru", "img/maru.png");
     this.load.image("batu", "img/batu.png");
+    this.load.image("correctmogura", "img/fun_mogura2.png");
+    this.load.image("mistakemogura", "img/sad_mogura.png");
+
   }
 
   init(data) {
@@ -125,30 +128,58 @@ export default class HitsujiGame extends Phaser.Scene {
 
   correctAnim() {
     const correctBg = this.add.graphics();
-    correctBg.fillStyle(0x333333, 0.5).fillRect(0, 0, 1024, 768);
-    const correctImg = this.add.sprite(512, 384, "maru");
-    const correctGroup = this.add.group();
-    correctGroup.addMultiple([correctImg, correctBg]);
+    correctBg
+      .fillStyle(0x333333, 0.5)
+      .fillRect(0, 0, 1024, 768)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(0, 0, 1024, 768),
+        Phaser.Geom.Rectangle.Contains
+      )
+      .depth = 2;
 
+    const correctImg = this.add.sprite(512, 384, "maru");
+    correctImg.depth = 3;
+
+    const correctMoguraImg = this.add.sprite(700, 550, "correctmogura");
+    correctMoguraImg.depth = 4;
+    
+    const correctGroup = this.add.group();
+    correctGroup.addMultiple([correctBg,correctMoguraImg,correctImg]);
     correctGroup.toggleVisible(true);
+    
     setTimeout(() => {
       correctGroup.toggleVisible(false);
     }, 1500);
     correctGroup.toggleVisible(true);
   }
 
-  mistakeAnim() {
+  mistakeAnim(){
     const mistakeBg = this.add.graphics();
-    mistakeBg.fillStyle(0x333333, 0.5).fillRect(0, 0, 1024, 768);
+    mistakeBg
+      .fillStyle(0x333333, 0.5)
+      .fillRect(0, 0, 1024, 768)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(0, 0, 1024, 768),
+        Phaser.Geom.Rectangle.Contains
+      )
+      .depth = 2;
+
     const mistakeImg = this.add.sprite(512, 384, "batu");
+    mistakeImg.depth = 3;
+    
+    const mistakeMogura = this.add.sprite(800, 600, "mistakemogura");
+    mistakeMogura.depth = 4;
+
     const mistakeGroup = this.add.group();
-    mistakeGroup.addMultiple([mistakeImg, mistakeBg]);
+    mistakeGroup.addMultiple([mistakeBg,mistakeMogura,mistakeImg]);
     mistakeGroup.toggleVisible(true);
+    
     setTimeout(() => {
       mistakeGroup.toggleVisible(false);
     }, 1500);
     mistakeGroup.toggleVisible(true);
   }
+
 
   countTime() {
     this.timer += 1;
