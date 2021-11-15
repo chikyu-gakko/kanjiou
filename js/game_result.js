@@ -24,44 +24,150 @@ export default class GameResult extends Phaser.Scene {
     this.load.image("fire6", "assets/animation/fireFlower/fire6.png");
 
     // もぐらんGIF
-    this.load.image("moguraAnim1", "assets/animation/mogura2/moguraAnim2_01.png");
-    this.load.image("moguraAnim2", "assets/animation/mogura2/moguraAnim2_02.png");
-    this.load.image("moguraAnim3", "assets/animation/mogura2/moguraAnim2_03.png");
-    this.load.image("moguraAnim4", "assets/animation/mogura2/moguraAnim2_04.png");
-    this.load.image("moguraAnim5", "assets/animation/mogura2/moguraAnim2_05.png");
-    this.load.image("moguraAnim6", "assets/animation/mogura2/moguraAnim2_06.png");
-    this.load.image("moguraAnim7", "assets/animation/mogura2/moguraAnim2_07.png");
-    this.load.image("moguraAnim8", "assets/animation/mogura2/moguraAnim2_08.png");
-    this.load.image("moguraAnim9", "assets/animation/mogura2/moguraAnim2_09.png");
-    this.load.image("moguraAnim10", "assets/animation/mogura2/moguraAnim2_10.png");
-    this.load.image("moguraAnim11", "assets/animation/mogura2/moguraAnim2_11.png");
-    this.load.image("moguraAnim12", "assets/animation/mogura2/moguraAnim2_12.png");
-    this.load.image("moguraAnim13", "assets/animation/mogura2/moguraAnim2_13.png");
-    this.load.image("moguraAnim14", "assets/animation/mogura2/moguraAnim2_14.png");
-    this.load.image("moguraAnim15", "assets/animation/mogura2/moguraAnim2_15.png");
-    this.load.image("moguraAnim16", "assets/animation/mogura2/moguraAnim2_16.png");
-    this.load.image("moguraAnim17", "assets/animation/mogura2/moguraAnim2_17.png");
-    this.load.image("moguraAnim18", "assets/animation/mogura2/moguraAnim2_18.png");
-    this.load.image("moguraAnim19", "assets/animation/mogura2/moguraAnim2_19.png");
-    this.load.image("moguraAnim20", "assets/animation/mogura2/moguraAnim2_20.png");
-    this.load.image("moguraAnim21", "assets/animation/mogura2/moguraAnim2_21.png");
-    this.load.image("moguraAnim22", "assets/animation/mogura2/moguraAnim2_22.png");
-    this.load.image("moguraAnim23", "assets/animation/mogura2/moguraAnim2_23.png");
-    this.load.image("moguraAnim24", "assets/animation/mogura2/moguraAnim2_24.png");
-    this.load.image("moguraAnim25", "assets/animation/mogura2/moguraAnim2_25.png");
-    this.load.image("moguraAnim26", "assets/animation/mogura2/moguraAnim2_26.png");
-    this.load.image("moguraAnim27", "assets/animation/mogura2/moguraAnim2_27.png");
-    this.load.image("moguraAnim28", "assets/animation/mogura2/moguraAnim2_28.png");
-    this.load.image("moguraAnim29", "assets/animation/mogura2/moguraAnim2_29.png");
-    this.load.image("moguraAnim30", "assets/animation/mogura2/moguraAnim2_30.png");
-    this.load.image("moguraAnim31", "assets/animation/mogura2/moguraAnim2_31.png");
-    this.load.image("moguraAnim32", "assets/animation/mogura2/moguraAnim2_32.png");
-    this.load.image("moguraAnim33", "assets/animation/mogura2/moguraAnim2_33.png");
-    this.load.image("moguraAnim34", "assets/animation/mogura2/moguraAnim2_34.png");
-    this.load.image("moguraAnim35", "assets/animation/mogura2/moguraAnim2_35.png");
-    this.load.image("moguraAnim36", "assets/animation/mogura2/moguraAnim2_36.png");
-   
-
+    this.load.image(
+      "moguraAnim1",
+      "assets/animation/mogura2/moguraAnim2_01.png"
+    );
+    this.load.image(
+      "moguraAnim2",
+      "assets/animation/mogura2/moguraAnim2_02.png"
+    );
+    this.load.image(
+      "moguraAnim3",
+      "assets/animation/mogura2/moguraAnim2_03.png"
+    );
+    this.load.image(
+      "moguraAnim4",
+      "assets/animation/mogura2/moguraAnim2_04.png"
+    );
+    this.load.image(
+      "moguraAnim5",
+      "assets/animation/mogura2/moguraAnim2_05.png"
+    );
+    this.load.image(
+      "moguraAnim6",
+      "assets/animation/mogura2/moguraAnim2_06.png"
+    );
+    this.load.image(
+      "moguraAnim7",
+      "assets/animation/mogura2/moguraAnim2_07.png"
+    );
+    this.load.image(
+      "moguraAnim8",
+      "assets/animation/mogura2/moguraAnim2_08.png"
+    );
+    this.load.image(
+      "moguraAnim9",
+      "assets/animation/mogura2/moguraAnim2_09.png"
+    );
+    this.load.image(
+      "moguraAnim10",
+      "assets/animation/mogura2/moguraAnim2_10.png"
+    );
+    this.load.image(
+      "moguraAnim11",
+      "assets/animation/mogura2/moguraAnim2_11.png"
+    );
+    this.load.image(
+      "moguraAnim12",
+      "assets/animation/mogura2/moguraAnim2_12.png"
+    );
+    this.load.image(
+      "moguraAnim13",
+      "assets/animation/mogura2/moguraAnim2_13.png"
+    );
+    this.load.image(
+      "moguraAnim14",
+      "assets/animation/mogura2/moguraAnim2_14.png"
+    );
+    this.load.image(
+      "moguraAnim15",
+      "assets/animation/mogura2/moguraAnim2_15.png"
+    );
+    this.load.image(
+      "moguraAnim16",
+      "assets/animation/mogura2/moguraAnim2_16.png"
+    );
+    this.load.image(
+      "moguraAnim17",
+      "assets/animation/mogura2/moguraAnim2_17.png"
+    );
+    this.load.image(
+      "moguraAnim18",
+      "assets/animation/mogura2/moguraAnim2_18.png"
+    );
+    this.load.image(
+      "moguraAnim19",
+      "assets/animation/mogura2/moguraAnim2_19.png"
+    );
+    this.load.image(
+      "moguraAnim20",
+      "assets/animation/mogura2/moguraAnim2_20.png"
+    );
+    this.load.image(
+      "moguraAnim21",
+      "assets/animation/mogura2/moguraAnim2_21.png"
+    );
+    this.load.image(
+      "moguraAnim22",
+      "assets/animation/mogura2/moguraAnim2_22.png"
+    );
+    this.load.image(
+      "moguraAnim23",
+      "assets/animation/mogura2/moguraAnim2_23.png"
+    );
+    this.load.image(
+      "moguraAnim24",
+      "assets/animation/mogura2/moguraAnim2_24.png"
+    );
+    this.load.image(
+      "moguraAnim25",
+      "assets/animation/mogura2/moguraAnim2_25.png"
+    );
+    this.load.image(
+      "moguraAnim26",
+      "assets/animation/mogura2/moguraAnim2_26.png"
+    );
+    this.load.image(
+      "moguraAnim27",
+      "assets/animation/mogura2/moguraAnim2_27.png"
+    );
+    this.load.image(
+      "moguraAnim28",
+      "assets/animation/mogura2/moguraAnim2_28.png"
+    );
+    this.load.image(
+      "moguraAnim29",
+      "assets/animation/mogura2/moguraAnim2_29.png"
+    );
+    this.load.image(
+      "moguraAnim30",
+      "assets/animation/mogura2/moguraAnim2_30.png"
+    );
+    this.load.image(
+      "moguraAnim31",
+      "assets/animation/mogura2/moguraAnim2_31.png"
+    );
+    this.load.image(
+      "moguraAnim32",
+      "assets/animation/mogura2/moguraAnim2_32.png"
+    );
+    this.load.image(
+      "moguraAnim33",
+      "assets/animation/mogura2/moguraAnim2_33.png"
+    );
+    this.load.image(
+      "moguraAnim34",
+      "assets/animation/mogura2/moguraAnim2_34.png"
+    );
+    this.load.image(
+      "moguraAnim35",
+      "assets/animation/mogura2/moguraAnim2_35.png"
+    );
+    this.load.image(
+      "moguraAnim36",
+      "assets/animation/mogura2/moguraAnim2_36.png"
+    );
   }
 
   init(data) {

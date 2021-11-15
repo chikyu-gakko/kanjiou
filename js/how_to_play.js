@@ -77,14 +77,13 @@ export default class HowToPlay extends Phaser.Scene {
         },
         this
       );
-      
+
     const completeText = this.add.text(453, 635, "わかった！", {
       fontSize: "32px",
       fill: "#FFFFFF",
       fontFamily: "Arial",
     });
     completeText.depth = 2;
-
 
     // もぐら
     const moguraIcon = this.add.sprite(400, 650, "funMoguraImg");

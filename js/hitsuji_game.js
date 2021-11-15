@@ -2,13 +2,12 @@ import { kanjiList } from "./kanjilist.js";
 
 export default class HitsujiGame extends Phaser.Scene {
   constructor() {
-    super({key: "hitsuji_game",active: false,});
+    super({ key: "hitsuji_game", active: false });
   }
 
   preload() {
-
     this.load.path = window.location.href.replace("index.html", "");
-    
+
     // bgm
     this.load.audio("game_bgm", "audio/timer.mp3");
     this.load.audio("correct_se", "audio/correct.mp3");
@@ -18,7 +17,6 @@ export default class HitsujiGame extends Phaser.Scene {
     this.load.image("batu", "img/batu.png");
     this.load.image("correctmogura", "img/fun_mogura2.png");
     this.load.image("mistakemogura", "img/sad_mogura.png");
-
   }
 
   init(data) {
@@ -26,7 +24,8 @@ export default class HitsujiGame extends Phaser.Scene {
     this.mode = data.mode;
     this.sizeY = data.sizeY;
     this.sizeX = data.sizeX;
-    this.kanjiList = kanjiList[data.schoolYear];
+    this.isChallenge = data.isChallenge;
+    this.createKanjiList();
     this.kanjiIndex = 0;
     this.kanjiComponents = [];
     this.timer = 0;
@@ -71,7 +70,6 @@ export default class HitsujiGame extends Phaser.Scene {
       this
     );
 
-    this.shuffleKanjiList();
     this.createKanji();
 
     this.add
@@ -134,26 +132,25 @@ export default class HitsujiGame extends Phaser.Scene {
       .setInteractive(
         new Phaser.Geom.Rectangle(0, 0, 1024, 768),
         Phaser.Geom.Rectangle.Contains
-      )
-      .depth = 2;
+      ).depth = 2;
 
     const correctImg = this.add.sprite(512, 384, "maru");
     correctImg.depth = 3;
 
     const correctMoguraImg = this.add.sprite(700, 550, "correctmogura");
     correctMoguraImg.depth = 4;
-    
+
     const correctGroup = this.add.group();
-    correctGroup.addMultiple([correctBg,correctMoguraImg,correctImg]);
+    correctGroup.addMultiple([correctBg, correctMoguraImg, correctImg]);
     correctGroup.toggleVisible(true);
-    
+
     setTimeout(() => {
       correctGroup.toggleVisible(false);
     }, 1500);
     correctGroup.toggleVisible(true);
   }
 
-  mistakeAnim(){
+  mistakeAnim() {
     const mistakeBg = this.add.graphics();
     mistakeBg
       .fillStyle(0x333333, 0.5)
@@ -161,25 +158,23 @@ export default class HitsujiGame extends Phaser.Scene {
       .setInteractive(
         new Phaser.Geom.Rectangle(0, 0, 1024, 768),
         Phaser.Geom.Rectangle.Contains
-      )
-      .depth = 2;
+      ).depth = 2;
 
     const mistakeImg = this.add.sprite(512, 384, "batu");
     mistakeImg.depth = 3;
-    
+
     const mistakeMogura = this.add.sprite(800, 600, "mistakemogura");
     mistakeMogura.depth = 4;
 
     const mistakeGroup = this.add.group();
-    mistakeGroup.addMultiple([mistakeBg,mistakeMogura,mistakeImg]);
+    mistakeGroup.addMultiple([mistakeBg, mistakeMogura, mistakeImg]);
     mistakeGroup.toggleVisible(true);
-    
+
     setTimeout(() => {
       mistakeGroup.toggleVisible(false);
     }, 1500);
     mistakeGroup.toggleVisible(true);
   }
-
 
   countTime() {
     this.timer += 1;
@@ -190,7 +185,8 @@ export default class HitsujiGame extends Phaser.Scene {
   check() {
     if (
       (this.mode === "timeLimit" && this.timer >= 60) ||
-      (this.mode === "timeAttack" && this.answerCounter >= 10) ||
+      (this.mode === "timeAttack" &&
+        this.answerCounter >= this.kanjiList.length) ||
       (this.mode === "suddenDeath" && this.wrongFlag)
     ) {
       this.fx.stop();
@@ -288,6 +284,27 @@ export default class HitsujiGame extends Phaser.Scene {
     if (this.kanjiIndex >= this.kanjiList.length) {
       this.shuffleKanjiList();
       this.kanjiIndex %= this.kanjiList.length;
+    }
+  }
+
+  createKanjiList() {
+    let kanji = [];
+    if (this.isChallenge) {
+      Object.values(kanjiList).forEach((element) => {
+        let i = element.length;
+        const list = element;
+        while (i > 1) {
+          i -= 1;
+          const j = Math.floor(Math.random() * i);
+          [list[i], list[j]] = [list[j], list[i]];
+        }
+        kanji = kanji.concat(list);
+      });
+      this.kanjiList = kanji;
+    } else {
+      kanji = kanjiList[this.schoolYear];
+      this.kanjiList = kanji;
+      this.shuffleKanjiList();
     }
   }
 

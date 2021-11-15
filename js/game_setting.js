@@ -22,8 +22,9 @@ export default class GameSetting extends Phaser.Scene {
     this.mode = "時間制限";
     this.schoolYear = "1年生";
     this.selectedSettingCategory = "size";
+    this.challenge = false;
     this.categoryButtons = [];
-    this.settingButtons = [];
+    this.settingElements = [];
   }
 
   create() {
@@ -132,23 +133,28 @@ export default class GameSetting extends Phaser.Scene {
             default:
               mode = "suddenDeath";
           }
+          switch (this.challenge) {
+            case "サドンデス":
+              mode = "suddenDeath";
+              break;
+            default:
+          }
           this.scene.start("hitsuji_game", {
             sizeY,
             sizeX,
             mode,
+            isChallenge: Boolean(this.challenge),
             schoolYear: this.schoolYear,
           });
         },
         this
       );
 
-    this.add
-      .text(417, 666, "ゲームスタート", {
-        fontSize: "32px",
-        fill: "#ffffff",
-        fontFamily: "Arial",
-      })
-      
+    this.add.text(417, 666, "ゲームスタート", {
+      fontSize: "32px",
+      fill: "#ffffff",
+      fontFamily: "Arial",
+    });
 
     // mogura画像
     this.add.image(410, 680, "mogura");
@@ -174,19 +180,16 @@ export default class GameSetting extends Phaser.Scene {
         this
       );
 
-    this.add
-      .text(830, 665, "遊び方", {
-        fontSize: "32px",
-        fill: "#ffffff",
-        fontFamily: "Arial",
-      })
-
-      
+    this.add.text(830, 665, "遊び方", {
+      fontSize: "32px",
+      fill: "#ffffff",
+      fontFamily: "Arial",
+    });
 
     this.categoryButtons = [
       // ゲームサイズ
       this.add
-        .text(210, 236, "漢字の数", {
+        .text(194, 193, "漢字の数", {
           fontSize: 32,
           padding: 3,
           fontFamily: "Arial",
@@ -195,7 +198,7 @@ export default class GameSetting extends Phaser.Scene {
 
       // プレイモード
       this.add
-        .text(162, 350, "ゲームモード", {
+        .text(162, 305, "ゲームモード", {
           fontSize: 32,
           padding: 3,
           fontFamily: "Arial",
@@ -204,12 +207,18 @@ export default class GameSetting extends Phaser.Scene {
 
       // 出てくる漢字
       this.add
-        .text(163, 463, "出てくる漢字", {
+        .text(163, 417, "出てくる漢字", {
           fontSize: 32,
           padding: 3,
           fontFamily: "Arial",
         })
         .setData("value", "schoolYear"),
+      this.add
+        .text(147, 529, "チャレンジモード", {
+          fontSize: 28,
+          fontFamily: "Arial",
+        })
+        .setData("value", "challenge"),
     ];
     this.categoryButtons.forEach((element) =>
       element.setInteractive().on(
@@ -222,7 +231,7 @@ export default class GameSetting extends Phaser.Scene {
       )
     );
 
-    this.settingButtons = [
+    this.settingElements = [
       new SettingButton(this, 585, 224, 134, 56, "少ない", 24).setData(
         "category",
         "size"
@@ -305,33 +314,63 @@ export default class GameSetting extends Phaser.Scene {
         "category",
         "schoolYear"
       ),
+      new SettingButton(this, 561, 304, 184, 56, "サドンデス", 24).setData(
+        "category",
+        "challenge"
+      ),
+      this.add
+        .text(
+          456,
+          380,
+          "すべての漢字が登場！\nどんどん難易度が上がっていくぞ！",
+          {
+            fontSize: 24,
+            fontFamily: "Arial",
+            align: "center",
+          }
+        )
+        .setData("category", "challenge")
+        .setLineSpacing(12),
     ];
-    this.settingButtons.forEach((element) => {
-      element.buttonGraphic.on(
-        "pointerdown",
-        () => {
-          this[element.getData("category")] = element.getData("value");
-          this.updateView();
-        },
-        this
-      );
+    this.settingElements.forEach((element) => {
+      if (element.constructor.name === "SettingButton") {
+        element.buttonGraphic.on(
+          "pointerdown",
+          () => {
+            if (
+              element.getData("category") === "challenge" &&
+              this.challenge === element.getData("value")
+            )
+              this.challenge = false;
+            else this[element.getData("category")] = element.getData("value");
+            this.updateView();
+          },
+          this
+        );
+      }
     });
     this.updateView();
   }
 
   updateView() {
     this.categoryButtons.forEach((element) => {
-      if (this.selectedSettingCategory === element.getData("value"))
-        element.setStyle({ color: "#00bfff" });
-      else element.setStyle({ color: "#ffffff" });
+      if (this.selectedSettingCategory === element.getData("value")) {
+        if (element.getData("value") === "challenge")
+          element.setStyle({ color: "#B63237" });
+        else element.setStyle({ color: "#00bfff" });
+      } else element.setStyle({ color: "#ffffff" });
     });
 
-    this.settingButtons.forEach((element) => {
+    this.settingElements.forEach((element) => {
       if (this.selectedSettingCategory === element.getData("category")) {
         element.setVisible(true);
-        if (this[this.selectedSettingCategory] === element.getData("value"))
-          element.changeSelected();
-        else element.changeUnselected();
+        if (element.constructor.name === "SettingButton") {
+          if (this[this.selectedSettingCategory] === element.getData("value")) {
+            if (element.getData("category") === "challenge")
+              element.changeChallengeButton();
+            else element.changeSelected();
+          } else element.changeUnselected();
+        }
       } else element.setVisible(false);
     });
   }
