@@ -342,7 +342,7 @@ export default class HitsujiGame extends Phaser.Scene {
         }
       );
     } else if (this.mode === "timeAttack") {
-      this.timerComponent = this.add.text(10, 10, `残り時間：${this.timer}秒`, {
+      this.timerComponent = this.add.text(10, 10, `残り時間：${60 - this.timer}秒`, {
         fontSize: 50,
         fontFamily: "Arial",
       });
