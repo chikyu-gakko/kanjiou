@@ -11,7 +11,7 @@ export default class PauseMenu extends Phaser.Scene {
 
     const textStyle = {
       color: "#ffffff",
-      fontFamily: "Arial",
+      fontFamily: this.registry.get("fontFamily"),
       fontSize: 32,
     };
 

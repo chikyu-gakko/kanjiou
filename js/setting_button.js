@@ -1,5 +1,14 @@
 export default class SettingButton extends Phaser.GameObjects.Container {
-  constructor(scene, x, y, width, height, text, fontSize) {
+  constructor(
+    scene,
+    x,
+    y,
+    width,
+    height,
+    text,
+    fontSize,
+    fontFamily = "Arial"
+  ) {
     super(scene, x, y);
 
     this.scene = scene;
@@ -11,7 +20,7 @@ export default class SettingButton extends Phaser.GameObjects.Container {
       .text(width / 2, height / 2, text, {
         fontSize,
         color: "#333333",
-        fontFamily: "Arial",
+        fontFamily,
       })
       .setOrigin(0.5);
 

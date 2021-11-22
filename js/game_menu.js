@@ -73,6 +73,10 @@ export default class GameMenu extends Phaser.Scene {
     this.load.image("mogura37", "assets/animation/mogura/moguraAnim37.png");
   }
 
+  init() {
+    this.fontFamily = this.registry.get("fontFamily");
+  }
+
   create() {
     this.cameras.main.fadeIn(1000);
     this.cameras.main.once("camerafadeincomplete", () => {
@@ -291,6 +295,7 @@ export default class GameMenu extends Phaser.Scene {
 
     const fndDiffText = this.add.text(70, 130, "羊の中に犬が一匹", {
       fontSize: "32px",
+      fontFamily: this.fontFamily,
       fill: "#333333",
     });
 
@@ -311,6 +316,7 @@ export default class GameMenu extends Phaser.Scene {
 
     const mnyLngText = this.add.text(150, 260, "作成中", {
       fontSize: "32px",
+      fontFamily: this.fontFamily,
       fill: "#ffffff",
     });
 
@@ -330,6 +336,7 @@ export default class GameMenu extends Phaser.Scene {
 
     const memoryText = this.add.text(150, 390, "作成中", {
       fontSize: "32px",
+      fontFamily: this.fontFamily,
       fill: "#ffffff",
     });
 
@@ -349,6 +356,7 @@ export default class GameMenu extends Phaser.Scene {
 
     const tgtherText = this.add.text(150, 520, "作成中", {
       fontSize: "32px",
+      fontFamily: this.fontFamily,
       fill: "#ffffff",
     });
 
