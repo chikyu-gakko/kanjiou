@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+      @font-face {
+        font-family: KleeOne;
+        src: url('assets/font/KleeOne-SemiBold.ttf');
+      }
+
       * {
           margin: 0;
 	        padding: 0;
@@ -20,11 +25,13 @@
   </head>
   
   <body>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.min.js"></script>
-    <div id="game"></div>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+
+    <div id="game", style="font-family: 'UD デジタル 教科書体 NP-R', 'KleeOne';"></div>
     <script type= "module" src="js/index.js"></script> 
     <script type= "module" src="js/game_menu.js"></script> 
-    <!-- <script type= "module" src="js/game_setting.js"></script>  -->
+    <script type= "module" src="js/game_setting.js"></script> 
     <script type= "module" src="js/hitsuji_game.js"></script> 
     <script type= "module" src="js/game_result.js"></script> 
     <script type= "module" src="js/kanjilist.js"></script> 

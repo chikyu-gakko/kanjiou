@@ -17,6 +17,7 @@ export default class HitsujiGame extends Phaser.Scene {
     this.load.image("batu", "img/batu.png");
     this.load.image("correctmogura", "img/fun_mogura2.png");
     this.load.image("mistakemogura", "img/sad_mogura.png");
+    this.fontFamily = this.registry.get("fontFamily");
   }
 
   init(data) {
@@ -227,37 +228,33 @@ export default class HitsujiGame extends Phaser.Scene {
           y === answerY && x === answerX
             ? this.kanjiList[i][1]
             : this.kanjiList[i][0];
+
+        let fontSize;
+        let positionX;
+        let positionY;
         if (this.sizeX === 6) {
-          this.kanjiComponents[y].push(
-            this.add
-              .text(200 + x * 100, 250 + y * 100, kanji, {
-                fill: 0x333333,
-                fontSize: 50,
-                fontFamily: "Arial",
-              })
-              .setInteractive()
-          );
+          fontSize = 50;
+          positionX = 200 + x * 100;
+          positionY = 250 + y * 100;
         } else if (this.sizeX === 8) {
-          this.kanjiComponents[y].push(
-            this.add
-              .text(150 + x * 100, 200 + y * 100, kanji, {
-                fill: 0x333333,
-                fontSize: 50,
-                fontFamily: "Arial",
-              })
-              .setInteractive()
-          );
+          fontSize = 50;
+          positionX = 150 + x * 100;
+          positionY = 200 + y * 100;
         } else if (this.sizeX === 12) {
-          this.kanjiComponents[y].push(
-            this.add
-              .text(100 + x * 70, 190 + y * 70, kanji, {
-                fill: 0x333333,
-                fontSize: 40,
-                fontFamily: "Arial",
-              })
-              .setInteractive()
-          );
+          fontSize = 40;
+          positionX = 100 + x * 70;
+          positionY = 190 + y * 70;
         }
+
+        this.kanjiComponents[y].push(
+          this.add
+            .text(positionX, positionY, kanji, {
+              fill: 0x333333,
+              fontSize,
+              fontFamily: this.fontFamily,
+            })
+            .setInteractive()
+        );
 
         if (y === answerY && x === answerX) {
           this.kanjiComponents[y][x].once("pointerdown", () => {
