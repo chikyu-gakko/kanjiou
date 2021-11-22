@@ -10,7 +10,6 @@ const config = {
   type: Phaser.AUTO,
   width: 1024,
   height: 768,
-  fontFamily: "'UD デジタル 教科書体 NP-R', KleeOne, Arial",
 };
 
 const game = new Phaser.Game(config);
