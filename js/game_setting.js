@@ -218,7 +218,7 @@ export default class GameSetting extends Phaser.Scene {
       this.add
         .text(147, 529, "チャレンジモード", {
           fontSize: 28,
-          fontFamily: "Arial",
+          fontFamily: this.fontFamily,
         })
         .setData("value", "challenge"),
     ];
