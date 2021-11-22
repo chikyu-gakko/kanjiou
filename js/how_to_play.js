@@ -13,6 +13,7 @@ export default class HowToPlay extends Phaser.Scene {
     this.sizeY = 2;
     this.sizeX = 4;
     this.kanjiComponents = [];
+    this.fontFamily = this.registry.get("fontFamily");
   }
 
   preload() {
@@ -52,7 +53,7 @@ export default class HowToPlay extends Phaser.Scene {
       {
         fontSize: "32px",
         fill: 0x333333,
-        fontFamily: "Arial",
+        fontFamily: this.fontFamily,
       }
     );
 
@@ -81,7 +82,7 @@ export default class HowToPlay extends Phaser.Scene {
     const completeText = this.add.text(453, 635, "わかった！", {
       fontSize: "32px",
       fill: "#FFFFFF",
-      fontFamily: "Arial",
+      fontFamily: this.fontFamily,
     });
     completeText.depth = 2;
 
@@ -151,7 +152,7 @@ export default class HowToPlay extends Phaser.Scene {
             .text(300 + x * 114, 163 + y * 128, kanji, {
               fill: 0x333333,
               fontSize: 80,
-              fontFamily: "Arial",
+              fontFamily: this.fontFamily,
             })
             .setInteractive()
         );

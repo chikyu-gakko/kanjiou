@@ -173,6 +173,7 @@ export default class GameResult extends Phaser.Scene {
   init(data) {
     this.timer = data.time;
     this.answers = data.answers;
+    this.fontFamily = this.registry.get("fontFamily");
   }
 
   create() {
@@ -224,7 +225,7 @@ export default class GameResult extends Phaser.Scene {
     // 正解数
     this.add.text(350, 230, `クリアした問題数:${this.answers}問`, {
       fill: 0x333333,
-      fontFamily: "Arial",
+      fontFamily: this.fontFamily,
       fontSize: "32px",
     });
     // .setOrigin(0.5, 0);
@@ -251,6 +252,7 @@ export default class GameResult extends Phaser.Scene {
 
     const backTopText = this.add.text(115, 355, "トップへ戻る", {
       fontSize: "24px",
+      fontFamily: this.fontFamily,
       fill: "#333333",
     });
 
@@ -279,6 +281,7 @@ export default class GameResult extends Phaser.Scene {
 
     const backGameSetText = this.add.text(415, 355, "ゲーム設定に戻る", {
       fontSize: "24px",
+      fontFamily: this.fontFamily,
       fill: "#333333",
     });
 
@@ -307,6 +310,7 @@ export default class GameResult extends Phaser.Scene {
 
     const retryGameText = this.add.text(725, 355, "もう一度プレイする", {
       fontSize: "24px",
+      fontFamily: this.fontFamily,
       fill: "#333333",
     });
 

@@ -17,7 +17,6 @@ export default class HitsujiGame extends Phaser.Scene {
     this.load.image("batu", "img/batu.png");
     this.load.image("correctmogura", "img/fun_mogura2.png");
     this.load.image("mistakemogura", "img/sad_mogura.png");
-    this.fontFamily = this.registry.get("fontFamily");
   }
 
   init(data) {
@@ -32,6 +31,7 @@ export default class HitsujiGame extends Phaser.Scene {
     this.timer = 0;
     this.answerCounter = 0;
     this.wrongFlag = false;
+    this.fontFamily = this.registry.get("fontFamily");
   }
 
   create() {
@@ -77,7 +77,7 @@ export default class HitsujiGame extends Phaser.Scene {
       .text(775, 672, "一時停止", {
         fill: 0x333333,
         fontSize: 32,
-        fontFamily: "Arial",
+        fontFamily: this.fontFamily,
       })
       .setInteractive()
       .on("pointerdown", () => {
@@ -320,7 +320,7 @@ export default class HitsujiGame extends Phaser.Scene {
       .text(360, 671, `正解数:${this.answerCounter}問`, {
         fill: 0x333333,
         fontSize: 50,
-        fontFamily: "Arial",
+        fontFamily: this.fontFamily,
       })
       .setOrigin(1, 0);
   }
@@ -335,14 +335,19 @@ export default class HitsujiGame extends Phaser.Scene {
         {
           fill: 0x333333,
           fontSize: 50,
-          fontFamily: "Arial",
+          fontFamily: this.fontFamily,
         }
       );
     } else if (this.mode === "timeAttack") {
-      this.timerComponent = this.add.text(10, 10, `残り時間：${60 - this.timer}秒`, {
-        fontSize: 50,
-        fontFamily: "Arial",
-      });
+      this.timerComponent = this.add.text(
+        10,
+        10,
+        `残り時間：${60 - this.timer}秒`,
+        {
+          fontSize: 50,
+          fontFamily: this.fontFamily,
+        }
+      );
     }
   }
 }
