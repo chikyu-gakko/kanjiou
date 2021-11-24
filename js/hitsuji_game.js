@@ -263,7 +263,9 @@ export default class HitsujiGame extends Phaser.Scene {
             this.answerCounter += 1;
             this.check();
             this.createAnswerComponent();
-            this.createKanji();
+            setTimeout(() => {
+              this.createKanji();
+            }, 1400);
           });
         } else {
           this.kanjiComponents[y][x].once("pointerdown", () => {
