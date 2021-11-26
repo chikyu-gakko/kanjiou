@@ -29,6 +29,11 @@ export default class HowToPlay extends Phaser.Scene {
     this.load.audio("top_bgm", "audio/top.mp3");
     this.load.audio("correct_se", "audio/correct.mp3");
     this.load.audio("but_se", "audio/but_se.mp3");
+
+    this.load.image("maru", "img/maru.png");
+    this.load.image("batu", "img/batu.png");
+    this.load.image("correctmogura", "img/fun_mogura2.png");
+    this.load.image("mistakemogura", "img/sad_mogura.png");
   }
 
   create() {
@@ -106,11 +111,11 @@ export default class HowToPlay extends Phaser.Scene {
       .setInteractive(
         new Phaser.Geom.Circle(300, 460, 30),
         Phaser.Geom.Circle.Contains
-      ).depth = 3;
+      ).depth = 2;
 
     // 音声アイコン
     const soundIcon = this.add.sprite(300, 460, "sound");
-    soundIcon.depth = 4;
+    soundIcon.depth = 3;
 
     soundCircle.on(
       "pointerdown",
@@ -127,6 +132,58 @@ export default class HowToPlay extends Phaser.Scene {
     );
 
     this.createKanji();
+  }
+
+  correctAnim() {
+    const correctBg = this.add.graphics();
+    correctBg
+      .fillStyle(0x333333, 0.5)
+      .fillRect(0, 0, 1024, 768)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(0, 0, 1024, 768),
+        Phaser.Geom.Rectangle.Contains
+      ).depth = 4;
+
+    const correctImg = this.add.sprite(512, 384, "maru");
+    correctImg.depth = 5;
+
+    const correctMoguraImg = this.add.sprite(700, 550, "correctmogura");
+    correctMoguraImg.depth = 6;
+
+    const correctGroup = this.add.group();
+    correctGroup.addMultiple([correctBg, correctMoguraImg, correctImg]);
+    correctGroup.toggleVisible(true);
+
+    setTimeout(() => {
+      correctGroup.toggleVisible(false);
+    }, 1500);
+    correctGroup.toggleVisible(true);
+  }
+
+  mistakeAnim() {
+    const mistakeBg = this.add.graphics();
+    mistakeBg
+      .fillStyle(0x333333, 0.5)
+      .fillRect(0, 0, 1024, 768)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(0, 0, 1024, 768),
+        Phaser.Geom.Rectangle.Contains
+      ).depth = 4;
+
+    const mistakeImg = this.add.sprite(512, 384, "batu");
+    mistakeImg.depth = 5;
+
+    const mistakeMogura = this.add.sprite(800, 600, "mistakemogura");
+    mistakeMogura.depth = 6;
+
+    const mistakeGroup = this.add.group();
+    mistakeGroup.addMultiple([mistakeBg, mistakeMogura, mistakeImg]);
+    mistakeGroup.toggleVisible(true);
+
+    setTimeout(() => {
+      mistakeGroup.toggleVisible(false);
+    }, 1500);
+    mistakeGroup.toggleVisible(true);
   }
 
   createKanji() {
@@ -159,16 +216,22 @@ export default class HowToPlay extends Phaser.Scene {
 
         if (y === answerY && x === answerX) {
           this.kanjiComponents[y][x].once("pointerdown", () => {
+            this.correctAnim();
             correct.play();
-            this.createKanji();
+            setTimeout(() => {
+              this.createKanji();
+            }, 1400)
           });
         } else {
           this.kanjiComponents[y][x].once("pointerdown", () => {
+            this.mistakeAnim();
             but.play();
-            this.createKanji();
+            setTimeout(() => {
+              this.createKanji();
+            }, 1400)
           });
         }
-        this.kanjiComponents[y][x].depth = 10;
+        this.kanjiComponents[y][x].depth = 3;
       }
     }
 

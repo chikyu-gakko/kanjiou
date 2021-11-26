@@ -273,7 +273,9 @@ export default class HitsujiGame extends Phaser.Scene {
             but.play();
             this.wrongFlag = true;
             this.check();
-            this.createKanji();
+            setTimeout(() => {
+              this.createKanji();
+            }, 1400);
           });
         }
       }
