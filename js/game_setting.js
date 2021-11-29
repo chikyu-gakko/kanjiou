@@ -1,4 +1,5 @@
 import SettingButton from "./setting_button.js";
+import SoundButton from "./sound_button.js";
 
 export default class GameSetting extends Phaser.Scene {
   constructor() {
@@ -10,6 +11,7 @@ export default class GameSetting extends Phaser.Scene {
     this.load.path = window.location.href.replace("index.html", "");
 
     this.load.image("sound", "img/sound.png");
+    this.load.image("mute", "img/mute.png");
     this.load.image("mogura", "img/fun_mogura1.png");
 
     // bgm
@@ -35,21 +37,7 @@ export default class GameSetting extends Phaser.Scene {
       this.sound.play("top_bgm", { loop: true });
     }
 
-    // 音楽・音声アイコン枠描画
-    const soundCircle = this.add.graphics();
-    soundCircle.fillStyle(0x333333, 1).fillCircle(70, 700, 40);
-
-    // 音声アイコン
-    const soundIcon = this.add.sprite(70, 700, "sound");
-    soundIcon.setInteractive().depth = 1;
-
-    soundIcon.on(
-      "pointerdown",
-      () => {
-        this.sound.setMute(!this.sound.mute);
-      },
-      this
-    );
+    this.soundButton = new SoundButton(this, 70, 700, 40);
 
     // --- ボタン---
 
@@ -65,7 +53,7 @@ export default class GameSetting extends Phaser.Scene {
         this.scene.start("game_menu");
       },
       this
-    ).depth = 1;
+    );
 
     // タイトル
     this.add
@@ -154,7 +142,6 @@ export default class GameSetting extends Phaser.Scene {
 
     // mogura画像
     this.add.image(410, 680, "mogura");
-    // mogura1.depth = 3;
 
     // 遊び方ボタン
     this.add

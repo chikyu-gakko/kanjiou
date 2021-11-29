@@ -1,3 +1,5 @@
+import SoundButton from "./sound_button.js";
+
 export default class GameMenu extends Phaser.Scene {
   constructor() {
     super({ key: "game_menu", active: false });
@@ -12,8 +14,8 @@ export default class GameMenu extends Phaser.Scene {
     this.load.audio("mode_decide_se", "audio/mode_decide.mp3");
 
     this.load.image("sound", "img/sound.png");
+    this.load.image("mute", "img/mute.png");
     this.load.image("cloud", "img/game_cloud.png");
-
     this.load.image("top_mogura", "img/lay_mogura.png");
     // 木
     this.load.image("tree1", "assets/animation/tree/tree_1.png");
@@ -112,27 +114,8 @@ export default class GameMenu extends Phaser.Scene {
       });
     }
 
-    // 音声アイコン枠描画
-    const soundCircle = this.add.graphics();
-    soundCircle
-      .fillStyle(0x333333, 1)
-      .fillCircle(70, 700, 40)
-      .setInteractive(
-        new Phaser.Geom.Circle(70, 700, 30),
-        Phaser.Geom.Circle.Contains
-      ).depth = 3;
-
-    // 音声アイコン
-    const soundIcon = this.add.sprite(70, 700, "sound");
-    soundIcon.depth = 4;
-
-    soundCircle.on(
-      "pointerdown",
-      () => {
-        this.sound.setMute(!this.sound.mute);
-      },
-      this
-    );
+    this.soundButton = new SoundButton(this, 70, 700, 40);
+    this.soundButton.depth = 3;
   }
 
   groundAnim() {
@@ -178,7 +161,6 @@ export default class GameMenu extends Phaser.Scene {
   cloudAnim() {
     // 雲３つ
     const cloud1 = this.add.image(100, -100, "cloud");
-    cloud1.depth = 1;
 
     const cloud2 = this.add.image(540, -100, "cloud");
     cloud2.depth = 100;
@@ -266,7 +248,6 @@ export default class GameMenu extends Phaser.Scene {
 
     // 羊の中に～ボタン/テキスト
     const fndDiffButton = this.add.graphics();
-
     fndDiffButton
       .lineStyle(5, 0x645246)
       .fillStyle(0xffffff, 1)
@@ -275,7 +256,7 @@ export default class GameMenu extends Phaser.Scene {
       .setInteractive(
         new Phaser.Geom.Rectangle(30, 100, 350, 90),
         Phaser.Geom.Rectangle.Contains
-      ).depth = 2;
+      );
 
     fndDiffButton.on(
       "pointerdown",
@@ -286,13 +267,11 @@ export default class GameMenu extends Phaser.Scene {
       this
     );
 
-    const fndDiffText = this.add.text(70, 130, "羊の中に犬が一匹", {
+    this.add.text(70, 130, "羊の中に犬が一匹", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
       fill: "#333333",
     });
-
-    fndDiffText.setPadding(4).depth = 3;
 
     // 作成中にする
     // 多言語
@@ -305,15 +284,13 @@ export default class GameMenu extends Phaser.Scene {
         new Phaser.Geom.Rectangle(30, 230, 350, 90),
         Phaser.Geom.Rectangle.Contains
       )
-      .strokePath().depth = 2;
+      .strokePath();
 
-    const mnyLngText = this.add.text(150, 260, "作成中", {
+    this.add.text(150, 260, "作成中", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
       fill: "#ffffff",
     });
-
-    mnyLngText.setPadding(4).depth = 2;
 
     // 神経衰弱
     const memoryGmButton = this.add.graphics();
@@ -325,15 +302,13 @@ export default class GameMenu extends Phaser.Scene {
         new Phaser.Geom.Rectangle(30, 360, 350, 90),
         Phaser.Geom.Rectangle.Contains
       )
-      .strokePath().depth = 2;
+      .strokePath();
 
-    const memoryText = this.add.text(150, 390, "作成中", {
+    this.add.text(150, 390, "作成中", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
       fill: "#ffffff",
     });
-
-    memoryText.setPadding(4).depth = 2;
 
     // 仲間で集まれ
     const tgtherFriendButton = this.add.graphics();
@@ -345,21 +320,17 @@ export default class GameMenu extends Phaser.Scene {
         new Phaser.Geom.Rectangle(30, 490, 350, 90),
         Phaser.Geom.Rectangle.Contains
       )
-      .strokePath().depth = 2;
+      .strokePath();
 
-    const tgtherText = this.add.text(150, 520, "作成中", {
+    this.add.text(150, 520, "作成中", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
       fill: "#ffffff",
     });
 
-    tgtherText.setPadding(4).depth = 2;
-
-    const mogura1 = this.add.image(95, 275, "top_mogura");
-    mogura1.depth = 3;
-    const mogura2 = this.add.image(95, 400, "top_mogura");
-    mogura2.depth = 3;
-    const mogura3 = this.add.image(95, 531, "top_mogura");
-    mogura3.depth = 3;
+    // 作成中の横モグラ
+    this.add.image(95, 275, "top_mogura");
+    this.add.image(95, 400, "top_mogura");
+    this.add.image(95, 531, "top_mogura");
   }
 }
