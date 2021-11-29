@@ -29,30 +29,24 @@ export default class GameSetting extends Phaser.Scene {
   }
 
   create() {
+    // 音楽
+    if (this.sound.get("top_bgm") === null) {
+      this.sound.add("top_bgm");
+      this.sound.play("top_bgm", { loop: true });
+    }
+
     // 音楽・音声アイコン枠描画
     const soundCircle = this.add.graphics();
     soundCircle.fillStyle(0x333333, 1).fillCircle(70, 700, 40);
 
     // 音声アイコン
-    let soundStatus = 1;
     const soundIcon = this.add.sprite(70, 700, "sound");
     soundIcon.setInteractive().depth = 1;
-
-    // 音楽
-    const gameBgm = this.sound.add("top_bgm");
-    gameBgm.allowMultiple = false;
-    gameBgm.play();
 
     soundIcon.on(
       "pointerdown",
       () => {
-        if (soundStatus === 0) {
-          gameBgm.play();
-          soundStatus = 1;
-        } else if (soundStatus === 1) {
-          gameBgm.stop();
-          soundStatus = 0;
-        }
+        this.sound.setMute(!this.sound.mute);
       },
       this
     );
@@ -68,7 +62,6 @@ export default class GameSetting extends Phaser.Scene {
     crossButton.setInteractive().on(
       "pointerdown",
       () => {
-        gameBgm.stop();
         this.scene.start("game_menu");
       },
       this
@@ -107,7 +100,8 @@ export default class GameSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          gameBgm.stop();
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
           gameStartSe.play();
           let mode = "";
           let sizeY = 0;
@@ -176,7 +170,6 @@ export default class GameSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          gameBgm.stop();
           this.scene.start("how_to_play");
         },
         this

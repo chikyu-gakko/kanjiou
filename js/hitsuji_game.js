@@ -42,14 +42,17 @@ export default class HitsujiGame extends Phaser.Scene {
 
     // 音声アイコン枠描画
     const soundCircle = this.add.graphics();
-    soundCircle.fillStyle(0x333333, 1).fillCircle(70, 700, 40);
-    soundCircle.depth = 3;
+    soundCircle
+      .fillStyle(0x333333, 1)
+      .fillCircle(70, 700, 40)
+      .setInteractive(
+        new Phaser.Geom.Circle(70, 700, 40),
+        Phaser.Geom.Circle.Contains
+      ).depth = 3;
 
     // 音声アイコン
     const soundIcon = this.add.sprite(70, 700, "sound");
-    let soundStatus = 1;
     soundIcon.depth = 4;
-    soundIcon.setInteractive();
 
     // 音楽
     // ゲームBGM
@@ -57,16 +60,10 @@ export default class HitsujiGame extends Phaser.Scene {
     this.fx.allowMultiple = false;
     this.fx.setLoop(true);
 
-    soundIcon.on(
+    soundCircle.on(
       "pointerdown",
       () => {
-        if (soundStatus === 0) {
-          this.fx.play();
-          soundStatus = 1;
-        } else if (soundStatus === 1) {
-          this.fx.stop();
-          soundStatus = 0;
-        }
+        this.sound.setMute(!this.sound.mute);
       },
       this
     );

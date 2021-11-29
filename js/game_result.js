@@ -208,6 +208,14 @@ export default class GameResult extends Phaser.Scene {
     const soundIcon = this.add.sprite(70, 700, "sound");
     soundIcon.setInteractive().depth = 4;
 
+    soundCircle.on(
+      "pointerdown",
+      () => {
+        this.sound.setMute(!this.sound.mute);
+      },
+      this
+    );
+
     // リザルト表示
 
     // bgm
@@ -338,7 +346,7 @@ export default class GameResult extends Phaser.Scene {
     fireFlower2.setOrigin(0, 1).play("fireFlower").depth = 1;
 
     // 仮もぐらんGIF
-    const moguraAnim2 = this.anims.create({
+    this.anims.create({
       key: "moguraAnimation2",
       frames: [
         { key: "moguraAnim1", duration: 100 },

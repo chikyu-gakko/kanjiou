@@ -103,14 +103,14 @@ export default class GameMenu extends Phaser.Scene {
     const bgGameMenu = this.add.graphics();
     bgGameMenu.fillStyle(0xebfdff, 1).fillRect(0, 0, 1024, 768);
 
-    setTimeout(() => {
-      this.gameBgm.play();
-    }, 9000);
     // 音楽
-    this.gameBgm = this.sound.add("top_bgm");
-    this.gameBgm.allowMultiple = false;
-    this.gameBgm.setLoop(true);
-    let soundStatus = 1;
+    if (this.sound.get("top_bgm") === null) {
+      this.sound.add("top_bgm");
+      this.sound.play("top_bgm", {
+        loop: true,
+        delay: 9,
+      });
+    }
 
     // 音声アイコン枠描画
     const soundCircle = this.add.graphics();
@@ -129,13 +129,7 @@ export default class GameMenu extends Phaser.Scene {
     soundCircle.on(
       "pointerdown",
       () => {
-        if (soundStatus === 0) {
-          this.gameBgm.play();
-          soundStatus = 1;
-        } else if (soundStatus === 1) {
-          this.gameBgm.stop();
-          soundStatus = 0;
-        }
+        this.sound.setMute(!this.sound.mute);
       },
       this
     );
@@ -216,7 +210,7 @@ export default class GameMenu extends Phaser.Scene {
 
   moguraAnim() {
     // mogura
-    const moguraAnim1 = this.anims.create({
+    this.anims.create({
       key: "mogura",
       frames: [
         { key: "mogura1", duration: 20 },
@@ -286,7 +280,6 @@ export default class GameMenu extends Phaser.Scene {
     fndDiffButton.on(
       "pointerdown",
       () => {
-        this.gameBgm.stop();
         modeDecideSe.play();
         this.scene.start("game_setting");
       },

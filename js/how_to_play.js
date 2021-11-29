@@ -26,7 +26,6 @@ export default class HowToPlay extends Phaser.Scene {
     this.load.image("sound", "img/sound.png");
 
     // ミニゲーム中bgm
-    this.load.audio("top_bgm", "audio/top.mp3");
     this.load.audio("correct_se", "audio/correct.mp3");
     this.load.audio("but_se", "audio/but_se.mp3");
 
@@ -34,6 +33,7 @@ export default class HowToPlay extends Phaser.Scene {
     this.load.image("batu", "img/batu.png");
     this.load.image("correctmogura", "img/fun_mogura2.png");
     this.load.image("mistakemogura", "img/sad_mogura.png");
+ 
   }
 
   create() {
@@ -78,7 +78,6 @@ export default class HowToPlay extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          this.gameMusic.stop();
           this.scene.start("game_setting");
         },
         this
@@ -95,14 +94,6 @@ export default class HowToPlay extends Phaser.Scene {
     const moguraIcon = this.add.sprite(400, 650, "funMoguraImg");
     moguraIcon.depth = 2;
 
-    // 音楽
-    // ゲームBGM
-    this.gameMusic = this.sound.add("top_bgm");
-    this.gameMusic.allowMultiple = false;
-    this.gameMusic.setLoop(true);
-    this.gameMusic.play();
-    let soundStatus = 1;
-
     // 音声アイコン枠描画
     const soundCircle = this.add.graphics();
     soundCircle
@@ -111,22 +102,16 @@ export default class HowToPlay extends Phaser.Scene {
       .setInteractive(
         new Phaser.Geom.Circle(300, 460, 30),
         Phaser.Geom.Circle.Contains
-      ).depth = 2;
+      ).depth = 3;
 
     // 音声アイコン
     const soundIcon = this.add.sprite(300, 460, "sound");
-    soundIcon.depth = 3;
+    soundIcon.depth = 4;
 
     soundCircle.on(
       "pointerdown",
       () => {
-        if (soundStatus === 0) {
-          this.gameMusic.play();
-          soundStatus = 1;
-        } else if (soundStatus === 1) {
-          this.gameMusic.stop();
-          soundStatus = 0;
-        }
+        this.sound.setMute(!this.sound.mute);
       },
       this
     );
