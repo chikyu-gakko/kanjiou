@@ -1,4 +1,5 @@
 import { kanjiList } from "./kanjilist.js";
+import SoundButton from "./sound_button.js";
 
 export default class HitsujiGame extends Phaser.Scene {
   constructor() {
@@ -38,38 +39,14 @@ export default class HitsujiGame extends Phaser.Scene {
     // 背景
     const bgGameMenu = this.add.graphics();
     bgGameMenu.fillStyle(0xeaeaea, 1).fillRect(0, 0, 1024, 768);
-    bgGameMenu.depth = 0;
 
-    // 音声アイコン枠描画
-    const soundCircle = this.add.graphics();
-    soundCircle.fillStyle(0x333333, 1).fillCircle(70, 700, 40);
-    soundCircle.depth = 3;
-
-    // 音声アイコン
-    const soundIcon = this.add.sprite(70, 700, "sound");
-    let soundStatus = 1;
-    soundIcon.depth = 4;
-    soundIcon.setInteractive();
+    this.soundButton = new SoundButton(this, 70, 700, 40);
 
     // 音楽
     // ゲームBGM
     this.fx = this.sound.add("game_bgm");
     this.fx.allowMultiple = false;
     this.fx.setLoop(true);
-
-    soundIcon.on(
-      "pointerdown",
-      () => {
-        if (soundStatus === 0) {
-          this.fx.play();
-          soundStatus = 1;
-        } else if (soundStatus === 1) {
-          this.fx.stop();
-          soundStatus = 0;
-        }
-      },
-      this
-    );
 
     this.createKanji();
 

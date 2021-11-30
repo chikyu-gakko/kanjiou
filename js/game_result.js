@@ -1,3 +1,5 @@
+import SoundButton from "./sound_button.js";
+
 export default class GameResult extends Phaser.Scene {
   constructor() {
     super({ key: "game_result", actisve: false });
@@ -178,35 +180,22 @@ export default class GameResult extends Phaser.Scene {
 
   create() {
     this.cameras.main.fadeIn(2000);
+    this.add.graphics().fillStyle(0xebfdff, 1).fillRect(0, 0, 1024, 768);
 
     // 画像表示
     // 雲2つ
-    const cloud1 = this.add.image(100, 100, "cloud");
-    cloud1.depth = 1;
-    const cloud3 = this.add.image(900, 120, "cloud");
-    cloud3.depth = 1;
+    this.add.image(100, 100, "cloud");
+    this.add.image(900, 120, "cloud");
 
     // 木
-    this.depth = 0;
-    const tree = this.add.image(900, 470, "tree");
-    tree.depth = 1;
+    this.add.image(900, 470, "tree");
 
     // 地面
     const bgImage = this.add.image(510, 682, "bg");
-    bgImage.depth = bgImage.y;
     bgImage.depth = 2;
 
-    // 背景描画
-    const bgGameMenu = this.add.graphics();
-    bgGameMenu.fillStyle(0xebfdff, 1).fillRect(0, 0, 1024, 768);
-
-    // 音声アイコン枠描画
-    const soundCircle = this.add.graphics();
-    soundCircle.fillStyle(0x333333, 1).fillCircle(70, 700, 40).depth = 3;
-
-    // 音声アイコン
-    const soundIcon = this.add.sprite(70, 700, "sound");
-    soundIcon.setInteractive().depth = 4;
+    this.soundButton = new SoundButton(this, 70, 700, 40);
+    this.soundButton.depth = 3;
 
     // リザルト表示
 
@@ -228,7 +217,6 @@ export default class GameResult extends Phaser.Scene {
       fontFamily: this.fontFamily,
       fontSize: "32px",
     });
-    // .setOrigin(0.5, 0);
 
     const backTopButton = this.add.graphics();
 
@@ -338,7 +326,7 @@ export default class GameResult extends Phaser.Scene {
     fireFlower2.setOrigin(0, 1).play("fireFlower").depth = 1;
 
     // 仮もぐらんGIF
-    const moguraAnim2 = this.anims.create({
+    this.anims.create({
       key: "moguraAnimation2",
       frames: [
         { key: "moguraAnim1", duration: 100 },

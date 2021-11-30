@@ -1,3 +1,5 @@
+import SoundButton from "./sound_button.js";
+
 export default class HowToPlay extends Phaser.Scene {
   constructor() {
     super({ key: "how_to_play", active: false });
@@ -24,9 +26,9 @@ export default class HowToPlay extends Phaser.Scene {
 
     // サウンドアイコン
     this.load.image("sound", "img/sound.png");
+    this.load.image("mute", "img/mute.png");
 
     // ミニゲーム中bgm
-    this.load.audio("top_bgm", "audio/top.mp3");
     this.load.audio("correct_se", "audio/correct.mp3");
     this.load.audio("but_se", "audio/but_se.mp3");
 
@@ -38,35 +40,28 @@ export default class HowToPlay extends Phaser.Scene {
 
   create() {
     // 画面描画（大）
-    const bigframeGraphics = this.add.graphics();
+    this.add
+      .graphics()
 
-    bigframeGraphics
       .fillStyle(0xffffff, 1)
-      .fillRect(121, 37, 788, 694, 5, 5).depth = 0;
+      .fillRect(121, 37, 788, 694, 5, 5);
 
     // 画面描画（大）
-    const smallframeGraphics = this.add.graphics();
+    this.add
+      .graphics()
 
-    smallframeGraphics
       .fillStyle(0xeaeaea, 1)
-      .fillRect(231, 82, 561, 419, 5, 5).depth = 1;
+      .fillRect(231, 82, 561, 419, 5, 5);
 
-    const explainText = this.add.text(
-      270,
-      548,
-      `ひとつだけ違う漢字を選んでね！`,
-      {
-        fontSize: "32px",
-        fill: 0x333333,
-        fontFamily: this.fontFamily,
-      }
-    );
-
-    explainText.setPadding(4).depth = 2;
+    this.add.text(270, 548, `ひとつだけ違う漢字を選んでね！`, {
+      fontSize: "32px",
+      fill: 0x333333,
+      fontFamily: this.fontFamily,
+    });
 
     // 「わかった」ボタン
-    const completeButton = this.add.graphics();
-    completeButton
+    this.add
+      .graphics()
       .lineStyle(5, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(331, 615, 368, 80, 40)
@@ -78,58 +73,21 @@ export default class HowToPlay extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          this.gameMusic.stop();
           this.scene.start("game_setting");
         },
         this
       );
 
-    const completeText = this.add.text(453, 635, "わかった！", {
+    this.add.text(453, 635, "わかった！", {
       fontSize: "32px",
       fill: "#FFFFFF",
       fontFamily: this.fontFamily,
     });
-    completeText.depth = 2;
 
     // もぐら
-    const moguraIcon = this.add.sprite(400, 650, "funMoguraImg");
-    moguraIcon.depth = 2;
+    this.add.sprite(400, 650, "funMoguraImg");
 
-    // 音楽
-    // ゲームBGM
-    this.gameMusic = this.sound.add("top_bgm");
-    this.gameMusic.allowMultiple = false;
-    this.gameMusic.setLoop(true);
-    this.gameMusic.play();
-    let soundStatus = 1;
-
-    // 音声アイコン枠描画
-    const soundCircle = this.add.graphics();
-    soundCircle
-      .fillStyle(0x939393, 1)
-      .fillCircle(300, 460, 30)
-      .setInteractive(
-        new Phaser.Geom.Circle(300, 460, 30),
-        Phaser.Geom.Circle.Contains
-      ).depth = 2;
-
-    // 音声アイコン
-    const soundIcon = this.add.sprite(300, 460, "sound");
-    soundIcon.depth = 3;
-
-    soundCircle.on(
-      "pointerdown",
-      () => {
-        if (soundStatus === 0) {
-          this.gameMusic.play();
-          soundStatus = 1;
-        } else if (soundStatus === 1) {
-          this.gameMusic.stop();
-          soundStatus = 0;
-        }
-      },
-      this
-    );
+    this.soundButton = new SoundButton(this, 300, 460, 30);
 
     this.createKanji();
   }
@@ -220,7 +178,7 @@ export default class HowToPlay extends Phaser.Scene {
             correct.play();
             setTimeout(() => {
               this.createKanji();
-            }, 1400)
+            }, 1400);
           });
         } else {
           this.kanjiComponents[y][x].once("pointerdown", () => {
@@ -228,10 +186,9 @@ export default class HowToPlay extends Phaser.Scene {
             but.play();
             setTimeout(() => {
               this.createKanji();
-            }, 1400)
+            }, 1400);
           });
         }
-        this.kanjiComponents[y][x].depth = 3;
       }
     }
 

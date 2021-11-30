@@ -1,4 +1,5 @@
 import SettingButton from "./setting_button.js";
+import SoundButton from "./sound_button.js";
 
 export default class GameSetting extends Phaser.Scene {
   constructor() {
@@ -10,6 +11,7 @@ export default class GameSetting extends Phaser.Scene {
     this.load.path = window.location.href.replace("index.html", "");
 
     this.load.image("sound", "img/sound.png");
+    this.load.image("mute", "img/mute.png");
     this.load.image("mogura", "img/fun_mogura1.png");
 
     // bgm
@@ -29,33 +31,13 @@ export default class GameSetting extends Phaser.Scene {
   }
 
   create() {
-    // 音楽・音声アイコン枠描画
-    const soundCircle = this.add.graphics();
-    soundCircle.fillStyle(0x333333, 1).fillCircle(70, 700, 40);
-
-    // 音声アイコン
-    let soundStatus = 1;
-    const soundIcon = this.add.sprite(70, 700, "sound");
-    soundIcon.setInteractive().depth = 1;
-
     // 音楽
-    const gameBgm = this.sound.add("top_bgm");
-    gameBgm.allowMultiple = false;
-    gameBgm.play();
+    if (this.sound.get("top_bgm") === null) {
+      this.sound.add("top_bgm");
+      this.sound.play("top_bgm", { loop: true });
+    }
 
-    soundIcon.on(
-      "pointerdown",
-      () => {
-        if (soundStatus === 0) {
-          gameBgm.play();
-          soundStatus = 1;
-        } else if (soundStatus === 1) {
-          gameBgm.stop();
-          soundStatus = 0;
-        }
-      },
-      this
-    );
+    this.soundButton = new SoundButton(this, 70, 700, 40);
 
     // --- ボタン---
 
@@ -68,11 +50,10 @@ export default class GameSetting extends Phaser.Scene {
     crossButton.setInteractive().on(
       "pointerdown",
       () => {
-        gameBgm.stop();
         this.scene.start("game_menu");
       },
       this
-    ).depth = 1;
+    );
 
     // タイトル
     this.add
@@ -107,7 +88,8 @@ export default class GameSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          gameBgm.stop();
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
           gameStartSe.play();
           let mode = "";
           let sizeY = 0;
@@ -160,7 +142,6 @@ export default class GameSetting extends Phaser.Scene {
 
     // mogura画像
     this.add.image(410, 680, "mogura");
-    // mogura1.depth = 3;
 
     // 遊び方ボタン
     this.add
@@ -176,7 +157,6 @@ export default class GameSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          gameBgm.stop();
           this.scene.start("how_to_play");
         },
         this
