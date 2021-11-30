@@ -212,7 +212,7 @@ export default class GameResult extends Phaser.Scene {
         fontFamily: "SemiBold",
         fontSize: "64px",
       });
-  
+
       this.add
         .text(
           this.game.canvas.width / 2,
@@ -225,7 +225,7 @@ export default class GameResult extends Phaser.Scene {
           }
         )
         .setOrigin(0.5, 0);
-    }else if (this.mode === "timeLimit" && this.timer <= 60){
+    } else if (this.mode === "timeLimit" && this.timer <= 60) {
       // ゲームクリア
       this.add.text(270, 84, `GAME CLEAR !!`, {
         fill: 0x32b65e,
@@ -241,9 +241,9 @@ export default class GameResult extends Phaser.Scene {
           fontSize: "32px",
         })
         .setOrigin(0.5, 0);
-    }else if (this.mode === "suddenDeth"){
-       // ゲームクリア
-       this.add.text(270, 84, `GAME CLEAR !!`, {
+    } else if (this.mode === "suddenDeth") {
+      // ゲームクリア
+      this.add.text(270, 84, `GAME CLEAR !!`, {
         fill: 0x32b65e,
         fontFamily: "SemiBold",
         fontSize: "64px",
@@ -261,7 +261,7 @@ export default class GameResult extends Phaser.Scene {
           }
         )
         .setOrigin(0.5, 0);
-    } 
+    }
 
     const backTopButton = this.add.graphics();
 

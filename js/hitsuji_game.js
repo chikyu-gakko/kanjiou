@@ -162,7 +162,8 @@ export default class HitsujiGame extends Phaser.Scene {
 
   check() {
     if (
-      (this.mode === "timeLimit" && (this.timer >= 60 || this.answerCounter >= this.kanjiList.length)) ||
+      (this.mode === "timeLimit" &&
+        (this.timer >= 60 || this.answerCounter >= this.kanjiList.length)) ||
       (this.mode === "timeAttack" &&
         this.answerCounter >= this.kanjiList.length) ||
       (this.mode === "suddenDeath" && this.wrongFlag)
@@ -300,7 +301,6 @@ export default class HitsujiGame extends Phaser.Scene {
     if (this.answerComponent) this.answerComponent.destroy();
 
     if (this.mode === "suddenDeath") {
-
       this.answerComponent = this.add
         .text(360, 671, `正解数:${this.answerCounter}問`, {
           fill: 0x333333,
@@ -308,9 +308,7 @@ export default class HitsujiGame extends Phaser.Scene {
           fontFamily: this.fontFamily,
         })
         .setOrigin(1, 0);
-
     } else if (this.mode === "timeAttack" || this.mode === "timeLimit") {
-
       this.answerComponent = this.add
         .text(
           360,
@@ -342,7 +340,6 @@ export default class HitsujiGame extends Phaser.Scene {
         )
         .setOrigin(0.5, 0);
     } else if (this.mode === "timeAttack") {
-
       this.timerComponent = this.add
         .text(this.game.canvas.width / 2, 54, `タイム：${this.timer}秒`, {
           fill: 0x333333,
@@ -350,7 +347,6 @@ export default class HitsujiGame extends Phaser.Scene {
           fontFamily: this.fontFamily,
         })
         .setOrigin(0.5, 0);
-
     }
   }
 }
