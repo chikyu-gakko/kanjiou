@@ -171,6 +171,7 @@ export default class HitsujiGame extends Phaser.Scene {
       this.scene.start("game_result", {
         time: this.timer,
         answers: this.answerCounter,
+        mode: this.mode,
       });
     }
   }
@@ -297,38 +298,53 @@ export default class HitsujiGame extends Phaser.Scene {
 
   createAnswerComponent() {
     if (this.answerComponent) this.answerComponent.destroy();
-    this.answerComponent = this.add
-      .text(360, 671, `正解数:${this.answerCounter}問`, {
-        fill: 0x333333,
-        fontSize: 50,
-        fontFamily: this.fontFamily,
-      })
-      .setOrigin(1, 0);
+    if (this.mode === "timeLimit") {
+      this.answerComponent = this.add
+        .text(360, 671, `正解数:${this.answerCounter}問`, {
+          fill: 0x333333,
+          fontSize: 50,
+          fontFamily: this.fontFamily,
+        })
+        .setOrigin(1, 0);
+    } else if (this.mode === "timeAttack") {
+      this.answerComponent = this.add
+        .text(
+          360,
+          671,
+          `残り:${this.kanjiList.length - this.answerCounter}問`,
+          {
+            fill: 0x333333,
+            fontSize: 50,
+            fontFamily: this.fontFamily,
+          }
+        )
+        .setOrigin(1, 0);
+    }
   }
 
   createTimerComponent() {
     if (this.timerComponent) this.timerComponent.destroy();
     if (this.mode === "timeLimit") {
-      this.timerComponent = this.add.text(
-        310,
-        54,
-        `残り時間：${60 - this.timer}秒`,
-        {
+      this.timerComponent = this.add
+        .text(
+          this.game.canvas.width / 2,
+          54,
+          `残り時間：${60 - this.timer}秒`,
+          {
+            fill: 0x333333,
+            fontSize: 50,
+            fontFamily: this.fontFamily,
+          }
+        )
+        .setOrigin(0.5, 0);
+    } else if (this.mode === "timeAttack") {
+      this.timerComponent = this.add
+        .text(this.game.canvas.width / 2, 54, `タイム：${this.timer}秒`, {
           fill: 0x333333,
           fontSize: 50,
           fontFamily: this.fontFamily,
-        }
-      );
-    } else if (this.mode === "timeAttack") {
-      this.timerComponent = this.add.text(
-        10,
-        10,
-        `残り時間：${60 - this.timer}秒`,
-        {
-          fontSize: 50,
-          fontFamily: this.fontFamily,
-        }
-      );
+        })
+        .setOrigin(0.5, 0);
     }
   }
 }
