@@ -205,15 +205,14 @@ export default class GameResult extends Phaser.Scene {
     endingBgm.allowMultiple = false;
     endingBgm.play();
 
-    // クリアメッセージ
-    this.add.text(270, 84, `GAME CLEAR !!!`, {
-      fill: 0x32b65e,
-      fontFamily: "SemiBold",
-      fontSize: "64px",
-    });
-
-    if (this.mode === "timeLimit") {
-      // 正解数
+    if (this.mode === "timeLimit" && this.timer === 60) {
+      // ゲームオーバー
+      this.add.text(270, 84, `GAME OVER`, {
+        fill: 0x32b65e,
+        fontFamily: "SemiBold",
+        fontSize: "64px",
+      });
+  
       this.add
         .text(
           this.game.canvas.width / 2,
@@ -226,6 +225,13 @@ export default class GameResult extends Phaser.Scene {
           }
         )
         .setOrigin(0.5, 0);
+    }else if (this.mode === "timeLimit" && this.timer <= 60){
+      // ゲームクリア
+      this.add.text(270, 84, `GAME CLEAR !!`, {
+        fill: 0x32b65e,
+        fontFamily: "SemiBold",
+        fontSize: "64px",
+      });
     } else if (this.mode === "timeAttack") {
       // タイム
       this.add
@@ -235,7 +241,27 @@ export default class GameResult extends Phaser.Scene {
           fontSize: "32px",
         })
         .setOrigin(0.5, 0);
-    }
+    }else if (this.mode === "suddenDeth"){
+       // ゲームクリア
+       this.add.text(270, 84, `GAME CLEAR !!`, {
+        fill: 0x32b65e,
+        fontFamily: "SemiBold",
+        fontSize: "64px",
+      });
+
+      this.add
+        .text(
+          this.game.canvas.width / 2,
+          230,
+          `クリアした問題数:${this.answers}問`,
+          {
+            fill: 0x333333,
+            fontFamily: this.fontFamily,
+            fontSize: "32px",
+          }
+        )
+        .setOrigin(0.5, 0);
+    } 
 
     const backTopButton = this.add.graphics();
 
