@@ -75,7 +75,6 @@ export default class HitsujiGame extends Phaser.Scene {
     this.events.on("resume", (scene, data) => {
       switch (data.status) {
         case "restart":
-          this.registry.destroy();
           this.events.off();
           this.scene.stop();
           this.scene.start("hitsuji_game", {
@@ -86,13 +85,11 @@ export default class HitsujiGame extends Phaser.Scene {
           });
           break;
         case "return-to-top":
-          this.registry.destroy();
           this.events.off();
           this.scene.stop();
           this.scene.start("game_menu");
           break;
         case "finish-game":
-          this.registry.destroy();
           this.events.off();
           this.scene.stop();
           this.scene.start("game_menu");
