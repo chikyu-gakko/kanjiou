@@ -173,6 +173,7 @@ export default class GameResult extends Phaser.Scene {
   }
 
   init(data) {
+    this.mode = data.mode;
     this.timer = data.time;
     this.answers = data.answers;
     this.fontFamily = this.registry.get("fontFamily");
@@ -211,12 +212,30 @@ export default class GameResult extends Phaser.Scene {
       fontSize: "64px",
     });
 
-    // 正解数
-    this.add.text(350, 230, `クリアした問題数:${this.answers}問`, {
-      fill: 0x333333,
-      fontFamily: this.fontFamily,
-      fontSize: "32px",
-    });
+    if (this.mode === "timeLimit") {
+      // 正解数
+      this.add
+        .text(
+          this.game.canvas.width / 2,
+          230,
+          `クリアした問題数:${this.answers}問`,
+          {
+            fill: 0x333333,
+            fontFamily: this.fontFamily,
+            fontSize: "32px",
+          }
+        )
+        .setOrigin(0.5, 0);
+    } else if (this.mode === "timeAttack") {
+      // タイム
+      this.add
+        .text(this.game.canvas.width / 2, 230, `タイム:${this.timer}秒`, {
+          fill: 0x333333,
+          fontFamily: this.fontFamily,
+          fontSize: "32px",
+        })
+        .setOrigin(0.5, 0);
+    }
 
     const backTopButton = this.add.graphics();
 
