@@ -195,12 +195,6 @@ export default class GameSetting extends Phaser.Scene {
           fontFamily: this.fontFamily,
         })
         .setData("value", "schoolYear"),
-      this.add
-        .text(147, 529, "チャレンジモード", {
-          fontSize: 28,
-          fontFamily: this.fontFamily,
-        })
-        .setData("value", "challenge"),
     ];
     this.categoryButtons.forEach((element) =>
       element.setInteractive().on(
@@ -262,16 +256,6 @@ export default class GameSetting extends Phaser.Scene {
         229,
         56,
         "タイムアタック",
-        24,
-        this.fontFamily
-      ).setData("category", "mode"),
-      new SettingButton(
-        this,
-        573,
-        452,
-        184,
-        56,
-        "サドンデス",
         24,
         this.fontFamily
       ).setData("category", "mode"),
