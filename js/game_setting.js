@@ -171,7 +171,7 @@ export default class GameSetting extends Phaser.Scene {
     this.categoryButtons = [
       // ゲームサイズ
       this.add
-        .text(194, 193, "漢字の数", {
+        .text(194, 236, "漢字の数", {
           fontSize: 32,
           padding: 3,
           fontFamily: this.fontFamily,
@@ -180,7 +180,7 @@ export default class GameSetting extends Phaser.Scene {
 
       // プレイモード
       this.add
-        .text(162, 305, "ゲームモード", {
+        .text(162, 350, "ゲームモード", {
           fontSize: 32,
           padding: 3,
           fontFamily: this.fontFamily,
@@ -189,7 +189,7 @@ export default class GameSetting extends Phaser.Scene {
 
       // 出てくる漢字
       this.add
-        .text(163, 417, "出てくる漢字", {
+        .text(163, 463, "出てくる漢字", {
           fontSize: 32,
           padding: 3,
           fontFamily: this.fontFamily,
@@ -242,7 +242,7 @@ export default class GameSetting extends Phaser.Scene {
       new SettingButton(
         this,
         585,
-        224,
+        280,
         160,
         56,
         "時間制限",
@@ -252,7 +252,7 @@ export default class GameSetting extends Phaser.Scene {
       new SettingButton(
         this,
         551,
-        338,
+        424,
         229,
         56,
         "タイムアタック",
