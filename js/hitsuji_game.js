@@ -28,7 +28,6 @@ export default class HitsujiGame extends Phaser.Scene {
     this.isChallenge = data.isChallenge;
     this.createKanjiList();
     this.kanjiIndex = 0;
-    this.kanjiComponents = [];
     this.timer = 0;
     this.answerCounter = 0;
     this.wrongFlag = false;
@@ -47,6 +46,31 @@ export default class HitsujiGame extends Phaser.Scene {
     this.fx = this.sound.add("game_bgm");
     this.fx.allowMultiple = false;
     this.fx.setLoop(true);
+
+    this.kanjiContainer = this.add.container(0, 0);
+    switch (this.sizeX) {
+      case 6:
+        this.kanjiContainer.setY(250);
+        this.kanjiFontSize = 50;
+        this.kanjiSpace = 100;
+        break;
+      case 8:
+        this.kanjiContainer.setY(200);
+        this.kanjiFontSize = 50;
+        this.kanjiSpace = 100;
+        break;
+      default:
+        this.kanjiContainer.setY(190);
+        this.kanjiFontSize = 40;
+        this.kanjiSpace = 70;
+    }
+    this.kanjiContainer.setSize(
+      this.sizeX * this.kanjiSpace - this.kanjiFontSize,
+      this.sizeY * this.kanjiSpace - this.kanjiFontSize
+    );
+    this.kanjiContainer.setX(
+      this.game.canvas.width / 2 - this.kanjiContainer.width / 2
+    );
 
     this.createKanji();
 
@@ -189,51 +213,34 @@ export default class HitsujiGame extends Phaser.Scene {
   createKanji() {
     const answerY = Math.floor(Math.random() * this.sizeY);
     const answerX = Math.floor(Math.random() * this.sizeX);
+    const kanjiArray = [];
     const i = this.kanjiIndex;
 
     // 正解/不正解SE
     const correct = this.sound.add("correct_se");
     const but = this.sound.add("but_se");
 
-    this.clearKanji();
+    this.kanjiContainer.removeAll(true);
 
     for (let y = 0; y < this.sizeY; y += 1) {
-      this.kanjiComponents.push([]);
       for (let x = 0; x < this.sizeX; x += 1) {
         const kanji =
           y === answerY && x === answerX
             ? this.kanjiList[i][1]
             : this.kanjiList[i][0];
 
-        let fontSize;
-        let positionX;
-        let positionY;
-        if (this.sizeX === 6) {
-          fontSize = 50;
-          positionX = 200 + x * 100;
-          positionY = 250 + y * 100;
-        } else if (this.sizeX === 8) {
-          fontSize = 50;
-          positionX = 150 + x * 100;
-          positionY = 200 + y * 100;
-        } else if (this.sizeX === 12) {
-          fontSize = 40;
-          positionX = 100 + x * 70;
-          positionY = 190 + y * 70;
-        }
-
-        this.kanjiComponents[y].push(
+        kanjiArray.push(
           this.add
-            .text(positionX, positionY, kanji, {
+            .text(x * this.kanjiSpace, y * this.kanjiSpace, kanji, {
               fill: 0x333333,
-              fontSize,
+              fontSize: this.kanjiFontSize,
               fontFamily: this.fontFamily,
             })
             .setInteractive()
         );
 
         if (y === answerY && x === answerX) {
-          this.kanjiComponents[y][x].once("pointerdown", () => {
+          kanjiArray[kanjiArray.length - 1].once("pointerdown", () => {
             this.correctAnim();
             correct.play();
             this.answerCounter += 1;
@@ -244,18 +251,19 @@ export default class HitsujiGame extends Phaser.Scene {
             }, 1400);
           });
         } else {
-          this.kanjiComponents[y][x].once("pointerdown", () => {
+          kanjiArray[kanjiArray.length - 1].once("pointerdown", () => {
             this.mistakeAnim();
             but.play();
             this.wrongFlag = true;
-            this.check();
             setTimeout(() => {
+              this.check();
               this.createKanji();
             }, 1400);
           });
         }
       }
     }
+    this.kanjiContainer.add(kanjiArray);
 
     this.kanjiIndex += 1;
     if (this.kanjiIndex >= this.kanjiList.length) {
@@ -283,15 +291,6 @@ export default class HitsujiGame extends Phaser.Scene {
       this.kanjiList = kanji;
       this.shuffleKanjiList();
     }
-  }
-
-  clearKanji() {
-    for (let y = 0; y < this.kanjiComponents.length; y += 1) {
-      for (let x = 0; x < this.kanjiComponents[y].length; x += 1) {
-        this.kanjiComponents[y][x].destroy();
-      }
-    }
-    this.kanjiComponents = [];
   }
 
   createAnswerComponent() {
