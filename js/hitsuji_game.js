@@ -292,26 +292,27 @@ export default class HitsujiGame extends Phaser.Scene {
     if (this.answerComponent) this.answerComponent.destroy();
 
     if (this.mode === "suddenDeath") {
-      this.answerComponent = this.add
-        .text(360, 671, `正解数:${this.answerCounter}問`, {
+      this.answerComponent = this.add.text(
+        155,
+        671,
+        `正解数：${this.answerCounter}問`,
+        {
           fill: 0x333333,
           fontSize: 50,
           fontFamily: this.fontFamily,
-        })
-        .setOrigin(1, 0);
+        }
+      );
     } else if (this.mode === "timeAttack" || this.mode === "timeLimit") {
-      this.answerComponent = this.add
-        .text(
-          360,
-          671,
-          `残り:${this.kanjiList.length - this.answerCounter}問`,
-          {
-            fill: 0x333333,
-            fontSize: 50,
-            fontFamily: this.fontFamily,
-          }
-        )
-        .setOrigin(1, 0);
+      this.answerComponent = this.add.text(
+        155,
+        671,
+        `残り：${this.kanjiList.length - this.answerCounter}問`,
+        {
+          fill: 0x333333,
+          fontSize: 50,
+          fontFamily: this.fontFamily,
+        }
+      );
     }
   }
 
