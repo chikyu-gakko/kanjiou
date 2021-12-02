@@ -10,6 +10,14 @@ const config = {
   type: Phaser.AUTO,
   width: 1024,
   height: 768,
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    max: {
+      width: 1024,
+      height: 768,
+    },
+  },
 };
 
 const game = new Phaser.Game(config);
