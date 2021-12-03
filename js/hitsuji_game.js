@@ -113,6 +113,16 @@ export default class HitsujiGame extends Phaser.Scene {
           this.scene.stop();
           this.scene.start("game_menu");
           break;
+        case "return-to-setting":
+          this.events.off();
+          this.scene.stop();
+          this.scene.start("game_setting", {
+            sizeY: this.sizeY,
+            sizeX: this.sizeX,
+            mode: this.mode,
+            schoolYear: this.schoolYear,
+          });
+          break;
         default:
       }
     });

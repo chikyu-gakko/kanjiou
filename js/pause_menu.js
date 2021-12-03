@@ -16,7 +16,7 @@ export default class PauseMenu extends Phaser.Scene {
     };
 
     this.add
-      .text(halfOfSceneWidth, 250, "再開する", textStyle)
+      .text(halfOfSceneWidth, 200, "再開する", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
@@ -29,7 +29,7 @@ export default class PauseMenu extends Phaser.Scene {
       );
 
     this.add
-      .text(halfOfSceneWidth, 362, "やり直す", textStyle)
+      .text(halfOfSceneWidth, 312, "やり直す", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
@@ -44,7 +44,20 @@ export default class PauseMenu extends Phaser.Scene {
       );
 
     this.add
-      .text(halfOfSceneWidth, 474, "トップへ戻る", textStyle)
+      .text(halfOfSceneWidth, 424, "設定画面へ戻る", textStyle)
+      .setOrigin(0.5, 0)
+      .setInteractive()
+      .once(
+        "pointerdown",
+        () => {
+          this.scene.resume("hitsuji_game", { status: "return-to-setting" });
+          this.scene.stop();
+        },
+        this
+      );
+
+    this.add
+      .text(halfOfSceneWidth, 536, "トップへ戻る", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
