@@ -19,10 +19,32 @@ export default class GameSetting extends Phaser.Scene {
     this.load.audio("game_start_se", "audio/game_start.mp3");
   }
 
-  init() {
+  init(data) {
     this.size = "ふつう";
     this.mode = "時間制限";
     this.schoolYear = "1年生";
+
+    if (data.sizeY) {
+      switch (data.sizeY) {
+        case 3:
+          this.size = "少ない";
+          break;
+        case 6:
+          this.size = "多い";
+          break;
+        default:
+      }
+    }
+    if (data.mode) {
+      switch (data.mode) {
+        case "timeAttack":
+          this.mode = "タイムアタック";
+          break;
+        default:
+      }
+    }
+    if (data.schoolYear) this.schoolYear = data.schoolYear;
+
     this.selectedSettingCategory = "size";
     this.challenge = false;
     this.categoryButtons = [];
