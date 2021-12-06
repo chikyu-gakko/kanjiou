@@ -1,4 +1,5 @@
 import SoundButton from "./sound_button.js";
+import SettingButton from "./setting_button.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
@@ -102,19 +103,17 @@ export default class GameResult extends Phaser.Scene {
       this.displayResultDetails();
     }
 
-    const backTopButton = this.add.graphics();
-
-    backTopButton
-      .lineStyle(5, 0x645246)
-      .fillStyle(0xffffff, 1)
-      .fillRoundedRect(57, 332, 265, 72, 35)
-      .strokePath()
-      .setInteractive(
-        new Phaser.Geom.Rectangle(57, 332, 265, 72),
-        Phaser.Geom.Rectangle.Contains
-      ).depth = 2;
-
-    backTopButton.on(
+    const backTopButton = new SettingButton(
+      this,
+      57,
+      332,
+      265,
+      72,
+      "トップへ戻る",
+      24,
+      this.fontFamily
+    );
+    backTopButton.buttonGraphic.on(
       "pointerdown",
       () => {
         this.scene.start("game_menu");
@@ -122,28 +121,18 @@ export default class GameResult extends Phaser.Scene {
       this
     );
 
-    const backTopText = this.add.text(115, 355, "トップへ戻る", {
-      fontSize: "24px",
-      fontFamily: this.fontFamily,
-      color: "#333333",
-    });
-
-    backTopText.setPadding(4).depth = 3;
-
     // ゲーム設定に戻るボタン
-    const backGameSetButton = this.add.graphics();
-
-    backGameSetButton
-      .lineStyle(5, 0x645246)
-      .fillStyle(0xffffff, 1)
-      .fillRoundedRect(377, 332, 265, 72, 35)
-      .strokePath()
-      .setInteractive(
-        new Phaser.Geom.Rectangle(377, 332, 265, 72),
-        Phaser.Geom.Rectangle.Contains
-      ).depth = 2;
-
-    backGameSetButton.on(
+    const backGameSetButton = new SettingButton(
+      this,
+      377,
+      332,
+      265,
+      72,
+      "ゲーム設定に戻る",
+      24,
+      this.fontFamily
+    );
+    backGameSetButton.buttonGraphic.on(
       "pointerdown",
       () => {
         this.scene.start("game_setting");
@@ -151,42 +140,24 @@ export default class GameResult extends Phaser.Scene {
       this
     );
 
-    const backGameSetText = this.add.text(415, 355, "ゲーム設定に戻る", {
-      fontSize: "24px",
-      fontFamily: this.fontFamily,
-      color: "#333333",
-    });
-
-    backGameSetText.setPadding(4).depth = 3;
-
     // もう一度プレイするボタン
-    const retryGameButton = this.add.graphics();
-
-    retryGameButton
-      .lineStyle(5, 0x645246)
-      .fillStyle(0xffffff, 1)
-      .fillRoundedRect(697, 332, 265, 72, 35)
-      .strokePath()
-      .setInteractive(
-        new Phaser.Geom.Rectangle(697, 332, 265, 72),
-        Phaser.Geom.Rectangle.Contains
-      ).depth = 2;
-
-    retryGameButton.on(
+    const retryGameButton = new SettingButton(
+      this,
+      697,
+      332,
+      265,
+      72,
+      "もう一度プレイする",
+      24,
+      this.fontFamily
+    );
+    retryGameButton.buttonGraphic.on(
       "pointerdown",
       () => {
         this.scene.start("hitsuji_game");
       },
       this
     );
-
-    const retryGameText = this.add.text(725, 355, "もう一度プレイする", {
-      fontSize: "24px",
-      fontFamily: this.fontFamily,
-      color: "#333333",
-    });
-
-    retryGameText.setPadding(4).depth = 3;
 
     // 花火
     this.anims.create({
