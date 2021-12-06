@@ -2,7 +2,7 @@ import SoundButton from "./sound_button.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "game_result", actisve: false });
+    super({ key: "game_result", active: false });
   }
 
   preload() {
@@ -57,20 +57,25 @@ export default class GameResult extends Phaser.Scene {
     this.soundButton = new SoundButton(this, 70, 700, 40);
     this.soundButton.depth = 3;
 
-    // リザルト表示
-
     // bgm
     const endingBgm = this.sound.add("ending");
     endingBgm.allowMultiple = false;
     endingBgm.play();
 
+    // リザルト表示
+    const gameResultFontStyle = {
+      color: "#32b65e",
+      fontFamily: "SemiBold",
+      fontSize: "64px",
+      stroke: "#DFD1B5",
+      strokeThickness: 4,
+    };
+
     if (this.mode === "timeLimit" && this.timer === 60) {
       // ゲームオーバー
-      this.add.text(270, 84, `GAME OVER`, {
-        fill: 0x32b65e,
-        fontFamily: "SemiBold",
-        fontSize: "64px",
-      });
+      this.add
+        .text(this.game.canvas.width / 2, 84, `GAME OVER`, gameResultFontStyle)
+        .setOrigin(0.5, 0);
 
       this.add
         .text(
@@ -78,48 +83,23 @@ export default class GameResult extends Phaser.Scene {
           230,
           `クリアした問題数:${this.answers}問`,
           {
-            fill: 0x333333,
+            color: "#333333",
             fontFamily: this.fontFamily,
             fontSize: "32px",
           }
         )
         .setOrigin(0.5, 0);
-    } else if (this.mode === "timeLimit" && this.timer <= 60) {
+    } else {
       // ゲームクリア
-      this.add.text(270, 84, `GAME CLEAR !!`, {
-        fill: 0x32b65e,
-        fontFamily: "SemiBold",
-        fontSize: "64px",
-      });
-    } else if (this.mode === "timeAttack") {
-      // タイム
-      this.add
-        .text(this.game.canvas.width / 2, 230, `タイム:${this.timer}秒`, {
-          fill: 0x333333,
-          fontFamily: this.fontFamily,
-          fontSize: "32px",
-        })
-        .setOrigin(0.5, 0);
-    } else if (this.mode === "suddenDeth") {
-      // ゲームクリア
-      this.add.text(270, 84, `GAME CLEAR !!`, {
-        fill: 0x32b65e,
-        fontFamily: "SemiBold",
-        fontSize: "64px",
-      });
-
       this.add
         .text(
           this.game.canvas.width / 2,
-          230,
-          `クリアした問題数:${this.answers}問`,
-          {
-            fill: 0x333333,
-            fontFamily: this.fontFamily,
-            fontSize: "32px",
-          }
+          84,
+          `GAME CLEAR !!!`,
+          gameResultFontStyle
         )
         .setOrigin(0.5, 0);
+      this.displayResultDetails();
     }
 
     const backTopButton = this.add.graphics();
@@ -145,7 +125,7 @@ export default class GameResult extends Phaser.Scene {
     const backTopText = this.add.text(115, 355, "トップへ戻る", {
       fontSize: "24px",
       fontFamily: this.fontFamily,
-      fill: "#333333",
+      color: "#333333",
     });
 
     backTopText.setPadding(4).depth = 3;
@@ -174,7 +154,7 @@ export default class GameResult extends Phaser.Scene {
     const backGameSetText = this.add.text(415, 355, "ゲーム設定に戻る", {
       fontSize: "24px",
       fontFamily: this.fontFamily,
-      fill: "#333333",
+      color: "#333333",
     });
 
     backGameSetText.setPadding(4).depth = 3;
@@ -203,7 +183,7 @@ export default class GameResult extends Phaser.Scene {
     const retryGameText = this.add.text(725, 355, "もう一度プレイする", {
       fontSize: "24px",
       fontFamily: this.fontFamily,
-      fill: "#333333",
+      color: "#333333",
     });
 
     retryGameText.setPadding(4).depth = 3;
@@ -285,5 +265,65 @@ export default class GameResult extends Phaser.Scene {
 
     const mogura3 = this.add.sprite(460, 400, "moguraAnim1");
     mogura3.setOrigin(0, 0).play("moguraAnimation2").depth = 4;
+  }
+
+  displayResultDetails() {
+    const text1 = (() => {
+      switch (this.mode) {
+        case "timeLimit":
+          return "残り時間：";
+        case "timeAttack":
+          return "かかった時間：";
+        case "suddenDeath":
+          return "クリアした問題数：";
+        default:
+          return "";
+      }
+    })();
+    const number = (() => {
+      switch (this.mode) {
+        case "timeLimit":
+          return 60 - this.timer;
+        case "timeAttack":
+          return this.timer;
+        case "suddenDeath":
+          return this.answers;
+        default:
+          return "";
+      }
+    })();
+    const text2 = this.mode === "suddenDeath" ? " 問" : " 秒";
+
+    const text1Object = this.add.text(0, 22, text1, {
+      color: "#333333",
+      fontFamily: this.fontFamily,
+      fontSize: "32px",
+    });
+    const numberObject = this.add.text(text1Object.width, 0, number, {
+      color: "#D53F3F",
+      fontFamily: this.fontFamily,
+      fontSize: "64px",
+    });
+    const text2Object = this.add.text(
+      text1Object.width + numberObject.width,
+      22,
+      text2,
+      {
+        color: "#333333",
+        fontFamily: this.fontFamily,
+        fontSize: "32px",
+      }
+    );
+
+    const container = this.add.container(0, 195, [
+      text1Object,
+      numberObject,
+      text2Object,
+    ]);
+    container.setSize(
+      text1Object.width + numberObject.width + text2Object.width,
+      numberObject.height
+    );
+    container.setX(this.game.canvas.width / 2 - container.width / 2);
   }
 }
