@@ -36,6 +36,9 @@ export default class GameResult extends Phaser.Scene {
     this.mode = data.mode;
     this.timer = data.time;
     this.answers = data.answers;
+    this.sizeY = data.sizeY;
+    this.sizeX = data.sizeX;
+    this.schoolYear = data.schoolYear;
     this.fontFamily = this.registry.get("fontFamily");
   }
 
@@ -135,7 +138,12 @@ export default class GameResult extends Phaser.Scene {
     backGameSetButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        this.scene.start("game_setting");
+        this.scene.start("game_setting", {
+          mode: this.mode,
+          sizeX: this.sizeX,
+          sizeY: this.sizeY,
+          schoolYear: this.schoolYear,
+        });
       },
       this
     );
@@ -154,7 +162,12 @@ export default class GameResult extends Phaser.Scene {
     retryGameButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        this.scene.start("hitsuji_game");
+        this.scene.start("hitsuji_game", {
+          mode: this.mode,
+          sizeX: this.sizeX,
+          sizeY: this.sizeY,
+          schoolYear: this.schoolYear,
+        });
       },
       this
     );

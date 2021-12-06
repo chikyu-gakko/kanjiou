@@ -199,6 +199,9 @@ export default class HitsujiGame extends Phaser.Scene {
         time: this.timer,
         answers: this.answerCounter,
         mode: this.mode,
+        schoolYear: this.schoolYear,
+        sizeX: this.sizeX,
+        sizeY: this.sizeY,
       });
     }
   }
