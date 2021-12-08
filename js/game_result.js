@@ -1,8 +1,9 @@
 import SoundButton from "./sound_button.js";
+import SettingButton from "./setting_button.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "game_result", actisve: false });
+    super({ key: "game_result", active: false });
   }
 
   preload() {
@@ -18,164 +19,26 @@ export default class GameResult extends Phaser.Scene {
     this.load.audio("ending", "audio/ending.mp3");
 
     // 花火GIF
-    this.load.image("fire1", "assets/animation/fireFlower/fire1.png");
-    this.load.image("fire2", "assets/animation/fireFlower/fire2.png");
-    this.load.image("fire3", "assets/animation/fireFlower/fire3.png");
-    this.load.image("fire4", "assets/animation/fireFlower/fire4.png");
-    this.load.image("fire5", "assets/animation/fireFlower/fire5.png");
-    this.load.image("fire6", "assets/animation/fireFlower/fire6.png");
+    for (let i = 1; i <= 6; i += 1)
+      this.load.image(`fire${i}`, `assets/animation/fireFlower/fire${i}.png`);
 
     // もぐらんGIF
-    this.load.image(
-      "moguraAnim1",
-      "assets/animation/mogura2/moguraAnim2_01.png"
-    );
-    this.load.image(
-      "moguraAnim2",
-      "assets/animation/mogura2/moguraAnim2_02.png"
-    );
-    this.load.image(
-      "moguraAnim3",
-      "assets/animation/mogura2/moguraAnim2_03.png"
-    );
-    this.load.image(
-      "moguraAnim4",
-      "assets/animation/mogura2/moguraAnim2_04.png"
-    );
-    this.load.image(
-      "moguraAnim5",
-      "assets/animation/mogura2/moguraAnim2_05.png"
-    );
-    this.load.image(
-      "moguraAnim6",
-      "assets/animation/mogura2/moguraAnim2_06.png"
-    );
-    this.load.image(
-      "moguraAnim7",
-      "assets/animation/mogura2/moguraAnim2_07.png"
-    );
-    this.load.image(
-      "moguraAnim8",
-      "assets/animation/mogura2/moguraAnim2_08.png"
-    );
-    this.load.image(
-      "moguraAnim9",
-      "assets/animation/mogura2/moguraAnim2_09.png"
-    );
-    this.load.image(
-      "moguraAnim10",
-      "assets/animation/mogura2/moguraAnim2_10.png"
-    );
-    this.load.image(
-      "moguraAnim11",
-      "assets/animation/mogura2/moguraAnim2_11.png"
-    );
-    this.load.image(
-      "moguraAnim12",
-      "assets/animation/mogura2/moguraAnim2_12.png"
-    );
-    this.load.image(
-      "moguraAnim13",
-      "assets/animation/mogura2/moguraAnim2_13.png"
-    );
-    this.load.image(
-      "moguraAnim14",
-      "assets/animation/mogura2/moguraAnim2_14.png"
-    );
-    this.load.image(
-      "moguraAnim15",
-      "assets/animation/mogura2/moguraAnim2_15.png"
-    );
-    this.load.image(
-      "moguraAnim16",
-      "assets/animation/mogura2/moguraAnim2_16.png"
-    );
-    this.load.image(
-      "moguraAnim17",
-      "assets/animation/mogura2/moguraAnim2_17.png"
-    );
-    this.load.image(
-      "moguraAnim18",
-      "assets/animation/mogura2/moguraAnim2_18.png"
-    );
-    this.load.image(
-      "moguraAnim19",
-      "assets/animation/mogura2/moguraAnim2_19.png"
-    );
-    this.load.image(
-      "moguraAnim20",
-      "assets/animation/mogura2/moguraAnim2_20.png"
-    );
-    this.load.image(
-      "moguraAnim21",
-      "assets/animation/mogura2/moguraAnim2_21.png"
-    );
-    this.load.image(
-      "moguraAnim22",
-      "assets/animation/mogura2/moguraAnim2_22.png"
-    );
-    this.load.image(
-      "moguraAnim23",
-      "assets/animation/mogura2/moguraAnim2_23.png"
-    );
-    this.load.image(
-      "moguraAnim24",
-      "assets/animation/mogura2/moguraAnim2_24.png"
-    );
-    this.load.image(
-      "moguraAnim25",
-      "assets/animation/mogura2/moguraAnim2_25.png"
-    );
-    this.load.image(
-      "moguraAnim26",
-      "assets/animation/mogura2/moguraAnim2_26.png"
-    );
-    this.load.image(
-      "moguraAnim27",
-      "assets/animation/mogura2/moguraAnim2_27.png"
-    );
-    this.load.image(
-      "moguraAnim28",
-      "assets/animation/mogura2/moguraAnim2_28.png"
-    );
-    this.load.image(
-      "moguraAnim29",
-      "assets/animation/mogura2/moguraAnim2_29.png"
-    );
-    this.load.image(
-      "moguraAnim30",
-      "assets/animation/mogura2/moguraAnim2_30.png"
-    );
-    this.load.image(
-      "moguraAnim31",
-      "assets/animation/mogura2/moguraAnim2_31.png"
-    );
-    this.load.image(
-      "moguraAnim32",
-      "assets/animation/mogura2/moguraAnim2_32.png"
-    );
-    this.load.image(
-      "moguraAnim33",
-      "assets/animation/mogura2/moguraAnim2_33.png"
-    );
-    this.load.image(
-      "moguraAnim34",
-      "assets/animation/mogura2/moguraAnim2_34.png"
-    );
-    this.load.image(
-      "moguraAnim35",
-      "assets/animation/mogura2/moguraAnim2_35.png"
-    );
-    this.load.image(
-      "moguraAnim36",
-      "assets/animation/mogura2/moguraAnim2_36.png"
-    );
+    for (let i = 1; i <= 36; i += 1) {
+      const fn = String(i).padStart(2, "0");
+      this.load.image(
+        `moguraAnim${i}`,
+        `assets/animation/mogura2/moguraAnim2_${fn}.png`
+      );
+    }
   }
 
   init(data) {
     this.mode = data.mode;
     this.timer = data.time;
     this.answers = data.answers;
+    this.sizeY = data.sizeY;
+    this.sizeX = data.sizeX;
+    this.schoolYear = data.schoolYear;
     this.fontFamily = this.registry.get("fontFamily");
   }
 
@@ -198,20 +61,25 @@ export default class GameResult extends Phaser.Scene {
     this.soundButton = new SoundButton(this, 70, 700, 40);
     this.soundButton.depth = 3;
 
-    // リザルト表示
-
     // bgm
     const endingBgm = this.sound.add("ending");
     endingBgm.allowMultiple = false;
     endingBgm.play();
 
+    // リザルト表示
+    const gameResultFontStyle = {
+      color: "#32b65e",
+      fontFamily: "SemiBold",
+      fontSize: "64px",
+      stroke: "#DFD1B5",
+      strokeThickness: 4,
+    };
+
     if (this.mode === "timeLimit" && this.timer === 60) {
       // ゲームオーバー
-      this.add.text(270, 84, `GAME OVER`, {
-        fill: 0x32b65e,
-        fontFamily: "SemiBold",
-        fontSize: "64px",
-      });
+      this.add
+        .text(this.game.canvas.width / 2, 84, `GAME OVER`, gameResultFontStyle)
+        .setOrigin(0.5, 0);
 
       this.add
         .text(
@@ -219,63 +87,36 @@ export default class GameResult extends Phaser.Scene {
           230,
           `クリアした問題数:${this.answers}問`,
           {
-            fill: 0x333333,
+            color: "#333333",
             fontFamily: this.fontFamily,
             fontSize: "32px",
           }
         )
         .setOrigin(0.5, 0);
-    } else if (this.mode === "timeLimit" && this.timer <= 60) {
+    } else {
       // ゲームクリア
-      this.add.text(270, 84, `GAME CLEAR !!`, {
-        fill: 0x32b65e,
-        fontFamily: "SemiBold",
-        fontSize: "64px",
-      });
-    } else if (this.mode === "timeAttack") {
-      // タイム
-      this.add
-        .text(this.game.canvas.width / 2, 230, `タイム:${this.timer}秒`, {
-          fill: 0x333333,
-          fontFamily: this.fontFamily,
-          fontSize: "32px",
-        })
-        .setOrigin(0.5, 0);
-    } else if (this.mode === "suddenDeth") {
-      // ゲームクリア
-      this.add.text(270, 84, `GAME CLEAR !!`, {
-        fill: 0x32b65e,
-        fontFamily: "SemiBold",
-        fontSize: "64px",
-      });
-
       this.add
         .text(
           this.game.canvas.width / 2,
-          230,
-          `クリアした問題数:${this.answers}問`,
-          {
-            fill: 0x333333,
-            fontFamily: this.fontFamily,
-            fontSize: "32px",
-          }
+          84,
+          `GAME CLEAR !!!`,
+          gameResultFontStyle
         )
         .setOrigin(0.5, 0);
+      this.displayResultDetails();
     }
 
-    const backTopButton = this.add.graphics();
-
-    backTopButton
-      .lineStyle(5, 0x645246)
-      .fillStyle(0xffffff, 1)
-      .fillRoundedRect(57, 332, 265, 72, 35)
-      .strokePath()
-      .setInteractive(
-        new Phaser.Geom.Rectangle(57, 332, 265, 72),
-        Phaser.Geom.Rectangle.Contains
-      ).depth = 2;
-
-    backTopButton.on(
+    const backTopButton = new SettingButton(
+      this,
+      57,
+      332,
+      265,
+      72,
+      "トップへ戻る",
+      24,
+      this.fontFamily
+    );
+    backTopButton.buttonGraphic.on(
       "pointerdown",
       () => {
         this.scene.start("game_menu");
@@ -283,71 +124,53 @@ export default class GameResult extends Phaser.Scene {
       this
     );
 
-    const backTopText = this.add.text(115, 355, "トップへ戻る", {
-      fontSize: "24px",
-      fontFamily: this.fontFamily,
-      fill: "#333333",
-    });
-
-    backTopText.setPadding(4).depth = 3;
-
     // ゲーム設定に戻るボタン
-    const backGameSetButton = this.add.graphics();
-
-    backGameSetButton
-      .lineStyle(5, 0x645246)
-      .fillStyle(0xffffff, 1)
-      .fillRoundedRect(377, 332, 265, 72, 35)
-      .strokePath()
-      .setInteractive(
-        new Phaser.Geom.Rectangle(377, 332, 265, 72),
-        Phaser.Geom.Rectangle.Contains
-      ).depth = 2;
-
-    backGameSetButton.on(
+    const backGameSetButton = new SettingButton(
+      this,
+      377,
+      332,
+      265,
+      72,
+      "ゲーム設定に戻る",
+      24,
+      this.fontFamily
+    );
+    backGameSetButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        this.scene.start("game_setting");
+        this.scene.start("game_setting", {
+          mode: this.mode,
+          sizeX: this.sizeX,
+          sizeY: this.sizeY,
+          schoolYear: this.schoolYear,
+        });
       },
       this
     );
-
-    const backGameSetText = this.add.text(415, 355, "ゲーム設定に戻る", {
-      fontSize: "24px",
-      fontFamily: this.fontFamily,
-      fill: "#333333",
-    });
-
-    backGameSetText.setPadding(4).depth = 3;
 
     // もう一度プレイするボタン
-    const retryGameButton = this.add.graphics();
-
-    retryGameButton
-      .lineStyle(5, 0x645246)
-      .fillStyle(0xffffff, 1)
-      .fillRoundedRect(697, 332, 265, 72, 35)
-      .strokePath()
-      .setInteractive(
-        new Phaser.Geom.Rectangle(697, 332, 265, 72),
-        Phaser.Geom.Rectangle.Contains
-      ).depth = 2;
-
-    retryGameButton.on(
+    const retryGameButton = new SettingButton(
+      this,
+      697,
+      332,
+      265,
+      72,
+      "もう一度プレイする",
+      24,
+      this.fontFamily
+    );
+    retryGameButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        this.scene.start("hitsuji_game");
+        this.scene.start("hitsuji_game", {
+          mode: this.mode,
+          sizeX: this.sizeX,
+          sizeY: this.sizeY,
+          schoolYear: this.schoolYear,
+        });
       },
       this
     );
-
-    const retryGameText = this.add.text(725, 355, "もう一度プレイする", {
-      fontSize: "24px",
-      fontFamily: this.fontFamily,
-      fill: "#333333",
-    });
-
-    retryGameText.setPadding(4).depth = 3;
 
     // 花火
     this.anims.create({
@@ -426,5 +249,65 @@ export default class GameResult extends Phaser.Scene {
 
     const mogura3 = this.add.sprite(460, 400, "moguraAnim1");
     mogura3.setOrigin(0, 0).play("moguraAnimation2").depth = 4;
+  }
+
+  displayResultDetails() {
+    const text1 = (() => {
+      switch (this.mode) {
+        case "timeLimit":
+          return "残り時間：";
+        case "timeAttack":
+          return "かかった時間：";
+        case "suddenDeath":
+          return "クリアした問題数：";
+        default:
+          return "";
+      }
+    })();
+    const number = (() => {
+      switch (this.mode) {
+        case "timeLimit":
+          return 60 - this.timer;
+        case "timeAttack":
+          return this.timer;
+        case "suddenDeath":
+          return this.answers;
+        default:
+          return "";
+      }
+    })();
+    const text2 = this.mode === "suddenDeath" ? " 問" : " 秒";
+
+    const text1Object = this.add.text(0, 22, text1, {
+      color: "#333333",
+      fontFamily: this.fontFamily,
+      fontSize: "32px",
+    });
+    const numberObject = this.add.text(text1Object.width, 0, number, {
+      color: "#D53F3F",
+      fontFamily: this.fontFamily,
+      fontSize: "64px",
+    });
+    const text2Object = this.add.text(
+      text1Object.width + numberObject.width,
+      22,
+      text2,
+      {
+        color: "#333333",
+        fontFamily: this.fontFamily,
+        fontSize: "32px",
+      }
+    );
+
+    const container = this.add.container(0, 195, [
+      text1Object,
+      numberObject,
+      text2Object,
+    ]);
+    container.setSize(
+      text1Object.width + numberObject.width + text2Object.width,
+      numberObject.height
+    );
+    container.setX(this.game.canvas.width / 2 - container.width / 2);
   }
 }
