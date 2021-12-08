@@ -36,17 +36,17 @@ export default class GameMenu extends Phaser.Scene {
     this.load.image("ground7", "assets/animation/soil/soil_7.png");
 
     // もぐら
+    this.load.image("mogura01", "assets/animation/mogura/moguraAnim01.png");
+    this.load.image("mogura02", "assets/animation/mogura/moguraAnim02.png");
+    this.load.image("mogura03", "assets/animation/mogura/moguraAnim03.png");
+    this.load.image("mogura04", "assets/animation/mogura/moguraAnim04.png");
+    this.load.image("mogura05", "assets/animation/mogura/moguraAnim05.png");
+    this.load.image("mogura06", "assets/animation/mogura/moguraAnim06.png");
+    this.load.image("mogura07", "assets/animation/mogura/moguraAnim07.png");
+    this.load.image("mogura08", "assets/animation/mogura/moguraAnim08.png");
+    this.load.image("mogura09", "assets/animation/mogura/moguraAnim09.png");
     this.load.image("mogura10", "assets/animation/mogura/moguraAnim10.png");
     this.load.image("mogura11", "assets/animation/mogura/moguraAnim11.png");
-    this.load.image("mogura16", "assets/animation/mogura/moguraAnim16.png");
-    this.load.image("mogura20", "assets/animation/mogura/moguraAnim20.png");
-    this.load.image("mogura21", "assets/animation/mogura/moguraAnim21.png");
-    this.load.image("mogura29", "assets/animation/mogura/moguraAnim29.png");
-    this.load.image("mogura30", "assets/animation/mogura/moguraAnim30.png");
-    this.load.image("mogura31", "assets/animation/mogura/moguraAnim31.png");
-    this.load.image("mogura34", "assets/animation/mogura/moguraAnim34.png");
-    this.load.image("mogura35", "assets/animation/mogura/moguraAnim35.png");
-    this.load.image("mogura37", "assets/animation/mogura/moguraAnim37.png");
   }
 
   init() {
@@ -169,17 +169,17 @@ export default class GameMenu extends Phaser.Scene {
     this.anims.create({
       key: "mogura",
       frames: [
+        { key: "mogura01", duration: 20 },
+        { key: "mogura02", duration: 20 },
+        { key: "mogura03", duration: 20 },
+        { key: "mogura04", duration: 20 },
+        { key: "mogura05", duration: 20 },
+        { key: "mogura06", duration: 20 },
+        { key: "mogura07", duration: 20 },
+        { key: "mogura08", duration: 20 },
+        { key: "mogura09", duration: 20 },
         { key: "mogura10", duration: 20 },
-        { key: "mogura11", duration: 20 },
-        { key: "mogura16", duration: 20 },
-        { key: "mogura20", duration: 20 },
-        { key: "mogura21", duration: 20 },
-        { key: "mogura29", duration: 20 },
-        { key: "mogura30", duration: 20 },
-        { key: "mogura31", duration: 20 },
-        { key: "mogura34", duration: 20 },
-        { key: "mogura35", duration: 20 },
-        { key: "mogura37", duration: 1000 },
+        { key: "mogura11", duration: 1000 },
       ],
       frameRate: 24,
     });
