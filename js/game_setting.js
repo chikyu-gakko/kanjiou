@@ -397,7 +397,7 @@ export default class GameSetting extends Phaser.Scene {
         466,
         192,
         56,
-        "常用＋常外",
+        "高校生以上",
         24,
         this.fontFamily
       ).setData("category", "schoolYear"),
@@ -413,11 +413,11 @@ export default class GameSetting extends Phaser.Scene {
       ).setData("category", "schoolYear"),
       new SettingButton(
         this,
-        704,
+        680,
         542,
-        168,
+        192,
         56,
-        "常外のみ",
+        "常用外漢字",
         24,
         this.fontFamily
       ).setData("category", "schoolYear"),
