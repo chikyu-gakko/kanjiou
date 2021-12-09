@@ -31,6 +31,7 @@ export default class HitsujiGame extends Phaser.Scene {
     this.timer = 0;
     this.answerCounter = 0;
     this.wrongFlag = false;
+    this.numberOfQuestions = 10;
     this.fontFamily = this.registry.get("fontFamily");
   }
 
@@ -189,9 +190,9 @@ export default class HitsujiGame extends Phaser.Scene {
   check() {
     if (
       (this.mode === "timeLimit" &&
-        (this.timer >= 60 || this.answerCounter >= this.kanjiList.length)) ||
+        (this.timer >= 60 || this.answerCounter >= this.numberOfQuestions)) ||
       (this.mode === "timeAttack" &&
-        this.answerCounter >= this.kanjiList.length) ||
+        this.answerCounter >= this.numberOfQuestions) ||
       (this.mode === "suddenDeath" && this.wrongFlag)
     ) {
       this.fx.stop();
@@ -319,7 +320,7 @@ export default class HitsujiGame extends Phaser.Scene {
       this.answerComponent = this.add.text(
         155,
         671,
-        `残り：${this.kanjiList.length - this.answerCounter}問`,
+        `残り：${this.numberOfQuestions - this.answerCounter}問`,
         {
           fill: 0x333333,
           fontSize: 50,
