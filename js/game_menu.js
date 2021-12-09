@@ -249,7 +249,7 @@ export default class GameMenu extends Phaser.Scene {
     // 羊の中に～ボタン/テキスト
     const fndDiffButton = this.add.graphics();
     fndDiffButton
-      .lineStyle(5, 0x645246)
+      .lineStyle(2, 0x645246)
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(30, 100, 350, 90, 45)
       .strokePath()
@@ -277,7 +277,7 @@ export default class GameMenu extends Phaser.Scene {
     // 多言語
     const mnyLngButton = this.add.graphics();
     mnyLngButton
-      .lineStyle(5, 0x645246)
+      .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(30, 230, 350, 90, 45)
       .setInteractive(
@@ -295,7 +295,7 @@ export default class GameMenu extends Phaser.Scene {
     // 神経衰弱
     const memoryGmButton = this.add.graphics();
     memoryGmButton
-      .lineStyle(5, 0x645246)
+      .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(30, 360, 350, 90, 45)
       .setInteractive(
@@ -313,7 +313,7 @@ export default class GameMenu extends Phaser.Scene {
     // 仲間で集まれ
     const tgtherFriendButton = this.add.graphics();
     tgtherFriendButton
-      .lineStyle(5, 0x645246)
+      .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(30, 490, 350, 90, 45)
       .setInteractive(

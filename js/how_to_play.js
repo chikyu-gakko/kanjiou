@@ -62,7 +62,7 @@ export default class HowToPlay extends Phaser.Scene {
     // 「わかった」ボタン
     this.add
       .graphics()
-      .lineStyle(5, 0x645246)
+      .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(331, 615, 368, 80, 40)
       .strokePath()

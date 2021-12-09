@@ -26,7 +26,7 @@ export default class SettingButton extends Phaser.GameObjects.Container {
 
     this.buttonGraphic = scene.add
       .graphics()
-      .lineStyle(4, 0x645246)
+      .lineStyle(2, 0x645246)
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(0, 0, width, height, Math.ceil(height / 2))
       .strokePath()
@@ -43,7 +43,7 @@ export default class SettingButton extends Phaser.GameObjects.Container {
       color: "#ffffff",
     });
     this.buttonGraphic
-      .lineStyle(4, 0x645246)
+      .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(
         0,
@@ -60,7 +60,7 @@ export default class SettingButton extends Phaser.GameObjects.Container {
       color: "#333333",
     });
     this.buttonGraphic
-      .lineStyle(4, 0x645246)
+      .lineStyle(2, 0x645246)
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(
         0,
@@ -77,7 +77,7 @@ export default class SettingButton extends Phaser.GameObjects.Container {
       color: "#ffffff",
     });
     this.buttonGraphic
-      .lineStyle(4, 0xda999b)
+      .lineStyle(2, 0xda999b)
       .fillStyle(0xb63237, 1)
       .fillRoundedRect(
         0,

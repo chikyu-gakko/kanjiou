@@ -99,7 +99,7 @@ export default class GameSetting extends Phaser.Scene {
     // ゲームスタートボタン・テキスト
     this.add
       .graphics()
-      .lineStyle(5, 0x645246)
+      .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(340, 642, 368, 80, 40)
       .setInteractive(
@@ -168,7 +168,7 @@ export default class GameSetting extends Phaser.Scene {
     // 遊び方ボタン
     this.add
       .graphics()
-      .lineStyle(1.5, 0xffffff)
+      .lineStyle(2, 0xffffff)
       .fillStyle(0x000000, 1)
       .fillRoundedRect(787, 645, 189, 75, 35)
       .setInteractive(
