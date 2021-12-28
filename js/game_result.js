@@ -310,7 +310,7 @@ export default class GameResult extends Phaser.Scene {
     this.add.graphics().fillStyle(0x232d58, 1).fillRect(0, 0, 1024, 768).depth =
       -1;
     this.add.image(436, 305, "mogura-upper-body").setOrigin(0, 0);
-    this.add.image(510, 682, "bg");
+    this.add.image(512, 685, "bg");
 
     const fukidashiImage = this.add
       .image(0, 0, "fukidashi")
