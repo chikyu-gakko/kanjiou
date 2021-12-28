@@ -14,6 +14,8 @@ export default class GameResult extends Phaser.Scene {
     this.load.image("bg", "img/bg.png");
     this.load.image("cloud", "img/game_cloud.png");
     this.load.image("tree", "assets/animation/tree.png");
+    this.load.image("mogura-upper-body", "img/mogura.png");
+    this.load.image("fukidashi", "img/fukidashi.png");
 
     // bgm
     this.load.audio("ending", "audio/ending.mp3");
@@ -44,27 +46,9 @@ export default class GameResult extends Phaser.Scene {
 
   create() {
     this.cameras.main.fadeIn(2000);
-    this.add.graphics().fillStyle(0xebfdff, 1).fillRect(0, 0, 1024, 768);
-
-    // 画像表示
-    // 雲2つ
-    this.add.image(100, 100, "cloud");
-    this.add.image(900, 120, "cloud");
-
-    // 木
-    this.add.image(900, 470, "tree");
-
-    // 地面
-    const bgImage = this.add.image(510, 682, "bg");
-    bgImage.depth = 2;
 
     this.soundButton = new SoundButton(this, 70, 700, 40);
     this.soundButton.depth = 3;
-
-    // bgm
-    const endingBgm = this.sound.add("ending");
-    endingBgm.allowMultiple = false;
-    endingBgm.play();
 
     // リザルト表示
     const gameResultFontStyle = {
@@ -74,37 +58,6 @@ export default class GameResult extends Phaser.Scene {
       stroke: "#DFD1B5",
       strokeThickness: 4,
     };
-
-    if (this.mode === "timeLimit" && this.timer === 60) {
-      // ゲームオーバー
-      this.add
-        .text(this.game.canvas.width / 2, 84, `GAME OVER`, gameResultFontStyle)
-        .setOrigin(0.5, 0);
-
-      this.add
-        .text(
-          this.game.canvas.width / 2,
-          230,
-          `クリアした問題数:${this.answers}問`,
-          {
-            color: "#333333",
-            fontFamily: this.fontFamily,
-            fontSize: "32px",
-          }
-        )
-        .setOrigin(0.5, 0);
-    } else {
-      // ゲームクリア
-      this.add
-        .text(
-          this.game.canvas.width / 2,
-          84,
-          `GAME CLEAR !!!`,
-          gameResultFontStyle
-        )
-        .setOrigin(0.5, 0);
-      this.displayResultDetails();
-    }
 
     const backTopButton = new SettingButton(
       this,
@@ -172,83 +125,27 @@ export default class GameResult extends Phaser.Scene {
       this
     );
 
-    // 花火
-    this.anims.create({
-      key: "fireFlower",
-      frames: [
-        { key: "fire1", duration: 300 },
-        { key: "fire2", duration: 200 },
-        { key: "fire3", duration: 200 },
-        { key: "fire4", duration: 200 },
-        { key: "fire5", duration: 200 },
-        { key: "fire6", duration: 200 },
-      ],
-      frameRate: 24,
-      repeat: -1,
-    });
+    if (this.mode === "timeLimit" && this.timer === 60) {
+      // ゲームオーバー
+      backTopButton.setY(136);
+      backGameSetButton.setY(136);
+      retryGameButton.setY(136);
 
-    const fireFlower1 = this.add.sprite(115, 350, "fire1");
-    fireFlower1.setOrigin(0, 1).play("fireFlower").depth = 1;
+      this.displayGameOverGraphics();
+    } else {
+      // ゲームクリア
+      this.add
+        .text(
+          this.game.canvas.width / 2,
+          84,
+          `GAME CLEAR !!!`,
+          gameResultFontStyle
+        )
+        .setOrigin(0.5, 0);
 
-    const fireFlower2 = this.add.sprite(650, 350, "fire1");
-    fireFlower2.setOrigin(0, 1).play("fireFlower").depth = 1;
-
-    // 仮もぐらんGIF
-    this.anims.create({
-      key: "moguraAnimation2",
-      frames: [
-        { key: "moguraAnim1", duration: 100 },
-        { key: "moguraAnim2", duration: 100 },
-        { key: "moguraAnim3", duration: 100 },
-        { key: "moguraAnim4", duration: 100 },
-        { key: "moguraAnim5", duration: 100 },
-        { key: "moguraAnim6", duration: 100 },
-        { key: "moguraAnim7", duration: 100 },
-        { key: "moguraAnim8", duration: 100 },
-        { key: "moguraAnim9", duration: 100 },
-        { key: "moguraAnim10", duration: 100 },
-        { key: "moguraAnim11", duration: 100 },
-        { key: "moguraAnim12", duration: 100 },
-        { key: "moguraAnim13", duration: 100 },
-        { key: "moguraAnim14", duration: 100 },
-        { key: "moguraAnim15", duration: 100 },
-        { key: "moguraAnim16", duration: 100 },
-        { key: "moguraAnim17", duration: 100 },
-        { key: "moguraAnim18", duration: 100 },
-        { key: "moguraAnim19", duration: 100 },
-        { key: "moguraAnim20", duration: 100 },
-        { key: "moguraAnim21", duration: 100 },
-        { key: "moguraAnim22", duration: 100 },
-        { key: "moguraAnim23", duration: 100 },
-        { key: "moguraAnim24", duration: 100 },
-        { key: "moguraAnim25", duration: 100 },
-        { key: "moguraAnim26", duration: 100 },
-        { key: "moguraAnim27", duration: 100 },
-        { key: "moguraAnim28", duration: 100 },
-        { key: "moguraAnim29", duration: 100 },
-        { key: "moguraAnim30", duration: 100 },
-        { key: "moguraAnim31", duration: 100 },
-        { key: "moguraAnim32", duration: 100 },
-        { key: "moguraAnim33", duration: 100 },
-        { key: "moguraAnim34", duration: 100 },
-        { key: "moguraAnim35", duration: 100 },
-        { key: "moguraAnim36", duration: 100 },
-        { key: "moguraAnim23", duration: 100 },
-        { key: "moguraAnim24", duration: 100 },
-        { key: "moguraAnim25", duration: 100 },
-      ],
-      frameRate: 24,
-      repeat: -1,
-    });
-
-    const mogura1 = this.add.sprite(260, 400, "moguraAnim1");
-    mogura1.setOrigin(0, 0).play("moguraAnimation2").depth = 4;
-
-    const mogura2 = this.add.sprite(360, 400, "moguraAnim1");
-    mogura2.setOrigin(0, 0).play("moguraAnimation2").depth = 4;
-
-    const mogura3 = this.add.sprite(460, 400, "moguraAnim1");
-    mogura3.setOrigin(0, 0).play("moguraAnimation2").depth = 4;
+      this.displayResultDetails();
+      this.displayGameClearGraphics();
+    }
   }
 
   displayResultDetails() {
@@ -309,5 +206,126 @@ export default class GameResult extends Phaser.Scene {
       numberObject.height
     );
     container.setX(this.game.canvas.width / 2 - container.width / 2);
+  }
+
+  displayGameClearGraphics() {
+    // 背景
+    this.add.graphics().fillStyle(0xebfdff, 1).fillRect(0, 0, 1024, 768).depth =
+      -1;
+
+    // 雲2つ
+    this.add.image(100, 100, "cloud");
+    this.add.image(900, 120, "cloud");
+
+    // 木
+    this.add.image(900, 470, "tree").depth = -1;
+
+    // 地面
+    this.add.image(510, 682, "bg");
+
+    // bgm
+    const endingBgm = this.sound.add("ending");
+    endingBgm.allowMultiple = false;
+    endingBgm.play();
+
+    // 花火
+    this.anims.create({
+      key: "fireFlower",
+      frames: [
+        { key: "fire1", duration: 300 },
+        { key: "fire2", duration: 200 },
+        { key: "fire3", duration: 200 },
+        { key: "fire4", duration: 200 },
+        { key: "fire5", duration: 200 },
+        { key: "fire6", duration: 200 },
+      ],
+      frameRate: 24,
+      repeat: -1,
+    });
+    this.add.sprite(115, 350, "fire1").setOrigin(0, 1).play("fireFlower");
+    this.add.sprite(650, 350, "fire1").setOrigin(0, 1).play("fireFlower");
+
+    // 仮もぐらんGIF
+    this.anims.create({
+      key: "moguraAnimation2",
+      frames: [
+        { key: "moguraAnim1", duration: 100 },
+        { key: "moguraAnim2", duration: 100 },
+        { key: "moguraAnim3", duration: 100 },
+        { key: "moguraAnim4", duration: 100 },
+        { key: "moguraAnim5", duration: 100 },
+        { key: "moguraAnim6", duration: 100 },
+        { key: "moguraAnim7", duration: 100 },
+        { key: "moguraAnim8", duration: 100 },
+        { key: "moguraAnim9", duration: 100 },
+        { key: "moguraAnim10", duration: 100 },
+        { key: "moguraAnim11", duration: 100 },
+        { key: "moguraAnim12", duration: 100 },
+        { key: "moguraAnim13", duration: 100 },
+        { key: "moguraAnim14", duration: 100 },
+        { key: "moguraAnim15", duration: 100 },
+        { key: "moguraAnim16", duration: 100 },
+        { key: "moguraAnim17", duration: 100 },
+        { key: "moguraAnim18", duration: 100 },
+        { key: "moguraAnim19", duration: 100 },
+        { key: "moguraAnim20", duration: 100 },
+        { key: "moguraAnim21", duration: 100 },
+        { key: "moguraAnim22", duration: 100 },
+        { key: "moguraAnim23", duration: 100 },
+        { key: "moguraAnim24", duration: 100 },
+        { key: "moguraAnim25", duration: 100 },
+        { key: "moguraAnim26", duration: 100 },
+        { key: "moguraAnim27", duration: 100 },
+        { key: "moguraAnim28", duration: 100 },
+        { key: "moguraAnim29", duration: 100 },
+        { key: "moguraAnim30", duration: 100 },
+        { key: "moguraAnim31", duration: 100 },
+        { key: "moguraAnim32", duration: 100 },
+        { key: "moguraAnim33", duration: 100 },
+        { key: "moguraAnim34", duration: 100 },
+        { key: "moguraAnim35", duration: 100 },
+        { key: "moguraAnim36", duration: 100 },
+        { key: "moguraAnim23", duration: 100 },
+        { key: "moguraAnim24", duration: 100 },
+        { key: "moguraAnim25", duration: 100 },
+      ],
+      frameRate: 24,
+      repeat: -1,
+    });
+    this.add
+      .sprite(260, 400, "moguraAnim1")
+      .setOrigin(0, 0)
+      .play("moguraAnimation2");
+    this.add
+      .sprite(360, 400, "moguraAnim1")
+      .setOrigin(0, 0)
+      .play("moguraAnimation2");
+    this.add
+      .sprite(460, 400, "moguraAnim1")
+      .setOrigin(0, 0)
+      .play("moguraAnimation2");
+  }
+
+  displayGameOverGraphics() {
+    this.add.graphics().fillStyle(0x232d58, 1).fillRect(0, 0, 1024, 768).depth =
+      -1;
+    this.add.image(436, 305, "mogura-upper-body").setOrigin(0, 0);
+    this.add.image(510, 682, "bg");
+
+    const fukidashiImage = this.add
+      .image(0, 0, "fukidashi")
+      .setDisplaySize(516, 116)
+      .setOrigin(0, 0);
+    const text1 = this.add.text(48, 29, "あともう少し！", {
+      fontFamily: this.fontFamily,
+      fontSize: 34,
+      color: "#32B65E",
+    });
+    const text2 = this.add.text(286, 36, "次も頑張ろう！", {
+      color: "#333333",
+      fontFamily: this.fontFamily,
+      fontSize: 26,
+    });
+    this.add.container(220, 310, [fukidashiImage, text1, text2]);
   }
 }
