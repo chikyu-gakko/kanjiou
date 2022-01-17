@@ -5,6 +5,7 @@ import GameResult from "./game_result.js";
 import OpenLogo from "./open_logo.js";
 import HowToPlay from "./how_to_play.js";
 import PauseMenu from "./pause_menu.js";
+import ChallengeMenu from "./challenge_menu.js";
 
 const config = {
   type: Phaser.AUTO,
@@ -30,3 +31,4 @@ game.scene.add("hitsuji_game", HitsujiGame);
 game.scene.add("game_result", GameResult);
 game.scene.add("how_to_play", HowToPlay);
 game.scene.add("pause_menu", PauseMenu);
+game.scene.add("challenge_menu", ChallengeMenu);

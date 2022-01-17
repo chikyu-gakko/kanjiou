@@ -17,6 +17,9 @@ export default class GameMenu extends Phaser.Scene {
     this.load.image("mute", "img/mute.png");
     this.load.image("cloud", "img/game_cloud.png");
     this.load.image("top_mogura", "img/lay_mogura.png");
+    this.load.image("challenge_text", "img/challenge_text.png");
+    this.load.image("challenge_button", "img/challenge_button.png");
+
     // 木
     this.load.image("tree1", "assets/animation/tree/tree_1.png");
     this.load.image("tree2", "assets/animation/tree/tree_2.png");
@@ -269,7 +272,8 @@ export default class GameMenu extends Phaser.Scene {
 
     this.add.text(70, 130, "羊の中に犬が一匹", {
       fontSize: "32px",
-      fontFamily: this.fontFamily,
+      fontStyle: "700",
+      fontFamily: "'Yu Gothic', YuGthic, sans-serif",
       fill: "#333333",
     });
 
@@ -332,5 +336,15 @@ export default class GameMenu extends Phaser.Scene {
     this.add.image(95, 275, "top_mogura");
     this.add.image(95, 400, "top_mogura");
     this.add.image(95, 531, "top_mogura");
+
+    const challengeButton = this.add
+      .image(840, 690, "challenge_button")
+      .setScale(0.9)
+      .setInteractive()
+      .on("pointerdown", () => {
+        this.scene.start("challenge_menu");
+      });
+    challengeButton.depth = 2;
+    this.add.image(860, 630, "challenge_text").setScale(0.9).depth = 2;
   }
 }

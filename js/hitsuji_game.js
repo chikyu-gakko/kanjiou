@@ -23,15 +23,15 @@ export default class HitsujiGame extends Phaser.Scene {
   init(data) {
     this.schoolYear = data.schoolYear;
     this.mode = data.mode;
-    this.sizeY = data.sizeY;
-    this.sizeX = data.sizeX;
+    this.sizeY = data.sizeY ? data.sizeY : 4;
+    this.sizeX = data.sizeX ? data.sizeX : 8;
     this.isChallenge = data.isChallenge;
     this.createKanjiList();
     this.kanjiIndex = 0;
     this.timer = 0;
     this.answerCounter = 0;
     this.wrongFlag = false;
-    this.numberOfQuestions = 10;
+    this.numberOfQuestions = this.isChallenge ? 250 : 10;
     this.fontFamily = this.registry.get("fontFamily");
   }
 
@@ -107,6 +107,7 @@ export default class HitsujiGame extends Phaser.Scene {
             sizeX: this.sizeX,
             mode: this.mode,
             schoolYear: this.schoolYear,
+            isChallenge: this.isChallenge,
           });
           break;
         case "return-to-top":
@@ -117,12 +118,14 @@ export default class HitsujiGame extends Phaser.Scene {
         case "return-to-setting":
           this.events.off();
           this.scene.stop();
-          this.scene.start("game_setting", {
-            sizeY: this.sizeY,
-            sizeX: this.sizeX,
-            mode: this.mode,
-            schoolYear: this.schoolYear,
-          });
+          if (this.isChallenge) this.scene.start("challenge_menu");
+          else
+            this.scene.start("game_setting", {
+              sizeY: this.sizeY,
+              sizeX: this.sizeX,
+              mode: this.mode,
+              schoolYear: this.schoolYear,
+            });
           break;
         default:
       }
@@ -193,7 +196,9 @@ export default class HitsujiGame extends Phaser.Scene {
         (this.timer >= 60 || this.answerCounter >= this.numberOfQuestions)) ||
       (this.mode === "timeAttack" &&
         this.answerCounter >= this.numberOfQuestions) ||
-      (this.mode === "suddenDeath" && this.wrongFlag)
+      (this.mode === "suddenDeath" && this.wrongFlag) ||
+      (this.isChallenge &&
+        (this.wrongFlag || this.answerCounter >= this.numberOfQuestions))
     ) {
       this.fx.stop();
       this.scene.start("game_result", {
