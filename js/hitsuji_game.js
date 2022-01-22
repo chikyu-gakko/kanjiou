@@ -258,7 +258,7 @@ export default class HitsujiGame extends Phaser.Scene {
             this.correctAnim();
             correct.play();
             this.answerCounter += 1;
-            this.createAnswerComponent();
+            this.updateAnswerComponent();
             setTimeout(() => {
               this.check();
               this.createKanji();
@@ -308,56 +308,89 @@ export default class HitsujiGame extends Phaser.Scene {
   }
 
   createAnswerComponent() {
-    if (this.answerComponent) this.answerComponent.destroy();
-
-    if (this.mode === "suddenDeath") {
-      this.answerComponent = this.add.text(
-        155,
-        671,
-        `正解数：${this.answerCounter}問`,
-        {
-          fill: 0x333333,
-          fontSize: 50,
+    this.updateAnswerComponent();
+    if (this.isChallenge) {
+      this.add.text(320, 70, "残り：", {
+        color: "#333333",
+        fontSize: 56,
+        fontFamily: this.fontFamily,
+      });
+      this.add
+        .text(this.game.canvas.width - 320, 70, "問", {
+          color: "#333333",
+          fontSize: 56,
           fontFamily: this.fontFamily,
-        }
-      );
+        })
+        .setOrigin(1, 0);
     } else if (this.mode === "timeAttack" || this.mode === "timeLimit") {
-      this.answerComponent = this.add.text(
-        155,
-        671,
-        `残り：${this.numberOfQuestions - this.answerCounter}問`,
-        {
-          fill: 0x333333,
-          fontSize: 50,
+      this.add
+        .text(155, this.game.canvas.height - 40, `残り`, {
+          color: "#333333",
+          fontSize: 40,
           fontFamily: this.fontFamily,
-        }
-      );
+        })
+        .setOrigin(0, 1);
+      this.add
+        .text(345, this.game.canvas.height - 40, `問`, {
+          color: "#333333",
+          fontSize: 40,
+          fontFamily: this.fontFamily,
+        })
+        .setOrigin(0, 1);
+    }
+  }
+
+  updateAnswerComponent() {
+    if (this.answerComponent) this.answerComponent.destroy();
+    if (this.isChallenge) {
+      this.answerComponent = this.add
+        .text(
+          this.game.canvas.width - 384,
+          58,
+          `${this.numberOfQuestions - this.answerCounter}`,
+          {
+            color: "#b63232",
+            fontSize: 72,
+            fontFamily: this.fontFamily,
+          }
+        )
+        .setOrigin(1, 0);
+    } else if (this.mode === "suddenDeath") {
+      this.answerComponent = this.add.text(155, 671, `${this.answerCounter}`, {
+        color: "#333333",
+        fontSize: 56,
+        fontFamily: this.fontFamily,
+      });
+    } else if (this.mode === "timeAttack" || this.mode === "timeLimit") {
+      this.answerComponent = this.add
+        .text(
+          330,
+          this.game.canvas.height - 32,
+          `${this.numberOfQuestions - this.answerCounter}`,
+          {
+            color: "#32B65E",
+            fontSize: 64,
+            fontFamily: this.fontFamily,
+          }
+        )
+        .setOrigin(1);
     }
   }
 
   createTimerComponent() {
     if (this.timerComponent) this.timerComponent.destroy();
     if (this.mode === "timeLimit") {
-      this.timerComponent = this.add
-        .text(
-          this.game.canvas.width / 2,
-          54,
-          `残り時間：${60 - this.timer}秒`,
-          {
-            fill: 0x333333,
-            fontSize: 50,
-            fontFamily: this.fontFamily,
-          }
-        )
-        .setOrigin(0.5, 0);
+      this.timerComponent = this.add.text(101, 54, `${60 - this.timer}`, {
+        color: "#B63232",
+        fontSize: 72,
+        fontFamily: this.fontFamily,
+      });
     } else if (this.mode === "timeAttack") {
-      this.timerComponent = this.add
-        .text(this.game.canvas.width / 2, 54, `タイム：${this.timer}秒`, {
-          fill: 0x333333,
-          fontSize: 50,
-          fontFamily: this.fontFamily,
-        })
-        .setOrigin(0.5, 0);
+      this.timerComponent = this.add.text(101, 54, `${this.timer}`, {
+        color: "#B63232",
+        fontSize: 72,
+        fontFamily: this.fontFamily,
+      });
     }
   }
 }
