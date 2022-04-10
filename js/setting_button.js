@@ -7,7 +7,9 @@ export default class SettingButton extends Phaser.GameObjects.Container {
     height,
     text,
     fontSize,
-    fontFamily = "Arial"
+    fontFamily = "Arial",
+    fillColor = 0xffffff,
+    textColor = "#333333"
   ) {
     super(scene, x, y);
 
@@ -19,7 +21,7 @@ export default class SettingButton extends Phaser.GameObjects.Container {
     this.buttonText = scene.add
       .text(width / 2, height / 2, text, {
         fontSize,
-        color: "#333333",
+        color: textColor,
         fontFamily,
       })
       .setOrigin(0.5);
@@ -27,7 +29,7 @@ export default class SettingButton extends Phaser.GameObjects.Container {
     this.buttonGraphic = scene.add
       .graphics()
       .lineStyle(2, 0x645246)
-      .fillStyle(0xffffff, 1)
+      .fillStyle(fillColor, 1)
       .fillRoundedRect(0, 0, width, height, Math.ceil(height / 2))
       .strokePath()
       .setInteractive(

@@ -1,6 +1,13 @@
 import SoundButton from "./sound_button.js";
 import SettingButton from "./setting_button.js";
 
+// ToDo: スコアがランクインしたらランキングボタンを表示する
+
+// const getRanking = async () => {
+//   const response = await fetch("http://13.231.182.101/ranked?seconds=50");
+//   return response.json();
+// };
+
 export default class GameResult extends Phaser.Scene {
   constructor() {
     super({ key: "game_result", active: false });
@@ -125,6 +132,34 @@ export default class GameResult extends Phaser.Scene {
       this
     );
 
+    // ランキング登録ボタン
+    const rankingButton = new SettingButton(
+      this,
+      697,
+      660,
+      265,
+      72,
+      "ランキング登録",
+      24,
+      this.fontFamily,
+      0x32b65e,
+      "#ffffff"
+    );
+    rankingButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        // this.scene.start("hitsuji_game", {
+        //   mode: this.mode,
+        //   sizeX: this.sizeX,
+        //   sizeY: this.sizeY,
+        //   schoolYear: this.schoolYear,
+        // });
+        this.rankingModal();
+      },
+      this
+    );
+    rankingButton.depth = 3;
+
     if (this.mode === "timeLimit" && this.timer === 60) {
       // ゲームオーバー
       backTopButton.setY(136);
@@ -142,6 +177,20 @@ export default class GameResult extends Phaser.Scene {
           gameResultFontStyle
         )
         .setOrigin(0.5, 0);
+
+      // ランクイン時に表示する
+      this.add
+        .text(
+          this.game.canvas.width / 1.24,
+          630,
+          `\\ TOP 100位にランクイン /`,
+          {
+            color: "#ffffff",
+            fontFamily: "SemiBold",
+            fontSize: "14px",
+          }
+        )
+        .setOrigin(0.5, 0).depth = 2;
 
       this.displayResultDetails();
       this.displayGameClearGraphics();
@@ -327,5 +376,16 @@ export default class GameResult extends Phaser.Scene {
       fontSize: 26,
     });
     this.add.container(220, 310, [fukidashiImage, text1, text2]);
+  }
+
+  rankingModal() {
+    const rankingBg = this.add.graphics();
+    rankingBg
+      .fillStyle(0x333333, 0.5)
+      .fillRect(0, 0, 1024, 768)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(0, 0, 1024, 768),
+        Phaser.Geom.Rectangle.Contains
+      ).depth = 2;
   }
 }
