@@ -6,6 +6,8 @@ import OpenLogo from "./open_logo.js";
 import HowToPlay from "./how_to_play.js";
 import PauseMenu from "./pause_menu.js";
 
+const gameElement = document.getElementById("game");
+
 const config = {
   type: Phaser.AUTO,
   width: 1024,
@@ -17,6 +19,10 @@ const config = {
       width: 1024,
       height: 768,
     },
+  },
+  parent: gameElement,
+  dom: {
+    createContainer: true,
   },
 };
 
