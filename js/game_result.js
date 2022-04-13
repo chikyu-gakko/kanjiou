@@ -3,10 +3,10 @@ import SettingButton from "./setting_button.js";
 
 // ToDo: スコアがランクインしたらランキングボタンを表示する
 
-// const getRanking = async () => {
-//   const response = await fetch("http://13.231.182.101/ranked?seconds=50");
-//   return response.json();
-// };
+const getRanking = async (time) => {
+  const response = await fetch(`http://13.231.182.101/ranked?seconds=${time}`);
+  return response.json();
+};
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
@@ -380,12 +380,39 @@ export default class GameResult extends Phaser.Scene {
 
   rankingModal() {
     const rankingBg = this.add.graphics();
-    rankingBg
-      .fillStyle(0x333333, 0.5)
-      .fillRect(0, 0, 1024, 768)
-      .setInteractive(
-        new Phaser.Geom.Rectangle(0, 0, 1024, 768),
-        Phaser.Geom.Rectangle.Contains
-      ).depth = 2;
+    rankingBg.fillStyle(0x333333, 0.5).fillRect(0, 0, 1024, 768)
+    .setInteractive(
+      new Phaser.Geom.Rectangle(0, 0, 1024, 768),
+      Phaser.Geom.Rectangle.Contains
+    )
+    .depth = 3;
+    const rankingMenuBox = this.add.graphics();
+    rankingMenuBox
+      .fillStyle(0xffffff, 1)
+      .fillRoundedRect(312, 234, 400, 300, 10).depth = 4;
+    this.add.text(422, 310, "あなたの順位　　　位", {
+      fontFamily: this.fontFamily,
+      fontSize: "20px",
+      color: "#333333",
+    }).setDepth(5);
+  
+    const crossButton = this.add.text(685, 246, "✖", {
+      fontSize: "32px",
+      fill: "#333333",
+    });
+    crossButton.setInteractive().on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_result");
+      },
+      this
+    ).depth = 6;
+    getRanking(this.timer).then((data) => {
+      this.add.text(555, 305, data.rank, {
+        fontFamily: this.fontFamily,
+        fontSize: "30px",
+        color: "#333333",
+      }).depth=5;
+    });
   }
 }
