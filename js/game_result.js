@@ -16,13 +16,17 @@ const form = `
       #input-form input {
         padding: 10px;
         font-size: 20px;
-        width: 200px;
+        width: 300px;
+        height: 50px;
+        border: 1px solid #ccc;
+        text-align: center;
+        background: #eee;
       }
     </style>
   </head>
   <body>
     <div id="input-form">
-      <input type="text" name="name" placeholder="Full Name" />
+      <input type="text" name="name" placeholder="ここに名前を入力してね" />
     </div>
   </body>
 </html>
@@ -411,13 +415,45 @@ export default class GameResult extends Phaser.Scene {
     rankingMenuBox
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(312, 234, 400, 300, 10).depth = 4;
-    this.add
+    const rankedText = this.add
       .text(422, 310, "あなたの順位　　　位", {
         fontFamily: this.fontFamily,
         fontSize: "20px",
         color: "#333333",
       })
       .setDepth(5);
+      
+    const nameForm = this.add.dom(510, 400).createFromHTML(form);
+
+    // スコア送信ボタン
+    const submitButton = new SettingButton(
+      this,
+      380,
+      450,
+      265,
+      72,
+      "登録する",
+      24,
+      this.fontFamily,
+      0x32b65e,
+      "#ffffff"
+    );
+    submitButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        // submitScore()
+        rankedText.destroy();
+        nameForm.destroy();
+        submitButton.destroy();
+        this.add.text(470, 390, "登録完了", {
+          fontFamily: this.fontFamily,
+          fontSize: "20px",
+          color: "#333333",
+        }).depth = 5;
+      },
+      this
+    );
+    submitButton.depth = 6;
 
     const crossButton = this.add.text(685, 246, "✖", {
       fontSize: "32px",
@@ -430,7 +466,6 @@ export default class GameResult extends Phaser.Scene {
       },
       this
     ).depth = 6;
-    this.add.dom(510, 400).createFromHTML(form);
 
     getRanking(this.timer).then((data) => {
       this.add.text(555, 305, data.rank, {
