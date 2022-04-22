@@ -8,6 +8,20 @@ const getRanking = async (time) => {
   return response.json();
 };
 
+const putRanking = async (time, name) => {
+  const response = await fetch(`http://13.231.182.101/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      seconds: time,
+    }),
+  });
+  return response.json();
+};
+
 const form = `
 <!DOCTYPE html>
 <html>
@@ -25,16 +39,16 @@ const form = `
     </style>
   </head>
   <body>
-    <div id="input-form">
+    <form id="input-form">
       <input type="text" name="name" placeholder="ここに名前を入力してね" />
-    </div>
+    </form>
   </body>
 </html>
 `;
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "game_result", active: true });
+    super({ key: "game_result", active: false });
   }
 
   preload() {
@@ -422,7 +436,7 @@ export default class GameResult extends Phaser.Scene {
         color: "#333333",
       })
       .setDepth(5);
-      
+
     const nameForm = this.add.dom(510, 400).createFromHTML(form);
 
     // スコア送信ボタン
@@ -443,9 +457,20 @@ export default class GameResult extends Phaser.Scene {
       () => {
         // submitScore()
         rankedText.destroy();
-        nameForm.destroy();
+        // nameForm.destroy();
         submitButton.destroy();
-        this.add.text(470, 390, "登録完了", {
+        // const name = document.getElementsByTagName("input")[0];
+        // console.log(name.value);
+        const name = nameForm.getChildByName("name");
+        let text = "ゲスト";
+        if (name.value !== "") {
+          text = name.value;
+        }
+        let status = "登録が完了しました";
+        putRanking(this.timer, text).catch(() => {
+          status = "登録に失敗しました";
+        });
+        this.add.text(470, 500, status, {
           fontFamily: this.fontFamily,
           fontSize: "20px",
           color: "#333333",
