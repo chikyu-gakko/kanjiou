@@ -6,8 +6,12 @@ import SettingButton from "./setting_button.js";
 const API_URL = "http://13.231.182.101";
 
 const getRank = async (time) => {
-  const response = await fetch(`${API_URL}/ranked?seconds=${time}`);
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/ranked?seconds=${time}`);
+    return response.json();
+  } catch (error) {
+    return error;
+  }
 };
 
 const getRanks = async () => {
@@ -16,17 +20,21 @@ const getRanks = async () => {
 };
 
 const putRanking = async (time, name) => {
-  const response = await fetch(`${API_URL}/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name,
-      seconds: time,
-    }),
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        seconds: time,
+      }),
+    });
+    return response.json();
+  } catch (error) {
+    return error;
+  }
 };
 
 const form = `
@@ -497,26 +505,34 @@ export default class GameResult extends Phaser.Scene {
     submitButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        // submitScore()
-        rankedText.destroy();
-        // nameForm.destroy();
-        submitButton.destroy();
-        // const name = document.getElementsByTagName("input")[0];
-        // console.log(name.value);
         const name = nameForm.getChildByName("name");
         let text = "ゲスト";
         if (name.value !== "") {
           text = name.value;
         }
-        let status = "登録が完了しました";
-        putRanking(this.timer, text).catch(() => {
-          status = "登録に失敗しました";
-        });
-        this.add.text(470, 500, status, {
-          fontFamily: this.fontFamily,
-          fontSize: "20px",
-          color: "#333333",
-        }).depth = 5;
+        putRanking(this.timer, text)
+          .then(() => {
+            const status = "登録に成功しました";
+            this.add.text(430, 400, status, {
+              fontFamily: this.fontFamily,
+              fontSize: "20px",
+              color: "#333333",
+            }).depth = 5;
+            rankedText.destroy();
+            nameForm.destroy();
+            submitButton.destroy();
+          })
+          .catch(() => {
+            const status = "登録に失敗しました";
+            this.add.text(430, 400, status, {
+              fontFamily: this.fontFamily,
+              fontSize: "20px",
+              color: "#333333",
+            }).depth = 5;
+            rankedText.destroy();
+            nameForm.destroy();
+            submitButton.destroy();
+          });
       },
       this
     );
@@ -534,12 +550,20 @@ export default class GameResult extends Phaser.Scene {
       this
     ).depth = 6;
 
-    getRank(this.timer).then((data) => {
-      this.add.text(555, 305, data.rank, {
-        fontFamily: this.fontFamily,
-        fontSize: "30px",
-        color: "#333333",
-      }).depth = 5;
-    });
+    getRank(this.timer)
+      .then((data) => {
+        this.add.text(555, 305, data.rank, {
+          fontFamily: this.fontFamily,
+          fontSize: "30px",
+          color: "#333333",
+        }).depth = 5;
+      })
+      .catch(() => {
+        this.add.text(560, 305, "?", {
+          fontFamily: this.fontFamily,
+          fontSize: "30px",
+          color: "#333333",
+        }).depth = 5;
+      });
   }
 }
