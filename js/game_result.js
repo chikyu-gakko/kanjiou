@@ -3,18 +3,20 @@ import SettingButton from "./setting_button.js";
 
 // ToDo: ランキングを取得して表示する
 
+const API_URL = "http://13.231.182.101";
+
 const getRank = async (time) => {
-  const response = await fetch(`http://13.231.182.101/ranked?seconds=${time}`);
+  const response = await fetch(`${API_URL}/ranked?seconds=${time}`);
   return response.json();
 };
 
 const getRanks = async () => {
-  const response = await fetch(`http://13.231.182.101/ranks`);
+  const response = await fetch(`${API_URL}/ranks`);
   return response.json();
 };
 
 const putRanking = async (time, name) => {
-  const response = await fetch(`http://13.231.182.101/register`, {
+  const response = await fetch(`${API_URL}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -232,12 +234,6 @@ export default class GameResult extends Phaser.Scene {
     rankingButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        // this.scene.start("hitsuji_game", {
-        //   mode: this.mode,
-        //   sizeX: this.sizeX,
-        //   sizeY: this.sizeY,
-        //   schoolYear: this.schoolYear,
-        // });
         this.rankingModal();
       },
       this
