@@ -103,7 +103,7 @@ const generateTable = () => {
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "game_result", active: false });
+    super({ key: "game_result", active: true });
   }
 
   preload() {
@@ -158,6 +158,8 @@ export default class GameResult extends Phaser.Scene {
       stroke: "#DFD1B5",
       strokeThickness: 4,
     };
+
+    generateTable();
 
     const backTopButton = new SettingButton(
       this,
@@ -466,7 +468,6 @@ export default class GameResult extends Phaser.Scene {
   }
 
   rankingModal() {
-    generateTable();
     const rankingBg = this.add.graphics();
     rankingBg
       .fillStyle(0x333333, 0.5)

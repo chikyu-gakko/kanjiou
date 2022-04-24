@@ -15,13 +15,19 @@
           padding: 0;
       }
       table {
-          border-collapse: collapse;
-          border: 1px solid #000;
-          width: 100%;
-          text-align: center;
-          width: 1024px;
-          height: 768px;
-          margin: 0 auto;
+        border: 1px solid #000;
+        border-collapse: collapse;
+        width: 100%;
+        text-align: center;
+        width: 1024px;
+        height: 768px;
+        margin: 0 auto;
+      }
+      table th, table td {
+        height: 80px;
+        border: 1px solid #000;
+        border-right: none;
+        border-left: none;
       }
     </style> 
     <script type="text/javascript">
@@ -44,7 +50,9 @@
       gtag('config', 'G-68PVBL7TST');
     </script>
     <div id="game", style="font-family: 'UD デジタル 教科書体 NP-R', 'KleeOne';"></div>
-    <table></table>
+    <div id="dashboard">
+      <table></table>
+    </div>
     <script type= "module" src="js/index.js"></script> 
     <script type= "module" src="js/game_menu.js"></script> 
     <script type= "module" src="js/game_setting.js"></script> 
