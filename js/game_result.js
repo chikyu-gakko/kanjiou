@@ -1,10 +1,15 @@
 import SoundButton from "./sound_button.js";
 import SettingButton from "./setting_button.js";
 
-// ToDo: スコアをランキングに登録する
+// ToDo: ランキングを取得して表示する
 
-const getRanking = async (time) => {
+const getRank = async (time) => {
   const response = await fetch(`http://13.231.182.101/ranked?seconds=${time}`);
+  return response.json();
+};
+
+const getRanks = async () => {
+  const response = await fetch(`http://13.231.182.101/ranks`);
   return response.json();
 };
 
@@ -46,9 +51,50 @@ const form = `
 </html>
 `;
 
+const generateTable = () => {
+  getRanks().then((data) => {
+    const body = document.getElementsByTagName("body")[0];
+    const table = document.createElement("table");
+    const tbody = document.createElement("tbody");
+    for (let i = 0; i < data.length; i += 1) {
+      const tr = document.createElement("tr");
+      if (i === 0) {
+        const th = document.createElement("th");
+        th.innerText = "順位";
+        tr.appendChild(th);
+        const th1 = document.createElement("th");
+        th1.innerText = "名前";
+        tr.appendChild(th1);
+        const th2 = document.createElement("th");
+        th2.innerText = "時間";
+        tr.appendChild(th2);
+        const th3 = document.createElement("th");
+        th3.innerText = "日付";
+        tr.appendChild(th3);
+      } else {
+        const td = document.createElement("td");
+        td.innerText = i;
+        tr.appendChild(td);
+        const td1 = document.createElement("td");
+        td1.innerText = data[i].name;
+        tr.appendChild(td1);
+        const td2 = document.createElement("td");
+        td2.innerText = data[i].seconds;
+        tr.appendChild(td2);
+        const td3 = document.createElement("td");
+        td3.innerText = data[i].created_at;
+        tr.appendChild(td3);
+      }
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    body.appendChild(table);
+  });
+};
+
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "game_result", active: false });
+    super({ key: "game_result", active: true });
   }
 
   preload() {
@@ -417,6 +463,7 @@ export default class GameResult extends Phaser.Scene {
   }
 
   rankingModal() {
+    generateTable();
     const rankingBg = this.add.graphics();
     rankingBg
       .fillStyle(0x333333, 0.5)
@@ -492,7 +539,7 @@ export default class GameResult extends Phaser.Scene {
       this
     ).depth = 6;
 
-    getRanking(this.timer).then((data) => {
+    getRank(this.timer).then((data) => {
       this.add.text(555, 305, data.rank, {
         fontFamily: this.fontFamily,
         fontSize: "30px",
