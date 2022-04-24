@@ -103,7 +103,7 @@ const generateTable = () => {
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "game_result", active: true });
+    super({ key: "game_result", active: false });
   }
 
   preload() {
@@ -550,7 +550,7 @@ export default class GameResult extends Phaser.Scene {
       this
     ).depth = 6;
 
-    getRank(this.timer)
+    getRank(60 - this.timer)
       .then((data) => {
         this.add.text(555, 305, data.rank, {
           fontFamily: this.fontFamily,
