@@ -55,8 +55,8 @@ const form = `
 
 const generateTable = () => {
   getRanks().then((data) => {
-    const body = document.getElementsByTagName("body")[0];
-    const table = document.createElement("table");
+    const table = document.getElementsByTagName("table")[0];
+    table.innerHTML = "";
     const tbody = document.createElement("tbody");
     for (let i = 0; i < data.length; i += 1) {
       const tr = document.createElement("tr");
@@ -90,7 +90,6 @@ const generateTable = () => {
       tbody.appendChild(tr);
     }
     table.appendChild(tbody);
-    body.appendChild(table);
   });
 };
 
