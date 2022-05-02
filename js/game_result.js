@@ -69,6 +69,7 @@ const generateTable = () => {
     for (let i = 0; i < data.length; i += 1) {
       const tr = document.createElement("tr");
       if (i === 0) {
+        tr.classList.add("bar");
         const th = document.createElement("th");
         th.innerText = "順位";
         tr.appendChild(th);
@@ -82,6 +83,7 @@ const generateTable = () => {
         th3.innerText = "日付";
         tr.appendChild(th3);
       } else {
+        tr.classList.add("item");
         const td = document.createElement("td");
         td.innerText = i;
         tr.appendChild(td);
@@ -92,7 +94,13 @@ const generateTable = () => {
         td2.innerText = data[i].seconds;
         tr.appendChild(td2);
         const td3 = document.createElement("td");
-        td3.innerText = data[i].created_at;
+        const formatDate = (date) => {
+          const yyyy = date.getFullYear();
+          const mm = ("00" + (date.getMonth() + 1)).slice(-2);
+          const dd = ("00" + date.getDate()).slice(-2);
+          return (`${yyyy}/${mm}/${dd}`);
+        }
+        td3.innerText = formatDate(new Date(data[i].created_at));
         tr.appendChild(td3);
       }
       tbody.appendChild(tr);
