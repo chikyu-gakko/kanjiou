@@ -96,8 +96,8 @@ const generateTable = () => {
         const td3 = document.createElement("td");
         const formatDate = (date) => {
           const yyyy = date.getFullYear();
-          const mm = ("00" + (date.getMonth() + 1)).slice(-2);
-          const dd = ("00" + date.getDate()).slice(-2);
+          const mm = (`00${  date.getMonth() + 1}`).slice(-2);
+          const dd = (`00${  date.getDate()}`).slice(-2);
           return (`${yyyy}/${mm}/${dd}`);
         }
         td3.innerText = formatDate(new Date(data[i].created_at));
