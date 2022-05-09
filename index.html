@@ -38,8 +38,28 @@
     }
 
     .bar {
+      background-color: #fff;
       text-align: center;
+      border-bottom: 1.1px inset #333333;
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
     }
+
+
+    #left-fonts {
+      height: 100px;
+      flex-flow: column;
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      
+    }
+
+    #left-fonts div:nth-child(1) {
+      color: #32B65E;
+    }
+
 
 
     .item td:first-child {
@@ -61,12 +81,12 @@
 
 
     #dashboard {
-      margin: 0 auto;
+      margin: 40px auto;
       width: 1024px;
       height: 384px;
       display: flex;
       flex-direction: row;
-      border: 1px solid #ECECEC;
+      border: 0.5px solid #ECECEC;
     }
 
     #dashboard .left {
@@ -75,7 +95,8 @@
       justify-content: center;
       align-items: center;
       width: 256px;
-      border-right: 1px solid #ECECEC;
+      /* border-right: 1px solid #ECECEC; */
+      border-right: 1px inset #333333;
       background-color: #fff;
     }
 
@@ -108,7 +129,8 @@
   <div id="game" , style="font-family: 'UD デジタル 教科書体 NP-R', 'KleeOne'"></div>
   <div id="dashboard">
     <div class="left">
-      <div id="yokoyoko">
+      <div id="left-fonts">
+
         <div>制限時間</div>
         <div>タイムアタック</div>
       </div>
