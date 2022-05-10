@@ -37,30 +37,6 @@ const putRanking = async (time, name) => {
   }
 };
 
-const form = `
-<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-      #input-form input {
-        padding: 10px;
-        font-size: 20px;
-        width: 300px;
-        height: 50px;
-        border: 1px solid #ccc;
-        text-align: center;
-        background: #eee;
-      }
-    </style>
-  </head>
-  <body>
-    <form id="input-form">
-      <input type="text" name="name" placeholder="ここに名前を入力してね" />
-    </form>
-  </body>
-</html>
-`;
-
 const generateTable = () => {
   getRanks().then((data) => {
     const table = document.getElementsByTagName("table")[0];
@@ -96,10 +72,10 @@ const generateTable = () => {
         const td3 = document.createElement("td");
         const formatDate = (date) => {
           const yyyy = date.getFullYear();
-          const mm = (`00${  date.getMonth() + 1}`).slice(-2);
-          const dd = (`00${  date.getDate()}`).slice(-2);
-          return (`${yyyy}/${mm}/${dd}`);
-        }
+          const mm = `00${date.getMonth() + 1}`.slice(-2);
+          const dd = `00${date.getDate()}`.slice(-2);
+          return `${yyyy}/${mm}/${dd}`;
+        };
         td3.innerText = formatDate(new Date(data[i].created_at));
         tr.appendChild(td3);
       }
@@ -128,6 +104,7 @@ export default class GameResult extends Phaser.Scene {
     // bgm
     this.load.audio("ending", "audio/ending.mp3");
 
+    this.load.html("nameForm", "../html/form.html");
     // 花火GIF
     for (let i = 1; i <= 6; i += 1)
       this.load.image(`fire${i}`, `assets/animation/fireFlower/fire${i}.png`);
@@ -496,7 +473,7 @@ export default class GameResult extends Phaser.Scene {
       })
       .setDepth(5);
 
-    const nameForm = this.add.dom(510, 400).createFromHTML(form);
+    const nameForm = this.add.dom(510, 400).createFromCache("nameForm");
 
     // スコア送信ボタン
     const submitButton = new SettingButton(
