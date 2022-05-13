@@ -1,6 +1,7 @@
 import GameMenu from "./game_menu.js";
 import GameSetting from "./game_setting.js";
 import HitsujiGame from "./hitsuji_game.js";
+import HitsujiRanking from "./hitsuji_ranking.js";
 import GameResult from "./game_result.js";
 import OpenLogo from "./open_logo.js";
 import HowToPlay from "./how_to_play.js";
@@ -33,6 +34,7 @@ game.scene.add("game_menu", GameMenu);
 game.scene.add("logo", OpenLogo);
 game.scene.add("game_setting", GameSetting);
 game.scene.add("hitsuji_game", HitsujiGame);
+game.scene.add("hitsuji_ranking", HitsujiRanking);
 game.scene.add("game_result", GameResult);
 game.scene.add("how_to_play", HowToPlay);
 game.scene.add("pause_menu", PauseMenu);
