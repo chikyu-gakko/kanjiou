@@ -1,4 +1,4 @@
-import SettingButton from "./setting_button.js";
+import BackButton from "./back_button.js";
 
 const API_URL = "http://13.231.182.101";
 
@@ -99,15 +99,15 @@ export default class HitsujiRanking extends Phaser.Scene {
       }
       table.appendChild(tbody);
     });
-    const backButton = new SettingButton(
+    const backButton = new BackButton(
       this,
-      377,
-      623,
-      265,
-      72,
-      "戻る",
+      100,
+      100,
+      100,
+      100,
+      "⇦ 戻る",
       24,
-      this.fontFamily
+      this.fontFamily,
     );
     backButton.setDepth(2);
   }
