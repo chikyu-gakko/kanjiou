@@ -87,7 +87,7 @@ const generateTable = () => {
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "game_result", active: true });
+    super({ key: "game_result", active: false });
   }
 
   preload() {
@@ -233,6 +233,24 @@ export default class GameResult extends Phaser.Scene {
       this
     );
     rankingButton.depth = 3;
+
+    const rankingPageButton = new SettingButton(
+      this,
+      697,
+      470,
+      265,
+      72,
+      "ランキング",
+      24,
+      this.fontFamily
+    );
+    rankingPageButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.scene.start("hitsuji_ranking");
+      },
+      this
+    ).depth = 8;
 
     if (this.mode === "timeLimit" && this.timer === 60) {
       // ゲームオーバー
