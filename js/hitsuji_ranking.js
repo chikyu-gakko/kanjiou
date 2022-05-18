@@ -13,7 +13,24 @@ const getRank = async (time) => {
 
 const getRanks = async () => {
   const response = await fetch(`${API_URL}/ranks`);
-  return response.json();
+  const data = await response.json();
+  const ranks = [];
+  let rank = 0;
+  let seconds = -1;
+  for (let i = 0; i < data.length; i += 1) {
+
+    if (data[i].seconds !== seconds) {
+      rank += 1;
+      seconds = data[i].seconds;
+    }
+    ranks.push({
+      ...data[i],
+      'rank': rank,
+    });
+  }
+
+
+  return ranks;
 };
 
 const putRanking = async (time, name) => {
@@ -77,7 +94,7 @@ export default class HitsujiRanking extends Phaser.Scene {
         } else {
           tr.classList.add("item");
           const td = document.createElement("td");
-          td.innerText = i;
+          td.innerText = data[i].rank;
           tr.appendChild(td);
           const td1 = document.createElement("td");
           td1.innerText = data[i].name;
@@ -107,8 +124,15 @@ export default class HitsujiRanking extends Phaser.Scene {
       100,
       "⇦ 戻る",
       24,
-      this.fontFamily,
+      this.fontFamily
     );
     backButton.setDepth(2);
+    backButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_result");
+      },
+      this
+    );
   }
 }
