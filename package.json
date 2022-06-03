@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "npx http-server -p 5500",
     "fix": "npm run -s format && npm run -s lint:fix",
     "format": "prettier --write --loglevel=warn 'js/**/*.{js,jsx,ts,tsx,json}'",
     "lint": "eslint 'js/**/*.{js,jsx,ts,tsx}'",
