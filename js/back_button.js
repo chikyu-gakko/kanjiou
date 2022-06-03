@@ -1,4 +1,4 @@
-export default class SettingButton extends Phaser.GameObjects.Container {
+export default class BackButton extends Phaser.GameObjects.Container {
   constructor(
     scene,
     x,
@@ -30,7 +30,7 @@ export default class SettingButton extends Phaser.GameObjects.Container {
       .graphics()
       .lineStyle(2, 0x645246)
       .fillStyle(fillColor, 1)
-      .fillRoundedRect(0, 0, width, height, Math.ceil(height / 2))
+      .fillRoundedRect(0, 0, width, height, Math.ceil(height / 20))
       .strokePath()
       .setInteractive(
         new Phaser.Geom.Rectangle(0, 0, width, height),
@@ -42,52 +42,18 @@ export default class SettingButton extends Phaser.GameObjects.Container {
 
   changeSelected() {
     this.buttonText.setStyle({
-      color: "#ffffff",
+      color: "#b23131",
     });
     this.buttonGraphic
       .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
-      .fillRoundedRect(
-        0,
-        0,
-        this.width,
-        this.height,
-        Math.ceil(this.height / 2)
-      )
       .strokePath();
   }
 
   changeUnselected() {
-    this.buttonText.setStyle({
-      color: "#333333",
-    });
     this.buttonGraphic
       .lineStyle(2, 0x645246)
-      .fillStyle(0xffffff, 1)
-      .fillRoundedRect(
-        0,
-        0,
-        this.width,
-        this.height,
-        Math.ceil(this.height / 2)
-      )
-      .strokePath();
-  }
-
-  changeChallengeButton() {
-    this.buttonText.setStyle({
-      color: "#ffffff",
-    });
-    this.buttonGraphic
-      .lineStyle(2, 0xda999b)
       .fillStyle(0xb63237, 1)
-      .fillRoundedRect(
-        0,
-        0,
-        this.width,
-        this.height,
-        Math.ceil(this.height / 2)
-      )
       .strokePath();
   }
 }

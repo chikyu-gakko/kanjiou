@@ -1,6 +1,90 @@
 import SoundButton from "./sound_button.js";
 import SettingButton from "./setting_button.js";
 
+// ToDo: ランキングを取得して表示する
+
+const API_URL = "http://13.231.182.101";
+
+const getRank = async (time) => {
+  try {
+    const response = await fetch(`${API_URL}/ranked?seconds=${time}`);
+    return response.json();
+  } catch (error) {
+    return error;
+  }
+};
+
+const getRanks = async () => {
+  const response = await fetch(`${API_URL}/ranks`);
+  return response.json();
+};
+
+const putRanking = async (time, name) => {
+  try {
+    const response = await fetch(`${API_URL}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        seconds: time,
+      }),
+    });
+    return response.json();
+  } catch (error) {
+    return error;
+  }
+};
+
+const generateTable = () => {
+  getRanks().then((data) => {
+    const table = document.getElementsByTagName("table")[0];
+    table.innerHTML = "";
+    const tbody = document.createElement("tbody");
+    for (let i = 0; i < data.length; i += 1) {
+      const tr = document.createElement("tr");
+      if (i === 0) {
+        tr.classList.add("bar");
+        const th = document.createElement("th");
+        th.innerText = "順位";
+        tr.appendChild(th);
+        const th1 = document.createElement("th");
+        th1.innerText = "名前";
+        tr.appendChild(th1);
+        const th2 = document.createElement("th");
+        th2.innerText = "時間";
+        tr.appendChild(th2);
+        const th3 = document.createElement("th");
+        th3.innerText = "日付";
+        tr.appendChild(th3);
+      } else {
+        tr.classList.add("item");
+        const td = document.createElement("td");
+        td.innerText = i;
+        tr.appendChild(td);
+        const td1 = document.createElement("td");
+        td1.innerText = data[i].name;
+        tr.appendChild(td1);
+        const td2 = document.createElement("td");
+        td2.innerText = data[i].seconds;
+        tr.appendChild(td2);
+        const td3 = document.createElement("td");
+        const formatDate = (date) => {
+          const yyyy = date.getFullYear();
+          const mm = `00${date.getMonth() + 1}`.slice(-2);
+          const dd = `00${date.getDate()}`.slice(-2);
+          return `${yyyy}/${mm}/${dd}`;
+        };
+        td3.innerText = formatDate(new Date(data[i].created_at));
+        tr.appendChild(td3);
+      }
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+  });
+};
+
 export default class GameResult extends Phaser.Scene {
   constructor() {
     super({ key: "game_result", active: false });
@@ -20,6 +104,7 @@ export default class GameResult extends Phaser.Scene {
     // bgm
     this.load.audio("ending", "audio/ending.mp3");
 
+    this.load.html("nameForm", "../html/form.html");
     // 花火GIF
     for (let i = 1; i <= 6; i += 1)
       this.load.image(`fire${i}`, `assets/animation/fireFlower/fire${i}.png`);
@@ -58,6 +143,8 @@ export default class GameResult extends Phaser.Scene {
       stroke: "#DFD1B5",
       strokeThickness: 4,
     };
+
+    generateTable();
 
     const backTopButton = new SettingButton(
       this,
@@ -125,6 +212,46 @@ export default class GameResult extends Phaser.Scene {
       this
     );
 
+    // ランキング登録ボタン
+    const rankingButton = new SettingButton(
+      this,
+      697,
+      660,
+      265,
+      72,
+      "ランキング登録",
+      24,
+      this.fontFamily,
+      0x32b65e,
+      "#ffffff"
+    );
+    rankingButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.rankingModal();
+      },
+      this
+    );
+    rankingButton.depth = 3;
+
+    const rankingPageButton = new SettingButton(
+      this,
+      697,
+      470,
+      265,
+      72,
+      "ランキング",
+      24,
+      this.fontFamily
+    );
+    rankingPageButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.scene.start("hitsuji_ranking");
+      },
+      this
+    ).depth = 8;
+
     if (this.mode === "timeLimit" && this.timer === 60) {
       // ゲームオーバー
       backTopButton.setY(136);
@@ -142,6 +269,20 @@ export default class GameResult extends Phaser.Scene {
           gameResultFontStyle
         )
         .setOrigin(0.5, 0);
+
+      // ランクイン時に表示する
+      this.add
+        .text(
+          this.game.canvas.width / 1.24,
+          630,
+          `\\ TOP 100位にランクイン /`,
+          {
+            color: "#ffffff",
+            fontFamily: "SemiBold",
+            fontSize: "14px",
+          }
+        )
+        .setOrigin(0.5, 0).depth = 2;
 
       this.displayResultDetails();
       this.displayGameClearGraphics();
@@ -327,5 +468,106 @@ export default class GameResult extends Phaser.Scene {
       fontSize: 26,
     });
     this.add.container(220, 310, [fukidashiImage, text1, text2]);
+  }
+
+  rankingModal() {
+    const rankingBg = this.add.graphics();
+    rankingBg
+      .fillStyle(0x333333, 0.5)
+      .fillRect(0, 0, 1024, 768)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(0, 0, 1024, 768),
+        Phaser.Geom.Rectangle.Contains
+      ).depth = 3;
+    const rankingMenuBox = this.add.graphics();
+    rankingMenuBox
+      .fillStyle(0xffffff, 1)
+      .fillRoundedRect(312, 234, 400, 300, 10).depth = 4;
+    const rankedText = this.add
+      .text(422, 310, "あなたの順位　　　位", {
+        fontFamily: this.fontFamily,
+        fontSize: "20px",
+        color: "#333333",
+      })
+      .setDepth(5);
+
+    const nameForm = this.add.dom(510, 400).createFromCache("nameForm");
+
+    // スコア送信ボタン
+    const submitButton = new SettingButton(
+      this,
+      380,
+      450,
+      265,
+      72,
+      "登録する",
+      24,
+      this.fontFamily,
+      0x32b65e,
+      "#ffffff"
+    );
+    submitButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        const name = nameForm.getChildByName("name");
+        let text = "ゲスト";
+        if (name.value !== "") {
+          text = name.value;
+        }
+        putRanking(this.timer, text)
+          .then(() => {
+            const status = "登録に成功しました";
+            this.add.text(430, 400, status, {
+              fontFamily: this.fontFamily,
+              fontSize: "20px",
+              color: "#333333",
+            }).depth = 5;
+            rankedText.destroy();
+            nameForm.destroy();
+            submitButton.destroy();
+          })
+          .catch(() => {
+            const status = "登録に失敗しました";
+            this.add.text(430, 400, status, {
+              fontFamily: this.fontFamily,
+              fontSize: "20px",
+              color: "#333333",
+            }).depth = 5;
+            rankedText.destroy();
+            nameForm.destroy();
+            submitButton.destroy();
+          });
+      },
+      this
+    );
+    submitButton.depth = 6;
+
+    const crossButton = this.add.text(685, 246, "✖", {
+      fontSize: "32px",
+      fill: "#333333",
+    });
+    crossButton.setInteractive().on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_result");
+      },
+      this
+    ).depth = 6;
+
+    getRank(60 - this.timer)
+      .then((data) => {
+        this.add.text(555, 305, data.rank, {
+          fontFamily: this.fontFamily,
+          fontSize: "30px",
+          color: "#333333",
+        }).depth = 5;
+      })
+      .catch(() => {
+        this.add.text(560, 305, "?", {
+          fontFamily: this.fontFamily,
+          fontSize: "30px",
+          color: "#333333",
+        }).depth = 5;
+      });
   }
 }
