@@ -407,7 +407,33 @@ export default class GameResult extends Phaser.Scene {
     this.add.container(220, 310, [fukidashiImage, text1, text2]);
   }
 
-  rankingModal() {
+  async rankingModal() {
+    let rankText = this.add.text(560, 305, "?", {
+      fontFamily: this.fontFamily,
+      fontSize: "30px",
+      color: "#333333",
+    });
+    rankText.depth = 5;
+
+    try {
+      rankText.destroy();
+      const rankData = await getRank(60 - this.timer);
+      rankText = this.add.text(555, 305, rankData.rank, {
+        fontFamily: this.fontFamily,
+        fontSize: "30px",
+        color: "#333333",
+      });
+      rankText.depth = 5;
+    } catch (e) {
+      // rankText.destroy();
+      // rankText = this.add.text(560, 305, e.message, {
+      //   fontFamily: this.fontFamily,
+      //   fontSize: "30px",
+      //   color: "#333333",
+      // });
+      // rankText.depth = 5;
+    }
+
     const rankingBg = this.add.graphics();
     rankingBg
       .fillStyle(0x333333, 0.5)
@@ -416,11 +442,13 @@ export default class GameResult extends Phaser.Scene {
         new Phaser.Geom.Rectangle(0, 0, 1024, 768),
         Phaser.Geom.Rectangle.Contains
       ).depth = 3;
+
     const rankingMenuBox = this.add.graphics();
     rankingMenuBox
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(312, 234, 400, 300, 10).depth = 4;
-    const rankedText = this.add
+
+    const rankMessageText = this.add
       .text(422, 310, "あなたの順位　　　位", {
         fontFamily: this.fontFamily,
         fontSize: "20px",
@@ -459,7 +487,8 @@ export default class GameResult extends Phaser.Scene {
               fontSize: "20px",
               color: "#333333",
             }).depth = 5;
-            rankedText.destroy();
+            rankText.destroy();
+            rankMessageText.destroy();
             nameForm.destroy();
             submitButton.destroy();
           })
@@ -471,7 +500,8 @@ export default class GameResult extends Phaser.Scene {
               fontSize: "20px",
               color: "#333333",
             }).depth = 5;
-            rankedText.destroy();
+            rankText.destroy();
+            rankMessageText.destroy();
             nameForm.destroy();
             submitButton.destroy();
           });
@@ -491,21 +521,5 @@ export default class GameResult extends Phaser.Scene {
       },
       this
     ).depth = 6;
-
-    getRank(60 - this.timer)
-      .then((data) => {
-        this.add.text(555, 305, data.rank, {
-          fontFamily: this.fontFamily,
-          fontSize: "30px",
-          color: "#333333",
-        }).depth = 5;
-      })
-      .catch(() => {
-        this.add.text(560, 305, "?", {
-          fontFamily: this.fontFamily,
-          fontSize: "30px",
-          color: "#333333",
-        }).depth = 5;
-      });
   }
 }
