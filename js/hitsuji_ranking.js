@@ -12,7 +12,7 @@ const getRank = async (time) => {
 };
 
 const getRanks = async () => {
-  const response = await fetch(`${API_URL}/ranks`);
+  const response = await fetch(`${API_URL}/api/time_limits`);
   const data = await response.json();
   const ranks = [];
   let rank = 0;
@@ -77,41 +77,25 @@ export default class HitsujiRanking extends Phaser.Scene {
       const tbody = document.createElement("tbody");
       for (let i = 0; i < data.length; i += 1) {
         const tr = document.createElement("tr");
-        if (i === 0) {
-          tr.classList.add("bar");
-          const th = document.createElement("th");
-          th.innerText = "順位";
-          tr.appendChild(th);
-          const th1 = document.createElement("th");
-          th1.innerText = "名前";
-          tr.appendChild(th1);
-          const th2 = document.createElement("th");
-          th2.innerText = "時間";
-          tr.appendChild(th2);
-          const th3 = document.createElement("th");
-          th3.innerText = "日付";
-          tr.appendChild(th3);
-        } else {
-          tr.classList.add("item");
-          const td = document.createElement("td");
-          td.innerText = data[i].rank;
-          tr.appendChild(td);
-          const td1 = document.createElement("td");
-          td1.innerText = data[i].name;
-          tr.appendChild(td1);
-          const td2 = document.createElement("td");
-          td2.innerText = data[i].seconds;
-          tr.appendChild(td2);
-          const td3 = document.createElement("td");
-          const formatDate = (date) => {
-            const yyyy = date.getFullYear();
-            const mm = `00${date.getMonth() + 1}`.slice(-2);
-            const dd = `00${date.getDate()}`.slice(-2);
-            return `${yyyy}/${mm}/${dd}`;
-          };
-          td3.innerText = formatDate(new Date(data[i].created_at));
-          tr.appendChild(td3);
-        }
+        tr.classList.add("item");
+        const td = document.createElement("td");
+        td.innerText = data[i].rank;
+        tr.appendChild(td);
+        const td1 = document.createElement("td");
+        td1.innerText = data[i].name;
+        tr.appendChild(td1);
+        const td2 = document.createElement("td");
+        td2.innerText = data[i].seconds;
+        tr.appendChild(td2);
+        const td3 = document.createElement("td");
+        const formatDate = (date) => {
+          const yyyy = date.getFullYear();
+          const mm = `00${date.getMonth() + 1}`.slice(-2);
+          const dd = `00${date.getDate()}`.slice(-2);
+          return `${yyyy}/${mm}/${dd}`;
+        td3.innerText = formatDate(new Date(data[i].created_at));
+        tr.appendChild(td3);
+      }
         tbody.appendChild(tr);
       }
       table.appendChild(tbody);
