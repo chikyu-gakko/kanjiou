@@ -22,24 +22,6 @@ const getRanks = async () => {
   return ranks;
 };
 
-const putRanking = async (time, name) => {
-  try {
-    const response = await fetch(`${API_URL}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        seconds: time,
-      }),
-    });
-    return response.json();
-  } catch (error) {
-    return error;
-  }
-};
-
 export default class HitsujiRanking extends Phaser.Scene {
   constructor() {
     super({ key: "hitsuji_ranking", active: true });
