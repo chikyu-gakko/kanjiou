@@ -149,27 +149,46 @@ export default class GameResult extends Phaser.Scene {
       this
     );
 
-    // ランキング登録ボタン
-    const rankingButton = new SettingButton(
-      this,
-      697,
-      660,
-      265,
-      72,
-      "ランキング登録",
-      24,
-      this.fontFamily,
-      0x32b65e,
-      "#ffffff"
-    );
-    rankingButton.buttonGraphic.on(
-      "pointerdown",
-      () => {
-        this.rankingModal();
-      },
-      this
-    );
-    rankingButton.depth = 3;
+    (async () => {
+      const rankData = await getRank(60 - this.timer);
+      if (rankData.rank <= 100) {
+        // ランキング登録ボタン
+        const rankingButton = new SettingButton(
+          this,
+          697,
+          660,
+          265,
+          72,
+          "ランキング登録",
+          24,
+          this.fontFamily,
+          0x32b65e,
+          "#ffffff"
+        );
+        rankingButton.buttonGraphic.on(
+          "pointerdown",
+          () => {
+            this.rankingModal(rankData.rank);
+          },
+          this
+        );
+        rankingButton.depth = 3;
+
+        // ランクイン時に表示する
+        this.add
+          .text(
+            this.game.canvas.width / 1.24,
+            630,
+            `\\ TOP 100位にランクイン /`,
+            {
+              color: "#ffffff",
+              fontFamily: "SemiBold",
+              fontSize: "14px",
+            }
+          )
+          .setOrigin(0.5, 0).depth = 2;
+      }
+    })();
 
     const rankingPageButton = new SettingButton(
       this,
@@ -206,20 +225,6 @@ export default class GameResult extends Phaser.Scene {
           gameResultFontStyle
         )
         .setOrigin(0.5, 0);
-
-      // ランクイン時に表示する
-      this.add
-        .text(
-          this.game.canvas.width / 1.24,
-          630,
-          `\\ TOP 100位にランクイン /`,
-          {
-            color: "#ffffff",
-            fontFamily: "SemiBold",
-            fontSize: "14px",
-          }
-        )
-        .setOrigin(0.5, 0).depth = 2;
 
       this.displayResultDetails();
       this.displayGameClearGraphics();
@@ -407,7 +412,7 @@ export default class GameResult extends Phaser.Scene {
     this.add.container(220, 310, [fukidashiImage, text1, text2]);
   }
 
-  async rankingModal() {
+  async rankingModal(rank) {
     let rankText = this.add.text(560, 305, "?", {
       fontFamily: this.fontFamily,
       fontSize: "30px",
@@ -417,8 +422,7 @@ export default class GameResult extends Phaser.Scene {
 
     try {
       rankText.destroy();
-      const rankData = await getRank(60 - this.timer);
-      rankText = this.add.text(555, 305, rankData.rank, {
+      rankText = this.add.text(555, 305, rank, {
         fontFamily: this.fontFamily,
         fontSize: "30px",
         color: "#333333",
