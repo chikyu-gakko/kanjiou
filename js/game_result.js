@@ -15,23 +15,14 @@ const getRank = async (time) => {
 };
 
 const putRanking = async (time, name) => {
-  try {
-    const response = await fetch(`${API_URL}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        seconds: time,
-      }),
-    });
-    return response.json();
-  } catch (error) {
-    return error;
-  }
+  const fd = new FormData();
+  fd.append("name", name);
+  fd.append("seconds", 60 - time);
+  await fetch(`${API_URL}/api/time_limits`, {
+    method: "POST",
+    body: fd,
+  });
 };
-
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
@@ -472,8 +463,9 @@ export default class GameResult extends Phaser.Scene {
             nameForm.destroy();
             submitButton.destroy();
           })
-          .catch(() => {
+          .catch((e) => {
             const status = "登録に失敗しました";
+            // const status = e.message; // debug
             this.add.text(430, 400, status, {
               fontFamily: this.fontFamily,
               fontSize: "20px",
