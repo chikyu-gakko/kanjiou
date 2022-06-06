@@ -2,15 +2,6 @@ import BackButton from "./back_button.js";
 
 const API_URL = "http://13.231.182.101";
 
-const getRank = async (time) => {
-  try {
-    const response = await fetch(`${API_URL}/ranked?seconds=${time}`);
-    return response.json();
-  } catch (error) {
-    return error;
-  }
-};
-
 const getRanks = async () => {
   const response = await fetch(`${API_URL}/api/time_limits`);
   const data = await response.json();
@@ -18,9 +9,8 @@ const getRanks = async () => {
   let rank = 0;
   let seconds = -1;
   for (let i = 0; i < data.length; i += 1) {
-
     if (data[i].seconds !== seconds) {
-      rank += 1;
+      rank = i + 1;
       seconds = data[i].seconds;
     }
     ranks.push({
@@ -29,26 +19,7 @@ const getRanks = async () => {
     });
   }
 
-
   return ranks;
-};
-
-const putRanking = async (time, name) => {
-  try {
-    const response = await fetch(`${API_URL}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        seconds: time,
-      }),
-    });
-    return response.json();
-  } catch (error) {
-    return error;
-  }
 };
 
 export default class HitsujiRanking extends Phaser.Scene {
@@ -93,9 +64,9 @@ export default class HitsujiRanking extends Phaser.Scene {
           const mm = `00${date.getMonth() + 1}`.slice(-2);
           const dd = `00${date.getDate()}`.slice(-2);
           return `${yyyy}/${mm}/${dd}`;
+        };
         td3.innerText = formatDate(new Date(data[i].created_at));
         tr.appendChild(td3);
-      }
         tbody.appendChild(tr);
       }
       table.appendChild(tbody);
