@@ -24,7 +24,7 @@ const getRanks = async () => {
 
 export default class HitsujiRanking extends Phaser.Scene {
   constructor() {
-    super({ key: "hitsuji_ranking", active: true });
+    super({ key: "hitsuji_ranking", active: false });
   }
 
   preload() {
