@@ -73,10 +73,10 @@ export default class HitsujiRanking extends Phaser.Scene {
     });
     const backButton = new BackButton(
       this,
-      100,
-      100,
-      100,
-      100,
+      310,
+      540,
+      77,
+      30,
       "⇦ 戻る",
       24,
       this.fontFamily
