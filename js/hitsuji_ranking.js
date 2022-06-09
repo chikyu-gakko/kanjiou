@@ -15,7 +15,7 @@ const getRanks = async () => {
     }
     ranks.push({
       ...data[i],
-      'rank': rank,
+      rank,
     });
   }
 

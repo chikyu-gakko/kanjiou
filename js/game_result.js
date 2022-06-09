@@ -496,7 +496,7 @@ export default class GameResult extends Phaser.Scene {
             nameForm.destroy();
             submitButton.destroy();
           })
-          .catch((e) => {
+          .catch(() => {
             const status = "登録に失敗しました";
             // const status = e.message; // debug
             this.add.text(430, 400, status, {
