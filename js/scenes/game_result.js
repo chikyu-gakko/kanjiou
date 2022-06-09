@@ -1,6 +1,6 @@
 import SoundButton from "../components/sound_button.js";
 import SettingButton from "../components/setting_button.js";
-import { getRank, putRanking } from "../../api/rank.js";
+import { getRank, putRanking } from "../api/rank.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
@@ -11,12 +11,12 @@ export default class GameResult extends Phaser.Scene {
     // メニュー画面に出てくる画像のロード
     this.load.path = window.location.href.replace("index.html", "");
 
-    this.load.image("sound", "img/sound.png");
-    this.load.image("bg", "img/bg.png");
-    this.load.image("cloud", "img/game_cloud.png");
+    this.load.image("sound", "assets/img/sound.png");
+    this.load.image("bg", "assets/img/bg.png");
+    this.load.image("cloud", "assets/img/game_cloud.png");
     this.load.image("tree", "assets/animation/tree.png");
-    this.load.image("mogura-upper-body", "img/mogura.png");
-    this.load.image("fukidashi", "img/fukidashi.png");
+    this.load.image("mogura-upper-body", "assets/img/mogura.png");
+    this.load.image("fukidashi", "assets/img/fukidashi.png");
 
     // bgm
     this.load.audio("ending", "audio/ending.mp3");

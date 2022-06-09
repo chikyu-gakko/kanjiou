@@ -10,9 +10,9 @@ export default class GameSetting extends Phaser.Scene {
     // メニュー画面に出てくる画像のロード
     this.load.path = window.location.href.replace("index.html", "");
 
-    this.load.image("sound", "img/sound.png");
-    this.load.image("mute", "img/mute.png");
-    this.load.image("mogura", "img/fun_mogura1.png");
+    this.load.image("sound", "assets/img/sound.png");
+    this.load.image("mute", "assets/img/mute.png");
+    this.load.image("mogura", "assets/img/fun_mogura1.png");
 
     // bgm
     this.load.audio("top_bgm", "audio/top.mp3");

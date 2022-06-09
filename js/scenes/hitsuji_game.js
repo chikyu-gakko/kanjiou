@@ -14,10 +14,10 @@ export default class HitsujiGame extends Phaser.Scene {
     this.load.audio("correct_se", "audio/correct.mp3");
     this.load.audio("but_se", "audio/but_se.mp3");
 
-    this.load.image("maru", "img/maru.png");
-    this.load.image("batu", "img/batu.png");
-    this.load.image("correctmogura", "img/fun_mogura2.png");
-    this.load.image("mistakemogura", "img/sad_mogura.png");
+    this.load.image("maru", "assets/img/maru.png");
+    this.load.image("batu", "assets/img/batu.png");
+    this.load.image("correctmogura", "assets/img/fun_mogura2.png");
+    this.load.image("mistakemogura", "assets/img/sad_mogura.png");
   }
 
   init(data) {

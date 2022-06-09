@@ -10,7 +10,7 @@ export default class OpenLogo extends Phaser.Scene {
   preload() {
     this.load.path = window.location.href.replace("index.html", "");
     // ロゴマーク
-    this.load.image("logo", "img/logo_tikyu.png");
+    this.load.image("logo", "assets/img/logo_tikyu.png");
   }
 
   create() {

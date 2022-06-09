@@ -13,10 +13,10 @@ export default class GameMenu extends Phaser.Scene {
     // SE
     this.load.audio("mode_decide_se", "audio/mode_decide.mp3");
 
-    this.load.image("sound", "img/sound.png");
-    this.load.image("mute", "img/mute.png");
-    this.load.image("cloud", "img/game_cloud.png");
-    this.load.image("top_mogura", "img/lay_mogura.png");
+    this.load.image("sound", "assets/img/sound.png");
+    this.load.image("mute", "assets/img/mute.png");
+    this.load.image("cloud", "assets/img/game_cloud.png");
+    this.load.image("top_mogura", "assets/img/lay_mogura.png");
     // 木
     this.load.image("tree1", "assets/animation/tree/tree_1.png");
     this.load.image("tree2", "assets/animation/tree/tree_2.png");
