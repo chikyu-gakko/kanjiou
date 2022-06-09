@@ -1,5 +1,5 @@
-import { kanjiList } from "./kanjilist.js";
-import SoundButton from "./sound_button.js";
+import { kanjiList } from "../kanjilist.js";
+import SoundButton from "../components/sound_button.js";
 
 export default class HitsujiGame extends Phaser.Scene {
   constructor() {

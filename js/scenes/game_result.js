@@ -1,6 +1,6 @@
-import SoundButton from "./sound_button.js";
-import SettingButton from "./setting_button.js";
-import { getRank, putRanking } from "../api/rank.js";
+import SoundButton from "../components/sound_button.js";
+import SettingButton from "../components/setting_button.js";
+import { getRank, putRanking } from "../../api/rank.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {

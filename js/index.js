@@ -1,11 +1,11 @@
-import GameMenu from "./game_menu.js";
-import GameSetting from "./game_setting.js";
-import HitsujiGame from "./hitsuji_game.js";
-import HitsujiRanking from "./hitsuji_ranking.js";
-import GameResult from "./game_result.js";
-import OpenLogo from "./open_logo.js";
-import HowToPlay from "./how_to_play.js";
-import PauseMenu from "./pause_menu.js";
+import GameMenu from "./scenes/game_menu.js";
+import GameSetting from "./scenes/game_setting.js";
+import HitsujiGame from "./scenes/hitsuji_game.js";
+import HitsujiRanking from "./scenes/hitsuji_ranking.js";
+import GameResult from "./scenes/game_result.js";
+import OpenLogo from "./scenes/open_logo.js";
+import HowToPlay from "./scenes/how_to_play.js";
+import PauseMenu from "./scenes/pause_menu.js";
 
 const gameElement = document.getElementById("game");
 

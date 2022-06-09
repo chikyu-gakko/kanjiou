@@ -1,5 +1,5 @@
-import SettingButton from "./setting_button.js";
-import SoundButton from "./sound_button.js";
+import SettingButton from "../components/setting_button.js";
+import SoundButton from "../components/sound_button.js";
 
 export default class GameSetting extends Phaser.Scene {
   constructor() {

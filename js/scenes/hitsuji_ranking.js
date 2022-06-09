@@ -1,5 +1,5 @@
-import BackButton from "./back_button.js";
-import { getRanks } from "../api/rank.js";
+import BackButton from "../components/back_button.js";
+import { getRanks } from "../../api/rank.js";
 
 export default class HitsujiRanking extends Phaser.Scene {
   constructor() {
