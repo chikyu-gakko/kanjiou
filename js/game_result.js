@@ -1,28 +1,6 @@
 import SoundButton from "./sound_button.js";
 import SettingButton from "./setting_button.js";
-
-const API_URL = "http://13.231.182.101";
-
-const getRank = async (time) => {
-  try {
-    const response = await fetch(
-      `${API_URL}/api/time_limits/time_limit?seconds=${time}`
-    );
-    return response.json();
-  } catch (error) {
-    return error;
-  }
-};
-
-const putRanking = async (time, name) => {
-  const fd = new FormData();
-  fd.append("name", name);
-  fd.append("seconds", 60 - time);
-  await fetch(`${API_URL}/api/time_limits`, {
-    method: "POST",
-    body: fd,
-  });
-};
+import { getRank, putRanking } from "../api/rank.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
