@@ -1,28 +1,6 @@
-import SoundButton from "./sound_button.js";
-import SettingButton from "./setting_button.js";
-
-const API_URL = "http://13.231.182.101";
-
-const getRank = async (time) => {
-  try {
-    const response = await fetch(
-      `${API_URL}/api/time_limits/time_limit?seconds=${time}`
-    );
-    return response.json();
-  } catch (error) {
-    return error;
-  }
-};
-
-const putRanking = async (time, name) => {
-  const fd = new FormData();
-  fd.append("name", name);
-  fd.append("seconds", 60 - time);
-  await fetch(`${API_URL}/api/time_limits`, {
-    method: "POST",
-    body: fd,
-  });
-};
+import SoundButton from "../components/sound_button.js";
+import SettingButton from "../components/setting_button.js";
+import { getRank, putRanking } from "../api/rank.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
@@ -33,12 +11,12 @@ export default class GameResult extends Phaser.Scene {
     // メニュー画面に出てくる画像のロード
     this.load.path = window.location.href.replace("index.html", "");
 
-    this.load.image("sound", "img/sound.png");
-    this.load.image("bg", "img/bg.png");
-    this.load.image("cloud", "img/game_cloud.png");
+    this.load.image("sound", "assets/img/sound.png");
+    this.load.image("bg", "assets/img/bg.png");
+    this.load.image("cloud", "assets/img/game_cloud.png");
     this.load.image("tree", "assets/animation/tree.png");
-    this.load.image("mogura-upper-body", "img/mogura.png");
-    this.load.image("fukidashi", "img/fukidashi.png");
+    this.load.image("mogura-upper-body", "assets/img/mogura.png");
+    this.load.image("fukidashi", "assets/img/fukidashi.png");
 
     // bgm
     this.load.audio("ending", "audio/ending.mp3");
@@ -496,7 +474,7 @@ export default class GameResult extends Phaser.Scene {
             nameForm.destroy();
             submitButton.destroy();
           })
-          .catch((e) => {
+          .catch(() => {
             const status = "登録に失敗しました";
             // const status = e.message; // debug
             this.add.text(430, 400, status, {
