@@ -150,3 +150,10 @@ table td {
 #under_bar_label {
   margin: auto
 }
+
+#copyright {
+  font-size: 1rem;
+  width: 1024px;
+  margin: auto;
+  transform: translateY(-150%);
+}
