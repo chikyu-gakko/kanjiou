@@ -1,26 +1,5 @@
-import BackButton from "./back_button.js";
-
-const API_URL = "http://13.231.182.101";
-
-const getRanks = async () => {
-  const response = await fetch(`${API_URL}/api/time_limits`);
-  const data = await response.json();
-  const ranks = [];
-  let rank = 0;
-  let seconds = -1;
-  for (let i = 0; i < data.length; i += 1) {
-    if (data[i].seconds !== seconds) {
-      rank = i + 1;
-      seconds = data[i].seconds;
-    }
-    ranks.push({
-      ...data[i],
-      'rank': rank,
-    });
-  }
-
-  return ranks;
-};
+import BackButton from "../components/back_button.js";
+import { getRanks } from "../api/rank.js";
 
 export default class HitsujiRanking extends Phaser.Scene {
   constructor() {
@@ -29,7 +8,7 @@ export default class HitsujiRanking extends Phaser.Scene {
 
   preload() {
     this.load.path = window.location.href.replace("index.html", "");
-    this.load.html("ranking", "../html/ranking.html");
+    this.load.html("ranking", "../../assets/html/ranking.html");
   }
 
   init() {

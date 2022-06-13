@@ -1,4 +1,4 @@
-import SoundButton from "./sound_button.js";
+import SoundButton from "../components/sound_button.js";
 
 export default class HowToPlay extends Phaser.Scene {
   constructor() {
@@ -22,20 +22,20 @@ export default class HowToPlay extends Phaser.Scene {
     this.load.path = window.location.href.replace("index.html", "");
 
     // もぐらんボタン
-    this.load.image("funMoguraImg", "img/fun_mogura.png");
+    this.load.image("funMoguraImg", "assets/img/fun_mogura.png");
 
     // サウンドアイコン
-    this.load.image("sound", "img/sound.png");
-    this.load.image("mute", "img/mute.png");
+    this.load.image("sound", "assets/img/sound.png");
+    this.load.image("mute", "assets/img/mute.png");
 
     // ミニゲーム中bgm
-    this.load.audio("correct_se", "audio/correct.mp3");
-    this.load.audio("but_se", "audio/but_se.mp3");
+    this.load.audio("correct_se", "assets/audio/correct.mp3");
+    this.load.audio("but_se", "assets/audio/but_se.mp3");
 
-    this.load.image("maru", "img/maru.png");
-    this.load.image("batu", "img/batu.png");
-    this.load.image("correctmogura", "img/fun_mogura2.png");
-    this.load.image("mistakemogura", "img/sad_mogura.png");
+    this.load.image("maru", "assets/img/maru.png");
+    this.load.image("batu", "assets/img/batu.png");
+    this.load.image("correctmogura", "assets/img/fun_mogura2.png");
+    this.load.image("mistakemogura", "assets/img/sad_mogura.png");
   }
 
   create() {
