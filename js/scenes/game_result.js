@@ -130,6 +130,8 @@ export default class GameResult extends Phaser.Scene {
     (async () => {
       const rankData = await getRank(60 - this.timer);
       if (rankData.rank <= 100) {
+        this.rankingModal(rankData.rank);
+
         // ランキング登録ボタン
         const rankingButton = new SettingButton(
           this,
@@ -150,7 +152,7 @@ export default class GameResult extends Phaser.Scene {
           },
           this
         );
-        rankingButton.depth = 3;
+        rankingButton.depth = 2;
 
         // ランクイン時に表示する
         this.add
@@ -499,7 +501,13 @@ export default class GameResult extends Phaser.Scene {
     crossButton.setInteractive().on(
       "pointerdown",
       () => {
-        this.scene.start("game_result");
+        rankText.destroy()
+        rankingBg.destroy();
+        rankingMenuBox.destroy();
+        rankMessageText.destroy();
+        nameForm.destroy();
+        submitButton.destroy();
+        crossButton.destroy();
       },
       this
     ).depth = 6;
