@@ -10,9 +10,9 @@ export default class HitsujiGame extends Phaser.Scene {
     this.load.path = window.location.href.replace("index.html", "");
 
     // bgm
-    this.load.audio("game_bgm", "audio/timer.mp3");
-    this.load.audio("correct_se", "audio/correct.mp3");
-    this.load.audio("but_se", "audio/but_se.mp3");
+    this.load.audio("game_bgm", "assets/audio/timer.mp3");
+    this.load.audio("correct_se", "assets/audio/correct.mp3");
+    this.load.audio("but_se", "assets/audio/but_se.mp3");
 
     this.load.image("maru", "assets/img/maru.png");
     this.load.image("batu", "assets/img/batu.png");

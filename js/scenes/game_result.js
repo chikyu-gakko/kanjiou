@@ -19,9 +19,9 @@ export default class GameResult extends Phaser.Scene {
     this.load.image("fukidashi", "assets/img/fukidashi.png");
 
     // bgm
-    this.load.audio("ending", "audio/ending.mp3");
+    this.load.audio("ending", "assets/audio/ending.mp3");
 
-    this.load.html("nameForm", "../html/form.html");
+    this.load.html("nameForm", "../../assets/html/form.html");
     // 花火GIF
     for (let i = 1; i <= 6; i += 1)
       this.load.image(`fire${i}`, `assets/animation/fireFlower/fire${i}.png`);

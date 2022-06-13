@@ -15,8 +15,8 @@ export default class GameSetting extends Phaser.Scene {
     this.load.image("mogura", "assets/img/fun_mogura1.png");
 
     // bgm
-    this.load.audio("top_bgm", "audio/top.mp3");
-    this.load.audio("game_start_se", "audio/game_start.mp3");
+    this.load.audio("top_bgm", "assets/audio/top.mp3");
+    this.load.audio("game_start_se", "assets/audio/game_start.mp3");
   }
 
   init(data) {

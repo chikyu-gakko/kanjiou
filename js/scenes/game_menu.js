@@ -9,9 +9,9 @@ export default class GameMenu extends Phaser.Scene {
     // メニュー画面に出てくる画像のロード
     this.load.path = window.location.href.replace("index.html", "");
     // bgm
-    this.load.audio("top_bgm", "audio/top.mp3");
+    this.load.audio("top_bgm", "assets/audio/top.mp3");
     // SE
-    this.load.audio("mode_decide_se", "audio/mode_decide.mp3");
+    this.load.audio("mode_decide_se", "assets/audio/mode_decide.mp3");
 
     this.load.image("sound", "assets/img/sound.png");
     this.load.image("mute", "assets/img/mute.png");
