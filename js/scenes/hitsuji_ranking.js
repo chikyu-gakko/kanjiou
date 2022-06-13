@@ -8,7 +8,7 @@ export default class HitsujiRanking extends Phaser.Scene {
 
   preload() {
     this.load.path = window.location.href.replace("index.html", "");
-    this.load.html("ranking", "../html/ranking.html");
+    this.load.html("ranking", "../../assets/html/ranking.html");
   }
 
   init() {

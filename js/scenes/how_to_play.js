@@ -29,8 +29,8 @@ export default class HowToPlay extends Phaser.Scene {
     this.load.image("mute", "assets/img/mute.png");
 
     // ミニゲーム中bgm
-    this.load.audio("correct_se", "audio/correct.mp3");
-    this.load.audio("but_se", "audio/but_se.mp3");
+    this.load.audio("correct_se", "assets/audio/correct.mp3");
+    this.load.audio("but_se", "assets/audio/but_se.mp3");
 
     this.load.image("maru", "assets/img/maru.png");
     this.load.image("batu", "assets/img/batu.png");
