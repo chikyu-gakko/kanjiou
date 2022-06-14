@@ -130,6 +130,8 @@ export default class GameResult extends Phaser.Scene {
     (async () => {
       const rankData = await getRank(60 - this.timer);
       if (rankData.rank <= 100) {
+        this.rankingModal(rankData.rank);
+
         // ランキング登録ボタン
         const rankingButton = new SettingButton(
           this,
@@ -150,7 +152,7 @@ export default class GameResult extends Phaser.Scene {
           },
           this
         );
-        rankingButton.depth = 3;
+        rankingButton.depth = 2;
 
         // ランクイン時に表示する
         this.add
@@ -453,22 +455,44 @@ export default class GameResult extends Phaser.Scene {
       0x32b65e,
       "#ffffff"
     );
+
+    // 名前検証テキスト
+    const validationMessageText = this.add
+      .text(370, 340, "名前は記号なし8文字以内で入力してください", {
+        fontFamily: this.fontFamily,
+        fontSize: "14px",
+        color: "#d53f3f",
+      })
+      .setDepth(5)
+      .setVisible(false);
+
+    const httpStatusMessage = this.add
+      .text(430, 400, "登録に成功しました", {
+        fontFamily: this.fontFamily,
+        fontSize: "20px",
+        color: "#333333",
+      })
+      .setDepth(5)
+      .setVisible(false);
+
     submitButton.buttonGraphic.on(
       "pointerdown",
       () => {
         const name = nameForm.getChildByName("name");
         let text = "ゲスト";
-        if (name.value !== "") {
+        const reg = new RegExp(/^.{1,8}$/);
+        if (reg.test(name.value)) {
+          validationMessageText.setVisible(false);
           text = name.value;
+        } else {
+          validationMessageText.setVisible(true);
+          return;
         }
         putRanking(this.timer, text)
           .then(() => {
             const status = "登録に成功しました";
-            this.add.text(430, 400, status, {
-              fontFamily: this.fontFamily,
-              fontSize: "20px",
-              color: "#333333",
-            }).depth = 5;
+            httpStatusMessage.setText(status);
+            httpStatusMessage.setVisible(true);
             rankText.destroy();
             rankMessageText.destroy();
             nameForm.destroy();
@@ -477,11 +501,8 @@ export default class GameResult extends Phaser.Scene {
           .catch(() => {
             const status = "登録に失敗しました";
             // const status = e.message; // debug
-            this.add.text(430, 400, status, {
-              fontFamily: this.fontFamily,
-              fontSize: "20px",
-              color: "#333333",
-            }).depth = 5;
+            httpStatusMessage.setText(status);
+            httpStatusMessage.setVisible(true);
             rankText.destroy();
             rankMessageText.destroy();
             nameForm.destroy();
@@ -499,7 +520,15 @@ export default class GameResult extends Phaser.Scene {
     crossButton.setInteractive().on(
       "pointerdown",
       () => {
-        this.scene.start("game_result");
+        validationMessageText.setVisible(false);
+        httpStatusMessage.setVisible(false);
+        rankText.destroy();
+        rankingBg.destroy();
+        rankingMenuBox.destroy();
+        rankMessageText.destroy();
+        nameForm.destroy();
+        submitButton.destroy();
+        crossButton.destroy();
       },
       this
     ).depth = 6;
