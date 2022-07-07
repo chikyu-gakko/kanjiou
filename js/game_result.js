@@ -1,7 +1,8 @@
 import SoundButton from "./sound_button.js";
 import SettingButton from "./setting_button.js";
 
-const API_URL = "http://13.231.182.101";
+// const API_URL = "http://13.231.182.101";
+const API_URL = "https://kanjiouapi.onrender.com";
 
 const getRank = async (time) => {
   try {

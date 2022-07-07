@@ -1,6 +1,6 @@
 import BackButton from "./back_button.js";
 
-const API_URL = "http://13.231.182.101";
+const API_URL = "https://kanjiouapi.onrender.com";
 
 const getRanks = async () => {
   const response = await fetch(`${API_URL}/api/time_limits`);
