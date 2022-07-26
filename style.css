@@ -58,7 +58,7 @@ table td {
   width: 100%;
   height: 60px;
   border-bottom: 1.1px inset #333333;
-  top: 364px;
+  top: 480px;
   position: fixed;
 }
 
@@ -97,7 +97,7 @@ table td {
 #dashboard {
   margin: 40px auto;
   width: 1024px;
-  height: 384px;
+  height: 500px;
   display: flex;
   border: 0.5px solid #ececec;
 }
@@ -117,12 +117,16 @@ table td {
 
 #dashboard .right {
   flex-grow: 1;
-  height: 330px;
+  height: 450px;
   overflow-y: scroll;
+
   box-sizing: border-box;
   /* overflow-y: auto; */
 }
 
+#dashboard .right::-webkit-scrollbar{
+  display: none;
+}
 #under_bar_content {
   display: flex;
   justify-content: space-between;

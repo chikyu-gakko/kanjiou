@@ -3,7 +3,7 @@ import { getRanks } from "../api/rank.js";
 
 export default class HitsujiRanking extends Phaser.Scene {
   constructor() {
-    super({ key: "hitsuji_ranking", active: false });
+    super({ key: "hitsuji_ranking", active: true });
   }
 
   preload() {
@@ -53,7 +53,7 @@ export default class HitsujiRanking extends Phaser.Scene {
     const backButton = new BackButton(
       this,
       310,
-      540,
+      600,
       77,
       30,
       "⇦ 戻る",
