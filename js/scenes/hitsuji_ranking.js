@@ -3,7 +3,7 @@ import { getRanks } from "../api/rank.js";
 
 export default class HitsujiRanking extends Phaser.Scene {
   constructor() {
-    super({ key: "hitsuji_ranking", active: true });
+    super({ key: "hitsuji_ranking", active: false });
   }
 
   preload() {
