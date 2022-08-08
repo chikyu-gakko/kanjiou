@@ -255,7 +255,6 @@ export default class HitsujiGame extends Phaser.Scene {
             this.answerCounter += 1;
             this.createAnswerComponent();
             setTimeout(() => {
-              this.check();
               this.createKanji();
             }, 1400);
           });
@@ -265,7 +264,6 @@ export default class HitsujiGame extends Phaser.Scene {
             but.play();
             this.wrongFlag = true;
             setTimeout(() => {
-              this.check();
               this.createKanji();
             }, 1400);
           });
