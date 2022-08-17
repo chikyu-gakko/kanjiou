@@ -19,7 +19,7 @@ export default class HitsujiRanking extends Phaser.Scene {
     const rankingBg = this.add.graphics();
     rankingBg.fillStyle(0xeaeaea, 1).fillRect(0, 0, 1024, 768);
 
-    const ranking = this.add.dom(510, 400).createFromCache("ranking");
+    const ranking = this.add.dom(510, 470).createFromCache("ranking");
     ranking.setDepth(1);
     getRanks().then((data) => {
       const table = document.getElementsByTagName("table")[0];
@@ -53,7 +53,7 @@ export default class HitsujiRanking extends Phaser.Scene {
     const backButton = new BackButton(
       this,
       310,
-      600,
+      700,
       77,
       30,
       "⇦ 戻る",
