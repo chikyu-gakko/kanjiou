@@ -204,6 +204,8 @@ table td {
 }
 
 #copyright {
+  position: relative;
+  top: -100px;
   font-size: 1rem;
   width: 1024px;
   margin: auto;
