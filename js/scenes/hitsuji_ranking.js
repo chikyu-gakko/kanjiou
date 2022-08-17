@@ -3,7 +3,7 @@ import { getRanks } from "../api/rank.js";
 
 export default class HitsujiRanking extends Phaser.Scene {
   constructor() {
-    super({ key: "hitsuji_ranking", active: false });
+    super({ key: "hitsuji_ranking", active: true });
   }
 
   preload() {
@@ -19,8 +19,8 @@ export default class HitsujiRanking extends Phaser.Scene {
     const rankingBg = this.add.graphics();
     rankingBg.fillStyle(0xeaeaea, 1).fillRect(0, 0, 1024, 768);
 
-    const ranking = this.add.dom(510, 400).createFromCache("ranking");
-    ranking.setDepth(1);
+    const ranking = this.add.dom(510,400).createFromCache("ranking");
+    ranking.setDepth(1); 
     getRanks().then((data) => {
       const table = document.getElementsByTagName("table")[0];
       table.innerHTML = "";
@@ -53,7 +53,7 @@ export default class HitsujiRanking extends Phaser.Scene {
     const backButton = new BackButton(
       this,
       310,
-      600,
+      630,
       77,
       30,
       "⇦ 戻る",
