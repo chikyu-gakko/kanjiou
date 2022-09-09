@@ -183,7 +183,6 @@ export default class HitsujiGame extends Phaser.Scene {
 
   countTime() {
     this.timer += 1;
-    this.check();
     this.createTimerComponent();
   }
 
@@ -198,6 +197,9 @@ export default class HitsujiGame extends Phaser.Scene {
       this.fx.stop();
       this.scene.start("game_result", {
         time: this.timer,
+        ranking: true,
+        modalVisible: true,
+        rankingRegistered: false,
         answers: this.answerCounter,
         mode: this.mode,
         schoolYear: this.schoolYear,

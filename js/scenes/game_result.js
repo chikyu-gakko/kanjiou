@@ -39,6 +39,9 @@ export default class GameResult extends Phaser.Scene {
   init(data) {
     this.mode = data.mode;
     this.timer = data.time;
+    this.ranking = data.ranking;
+    this.modalVisible = data.modalVisible;
+    this.rankingRegistered = data.rankingRegistered;
     this.answers = data.answers;
     this.sizeY = data.sizeY;
     this.sizeX = data.sizeX;
@@ -129,7 +132,10 @@ export default class GameResult extends Phaser.Scene {
 
     (async () => {
       const rankData = await getRank(60 - this.timer);
-      if (rankData.rank <= 100) {
+      if (rankData.rank <= 100 && !this.rankingRegistered) {
+        if (this.modalVisible) {
+          this.rankingModal(rankData.rank);
+        }
         // ランキング登録ボタン
         const rankingButton = new SettingButton(
           this,
@@ -463,6 +469,7 @@ export default class GameResult extends Phaser.Scene {
         }
         putRanking(this.timer, text)
           .then(() => {
+            this.rankingRegistered = true;
             const status = "登録に成功しました";
             this.add.text(430, 400, status, {
               fontFamily: this.fontFamily,
@@ -499,7 +506,17 @@ export default class GameResult extends Phaser.Scene {
     crossButton.setInteractive().on(
       "pointerdown",
       () => {
-        this.scene.start("game_result");
+        this.scene.start("game_result", {
+          time: this.timer,
+          ranking: false,
+          modalVisible: false,
+          rankingRegistered: this.rankingRegistered,
+          answers: this.answerCounter,
+          mode: this.mode,
+          schoolYear: this.schoolYear,
+          sizeX: this.sizeX,
+          sizeY: this.sizeY,
+        });
       },
       this
     ).depth = 6;
