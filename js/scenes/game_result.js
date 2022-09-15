@@ -39,6 +39,7 @@ export default class GameResult extends Phaser.Scene {
   init(data) {
     this.mode = data.mode;
     this.timer = data.time;
+    // this.timer = 30; // develop
     this.ranking = data.ranking;
     this.modalVisible = data.modalVisible;
     this.rankingRegistered = data.rankingRegistered;
@@ -450,7 +451,7 @@ export default class GameResult extends Phaser.Scene {
     const submitButton = new SettingButton(
       this,
       380,
-      450,
+      440,
       265,
       72,
       "登録する",
@@ -462,7 +463,7 @@ export default class GameResult extends Phaser.Scene {
 
     // 名前検証テキスト
     const validationMessageText = this.add
-      .text(370, 340, "名前は記号なし8文字以内で入力してください", {
+      .text(360, 350, "記号なし8文字以内で入力してください", {
         fontFamily: this.fontFamily,
         fontSize: "14px",
         color: "#d53f3f",
@@ -470,8 +471,24 @@ export default class GameResult extends Phaser.Scene {
       .setDepth(5)
       .setVisible(false);
 
+    const annotationText = this.add
+      .text(360, 350, "8文字以内", {
+        fontFamily: this.fontFamily,
+        fontSize: "14px",
+        color: "#333333",
+      })
+      .setDepth(5)
+
+    const celebrationText = this.add
+      .text(290, 150, "ランキング入りおめでとう！", {
+        fontFamily: this.fontFamily,
+        fontSize: "36px",
+        color: "#FFFFFF",
+      })
+      .setDepth(5)
+
     const httpStatusMessage = this.add
-      .text(430, 400, "登録に成功しました", {
+      .text(420, 400, "登録に成功しました", {
         fontFamily: this.fontFamily,
         fontSize: "20px",
         color: "#333333",
@@ -487,8 +504,10 @@ export default class GameResult extends Phaser.Scene {
         const reg = new RegExp(/^.{1,8}$/);
         if (reg.test(name.value)) {
           validationMessageText.setVisible(false);
+          annotationText.setVisible(true);
           text = name.value;
         } else {
+          annotationText.setVisible(false);
           validationMessageText.setVisible(true);
           return;
         }
@@ -500,6 +519,9 @@ export default class GameResult extends Phaser.Scene {
             httpStatusMessage.setVisible(true);
             rankText.destroy();
             rankMessageText.destroy();
+            validationMessageText.destroy();
+            annotationText.destroy();
+            celebrationText.destroy();
             nameForm.destroy();
             submitButton.destroy();
           })
@@ -510,6 +532,9 @@ export default class GameResult extends Phaser.Scene {
             httpStatusMessage.setVisible(true);
             rankText.destroy();
             rankMessageText.destroy();
+            validationMessageText.destroy();
+            annotationText.destroy();
+            celebrationText.destroy();
             nameForm.destroy();
             submitButton.destroy();
           });
