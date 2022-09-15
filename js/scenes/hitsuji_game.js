@@ -182,6 +182,7 @@ export default class HitsujiGame extends Phaser.Scene {
   }
 
   countTime() {
+    this.check();
     this.timer += 1;
     this.createTimerComponent();
   }
