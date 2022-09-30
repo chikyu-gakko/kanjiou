@@ -13,6 +13,13 @@ body {
   background-color: #eaeaea;
 }
 
+#headline {
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: bold;
+  font-family: sans-serif;
+  color: #333333;
+}
 
 
 .menu-bth {
@@ -111,7 +118,7 @@ table td {
   height: 60px;
   border-top: 1.1px inset #333333;
   /* border-bottom: 1.1px inset #333333; */
-  top: 553px;
+  top: 666.5px;
   position: fixed;
 }
 
