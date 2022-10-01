@@ -3,7 +3,7 @@ import SoundButton from "../components/sound_button.js";
 
 export default class SekainomojiGameSetting extends Phaser.Scene {
   constructor() {
-    super({key: "sekainomoji_game_setting", active: true});
+    super({key: "sekainomoji_game_setting", active: false});
   }
 
   preload() {
@@ -45,7 +45,8 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     }
     if (data.schoolYear) this.schoolYear = data.schoolYear;
 
-    this.selectedSettingCategory = "size";
+    // 設定の選択肢の初期値
+    this.selectedSettingCategory = "mode";
     this.challenge = false;
     this.categoryButtons = [];
     this.settingElements = [];
