@@ -29,7 +29,7 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-game.registry.set("fontFamily", "'UD デジタル 教科書体 NP-R', KleeOne, Arial");
+game.registry.set("fontFamily", "'UD デジタル 教科書体 NP-R', KleeOne, Arial, Sarabun");
 
 game.scene.add("game_menu", GameMenu);
 game.scene.add("logo", OpenLogo);
