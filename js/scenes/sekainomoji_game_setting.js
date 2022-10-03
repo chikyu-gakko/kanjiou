@@ -20,21 +20,9 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
   }
 
   init(data) {
-    this.size = "ふつう";
     this.mode = "時間制限";
-    this.schoolYear = "1年生";
+    this.country = "タイ"
 
-    if (data.sizeY) {
-      switch (data.sizeY) {
-        case 3:
-          this.size = "少ない";
-          break;
-        case 6:
-          this.size = "多い";
-          break;
-        default:
-      }
-    }
     if (data.mode) {
       switch (data.mode) {
         case "timeAttack":
@@ -43,7 +31,6 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         default:
       }
     }
-    if (data.schoolYear) this.schoolYear = data.schoolYear;
 
     // 設定の選択肢の初期値
     this.selectedSettingCategory = "mode";
@@ -98,6 +85,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     const gameStartSe = this.sound.add("game_start_se");
 
     // ゲームスタートボタン・テキスト
+    // TODO: 実際のゲームへ遷移
     this.add
       .graphics()
       .lineStyle(2, 0x645246)
@@ -114,45 +102,30 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
           this.sound.stopAll();
           this.sound.removeByKey("top_bgm");
           gameStartSe.play();
-          let mode = "";
-          let sizeY = 0;
-          let sizeX = 0;
-          switch (this.size) {
-            case "少ない":
-              sizeY = 3;
-              sizeX = 6;
-              break;
-            case "多い":
-              sizeY = 6;
-              sizeX = 12;
-              break;
-            default:
-              sizeY = 4;
-              sizeX = 8;
-          }
-          switch (this.mode) {
-            case "時間制限":
-              mode = "timeLimit";
-              break;
-            case "タイムアタック":
-              mode = "timeAttack";
-              break;
-            default:
-              mode = "suddenDeath";
-          }
-          switch (this.challenge) {
-            case "サドンデス":
-              mode = "suddenDeath";
-              break;
-            default:
-          }
-          this.scene.start("hitsuji_game", {
-            sizeY,
-            sizeX,
-            mode,
-            isChallenge: Boolean(this.challenge),
-            schoolYear: this.schoolYear,
-          });
+          // let mode = "";
+          // switch (this.mode) {
+          //   case "時間制限":
+          //     mode = "timeLimit";
+          //     break;
+          //   case "タイムアタック":
+          //     mode = "timeAttack";
+          //     break;
+          //   default:
+          //     mode = "suddenDeath";
+          // }
+          // switch (this.challenge) {
+          //   case "サドンデス":
+          //     mode = "suddenDeath";
+          //     break;
+          //   default:
+          // }
+          // this.scene.start("hitsuji_game", {
+          //   sizeY,
+          //   sizeX,
+          //   mode,
+          //   isChallenge: Boolean(this.challenge),
+          //   schoolYear: this.schoolYear,
+          // });
         },
         this
       );
@@ -180,6 +153,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
+          // TODO: このゲームの遊び方を追加しておく
           this.scene.start("how_to_play");
         },
         this
@@ -192,32 +166,22 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     });
 
     this.categoryButtons = [
-      // ゲームサイズ
-      // this.add
-      //   .text(194, 236, "漢字の数", {
-      //     fontSize: 32,
-      //     padding: 3,
-      //     fontFamily: this.fontFamily,
-      //   })
-      //   .setData("value", "size"),
-
       // プレイモード
       this.add
-        .text(162, 350, "ゲームモード", {
+        .text(162, 236, "ゲームモード", {
           fontSize: 32,
           padding: 3,
           fontFamily: this.fontFamily,
         })
         .setData("value", "mode"),
 
-      // 出てくる漢字
-      // this.add
-      //   .text(163, 463, "出てくる漢字", {
-      //     fontSize: 32,
-      //     padding: 3,
-      //     fontFamily: this.fontFamily,
-      //   })
-      //   .setData("value", "schoolYear"),
+      this.add
+        .text(162, 350, "どこの国？", {
+          fontSize: 32,
+          padding: 3,
+          fontFamily: this.fontFamily,
+        })
+        .setData("value", "country"),
     ];
     this.categoryButtons.forEach((element) =>
       element.setInteractive().on(
@@ -231,37 +195,6 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     );
 
     this.settingElements = [
-      new SettingButton(
-        this,
-        585,
-        224,
-        134,
-        56,
-        "少ない",
-        24,
-        this.fontFamily
-      ).setData("category", "size"),
-      new SettingButton(
-        this,
-        585,
-        338,
-        134,
-        56,
-        "ふつう",
-        24,
-        this.fontFamily
-      ).setData("category", "size"),
-      new SettingButton(
-        this,
-        585,
-        451,
-        134,
-        56,
-        "多い",
-        24,
-        this.fontFamily
-      ).setData("category", "size"),
-
       new SettingButton(
         this,
         585,
@@ -284,144 +217,14 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
       ).setData("category", "mode"),
       new SettingButton(
         this,
-        430,
-        162,
-        134,
+        455,
+        200,
+        114,
         56,
-        "1年生",
+        "タイ",
         24,
         this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        584,
-        162,
-        134,
-        56,
-        "2年生",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        738,
-        162,
-        134,
-        56,
-        "3年生",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        430,
-        238,
-        134,
-        56,
-        "4年生",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        584,
-        238,
-        134,
-        56,
-        "5年生",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        738,
-        238,
-        134,
-        56,
-        "6年生",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        430,
-        314,
-        134,
-        56,
-        "低学年",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        584,
-        314,
-        134,
-        56,
-        "中学年",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        738,
-        314,
-        134,
-        56,
-        "高学年",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        567,
-        390,
-        168,
-        56,
-        "総合問題",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        430,
-        466,
-        192,
-        56,
-        "中学生範囲",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        680,
-        466,
-        192,
-        56,
-        "高校生以上",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        430,
-        542,
-        192,
-        56,
-        "小学＋中学",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
-      new SettingButton(
-        this,
-        680,
-        542,
-        192,
-        56,
-        "常用外漢字",
-        24,
-        this.fontFamily
-      ).setData("category", "schoolYear"),
+      ).setData("category", "country"),
       new SettingButton(
         this,
         561,
