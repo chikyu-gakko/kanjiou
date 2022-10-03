@@ -2,6 +2,7 @@ import GameMenu from "./scenes/game_menu.js";
 import GameSetting from "./scenes/game_setting.js";
 import HitsujiGame from "./scenes/hitsuji_game.js";
 import HitsujiRanking from "./scenes/hitsuji_ranking.js";
+import SekainomojiGameSetting from "./scenes/sekainomoji_game_setting.js"
 import GameResult from "./scenes/game_result.js";
 import OpenLogo from "./scenes/open_logo.js";
 import HowToPlay from "./scenes/how_to_play.js";
@@ -28,13 +29,14 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-game.registry.set("fontFamily", "'UD デジタル 教科書体 NP-R', KleeOne, Arial");
+game.registry.set("fontFamily", "'UD デジタル 教科書体 NP-R', KleeOne, Arial, Sarabun");
 
 game.scene.add("game_menu", GameMenu);
 game.scene.add("logo", OpenLogo);
 game.scene.add("game_setting", GameSetting);
 game.scene.add("hitsuji_game", HitsujiGame);
 game.scene.add("hitsuji_ranking", HitsujiRanking);
+game.scene.add("sekainomoji_game_setting", SekainomojiGameSetting);
 game.scene.add("game_result", GameResult);
 game.scene.add("how_to_play", HowToPlay);
 game.scene.add("pause_menu", PauseMenu);
