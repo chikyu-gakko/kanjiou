@@ -2,7 +2,7 @@ import SoundButton from "../components/sound_button.js";
 
 export default class GameMenu extends Phaser.Scene {
   constructor() {
-    super({ key: "game_menu", active: false });
+    super({key: "game_menu", active: false});
   }
 
   preload() {
@@ -93,13 +93,13 @@ export default class GameMenu extends Phaser.Scene {
     this.anims.create({
       key: "ground",
       frames: [
-        { key: "ground1", duration: 10 },
-        { key: "ground2", duration: 20 },
-        { key: "ground3", duration: 30 },
-        { key: "ground4", duration: 40 },
-        { key: "ground5", duration: 50 },
-        { key: "ground6", duration: 60 },
-        { key: "ground7", duration: 1000 },
+        {key: "ground1", duration: 10},
+        {key: "ground2", duration: 20},
+        {key: "ground3", duration: 30},
+        {key: "ground4", duration: 40},
+        {key: "ground5", duration: 50},
+        {key: "ground6", duration: 60},
+        {key: "ground7", duration: 1000},
       ],
       frameRate: 24,
     });
@@ -113,13 +113,13 @@ export default class GameMenu extends Phaser.Scene {
     this.anims.create({
       key: "tree",
       frames: [
-        { key: "tree1", duration: 10 },
-        { key: "tree2", duration: 20 },
-        { key: "tree3", duration: 30 },
-        { key: "tree4", duration: 40 },
-        { key: "tree5", duration: 50 },
-        { key: "tree6", duration: 60 },
-        { key: "tree7", duration: 1000 },
+        {key: "tree1", duration: 10},
+        {key: "tree2", duration: 20},
+        {key: "tree3", duration: 30},
+        {key: "tree4", duration: 40},
+        {key: "tree5", duration: 50},
+        {key: "tree6", duration: 60},
+        {key: "tree7", duration: 1000},
       ],
       frameRate: 24,
     });
@@ -154,7 +154,7 @@ export default class GameMenu extends Phaser.Scene {
     this.tweens.add({
       targets: [doropItem],
       props: {
-        y: { value: 100 + doropItem.depth, duration: 1500, ease: "Power2" },
+        y: {value: 100 + doropItem.depth, duration: 1500, ease: "Power2"},
       },
       delay: 1000,
     });
@@ -165,13 +165,13 @@ export default class GameMenu extends Phaser.Scene {
     this.anims.create({
       key: "mogura",
       frames: [
-        { key: "mogura1", duration: 300 },
-        { key: "mogura2", duration: 100 },
-        { key: "mogura3", duration: 180 },
-        { key: "mogura4", duration: 100 },
-        { key: "mogura5", duration: 100 },
-        { key: "mogura6", duration: 100 },
-        { key: "mogura7", duration: 1000 },
+        {key: "mogura1", duration: 300},
+        {key: "mogura2", duration: 100},
+        {key: "mogura3", duration: 180},
+        {key: "mogura4", duration: 100},
+        {key: "mogura5", duration: 100},
+        {key: "mogura6", duration: 100},
+        {key: "mogura7", duration: 1000},
       ],
       frameRate: 24,
     });
@@ -226,11 +226,20 @@ export default class GameMenu extends Phaser.Scene {
       )
       .strokePath();
 
-    this.add.text(150, 260, "作成中", {
+    this.add.text(120, 260, "世界の文字", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
       fill: "#ffffff",
     });
+
+    mnyLngButton.on(
+      "pointerdown",
+      () => {
+        modeDecideSe.play();
+        this.scene.start("sekainomoji_game_setting");
+      },
+      this
+    );
 
     // 神経衰弱
     const memoryGmButton = this.add.graphics();
@@ -269,7 +278,6 @@ export default class GameMenu extends Phaser.Scene {
     });
 
     // 作成中の横モグラ
-    this.add.image(95, 275, "top_mogura");
     this.add.image(95, 400, "top_mogura");
     this.add.image(95, 531, "top_mogura");
   }
