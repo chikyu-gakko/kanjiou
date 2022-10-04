@@ -4,7 +4,7 @@ import {getRank, putRanking} from "../api/rank.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({key: "game_result", active: false});
+    super({key: "game_result", active: true});
   }
 
   preload() {
@@ -17,6 +17,7 @@ export default class GameResult extends Phaser.Scene {
     this.load.image("tree", "assets/animation/tree.png");
     this.load.image("mogura-upper-body", "assets/img/mogura.png");
     this.load.image("fukidashi", "assets/img/fukidashi.png");
+    this.load.image("clown", "assets/img/clown.png");
 
     // bgm
     this.load.audio("ending", "assets/audio/ending.mp3");
@@ -132,7 +133,8 @@ export default class GameResult extends Phaser.Scene {
     );
 
     (async () => {
-      const rankData = await getRank(60 - this.timer);
+      // const rankData = await getRank(60 - this.timer);
+      const rankData = await getRank(60 - 1);
       if (rankData.rank <= 100 && !this.rankingRegistered) {
         if (this.modalVisible) {
           this.rankingModal(rankData.rank);
@@ -407,10 +409,10 @@ export default class GameResult extends Phaser.Scene {
 
     try {
       rankText.destroy();
-      rankText = this.add.text(555, 305, rank, {
-        fontFamily: this.fontFamily,
-        fontSize: "30px",
-        color: "#333333",
+      rankText = this.add.text(540, 305, rank, {
+        fontFamily: "sans-serif",
+        fontSize: "64px",
+        color: "#AA9311",
       });
       rankText.depth = 5;
     } catch (e) {
@@ -435,35 +437,40 @@ export default class GameResult extends Phaser.Scene {
     const rankingMenuBox = this.add.graphics();
     rankingMenuBox
       .fillStyle(0xffffff, 1)
-      .fillRoundedRect(312, 234, 400, 300, 10).depth = 4;
+      .fillRoundedRect(296, 234, 432, 367, 14).depth = 4;
+      // .fillRoundedRect(312, 234, 400, 300, 10).depth = 4;
+
+      // 1024 / 2 - モーダルの横幅 / 2
+
+    this.add.image(560, 280 ,"clown").setDepth(5);
 
     const rankMessageText = this.add
-      .text(422, 310, "あなたの順位　　　位", {
-        fontFamily: this.fontFamily,
-        fontSize: "20px",
+      .text(377, 340, "あなたの順位 　　    位", {
+        fontFamily:"sans-serif",
+        fontSize: "24px",
         color: "#333333",
       })
       .setDepth(5);
 
-    const nameForm = this.add.dom(510, 400).createFromCache("nameForm");
+    const nameForm = this.add.dom(512, 450).createFromCache("nameForm");
 
     // スコア送信ボタン
     const submitButton = new SettingButton(
       this,
-      380,
-      440,
-      265,
+      330,
+      500,
+      368,
       72,
       "登録する",
-      24,
-      this.fontFamily,
+      32,
+      "sans-serif",
       0x32b65e,
       "#ffffff"
     );
 
     // 名前検証テキスト
     const validationMessageText = this.add
-      .text(360, 350, "記号なし8文字以内で入力してください", {
+      .text(296, 350, "記号なし8文字以内で入力してください", {
         fontFamily: this.fontFamily,
         fontSize: "14px",
         color: "#d53f3f",
@@ -472,10 +479,10 @@ export default class GameResult extends Phaser.Scene {
       .setVisible(false);
 
     const annotationText = this.add
-      .text(360, 350, "8文字以内", {
-        fontFamily: this.fontFamily,
+      .text(330, 390, "8文字以内", {
+        fontFamily: "sans-serif",
         fontSize: "14px",
-        color: "#333333",
+        color: "#999999",
       })
       .setDepth(5)
 
