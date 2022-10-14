@@ -13,19 +13,26 @@ body {
   background-color: #eaeaea;
 }
 
+#headline {
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: bold;
+  font-family: sans-serif;
+  color: #333333;
+}
 
 
 .menu-bth {
   display: flex;
+  justify-content: space-between;
   column-gap: 32px;
-  padding: 0 24px;
 }
 
 .bth,
 .bth1 {
   display: flex;
-  height: 74px;
-  width: 204px;
+  height: 60px;
+  width: 20%;
   align-items: center;
   justify-content: center;
   font-family: sans-serif;
@@ -42,12 +49,18 @@ body {
   background-color: #ffffff;
 }
 
-/* .bth1 div {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  margin: auto;
-} */
+.bth1 img {
+  padding-left: 21px;
+}
+#modura {
+  padding-left: 0px;
+}
+
+
+.bth1 div {
+  font-size: 13px;
+  margin: 0 auto;
+}
 
 
 #dashboard {
@@ -105,7 +118,7 @@ table td {
   height: 60px;
   border-top: 1.1px inset #333333;
   /* border-bottom: 1.1px inset #333333; */
-  top: 553px;
+  top: 666.5px;
   position: fixed;
 }
 
@@ -113,15 +126,20 @@ table td {
 
 
 #left-fonts {
-  height: 100px;
+  height: 170px;
   flex-flow: column;
   display: flex;
   justify-content: space-around;
   text-align: center;
+  font-family: sans-serif;
 }
 
 #left-fonts div:nth-child(1) {
   color: #32b65e;
+}
+
+#left-fonts div:nth-child(2) {
+  font-weight: bold;
 }
 
 .item td:first-child {
@@ -155,6 +173,7 @@ table td {
   justify-content: center;
   align-items: center;
   width: 256px;
+  width: 20%;
   /* height:100%; */
   border-right: 1px solid #ECECEC;
   border-right: 1px inset #333333;
