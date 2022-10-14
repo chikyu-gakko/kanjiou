@@ -4,7 +4,7 @@ import {getRank, putRanking} from "../api/rank.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({key: "game_result", active: true});
+    super({key: "game_result", active: false});
   }
 
   preload() {
