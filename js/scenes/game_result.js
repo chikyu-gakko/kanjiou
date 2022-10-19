@@ -4,7 +4,7 @@ import {getRank, putRanking} from "../api/rank.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({key: "game_result", active: false});
+    super({key: "game_result", active: false}); // ここはプッシュする時に直す
   }
 
   preload() {
@@ -40,7 +40,6 @@ export default class GameResult extends Phaser.Scene {
   init(data) {
     this.mode = data.mode;
     this.timer = data.time;
-    // this.timer = 30; // develop
     this.ranking = data.ranking;
     this.modalVisible = data.modalVisible;
     this.rankingRegistered = data.rankingRegistered;
@@ -133,8 +132,7 @@ export default class GameResult extends Phaser.Scene {
     );
 
     (async () => {
-      // const rankData = await getRank(60 - this.timer);
-      const rankData = await getRank(60 - 1);
+      const rankData = await getRank(60 - this.timer);
       if (rankData.rank <= 100 && !this.rankingRegistered) {
         if (this.modalVisible) {
           this.rankingModal(rankData.rank);
@@ -442,10 +440,30 @@ export default class GameResult extends Phaser.Scene {
 
       // 1024 / 2 - モーダルの横幅 / 2
 
-    this.add.image(560, 280 ,"clown").setDepth(5);
+      
+      
+    let rankingText = "";
+    let clownXPosition;
 
+    
+    switch (true) {
+      case this.timer<10:
+        rankingText = "あなたの順位 　　   位";
+        clownXPosition = 560;
+        break;
+        case this.timer<90:
+          rankingText = "あなたの順位 　　       位";
+          clownXPosition = 585;
+          break;
+          default:
+        rankingText = "あなたの順位 　　          位";
+        clownXPosition = 580;
+        break;
+      }
+      
+      this.add.image(clownXPosition, 280 ,"clown").setDepth(5);
     const rankMessageText = this.add
-      .text(377, 340, "あなたの順位 　　    位", {
+      .text(377, 340, rankingText, {
         fontFamily:"sans-serif",
         fontSize: "24px",
         color: "#333333",
