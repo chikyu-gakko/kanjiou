@@ -1,10 +1,10 @@
 import SoundButton from "../components/sound_button.js";
 import SettingButton from "../components/setting_button.js";
-import {getRank, putRanking} from "../api/rank.js";
+import { getRank, putRanking } from "../api/rank.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({key: "game_result", active: false});
+    super({ key: "game_result", active: false });
   }
 
   preload() {
@@ -300,12 +300,12 @@ export default class GameResult extends Phaser.Scene {
     this.anims.create({
       key: "fireFlower",
       frames: [
-        {key: "fire1", duration: 300},
-        {key: "fire2", duration: 200},
-        {key: "fire3", duration: 200},
-        {key: "fire4", duration: 200},
-        {key: "fire5", duration: 200},
-        {key: "fire6", duration: 200},
+        { key: "fire1", duration: 300 },
+        { key: "fire2", duration: 200 },
+        { key: "fire3", duration: 200 },
+        { key: "fire4", duration: 200 },
+        { key: "fire5", duration: 200 },
+        { key: "fire6", duration: 200 },
       ],
       frameRate: 24,
       repeat: -1,
@@ -317,45 +317,45 @@ export default class GameResult extends Phaser.Scene {
     this.anims.create({
       key: "moguraAnimation2",
       frames: [
-        {key: "moguraAnim1", duration: 100},
-        {key: "moguraAnim2", duration: 100},
-        {key: "moguraAnim3", duration: 100},
-        {key: "moguraAnim4", duration: 100},
-        {key: "moguraAnim5", duration: 100},
-        {key: "moguraAnim6", duration: 100},
-        {key: "moguraAnim7", duration: 100},
-        {key: "moguraAnim8", duration: 100},
-        {key: "moguraAnim9", duration: 100},
-        {key: "moguraAnim10", duration: 100},
-        {key: "moguraAnim11", duration: 100},
-        {key: "moguraAnim12", duration: 100},
-        {key: "moguraAnim13", duration: 100},
-        {key: "moguraAnim14", duration: 100},
-        {key: "moguraAnim15", duration: 100},
-        {key: "moguraAnim16", duration: 100},
-        {key: "moguraAnim17", duration: 100},
-        {key: "moguraAnim18", duration: 100},
-        {key: "moguraAnim19", duration: 100},
-        {key: "moguraAnim20", duration: 100},
-        {key: "moguraAnim21", duration: 100},
-        {key: "moguraAnim22", duration: 100},
-        {key: "moguraAnim23", duration: 100},
-        {key: "moguraAnim24", duration: 100},
-        {key: "moguraAnim25", duration: 100},
-        {key: "moguraAnim26", duration: 100},
-        {key: "moguraAnim27", duration: 100},
-        {key: "moguraAnim28", duration: 100},
-        {key: "moguraAnim29", duration: 100},
-        {key: "moguraAnim30", duration: 100},
-        {key: "moguraAnim31", duration: 100},
-        {key: "moguraAnim32", duration: 100},
-        {key: "moguraAnim33", duration: 100},
-        {key: "moguraAnim34", duration: 100},
-        {key: "moguraAnim35", duration: 100},
-        {key: "moguraAnim36", duration: 100},
-        {key: "moguraAnim23", duration: 100},
-        {key: "moguraAnim24", duration: 100},
-        {key: "moguraAnim25", duration: 100},
+        { key: "moguraAnim1", duration: 100 },
+        { key: "moguraAnim2", duration: 100 },
+        { key: "moguraAnim3", duration: 100 },
+        { key: "moguraAnim4", duration: 100 },
+        { key: "moguraAnim5", duration: 100 },
+        { key: "moguraAnim6", duration: 100 },
+        { key: "moguraAnim7", duration: 100 },
+        { key: "moguraAnim8", duration: 100 },
+        { key: "moguraAnim9", duration: 100 },
+        { key: "moguraAnim10", duration: 100 },
+        { key: "moguraAnim11", duration: 100 },
+        { key: "moguraAnim12", duration: 100 },
+        { key: "moguraAnim13", duration: 100 },
+        { key: "moguraAnim14", duration: 100 },
+        { key: "moguraAnim15", duration: 100 },
+        { key: "moguraAnim16", duration: 100 },
+        { key: "moguraAnim17", duration: 100 },
+        { key: "moguraAnim18", duration: 100 },
+        { key: "moguraAnim19", duration: 100 },
+        { key: "moguraAnim20", duration: 100 },
+        { key: "moguraAnim21", duration: 100 },
+        { key: "moguraAnim22", duration: 100 },
+        { key: "moguraAnim23", duration: 100 },
+        { key: "moguraAnim24", duration: 100 },
+        { key: "moguraAnim25", duration: 100 },
+        { key: "moguraAnim26", duration: 100 },
+        { key: "moguraAnim27", duration: 100 },
+        { key: "moguraAnim28", duration: 100 },
+        { key: "moguraAnim29", duration: 100 },
+        { key: "moguraAnim30", duration: 100 },
+        { key: "moguraAnim31", duration: 100 },
+        { key: "moguraAnim32", duration: 100 },
+        { key: "moguraAnim33", duration: 100 },
+        { key: "moguraAnim34", duration: 100 },
+        { key: "moguraAnim35", duration: 100 },
+        { key: "moguraAnim36", duration: 100 },
+        { key: "moguraAnim23", duration: 100 },
+        { key: "moguraAnim24", duration: 100 },
+        { key: "moguraAnim25", duration: 100 },
       ],
       frameRate: 24,
       repeat: -1,
@@ -477,7 +477,7 @@ export default class GameResult extends Phaser.Scene {
         fontSize: "14px",
         color: "#333333",
       })
-      .setDepth(5)
+      .setDepth(5);
 
     const celebrationText = this.add
       .text(290, 150, "ランキング入りおめでとう！", {
@@ -485,7 +485,7 @@ export default class GameResult extends Phaser.Scene {
         fontSize: "36px",
         color: "#FFFFFF",
       })
-      .setDepth(5)
+      .setDepth(5);
 
     const httpStatusMessage = this.add
       .text(420, 400, "登録に成功しました", {

@@ -3,7 +3,7 @@ import SoundButton from "../components/sound_button.js";
 
 export default class SekainomojiGameSetting extends Phaser.Scene {
   constructor() {
-    super({key: "sekainomoji_game_setting", active: false});
+    super({ key: "sekainomoji_game_setting", active: false });
   }
 
   preload() {
@@ -21,7 +21,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
 
   init(data) {
     this.mode = "時間制限";
-    this.country = "タイ"
+    this.country = "タイ";
 
     if (data.mode) {
       switch (data.mode) {
@@ -44,7 +44,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     // 音楽
     if (this.sound.get("top_bgm") === null) {
       this.sound.add("top_bgm");
-      this.sound.play("top_bgm", {loop: true});
+      this.sound.play("top_bgm", { loop: true });
     }
 
     this.soundButton = new SoundButton(this, 70, 700, 40);
@@ -273,9 +273,9 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     this.categoryButtons.forEach((element) => {
       if (this.selectedSettingCategory === element.getData("value")) {
         if (element.getData("value") === "challenge")
-          element.setStyle({color: "#B63237"});
-        else element.setStyle({color: "#00bfff"});
-      } else element.setStyle({color: "#ffffff"});
+          element.setStyle({ color: "#B63237" });
+        else element.setStyle({ color: "#00bfff" });
+      } else element.setStyle({ color: "#ffffff" });
     });
 
     this.settingElements.forEach((element) => {
