@@ -32,7 +32,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
   init(data) {
     this.size = "ふつう";
     this.mode = "時間制限";
-    this.country = "タイ"
+    this.country = "タイ";
 
     if (data.sizeY) {
       switch (data.sizeY) {
