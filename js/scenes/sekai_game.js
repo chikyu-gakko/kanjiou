@@ -1,9 +1,9 @@
-import {characterList} from "../characterlist.js";
+import { characterList } from "../characterlist.js";
 import SoundButton from "../components/sound_button.js";
 
 export default class SekaiGame extends Phaser.Scene {
   constructor() {
-    super({key: "sekai_game", active: false});
+    super({ key: "sekai_game", active: false });
   }
 
   preload() {
