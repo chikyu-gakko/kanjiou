@@ -7,6 +7,7 @@ import GameResult from "./scenes/game_result.js";
 import OpenLogo from "./scenes/open_logo.js";
 import HowToPlay from "./scenes/how_to_play.js";
 import PauseMenu from "./scenes/pause_menu.js";
+import SekaiGame from "./scenes/sekai_game.js";
 
 const gameElement = document.getElementById("game");
 
@@ -40,3 +41,4 @@ game.scene.add("sekainomoji_game_setting", SekainomojiGameSetting);
 game.scene.add("game_result", GameResult);
 game.scene.add("how_to_play", HowToPlay);
 game.scene.add("pause_menu", PauseMenu);
+game.scene.add("sekai_game", SekaiGame);

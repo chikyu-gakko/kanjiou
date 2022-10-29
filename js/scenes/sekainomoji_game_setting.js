@@ -20,9 +20,21 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
   }
 
   init(data) {
+    this.size = "ふつう";
     this.mode = "時間制限";
     this.country = "タイ"
 
+    if (data.sizeY) {
+      switch (data.sizeY) {
+        case 3:
+          this.size = "少ない";
+          break;
+        case 6:
+          this.size = "多い";
+          break;
+        default:
+      }
+    }
     if (data.mode) {
       switch (data.mode) {
         case "timeAttack":
@@ -33,7 +45,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     }
 
     // 設定の選択肢の初期値
-    this.selectedSettingCategory = "mode";
+    this.selectedSettingCategory = "size";
     this.challenge = false;
     this.categoryButtons = [];
     this.settingElements = [];
@@ -102,30 +114,45 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
           this.sound.stopAll();
           this.sound.removeByKey("top_bgm");
           gameStartSe.play();
-          // let mode = "";
-          // switch (this.mode) {
-          //   case "時間制限":
-          //     mode = "timeLimit";
-          //     break;
-          //   case "タイムアタック":
-          //     mode = "timeAttack";
-          //     break;
-          //   default:
-          //     mode = "suddenDeath";
-          // }
-          // switch (this.challenge) {
-          //   case "サドンデス":
-          //     mode = "suddenDeath";
-          //     break;
-          //   default:
-          // }
-          // this.scene.start("hitsuji_game", {
-          //   sizeY,
-          //   sizeX,
-          //   mode,
-          //   isChallenge: Boolean(this.challenge),
-          //   schoolYear: this.schoolYear,
-          // });
+          let mode = "";
+          let sizeY = 0;
+          let sizeX = 0;
+          switch (this.size) {
+            case "少ない":
+              sizeY = 3;
+              sizeX = 6;
+              break;
+            case "多い":
+              sizeY = 6;
+              sizeX = 12;
+              break;
+            default:
+              sizeY = 4;
+              sizeX = 8;
+          }
+          switch (this.mode) {
+            case "時間制限":
+              mode = "timeLimit";
+              break;
+            case "タイムアタック":
+              mode = "timeAttack";
+              break;
+            default:
+              mode = "suddenDeath";
+          }
+          switch (this.challenge) {
+            case "サドンデス":
+              mode = "suddenDeath";
+              break;
+            default:
+          }
+          this.scene.start("sekai_game", {
+            sizeY,
+            sizeX,
+            mode,
+            isChallenge: Boolean(this.challenge),
+            country: this.country,
+          });
         },
         this
       );
@@ -166,9 +193,18 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     });
 
     this.categoryButtons = [
+      // ゲームサイズ
+      this.add
+        .text(194, 236, "文字の数", {
+          fontSize: 32,
+          padding: 3,
+          fontFamily: this.fontFamily,
+        })
+        .setData("value", "size"),
+
       // プレイモード
       this.add
-        .text(162, 236, "ゲームモード", {
+        .text(162, 350, "ゲームモード", {
           fontSize: 32,
           padding: 3,
           fontFamily: this.fontFamily,
@@ -176,7 +212,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         .setData("value", "mode"),
 
       this.add
-        .text(162, 350, "どこの国？", {
+        .text(162, 463, "どこの国？", {
           fontSize: 32,
           padding: 3,
           fontFamily: this.fontFamily,
@@ -195,6 +231,37 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     );
 
     this.settingElements = [
+      new SettingButton(
+        this,
+        585,
+        224,
+        134,
+        56,
+        "少ない",
+        24,
+        this.fontFamily
+      ).setData("category", "size"),
+      new SettingButton(
+        this,
+        585,
+        338,
+        134,
+        56,
+        "ふつう",
+        24,
+        this.fontFamily
+      ).setData("category", "size"),
+      new SettingButton(
+        this,
+        585,
+        451,
+        134,
+        56,
+        "多い",
+        24,
+        this.fontFamily
+      ).setData("category", "size"),
+
       new SettingButton(
         this,
         585,
