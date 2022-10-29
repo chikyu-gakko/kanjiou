@@ -1,6 +1,6 @@
 export default class OpenLogo extends Phaser.Scene {
   constructor() {
-    super({ key: "logo", active: true });
+    super({key: "logo", active: true});
   }
 
   init() {
@@ -22,10 +22,23 @@ export default class OpenLogo extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(this.game.canvas.width / 2, 600, "画面をタッチしてスタート！", {
+      .text(this.game.canvas.width / 2, 150, "画面をタッチしてスタート！", {
         fill: "#ffff",
         fontFamily: this.fontFamily,
-        fontSize: "32px",
+        fontSize: "48px",
+      })
+      .setOrigin(0.5, 0);
+
+
+    this.add
+      .text(this.game.canvas.width / 2, 600, `
+      ●漢字王決定戦は認定NPO法人地球学校の登録商標です（5793032）
+      ●当ゲームに含まれるグラフィック、イラスト、音楽、文章を含むすべてのコンテンツの
+        権利は認定NPO法人地球学校が有しています。無断で転載することはできません。
+        `, {
+        fill: "#ffff",
+        fontFamily: this.fontFamily,
+        fontSize: "16px",
       })
       .setOrigin(0.5, 0);
 
