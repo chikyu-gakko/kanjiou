@@ -1,51 +1,43 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>漢字王決定戦</title>
-    <script type="text/javascript">
-      window.onload = function () {
-        if (location.search != "") location.href = "/";
-      };
-    </script>
-    <link rel="stylesheet" href="style.css" />
-  </head>
 
-  <body>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-68PVBL7TST"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>漢字王決定戦</title>
+  <script type="text/javascript">
+    window.onload = function () {
+      if (location.search != "") location.href = "/";
+    };
+  </script>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-      gtag("config", "G-68PVBL7TST");
-    </script>
-    <div
-      id="game"
-      style="font-family: 'UD デジタル 教科書体 NP-R', 'KleeOne'"
-    >
-    </div>
-    <p id="copyright">
-      ●漢字王決定戦は認定NPO法人地球学校の登録商標です（5793032） </br>
-      ●当ゲームに含まれるグラフィック、イラスト、音楽、文章を含むすべてのコンテンツの権利は認定NPO法人地球学校が有しています。無断で転載することはできません。
-    </p>
-    <script type="module" src="js/index.js"></script>
-    <script type="module" src="js/scenes/game_menu.js"></script>
-    <script type="module" src="js/scenes/game_setting.js"></script>
-    <script type="module" src="js/scenes/hitsuji_game.js"></script>
-    <script type="module" src="js/scenes/game_result.js"></script>
-    <script type="module" src="js/kanjilist.js"></script>
-    <script type="module" src="js/scenes/how_to_play.js"></script>
-    <script type="module" src="js/components/setting_button.js"></script>
-    <script type="module" src="js/components/sound_button.js"></script>
-    <script type="module" src="js/components/sound_button.js"></script>
-  </body>
+<body>
+  <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-68PVBL7TST"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-68PVBL7TST");
+  </script>
+  <div id="game" style="font-family: 'UD デジタル 教科書体 NP-R', 'KleeOne'">
+  </div>
+  <script type="module" src="js/index.js"></script>
+  <script type="module" src="js/scenes/game_menu.js"></script>
+  <script type="module" src="js/scenes/game_setting.js"></script>
+  <script type="module" src="js/scenes/hitsuji_game.js"></script>
+  <script type="module" src="js/scenes/game_result.js"></script>
+  <script type="module" src="js/kanjilist.js"></script>
+  <script type="module" src="js/scenes/how_to_play.js"></script>
+  <script type="module" src="js/components/setting_button.js"></script>
+  <script type="module" src="js/components/sound_button.js"></script>
+  <script type="module" src="js/components/sound_button.js"></script>
+</body>
+
 </html>
