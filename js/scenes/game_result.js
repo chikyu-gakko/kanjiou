@@ -39,8 +39,7 @@ export default class GameResult extends Phaser.Scene {
 
   init(data) {
     this.mode = data.mode;
-    // this.timer = data.time;
-    this.timer = 38;
+    this.timer = data.time;
     this.ranking = getRank(this.timer);
     this.modalVisible = data.modalVisible;
     this.rankingRegistered = data.rankingRegistered;
@@ -444,16 +443,10 @@ export default class GameResult extends Phaser.Scene {
     rankingMenuBox
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(296, 234, 432, 367, 14).depth = 4;
-      // .fillRoundedRect(312, 234, 400, 300, 10).depth = 4;
 
-      // 1024 / 2 - モーダルの横幅 / 2
-
-      
       
     let rankingText = "";
     let clownXPosition;
-    // let number = await this.ranking;
-    console.log(rank);
 
     switch (true) {
       case rank<10:
