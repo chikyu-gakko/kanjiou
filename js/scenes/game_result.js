@@ -4,7 +4,7 @@ import {getRank, putRanking} from "../api/rank.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({key: "game_result", active: false}); // ここはプッシュする時に直す
+    super({key: "game_result", active: false}); 
   }
 
   preload() {
@@ -39,8 +39,9 @@ export default class GameResult extends Phaser.Scene {
 
   init(data) {
     this.mode = data.mode;
-    this.timer = data.time;
-    this.ranking = data.ranking;
+    // this.timer = data.time;
+    this.timer = 38;
+    this.ranking = getRank(this.timer);
     this.modalVisible = data.modalVisible;
     this.rankingRegistered = data.rankingRegistered;
     this.answers = data.answers;
@@ -221,10 +222,13 @@ export default class GameResult extends Phaser.Scene {
       switch (this.mode) {
         case "timeLimit":
           return "残り時間：";
+
         case "timeAttack":
           return "かかった時間：";
+
         case "suddenDeath":
           return "クリアした問題数：";
+
         default:
           return "";
       }
@@ -233,10 +237,13 @@ export default class GameResult extends Phaser.Scene {
       switch (this.mode) {
         case "timeLimit":
           return 60 - this.timer;
+
         case "timeAttack":
           return this.timer;
+
         case "suddenDeath":
           return this.answers;
+
         default:
           return "";
       }
@@ -413,6 +420,7 @@ export default class GameResult extends Phaser.Scene {
         color: "#AA9311",
       });
       rankText.depth = 5;
+      console.log(rank)
     } catch (e) {
       // rankText.destroy();
       // rankText = this.add.text(560, 305, e.message, {
@@ -444,24 +452,24 @@ export default class GameResult extends Phaser.Scene {
       
     let rankingText = "";
     let clownXPosition;
+    // let number = await this.ranking;
+    console.log(rank);
 
-    
     switch (true) {
-      case this.timer<10:
+      case rank<10:
         rankingText = "あなたの順位 　　   位";
         clownXPosition = 560;
         break;
-        case this.timer<90:
+      case rank<99:
           rankingText = "あなたの順位 　　       位";
           clownXPosition = 585;
           break;
-          default:
+      default:
         rankingText = "あなたの順位 　　          位";
         clownXPosition = 580;
-        break;
       }
       
-      this.add.image(clownXPosition, 280 ,"clown").setDepth(5);
+    this.add.image(clownXPosition, 280 ,"clown").setDepth(5);
     const rankMessageText = this.add
       .text(377, 340, rankingText, {
         fontFamily:"sans-serif",
