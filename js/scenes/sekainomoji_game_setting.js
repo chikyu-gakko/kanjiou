@@ -60,7 +60,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         case Size.S.y:
           this.size = Size.S.name;
           break;
-        case size.L.y:
+        case Size.L.y:
           this.size = Size.L.name;
           break;
         default:
