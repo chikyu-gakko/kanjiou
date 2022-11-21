@@ -1,6 +1,27 @@
 import SettingButton from "../components/setting_button.js";
 import SoundButton from "../components/sound_button.js";
 
+const Size = {
+  S: {
+    id: 1,
+    name: "少ない",
+    y: 3,
+    x: 4,
+  },
+  M: {
+    id: 2,
+    name: "ふつう",
+    y: 4,
+    x: 8,
+  },
+  L: {
+    id: 3,
+    name: "多い",
+    y: 6,
+    x: 12,
+  }
+}
+
 export default class SekainomojiGameSetting extends Phaser.Scene {
   constructor() {
     super({ key: "sekainomoji_game_setting", active: false });
@@ -30,17 +51,17 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
   }
 
   init(data) {
-    this.size = "ふつう";
+    this.size = Size.M.name;
     this.mode = "時間制限";
     this.country = "タイ";
 
     if (data.sizeY) {
       switch (data.sizeY) {
-        case 3:
-          this.size = "少ない";
+        case Size.S.y:
+          this.size = Size.S.name;
           break;
-        case 6:
-          this.size = "多い";
+        case size.L.y:
+          this.size = Size.L.name;
           break;
         default:
       }
@@ -127,17 +148,17 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
           let sizeY = 0;
           let sizeX = 0;
           switch (this.size) {
-            case "少ない":
-              sizeY = 3;
-              sizeX = 6;
+            case Size.S.name:
+              sizeY = Size.S.y;
+              sizeX = Size.S.x;
               break;
-            case "多い":
-              sizeY = 6;
-              sizeX = 12;
+            case Size.L.name:
+              sizeY = Size.L.y;
+              sizeX = Size.L.x;
               break;
             default:
-              sizeY = 4;
-              sizeX = 8;
+              sizeY = Size.M.y;
+              sizeX = Size.M.x;
           }
           switch (this.mode) {
             case "時間制限":
