@@ -84,7 +84,7 @@ export default class SekaiGame extends Phaser.Scene {
       .setInteractive()
       .on("pointerdown", () => {
         this.scene.pause();
-        this.scene.launch("pause_menu");
+        this.scene.launch("sekai_pause_menu");
       });
 
     this.createTimerComponent();
@@ -102,7 +102,7 @@ export default class SekaiGame extends Phaser.Scene {
         case "restart":
           this.events.off();
           this.scene.stop();
-          this.scene.start("hitsuji_game", {
+          this.scene.start("sekai_game", {
             sizeY: this.sizeY,
             sizeX: this.sizeX,
             mode: this.mode,
@@ -112,12 +112,12 @@ export default class SekaiGame extends Phaser.Scene {
         case "return-to-top":
           this.events.off();
           this.scene.stop();
-          this.scene.start("game_menu");
+          this.scene.start("sekai_game_menu");
           break;
         case "return-to-setting":
           this.events.off();
           this.scene.stop();
-          this.scene.start("game_setting", {
+          this.scene.start("sekainomoji_game_setting", {
             sizeY: this.sizeY,
             sizeX: this.sizeX,
             mode: this.mode,
