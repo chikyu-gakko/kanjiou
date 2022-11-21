@@ -3,20 +3,30 @@ import SoundButton from "../components/sound_button.js";
 
 export default class SekainomojiGameSetting extends Phaser.Scene {
   constructor() {
-    super({key: "sekainomoji_game_setting", active: false});
+    super({ key: "sekainomoji_game_setting", active: false });
   }
 
   preload() {
     // メニュー画面に出てくる画像のロード
     this.load.path = window.location.href.replace("index.html", "");
 
-    this.load.image("sound", "assets/img/sound.png");
-    this.load.image("mute", "assets/img/mute.png");
-    this.load.image("mogura", "assets/img/fun_mogura1.png");
+    const images = [
+      ["sound", "assets/img/sound.png"],
+      ["mute", "assets/img/mute.png"],
+      ["mogura", "assets/img/fun_mogura1.png"],
+    ];
+    images.forEach(image => {
+      this.load.image(...image)
+    })
 
     // bgm
-    this.load.audio("top_bgm", "assets/audio/top.mp3");
-    this.load.audio("game_start_se", "assets/audio/game_start.mp3");
+    const bgms = [
+      ["top_bgm", "assets/audio/top.mp3"],
+      ["game_start_se", "assets/audio/game_start.mp3"]
+    ];
+    bgms.forEach(bgm => {
+      this.load.audio(...bgm)
+    })
   }
 
   init(data) {
@@ -56,7 +66,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     // 音楽
     if (this.sound.get("top_bgm") === null) {
       this.sound.add("top_bgm");
-      this.sound.play("top_bgm", {loop: true});
+      this.sound.play("top_bgm", { loop: true });
     }
 
     this.soundButton = new SoundButton(this, 70, 700, 40);
@@ -97,7 +107,6 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     const gameStartSe = this.sound.add("game_start_se");
 
     // ゲームスタートボタン・テキスト
-    // TODO: 実際のゲームへ遷移
     this.add
       .graphics()
       .lineStyle(2, 0x645246)
@@ -340,9 +349,9 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     this.categoryButtons.forEach((element) => {
       if (this.selectedSettingCategory === element.getData("value")) {
         if (element.getData("value") === "challenge")
-          element.setStyle({color: "#B63237"});
-        else element.setStyle({color: "#00bfff"});
-      } else element.setStyle({color: "#ffffff"});
+          element.setStyle({ color: "#B63237" });
+        else element.setStyle({ color: "#00bfff" });
+      } else element.setStyle({ color: "#ffffff" });
     });
 
     this.settingElements.forEach((element) => {
