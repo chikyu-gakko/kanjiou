@@ -22,6 +22,37 @@ const Size = {
   }
 }
 
+const Mode = {
+  TimeLimit: {
+    id: 1,
+    name: "時間制限",
+  },
+  TimeAttack: {
+    id: 2,
+    name: "タイムアタック",
+  },
+  SuddenDeath: {
+    id: 3,
+    name: "サドンデス",
+  },
+  // TODO: 新しいモードを実装する
+  Learn: {
+    id: 4,
+    name: "学習",
+  }
+}
+
+const images = [
+  ["sound", "assets/img/sound.png"],
+  ["mute", "assets/img/mute.png"],
+  ["mogura", "assets/img/fun_mogura1.png"],
+];
+
+const bgms = [
+  ["top_bgm", "assets/audio/top.mp3"],
+  ["game_start_se", "assets/audio/game_start.mp3"]
+];
+
 export default class SekainomojiGameSetting extends Phaser.Scene {
   constructor() {
     super({ key: "sekainomoji_game_setting", active: false });
@@ -31,20 +62,10 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     // メニュー画面に出てくる画像のロード
     this.load.path = window.location.href.replace("index.html", "");
 
-    const images = [
-      ["sound", "assets/img/sound.png"],
-      ["mute", "assets/img/mute.png"],
-      ["mogura", "assets/img/fun_mogura1.png"],
-    ];
     images.forEach(image => {
       this.load.image(...image)
     })
 
-    // bgm
-    const bgms = [
-      ["top_bgm", "assets/audio/top.mp3"],
-      ["game_start_se", "assets/audio/game_start.mp3"]
-    ];
     bgms.forEach(bgm => {
       this.load.audio(...bgm)
     })
@@ -52,7 +73,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
 
   init(data) {
     this.size = Size.M.name;
-    this.mode = "時間制限";
+    this.mode = Mode.TimeLimit.name;
     this.country = "タイ";
 
     if (data.sizeY) {
@@ -69,7 +90,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     if (data.mode) {
       switch (data.mode) {
         case "timeAttack":
-          this.mode = "タイムアタック";
+          this.mode = Mode.TimeAttack.name;
           break;
         default:
       }
@@ -161,17 +182,17 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
               sizeX = Size.M.x;
           }
           switch (this.mode) {
-            case "時間制限":
+            case Mode.TimeLimit.name:
               mode = "timeLimit";
               break;
-            case "タイムアタック":
+            case Mode.TimeAttack.name:
               mode = "timeAttack";
               break;
             default:
               mode = "suddenDeath";
           }
           switch (this.challenge) {
-            case "サドンデス":
+            case Mode.SuddenDeath.name:
               mode = "suddenDeath";
               break;
             default:
@@ -298,7 +319,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         280,
         160,
         56,
-        "時間制限",
+        Mode.TimeLimit.name,
         24,
         this.fontFamily
       ).setData("category", "mode"),
@@ -308,7 +329,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         424,
         229,
         56,
-        "タイムアタック",
+        Mode.TimeAttack.name,
         24,
         this.fontFamily
       ).setData("category", "mode"),
@@ -328,7 +349,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         304,
         184,
         56,
-        "サドンデス",
+        Mode.SuddenDeath.name,
         24,
         this.fontFamily
       ).setData("category", "challenge"),
