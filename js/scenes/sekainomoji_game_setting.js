@@ -21,7 +21,6 @@ const Size = {
     x: 12,
   }
 }
-
 const Mode = {
   TimeLimit: {
     id: 1,
@@ -41,13 +40,18 @@ const Mode = {
     name: "学習",
   }
 }
+const Category = {
+  Size: "size",
+  Mode: "mode",
+  Country: "country",
+  Challenge: "challenge",
+}
 
 const images = [
   ["sound", "assets/img/sound.png"],
   ["mute", "assets/img/mute.png"],
   ["mogura", "assets/img/fun_mogura1.png"],
 ];
-
 const bgms = [
   ["top_bgm", "assets/audio/top.mp3"],
   ["game_start_se", "assets/audio/game_start.mp3"]
@@ -61,11 +65,9 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
   preload() {
     // メニュー画面に出てくる画像のロード
     this.load.path = window.location.href.replace("index.html", "");
-
     images.forEach(image => {
       this.load.image(...image)
     })
-
     bgms.forEach(bgm => {
       this.load.audio(...bgm)
     })
@@ -291,7 +293,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         "少ない",
         24,
         this.fontFamily
-      ).setData("category", "size"),
+      ).setData("category", Category.Size),
       new SettingButton(
         this,
         585,
@@ -301,7 +303,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         "ふつう",
         24,
         this.fontFamily
-      ).setData("category", "size"),
+      ).setData("category", Category.Size),
       new SettingButton(
         this,
         585,
@@ -311,7 +313,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         "多い",
         24,
         this.fontFamily
-      ).setData("category", "size"),
+      ).setData("category", Category.Size),
 
       new SettingButton(
         this,
@@ -322,7 +324,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         Mode.TimeLimit.name,
         24,
         this.fontFamily
-      ).setData("category", "mode"),
+      ).setData("category", Category.Mode),
       new SettingButton(
         this,
         551,
@@ -332,7 +334,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         Mode.TimeAttack.name,
         24,
         this.fontFamily
-      ).setData("category", "mode"),
+      ).setData("category", Category.Mode),
       new SettingButton(
         this,
         455,
@@ -342,7 +344,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         "タイ",
         24,
         this.fontFamily
-      ).setData("category", "country"),
+      ).setData("category", Category.Country),
       new SettingButton(
         this,
         561,
@@ -352,7 +354,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
         Mode.SuddenDeath.name,
         24,
         this.fontFamily
-      ).setData("category", "challenge"),
+      ).setData("category", Category.Challenge),
       this.add
         .text(
           456,
@@ -364,7 +366,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
             align: "center",
           }
         )
-        .setData("category", "challenge")
+        .setData("category", Category.Challenge)
         .setLineSpacing(12),
     ];
     this.settingElements.forEach((element) => {
@@ -373,7 +375,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
           "pointerdown",
           () => {
             if (
-              element.getData("category") === "challenge" &&
+              element.getData("category") === Category.Challenge &&
               this.challenge === element.getData("value")
             )
               this.challenge = false;
@@ -390,7 +392,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
   updateView() {
     this.categoryButtons.forEach((element) => {
       if (this.selectedSettingCategory === element.getData("value")) {
-        if (element.getData("value") === "challenge")
+        if (element.getData("value") === Category.Challenge)
           element.setStyle({ color: "#B63237" });
         else element.setStyle({ color: "#00bfff" });
       } else element.setStyle({ color: "#ffffff" });
