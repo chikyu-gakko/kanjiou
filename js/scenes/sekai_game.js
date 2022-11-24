@@ -327,7 +327,7 @@ export default class SekaiGame extends Phaser.Scene {
           fontFamily: this.fontFamily,
         }
       );
-    } else if (this.mode === "timeAttack" || this.mode === "timeLimit") {
+    } else if (this.mode === "timeAttack" || this.mode === "timeLimit" || this.mode === "learn") {
       this.answerComponent = this.add.text(
         155,
         671,
@@ -359,6 +359,14 @@ export default class SekaiGame extends Phaser.Scene {
     } else if (this.mode === "timeAttack") {
       this.timerComponent = this.add
         .text(this.game.canvas.width / 2, 54, `タイム：${this.timer}秒`, {
+          fill: 0x333333,
+          fontSize: 50,
+          fontFamily: this.fontFamily,
+        })
+        .setOrigin(0.5, 0);
+    } else if (this.mode === "learn") {
+      this.timerComponent = this.add
+        .text(this.game.canvas.width / 2, 54, `経過時間：${this.timer}秒`, {
           fill: 0x333333,
           fontSize: 50,
           fontFamily: this.fontFamily,

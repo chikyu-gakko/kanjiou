@@ -24,20 +24,24 @@ const Size = {
 const Mode = {
   TimeLimit: {
     id: 1,
-    name: "時間制限",
+    name: "timeLimit",
+    text: "時間制限"
   },
   TimeAttack: {
     id: 2,
-    name: "タイムアタック",
+    name: "timeAttack",
+    text: "タイムアタック",
   },
   SuddenDeath: {
     id: 3,
-    name: "サドンデス",
+    name: "suddenDeath",
+    text: "サドンデス",
   },
   // TODO: 新しいモードを実装する
   Learn: {
     id: 4,
-    name: "学習",
+    name: "learn",
+    text: "学習",
   }
 }
 const Category = {
@@ -96,7 +100,7 @@ const settingButtonArgs = [
     y: 250,
     width: 160,
     height: 56,
-    text: Mode.TimeLimit.name,
+    text: Mode.TimeLimit.text,
     fontSize: 24,
     dataKey: "category",
     dataValue: Category.Mode
@@ -107,7 +111,7 @@ const settingButtonArgs = [
     y: 350,
     width: 229,
     height: 56,
-    text: Mode.TimeAttack.name,
+    text: Mode.TimeAttack.text,
     fontSize: 24,
     dataKey: "category",
     dataValue: Category.Mode
@@ -118,7 +122,7 @@ const settingButtonArgs = [
     y: 463,
     width: 229,
     height: 56,
-    text: Mode.Learn.name,
+    text: Mode.Learn.text,
     fontSize: 24,
     dataKey: "category",
     dataValue: Category.Mode
@@ -233,10 +237,17 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     }
     if (data.mode) {
       switch (data.mode) {
-        case "timeAttack":
+        case Mode.TimeAttack.text:
           this.mode = Mode.TimeAttack.name;
           break;
+        case Mode.TimeLimit.text:
+          this.mode = Mode.TimeLimit.name;
+          break;
+        case Mode.Learn.text:
+          this.mode = Mode.Learn.name;
+          break;
         default:
+          this.mode = Mode.SuddenDeath.name;
       }
     }
 
@@ -326,11 +337,14 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
               sizeX = Size.M.x;
           }
           switch (this.mode) {
-            case Mode.TimeLimit.name:
-              mode = "timeLimit";
+            case Mode.TimeLimit.text:
+              mode = Mode.TimeLimit.name;
               break;
-            case Mode.TimeAttack.name:
-              mode = "timeAttack";
+            case Mode.TimeAttack.text:
+              mode = Mode.TimeAttack.name;
+              break;
+            case Mode.Learn.text:
+              mode = Mode.Learn.name;
               break;
             default:
               mode = "suddenDeath";
