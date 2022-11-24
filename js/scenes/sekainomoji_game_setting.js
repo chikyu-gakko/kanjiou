@@ -112,17 +112,7 @@ const settingButtonArgs = [
     dataKey: "category",
     dataValue: Category.Mode
   },
-  {
-    type: "button",
-    x: 455,
-    y: 200,
-    width: 114,
-    height: 56,
-    text: "タイ",
-    fontSize: 24,
-    dataKey: "category",
-    dataValue: Category.Country
-  },
+  // なぜかコード内だけにある？
   // {
   //   type: "button",
   //   x: 561,
@@ -134,6 +124,17 @@ const settingButtonArgs = [
   //   dataKey: "category",
   //   dataValue: Category.Mode
   // },
+  {
+    type: "button",
+    x: 455,
+    y: 200,
+    width: 114,
+    height: 56,
+    text: "タイ",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Country
+  },
   {
     type: "text",
     x: 456,
