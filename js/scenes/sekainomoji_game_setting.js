@@ -93,7 +93,7 @@ const settingButtonArgs = [
   {
     type: "button",
     x: 585,
-    y: 280,
+    y: 250,
     width: 160,
     height: 56,
     text: Mode.TimeLimit.name,
@@ -104,10 +104,21 @@ const settingButtonArgs = [
   {
     type: "button",
     x: 551,
-    y: 424,
+    y: 350,
     width: 229,
     height: 56,
     text: Mode.TimeAttack.name,
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Mode
+  },
+  {
+    type: "button",
+    x: 551,
+    y: 463,
+    width: 229,
+    height: 56,
+    text: Mode.Learn.name,
     fontSize: 24,
     dataKey: "category",
     dataValue: Category.Mode
