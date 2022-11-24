@@ -56,6 +56,136 @@ const bgms = [
   ["top_bgm", "assets/audio/top.mp3"],
   ["game_start_se", "assets/audio/game_start.mp3"]
 ];
+const settingButtonArgs = [
+  {
+    type: "button",
+    x: 585,
+    y: 224,
+    width: 134,
+    height: 56,
+    text: "少ない",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Size
+  },
+  {
+    type: "button",
+    x: 585,
+    y: 338,
+    width: 134,
+    height: 56,
+    text: "ふつう",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Size
+  },
+  {
+    type: "button",
+    x: 585,
+    y: 451,
+    width: 134,
+    height: 56,
+    text: "多い",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Size
+  },
+  {
+    type: "button",
+    x: 585,
+    y: 280,
+    width: 160,
+    height: 56,
+    text: Mode.TimeLimit.name,
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Mode
+  },
+  {
+    type: "button",
+    x: 551,
+    y: 424,
+    width: 229,
+    height: 56,
+    text: Mode.TimeAttack.name,
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Mode
+  },
+  {
+    type: "button",
+    x: 455,
+    y: 200,
+    width: 114,
+    height: 56,
+    text: "タイ",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Country
+  },
+  // {
+  //   type: "button",
+  //   x: 561,
+  //   y: 304,
+  //   width: 184,
+  //   height: 56,
+  //   text: Mode.SuddenDeath.name,
+  //   fontSize: 24,
+  //   dataKey: "category",
+  //   dataValue: Category.Mode
+  // },
+  {
+    type: "text",
+    x: 456,
+    y: 380,
+    text: "すべての漢字が登場！\nどんどん難易度が上がっていくぞ！",
+    font: {
+      size: 24,
+      align: "center",
+    },
+    dataKey: "category",
+    dataValue: Category.Challenge,
+    lineSpacing: 12
+  }
+];
+const categoryButtonArgs = [
+  // ゲームサイズ
+  {
+    x: 194,
+    y: 256,
+    text: "文字の数",
+    font: {
+      size: 32,
+      padding: 3,
+    },
+    dataKey: "value",
+    dataValue: "size"
+  },
+  // プレイモード
+  {
+    x: 162,
+    y: 350,
+    text: "ゲームモード",
+    font: {
+      size: 32,
+      padding: 3,
+    },
+    dataKey: "value",
+    dataValue: "mode"
+  },
+  {
+    x: 162,
+    y: 463,
+    text: "どこの国？",
+    font: {
+      size: 32,
+      padding: 3
+    },
+    dataKey: "value",
+    dataValue: "country"
+  }
+];
+
 
 export default class SekainomojiGameSetting extends Phaser.Scene {
   constructor() {
@@ -245,33 +375,18 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
       fontFamily: this.fontFamily,
     });
 
-    this.categoryButtons = [
-      // ゲームサイズ
-      this.add
-        .text(194, 236, "文字の数", {
-          fontSize: 32,
-          padding: 3,
+    this.categoryButtons = categoryButtonArgs.map(arg => {
+      return this.add.text(
+        arg.x,
+        arg.y,
+        arg.text,
+        {
+          fontSize: arg.font.size,
           fontFamily: this.fontFamily,
-        })
-        .setData("value", "size"),
-
-      // プレイモード
-      this.add
-        .text(162, 350, "ゲームモード", {
-          fontSize: 32,
-          padding: 3,
-          fontFamily: this.fontFamily,
-        })
-        .setData("value", "mode"),
-
-      this.add
-        .text(162, 463, "どこの国？", {
-          fontSize: 32,
-          padding: 3,
-          fontFamily: this.fontFamily,
-        })
-        .setData("value", "country"),
-    ];
+          align: arg.font.align
+        }
+      ).setData(arg.dataKey, arg.dataValue)
+    });
     this.categoryButtons.forEach((element) =>
       element.setInteractive().on(
         "pointerdown",
@@ -283,92 +398,38 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
       )
     );
 
-    this.settingElements = [
-      new SettingButton(
-        this,
-        585,
-        224,
-        134,
-        56,
-        "少ない",
-        24,
-        this.fontFamily
-      ).setData("category", Category.Size),
-      new SettingButton(
-        this,
-        585,
-        338,
-        134,
-        56,
-        "ふつう",
-        24,
-        this.fontFamily
-      ).setData("category", Category.Size),
-      new SettingButton(
-        this,
-        585,
-        451,
-        134,
-        56,
-        "多い",
-        24,
-        this.fontFamily
-      ).setData("category", Category.Size),
-
-      new SettingButton(
-        this,
-        585,
-        280,
-        160,
-        56,
-        Mode.TimeLimit.name,
-        24,
-        this.fontFamily
-      ).setData("category", Category.Mode),
-      new SettingButton(
-        this,
-        551,
-        424,
-        229,
-        56,
-        Mode.TimeAttack.name,
-        24,
-        this.fontFamily
-      ).setData("category", Category.Mode),
-      new SettingButton(
-        this,
-        455,
-        200,
-        114,
-        56,
-        "タイ",
-        24,
-        this.fontFamily
-      ).setData("category", Category.Country),
-      new SettingButton(
-        this,
-        561,
-        304,
-        184,
-        56,
-        Mode.SuddenDeath.name,
-        24,
-        this.fontFamily
-      ).setData("category", Category.Challenge),
-      this.add
-        .text(
-          456,
-          380,
-          "すべての漢字が登場！\nどんどん難易度が上がっていくぞ！",
-          {
-            fontSize: 24,
-            fontFamily: this.fontFamily,
-            align: "center",
-          }
-        )
-        .setData("category", Category.Challenge)
-        .setLineSpacing(12),
-    ];
+    this.settingElements = settingButtonArgs.map(arg => {
+      switch (arg.type) {
+        case ("button"):
+          return new SettingButton(
+            this,
+            arg.x,
+            arg.y,
+            arg.width,
+            arg.height,
+            arg.text,
+            arg.fontSize,
+            this.fontFamily,
+          ).setData(
+            arg.dataKey,
+            arg.dataValue
+          )
+        case ("text"):
+          return this.add.text(
+            arg.x,
+            arg.y,
+            arg.text,
+            {
+              fontSize: arg.font.size,
+              fontFamily: this.fontFamily,
+              align: arg.font.align,
+            },
+          ).setData(
+            arg.dataKey,
+            arg.dataValue
+          ).setLineSpacing(arg.lineSpacing)
+      }
+    })
     this.settingElements.forEach((element) => {
       if (element.constructor.name === "SettingButton") {
         element.buttonGraphic.on(
