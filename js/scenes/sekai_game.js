@@ -1,6 +1,18 @@
 import { characterList } from "../characterlist.js";
 import SoundButton from "../components/sound_button.js";
 
+const bgms = [
+  ["game_bgm", "assets/audio/timer.mp3"],
+  ["correct_se", "assets/audio/correct.mp3"],
+  ["but_se", "assets/audio/but_se.mp3"],
+]
+const images = [
+  ["maru", "assets/img/maru.png"],
+  ["batu", "assets/img/batu.png"],
+  ["correctmogura", "assets/img/fun_mogura2.png"],
+  ["mistakemogura", "assets/img/sad_mogura.png"],
+]
+
 export default class SekaiGame extends Phaser.Scene {
   constructor() {
     super({ key: "sekai_game", active: false });
@@ -8,16 +20,13 @@ export default class SekaiGame extends Phaser.Scene {
 
   preload() {
     this.load.path = window.location.href.replace("index.html", "");
-
     // bgm
-    this.load.audio("game_bgm", "assets/audio/timer.mp3");
-    this.load.audio("correct_se", "assets/audio/correct.mp3");
-    this.load.audio("but_se", "assets/audio/but_se.mp3");
-
-    this.load.image("maru", "assets/img/maru.png");
-    this.load.image("batu", "assets/img/batu.png");
-    this.load.image("correctmogura", "assets/img/fun_mogura2.png");
-    this.load.image("mistakemogura", "assets/img/sad_mogura.png");
+    bgms.forEach(bgm => {
+      this.load.audio(...bgm)
+    })
+    images.forEach(image => {
+      this.load.image(...image)
+    })
   }
 
   init(data) {
