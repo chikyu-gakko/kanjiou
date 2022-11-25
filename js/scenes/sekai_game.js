@@ -44,7 +44,9 @@ export default class SekaiGame extends Phaser.Scene {
     this.fontFamily = this.registry.get("fontFamily");
     this.correctCharacter = "";
     this.mistakeCharacter = "";
-    this.answerComment = "";
+    this.tips = "";
+    this.correctAnsExample = "";
+    this.wrongAnsExample = "";
   }
 
   create() {
@@ -204,14 +206,14 @@ export default class SekaiGame extends Phaser.Scene {
       ).depth = 2;
 
     const correctImg = this.add.sprite(100, 530, "maru");
-    correctImg.setScale(.3);
+    correctImg.setScale(.2);
     correctImg.depth = 4;
 
     // const correctMoguraImg = this.add.sprite(700, 550, "correctmogura");
     // correctMoguraImg.depth = 4;
 
     const mistakeImg = this.add.sprite(620, 530, "batu");
-    mistakeImg.setScale(.3);
+    mistakeImg.setScale(.2);
     mistakeImg.depth = 4;
 
     const correctAnsBox = this.add.graphics();
@@ -219,10 +221,13 @@ export default class SekaiGame extends Phaser.Scene {
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(30, 234, 432, 367, 14).depth = 3;
 
-    // TODO: 学習モードで正解・不正解の解説を追加
-    console.log(this.mistakeCharacter);
-    console.log(this.correctCharacter);
-    console.log(this.answerComment);
+    // FIXME: たまに読み込めない文字がある
+    // FIXME: レイアウトが雑なので修正する
+    // console.log(this.mistakeCharacter);
+    // console.log(this.correctCharacter);
+    // console.log(this.tips);
+    // console.log(this.correctAnsExample);
+    // console.log(this.wrongAnsExample);
 
     const correctAnsTitle = this.add
       .text(210, 250, "正解", {
@@ -233,12 +238,20 @@ export default class SekaiGame extends Phaser.Scene {
     correctAnsTitle.depth = 4;
 
     const correctAnsChar = this.add
-      .text(110, 320, this.correctCharacter, {
+      .text(60, 320, this.correctCharacter, {
         fill: "#000000",
         fontSize: 64,
         fontFamily: this.fontFamily,
       })
     correctAnsChar.depth = 4;
+
+    const correctAnsExample = this.add
+      .text(60, 420, this.correctAnsExample, {
+        fill: "#000000",
+        fontSize: 16,
+        fontFamily: this.fontFamily,
+      })
+    correctAnsExample.depth = 4;
 
     const wrongAnsBox = this.add.graphics();
     wrongAnsBox
@@ -261,6 +274,22 @@ export default class SekaiGame extends Phaser.Scene {
       })
     wrongAnsChar.depth = 4;
 
+    const wrongAnsExample = this.add
+      .text(610, 420, this.wrongAnsExample, {
+        fill: "#000000",
+        fontSize: 16,
+        fontFamily: this.fontFamily,
+      })
+    wrongAnsExample.depth = 4;
+
+    const tips = this.add
+      .text(160, 120, this.tips, {
+        fill: "#ffffff",
+        fontSize: 32,
+        fontFamily: this.fontFamily,
+      })
+    tips.depth = 4;
+
     const commentGroup = this.add.group();
 
     const resumeButton = this.add
@@ -282,10 +311,13 @@ export default class SekaiGame extends Phaser.Scene {
       correctAnsBox,
       correctAnsTitle,
       correctAnsChar,
+      correctAnsExample,
       wrongAnsBox,
       wrongAnsTitle,
       wrongAnsChar,
-      resumeButton
+      wrongAnsExample,
+      resumeButton,
+      tips
     ]);
     commentGroup.toggleVisible(true);
 
@@ -349,16 +381,18 @@ export default class SekaiGame extends Phaser.Scene {
 
     this.characterContainer.removeAll(true);
 
-    this.mistakeCharacter = this.characterList[i][0]
-    this.correctCharacter = this.characterList[i][1]
-    this.answerComment = this.characterList[i][2]
+    this.mistakeCharacter = this.characterList[i][1]
+    this.correctCharacter = this.characterList[i][2]
+    this.tips = this.characterList[i][3]
+    this.correctAnsExample = this.characterList[i][4]
+    this.wrongAnsExample = this.characterList[i][5]
 
     for (let y = 0; y < this.sizeY; y += 1) {
       for (let x = 0; x < this.sizeX; x += 1) {
         const character =
           y === answerY && x === answerX
             ? this.characterList[i][1]
-            : this.characterList[i][0];
+            : this.characterList[i][2];
 
         characterArray.push(
           this.add
