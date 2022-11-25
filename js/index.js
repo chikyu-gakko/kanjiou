@@ -9,6 +9,7 @@ import HowToPlay from "./scenes/how_to_play.js";
 import PauseMenu from "./scenes/pause_menu.js";
 import SekaiGame from "./scenes/sekai_game.js";
 import SekaiPauseMenu from "./scenes/sekai_pause_menu.js";
+import SekaiGameResult from "./scenes/sekai_game_result.js";
 
 const gameElement = document.getElementById("game");
 
@@ -47,3 +48,4 @@ game.scene.add("how_to_play", HowToPlay);
 game.scene.add("pause_menu", PauseMenu);
 game.scene.add("sekai_game", SekaiGame);
 game.scene.add("sekai_pause_menu", SekaiPauseMenu);
+game.scene.add("sekai_game_result", SekaiGameResult);

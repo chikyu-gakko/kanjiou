@@ -344,7 +344,7 @@ export default class SekaiGame extends Phaser.Scene {
       (this.mode === "learn" && this.answerCounter >= this.numberOfQuestions)
     ) {
       this.fx.stop();
-      this.scene.start("game_result", {
+      this.scene.start("sekai_game_result", {
         time: this.timer,
         ranking: true,
         modalVisible: true,
