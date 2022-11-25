@@ -190,6 +190,66 @@ export default class SekaiGame extends Phaser.Scene {
     mistakeGroup.toggleVisible(true);
   }
 
+  commentAnim() {
+    const commentBg = this.add.graphics();
+    commentBg
+      .fillStyle(0x333333, 0.5)
+      .fillRect(0, 0, 1024, 768)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(0, 0, 1024, 768),
+        Phaser.Geom.Rectangle.Contains
+      ).depth = 2;
+
+    const correctImg = this.add.sprite(100, 530, "maru");
+    correctImg.setScale(.3);
+    correctImg.depth = 4;
+
+    // const correctMoguraImg = this.add.sprite(700, 550, "correctmogura");
+    // correctMoguraImg.depth = 4;
+
+    const mistakeImg = this.add.sprite(620, 530, "batu");
+    mistakeImg.setScale(.3);
+    mistakeImg.depth = 4;
+
+    const correctAnsBox = this.add.graphics();
+    correctAnsBox
+      .fillStyle(0xffffff, 1)
+      .fillRoundedRect(30, 234, 432, 367, 14).depth = 3;
+
+    const wrongAnsBox = this.add.graphics();
+    wrongAnsBox
+      .fillStyle(0xffffff, 1)
+      .fillRoundedRect(550, 234, 432, 367, 14).depth = 3;
+
+    const resumeButton = this.add
+      .text(500, 650, "閉じる", {
+        fill: 0x000000,
+        fontSize: 32,
+        fontFamily: this.fontFamily,
+      })
+      .setInteractive()
+      .on("pointerdown", () => {
+        commentGroup.toggleVisible(false);
+      });
+    resumeButton.depth = 4;
+
+    const commentGroup = this.add.group();
+    commentGroup.addMultiple([
+      commentBg, 
+      correctImg,
+      mistakeImg, 
+      correctAnsBox, 
+      wrongAnsBox,
+      resumeButton
+    ]);
+    commentGroup.toggleVisible(true);
+
+    // setTimeout(() => {
+    //   commentGroup.toggleVisible(false);
+    // }, 1500);
+    commentGroup.toggleVisible(true);
+  }
+
   countTime() {
     this.check();
     this.timer += 1;
@@ -267,6 +327,11 @@ export default class SekaiGame extends Phaser.Scene {
             correct.play();
             this.answerCounter += 1;
             this.createAnswerComponent();
+            if (this.mode === "learn") {
+              setTimeout(() => {
+                this.commentAnim();
+              }, 1500)
+            }
             setTimeout(() => {
               this.createCharacter();
             }, 1400);
@@ -276,6 +341,11 @@ export default class SekaiGame extends Phaser.Scene {
             this.mistakeAnim();
             but.play();
             this.wrongFlag = true;
+            if (this.mode === "learn") {
+              setTimeout(() => {
+                this.commentAnim();
+              }, 1500)
+            }
             setTimeout(() => {
               this.createCharacter();
             }, 1400);
