@@ -340,7 +340,8 @@ export default class SekaiGame extends Phaser.Scene {
         (this.timer >= 60 || this.answerCounter >= this.numberOfQuestions)) ||
       (this.mode === "timeAttack" &&
         this.answerCounter >= this.numberOfQuestions) ||
-      (this.mode === "suddenDeath" && this.wrongFlag)
+      (this.mode === "suddenDeath" && this.wrongFlag) ||
+      (this.mode === "learn" && this.answerCounter >= this.numberOfQuestions)
     ) {
       this.fx.stop();
       this.scene.start("game_result", {
