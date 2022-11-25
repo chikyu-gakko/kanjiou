@@ -417,7 +417,7 @@ export default class SekaiGame extends Phaser.Scene {
             }
             setTimeout(() => {
               this.createCharacter();
-            }, 1400);
+            }, this.mode === "learn" ? 2900 : 1400);
           });
         } else {
           characterArray[characterArray.length - 1].once("pointerdown", () => {
@@ -431,7 +431,7 @@ export default class SekaiGame extends Phaser.Scene {
             }
             setTimeout(() => {
               this.createCharacter();
-            }, 1400);
+            }, this.mode === "learn" ? 2900 : 1400);
           });
         }
       }
