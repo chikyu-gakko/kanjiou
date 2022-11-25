@@ -221,9 +221,11 @@ export default class SekaiGame extends Phaser.Scene {
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(550, 234, 432, 367, 14).depth = 3;
 
+    const commentGroup = this.add.group();
+
     const resumeButton = this.add
-      .text(500, 650, "閉じる", {
-        fill: 0x000000,
+      .text(460, 650, "閉じる", {
+        fill: "#ffffff",
         fontSize: 32,
         fontFamily: this.fontFamily,
       })
@@ -233,7 +235,6 @@ export default class SekaiGame extends Phaser.Scene {
       });
     resumeButton.depth = 4;
 
-    const commentGroup = this.add.group();
     commentGroup.addMultiple([
       commentBg, 
       correctImg,
