@@ -42,6 +42,9 @@ export default class SekaiGame extends Phaser.Scene {
     this.wrongFlag = false;
     this.numberOfQuestions = 10;
     this.fontFamily = this.registry.get("fontFamily");
+    this.correctCharacter = "";
+    this.mistakeCharacter = "";
+    this.answerComment = "";
   }
 
   create() {
@@ -216,10 +219,47 @@ export default class SekaiGame extends Phaser.Scene {
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(30, 234, 432, 367, 14).depth = 3;
 
+    // TODO: 学習モードで正解・不正解の解説を追加
+    console.log(this.mistakeCharacter);
+    console.log(this.correctCharacter);
+    console.log(this.answerComment);
+
+    const correctAnsTitle = this.add
+      .text(210, 250, "正解", {
+        fill: "#000000",
+        fontSize: 32,
+        fontFamily: this.fontFamily,
+      })
+    correctAnsTitle.depth = 4;
+
+    const correctAnsChar = this.add
+      .text(110, 320, this.correctCharacter, {
+        fill: "#000000",
+        fontSize: 64,
+        fontFamily: this.fontFamily,
+      })
+    correctAnsChar.depth = 4;
+
     const wrongAnsBox = this.add.graphics();
     wrongAnsBox
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(550, 234, 432, 367, 14).depth = 3;
+
+    const wrongAnsTitle = this.add
+      .text(710, 250, "不正解", {
+        fill: "#000000",
+        fontSize: 32,
+        fontFamily: this.fontFamily,
+      })
+    wrongAnsTitle.depth = 4;
+
+    const wrongAnsChar = this.add
+      .text(610, 320, this.mistakeCharacter, {
+        fill: "#000000",
+        fontSize: 64,
+        fontFamily: this.fontFamily,
+      })
+    wrongAnsChar.depth = 4;
 
     const commentGroup = this.add.group();
 
@@ -236,11 +276,15 @@ export default class SekaiGame extends Phaser.Scene {
     resumeButton.depth = 4;
 
     commentGroup.addMultiple([
-      commentBg, 
+      commentBg,
       correctImg,
-      mistakeImg, 
-      correctAnsBox, 
+      mistakeImg,
+      correctAnsBox,
+      correctAnsTitle,
+      correctAnsChar,
       wrongAnsBox,
+      wrongAnsTitle,
+      wrongAnsChar,
       resumeButton
     ]);
     commentGroup.toggleVisible(true);
@@ -304,6 +348,10 @@ export default class SekaiGame extends Phaser.Scene {
     const but = this.sound.add("but_se");
 
     this.characterContainer.removeAll(true);
+
+    this.mistakeCharacter = this.characterList[i][0]
+    this.correctCharacter = this.characterList[i][1]
+    this.answerComment = this.characterList[i][2]
 
     for (let y = 0; y < this.sizeY; y += 1) {
       for (let x = 0; x < this.sizeX; x += 1) {
