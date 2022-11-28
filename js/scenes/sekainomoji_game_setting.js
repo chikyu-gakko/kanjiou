@@ -1,6 +1,208 @@
 import SettingButton from "../components/setting_button.js";
 import SoundButton from "../components/sound_button.js";
 
+const Size = {
+  S: {
+    id: 1,
+    name: "少ない",
+    y: 3,
+    x: 4,
+  },
+  M: {
+    id: 2,
+    name: "ふつう",
+    y: 4,
+    x: 8,
+  },
+  L: {
+    id: 3,
+    name: "多い",
+    y: 6,
+    x: 12,
+  }
+}
+const Mode = {
+  TimeLimit: {
+    id: 1,
+    name: "timeLimit",
+    text: "時間制限"
+  },
+  TimeAttack: {
+    id: 2,
+    name: "timeAttack",
+    text: "タイムアタック",
+  },
+  SuddenDeath: {
+    id: 3,
+    name: "suddenDeath",
+    text: "サドンデス",
+  },
+  // TODO: 新しいモードを実装する
+  Learn: {
+    id: 4,
+    name: "learn",
+    text: "学習",
+  }
+}
+const Category = {
+  Size: "size",
+  Mode: "mode",
+  Country: "country",
+  Challenge: "challenge",
+}
+
+const images = [
+  ["sound", "assets/img/sound.png"],
+  ["mute", "assets/img/mute.png"],
+  ["mogura", "assets/img/fun_mogura1.png"],
+];
+const bgms = [
+  ["top_bgm", "assets/audio/top.mp3"],
+  ["game_start_se", "assets/audio/game_start.mp3"]
+];
+const settingButtonArgs = [
+  {
+    type: "button",
+    x: 585,
+    y: 224,
+    width: 134,
+    height: 56,
+    text: "少ない",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Size
+  },
+  {
+    type: "button",
+    x: 585,
+    y: 338,
+    width: 134,
+    height: 56,
+    text: "ふつう",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Size
+  },
+  {
+    type: "button",
+    x: 585,
+    y: 451,
+    width: 134,
+    height: 56,
+    text: "多い",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Size
+  },
+  {
+    type: "button",
+    x: 585,
+    y: 250,
+    width: 160,
+    height: 56,
+    text: Mode.TimeLimit.text,
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Mode
+  },
+  {
+    type: "button",
+    x: 551,
+    y: 350,
+    width: 229,
+    height: 56,
+    text: Mode.TimeAttack.text,
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Mode
+  },
+  {
+    type: "button",
+    x: 551,
+    y: 463,
+    width: 229,
+    height: 56,
+    text: Mode.Learn.text,
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Mode
+  },
+  // なぜかコード内だけにある？
+  // {
+  //   type: "button",
+  //   x: 561,
+  //   y: 304,
+  //   width: 184,
+  //   height: 56,
+  //   text: Mode.SuddenDeath.name,
+  //   fontSize: 24,
+  //   dataKey: "category",
+  //   dataValue: Category.Mode
+  // },
+  {
+    type: "button",
+    x: 455,
+    y: 200,
+    width: 114,
+    height: 56,
+    text: "タイ",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Country
+  },
+  {
+    type: "text",
+    x: 456,
+    y: 380,
+    text: "すべての漢字が登場！\nどんどん難易度が上がっていくぞ！",
+    font: {
+      size: 24,
+      align: "center",
+    },
+    dataKey: "category",
+    dataValue: Category.Challenge,
+    lineSpacing: 12
+  }
+];
+const categoryButtonArgs = [
+  // ゲームサイズ
+  {
+    x: 194,
+    y: 256,
+    text: "文字の数",
+    font: {
+      size: 32,
+      padding: 3,
+    },
+    dataKey: "value",
+    dataValue: "size"
+  },
+  // プレイモード
+  {
+    x: 162,
+    y: 350,
+    text: "ゲームモード",
+    font: {
+      size: 32,
+      padding: 3,
+    },
+    dataKey: "value",
+    dataValue: "mode"
+  },
+  {
+    x: 162,
+    y: 463,
+    text: "どこの国？",
+    font: {
+      size: 32,
+      padding: 3
+    },
+    dataKey: "value",
+    dataValue: "country"
+  }
+];
+
+
 export default class SekainomojiGameSetting extends Phaser.Scene {
   constructor() {
     super({ key: "sekainomoji_game_setting", active: false });
@@ -9,31 +211,48 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
   preload() {
     // メニュー画面に出てくる画像のロード
     this.load.path = window.location.href.replace("index.html", "");
-
-    this.load.image("sound", "assets/img/sound.png");
-    this.load.image("mute", "assets/img/mute.png");
-    this.load.image("mogura", "assets/img/fun_mogura1.png");
-
-    // bgm
-    this.load.audio("top_bgm", "assets/audio/top.mp3");
-    this.load.audio("game_start_se", "assets/audio/game_start.mp3");
+    images.forEach(image => {
+      this.load.image(...image)
+    })
+    bgms.forEach(bgm => {
+      this.load.audio(...bgm)
+    })
   }
 
   init(data) {
-    this.mode = "時間制限";
+    this.size = Size.M.name;
+    this.mode = Mode.TimeLimit.name;
     this.country = "タイ";
 
-    if (data.mode) {
-      switch (data.mode) {
-        case "timeAttack":
-          this.mode = "タイムアタック";
+    if (data.sizeY) {
+      switch (data.sizeY) {
+        case Size.S.y:
+          this.size = Size.S.name;
+          break;
+        case Size.L.y:
+          this.size = Size.L.name;
           break;
         default:
       }
     }
+    if (data.mode) {
+      switch (data.mode) {
+        case Mode.TimeAttack.text:
+          this.mode = Mode.TimeAttack.name;
+          break;
+        case Mode.TimeLimit.text:
+          this.mode = Mode.TimeLimit.name;
+          break;
+        case Mode.Learn.text:
+          this.mode = Mode.Learn.name;
+          break;
+        default:
+          this.mode = Mode.SuddenDeath.name;
+      }
+    }
 
     // 設定の選択肢の初期値
-    this.selectedSettingCategory = "mode";
+    this.selectedSettingCategory = "size";
     this.challenge = false;
     this.categoryButtons = [];
     this.settingElements = [];
@@ -85,7 +304,6 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     const gameStartSe = this.sound.add("game_start_se");
 
     // ゲームスタートボタン・テキスト
-    // TODO: 実際のゲームへ遷移
     this.add
       .graphics()
       .lineStyle(2, 0x645246)
@@ -102,30 +320,48 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
           this.sound.stopAll();
           this.sound.removeByKey("top_bgm");
           gameStartSe.play();
-          // let mode = "";
-          // switch (this.mode) {
-          //   case "時間制限":
-          //     mode = "timeLimit";
-          //     break;
-          //   case "タイムアタック":
-          //     mode = "timeAttack";
-          //     break;
-          //   default:
-          //     mode = "suddenDeath";
-          // }
-          // switch (this.challenge) {
-          //   case "サドンデス":
-          //     mode = "suddenDeath";
-          //     break;
-          //   default:
-          // }
-          // this.scene.start("hitsuji_game", {
-          //   sizeY,
-          //   sizeX,
-          //   mode,
-          //   isChallenge: Boolean(this.challenge),
-          //   schoolYear: this.schoolYear,
-          // });
+          let mode = "";
+          let sizeY = 0;
+          let sizeX = 0;
+          switch (this.size) {
+            case Size.S.name:
+              sizeY = Size.S.y;
+              sizeX = Size.S.x;
+              break;
+            case Size.L.name:
+              sizeY = Size.L.y;
+              sizeX = Size.L.x;
+              break;
+            default:
+              sizeY = Size.M.y;
+              sizeX = Size.M.x;
+          }
+          switch (this.mode) {
+            case Mode.TimeLimit.text:
+              mode = Mode.TimeLimit.name;
+              break;
+            case Mode.TimeAttack.text:
+              mode = Mode.TimeAttack.name;
+              break;
+            case Mode.Learn.text:
+              mode = Mode.Learn.name;
+              break;
+            default:
+              mode = "suddenDeath";
+          }
+          switch (this.challenge) {
+            case Mode.SuddenDeath.name:
+              mode = "suddenDeath";
+              break;
+            default:
+          }
+          this.scene.start("sekai_game", {
+            sizeY,
+            sizeX,
+            mode,
+            isChallenge: Boolean(this.challenge),
+            country: this.country,
+          });
         },
         this
       );
@@ -165,24 +401,18 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
       fontFamily: this.fontFamily,
     });
 
-    this.categoryButtons = [
-      // プレイモード
-      this.add
-        .text(162, 236, "ゲームモード", {
-          fontSize: 32,
-          padding: 3,
+    this.categoryButtons = categoryButtonArgs.map(arg => {
+      return this.add.text(
+        arg.x,
+        arg.y,
+        arg.text,
+        {
+          fontSize: arg.font.size,
           fontFamily: this.fontFamily,
-        })
-        .setData("value", "mode"),
-
-      this.add
-        .text(162, 350, "どこの国？", {
-          fontSize: 32,
-          padding: 3,
-          fontFamily: this.fontFamily,
-        })
-        .setData("value", "country"),
-    ];
+          align: arg.font.align
+        }
+      ).setData(arg.dataKey, arg.dataValue)
+    });
     this.categoryButtons.forEach((element) =>
       element.setInteractive().on(
         "pointerdown",
@@ -194,68 +424,45 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
       )
     );
 
-    this.settingElements = [
-      new SettingButton(
-        this,
-        585,
-        280,
-        160,
-        56,
-        "時間制限",
-        24,
-        this.fontFamily
-      ).setData("category", "mode"),
-      new SettingButton(
-        this,
-        551,
-        424,
-        229,
-        56,
-        "タイムアタック",
-        24,
-        this.fontFamily
-      ).setData("category", "mode"),
-      new SettingButton(
-        this,
-        455,
-        200,
-        114,
-        56,
-        "タイ",
-        24,
-        this.fontFamily
-      ).setData("category", "country"),
-      new SettingButton(
-        this,
-        561,
-        304,
-        184,
-        56,
-        "サドンデス",
-        24,
-        this.fontFamily
-      ).setData("category", "challenge"),
-      this.add
-        .text(
-          456,
-          380,
-          "すべての漢字が登場！\nどんどん難易度が上がっていくぞ！",
-          {
-            fontSize: 24,
-            fontFamily: this.fontFamily,
-            align: "center",
-          }
-        )
-        .setData("category", "challenge")
-        .setLineSpacing(12),
-    ];
+    this.settingElements = settingButtonArgs.map(arg => {
+      switch (arg.type) {
+        case ("button"):
+          return new SettingButton(
+            this,
+            arg.x,
+            arg.y,
+            arg.width,
+            arg.height,
+            arg.text,
+            arg.fontSize,
+            this.fontFamily,
+          ).setData(
+            arg.dataKey,
+            arg.dataValue
+          )
+        case ("text"):
+          return this.add.text(
+            arg.x,
+            arg.y,
+            arg.text,
+            {
+              fontSize: arg.font.size,
+              fontFamily: this.fontFamily,
+              align: arg.font.align,
+            },
+          ).setData(
+            arg.dataKey,
+            arg.dataValue
+          ).setLineSpacing(arg.lineSpacing)
+      }
+    })
     this.settingElements.forEach((element) => {
       if (element.constructor.name === "SettingButton") {
         element.buttonGraphic.on(
           "pointerdown",
           () => {
             if (
-              element.getData("category") === "challenge" &&
+              element.getData("category") === Category.Challenge &&
               this.challenge === element.getData("value")
             )
               this.challenge = false;
@@ -272,7 +479,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
   updateView() {
     this.categoryButtons.forEach((element) => {
       if (this.selectedSettingCategory === element.getData("value")) {
-        if (element.getData("value") === "challenge")
+        if (element.getData("value") === Category.Challenge)
           element.setStyle({ color: "#B63237" });
         else element.setStyle({ color: "#00bfff" });
       } else element.setStyle({ color: "#ffffff" });
