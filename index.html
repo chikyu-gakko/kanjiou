@@ -1,14 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>My Phaser 3 Game</title>
+	<title>漢字王決定戦</title>
+  <script type="text/javascript">
+    window.onload = function () {
+      if (location.search != "") location.href = "/";
+    };
+  </script>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
-	<div id="app"></div>
+	<div id="app" style="font-family: 'UD デジタル 教科書体 NP-R', 'KleeOne'"></div>
+  <div id="game"></div>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-68PVBL7TST"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-68PVBL7TST");
+  </script>
 	<script type="module" src="src/main.js"></script>
 </body>
 
