@@ -49,6 +49,7 @@ export default class SekaiGameResult extends Phaser.Scene {
     this.sizeX = data.sizeX;
     this.schoolYear = data.schoolYear;
     this.fontFamily = this.registry.get("fontFamily");
+    this.country = data.country
   }
 
   create() {
@@ -99,7 +100,7 @@ export default class SekaiGameResult extends Phaser.Scene {
     backGameSetButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        this.scene.start("sekai_game_setting", {
+        this.scene.start("sekainomoji_game_setting", {
           country: this.country,
           mode: this.mode,
           sizeX: this.sizeX,

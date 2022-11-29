@@ -52,7 +52,6 @@ export default class GameMenu extends Phaser.Scene {
   }
 
   create() {
-    this.add.reactDom(buttonJsx)
     this.cameras.main.fadeIn(1000);
     this.cameras.main.once("camerafadeincomplete", () => {
       setTimeout(() => {
