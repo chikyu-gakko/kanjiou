@@ -1,5 +1,7 @@
 import SoundButton from "../components/sound_button.js";
 
+import buttonJsx from "./sample";
+
 export default class GameMenu extends Phaser.Scene {
   constructor() {
     super({ key: "game_menu", active: false });

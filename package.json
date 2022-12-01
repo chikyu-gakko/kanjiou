@@ -1,19 +1,22 @@
 {
-  "name": "kanjioh",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "start": "npx http-server -p 5500",
-    "fix": "npm run -s format && npm run -s lint:fix",
-    "format": "prettier --write --loglevel=warn 'js/**/*.{js,jsx,ts,tsx,json}'",
-    "lint": "eslint 'js/**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint --fix 'js/**/*.{js,jsx,ts,tsx}'"
-  },
-  "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.24.2",
-    "prettier": "^2.4.1"
-  }
+	"name": "kanjiou",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"scripts": {
+		"start": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"eslint": "^8.25.0",
+		"vite": "^3.1.0"
+	},
+	"dependencies": {
+		"jsx-dom": "^8.0.3",
+		"phaser": "^3.55.2",
+		"phaser3-react": "^1.2.6",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	}
 }
