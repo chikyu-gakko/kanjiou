@@ -162,6 +162,17 @@ const settingButtonArgs = [
     dataValue: Category.Country,
   },
   {
+    type: "button",
+    x: 755,
+    y: 300,
+    width: 114,
+    height: 56,
+    text: "ベンガル",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Country,
+  },
+  {
     type: "text",
     x: 456,
     y: 380,
