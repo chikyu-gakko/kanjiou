@@ -19,13 +19,13 @@ const Size = {
     name: "多い",
     y: 6,
     x: 12,
-  }
-}
+  },
+};
 const Mode = {
   TimeLimit: {
     id: 1,
     name: "timeLimit",
-    text: "時間制限"
+    text: "時間制限",
   },
   TimeAttack: {
     id: 2,
@@ -42,14 +42,14 @@ const Mode = {
     id: 4,
     name: "learn",
     text: "学習",
-  }
-}
+  },
+};
 const Category = {
   Size: "size",
   Mode: "mode",
   Country: "country",
   Challenge: "challenge",
-}
+};
 
 const images = [
   ["sound", "assets/img/sound.png"],
@@ -58,7 +58,7 @@ const images = [
 ];
 const bgms = [
   ["top_bgm", "assets/audio/top.mp3"],
-  ["game_start_se", "assets/audio/game_start.mp3"]
+  ["game_start_se", "assets/audio/game_start.mp3"],
 ];
 const settingButtonArgs = [
   {
@@ -70,7 +70,7 @@ const settingButtonArgs = [
     text: "少ない",
     fontSize: 24,
     dataKey: "category",
-    dataValue: Category.Size
+    dataValue: Category.Size,
   },
   {
     type: "button",
@@ -81,7 +81,7 @@ const settingButtonArgs = [
     text: "ふつう",
     fontSize: 24,
     dataKey: "category",
-    dataValue: Category.Size
+    dataValue: Category.Size,
   },
   {
     type: "button",
@@ -92,7 +92,7 @@ const settingButtonArgs = [
     text: "多い",
     fontSize: 24,
     dataKey: "category",
-    dataValue: Category.Size
+    dataValue: Category.Size,
   },
   {
     type: "button",
@@ -103,7 +103,7 @@ const settingButtonArgs = [
     text: Mode.TimeLimit.text,
     fontSize: 24,
     dataKey: "category",
-    dataValue: Category.Mode
+    dataValue: Category.Mode,
   },
   {
     type: "button",
@@ -114,7 +114,7 @@ const settingButtonArgs = [
     text: Mode.TimeAttack.text,
     fontSize: 24,
     dataKey: "category",
-    dataValue: Category.Mode
+    dataValue: Category.Mode,
   },
   {
     type: "button",
@@ -125,7 +125,7 @@ const settingButtonArgs = [
     text: Mode.Learn.text,
     fontSize: 24,
     dataKey: "category",
-    dataValue: Category.Mode
+    dataValue: Category.Mode,
   },
   // なぜかコード内だけにある？
   // {
@@ -141,14 +141,47 @@ const settingButtonArgs = [
   // },
   {
     type: "button",
-    x: 455,
+    x: 435,
     y: 200,
     width: 114,
     height: 56,
-    text: "タイ",
+    text: "タイ語",
     fontSize: 24,
     dataKey: "category",
-    dataValue: Category.Country
+    dataValue: Category.Country,
+  },
+  {
+    type: "button",
+    x: 565,
+    y: 200,
+    width: 154,
+    height: 56,
+    text: "ベンガル語",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Country,
+  },
+  {
+    type: "button",
+    x: 735,
+    y: 200,
+    width: 134,
+    height: 56,
+    text: "ラオス語",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Country,
+  },
+  {
+    type: "button",
+    x: 435,
+    y: 300,
+    width: 114,
+    height: 56,
+    text: "韓国語",
+    fontSize: 24,
+    dataKey: "category",
+    dataValue: Category.Country,
   },
   {
     type: "text",
@@ -161,8 +194,8 @@ const settingButtonArgs = [
     },
     dataKey: "category",
     dataValue: Category.Challenge,
-    lineSpacing: 12
-  }
+    lineSpacing: 12,
+  },
 ];
 const categoryButtonArgs = [
   // ゲームサイズ
@@ -175,7 +208,7 @@ const categoryButtonArgs = [
       padding: 3,
     },
     dataKey: "value",
-    dataValue: "size"
+    dataValue: "size",
   },
   // プレイモード
   {
@@ -187,7 +220,7 @@ const categoryButtonArgs = [
       padding: 3,
     },
     dataKey: "value",
-    dataValue: "mode"
+    dataValue: "mode",
   },
   {
     x: 162,
@@ -195,34 +228,33 @@ const categoryButtonArgs = [
     text: "どこの国？",
     font: {
       size: 32,
-      padding: 3
+      padding: 3,
     },
     dataKey: "value",
-    dataValue: "country"
-  }
+    dataValue: "country",
+  },
 ];
 
-
-export default class SekainomojiGameSetting extends Phaser.Scene {
+export default class SekaiGameSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "sekainomoji_game_setting", active: false });
+    super({ key: "sekai_game_setting", active: false });
   }
 
   preload() {
     // メニュー画面に出てくる画像のロード
     this.load.path = window.location.href.replace("index.html", "");
-    images.forEach(image => {
-      this.load.image(...image)
-    })
-    bgms.forEach(bgm => {
-      this.load.audio(...bgm)
-    })
+    images.forEach((image) => {
+      this.load.image(...image);
+    });
+    bgms.forEach((bgm) => {
+      this.load.audio(...bgm);
+    });
   }
 
   init(data) {
     this.size = Size.M.name;
-    this.mode = Mode.TimeLimit.name;
-    this.country = "タイ";
+    this.mode = Mode.TimeLimit.text;
+    this.country = "タイ語";
 
     if (data.sizeY) {
       switch (data.sizeY) {
@@ -237,17 +269,17 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     }
     if (data.mode) {
       switch (data.mode) {
-        case Mode.TimeAttack.text:
-          this.mode = Mode.TimeAttack.name;
+        case Mode.TimeAttack.name:
+          this.mode = Mode.TimeAttack.text;
           break;
-        case Mode.TimeLimit.text:
-          this.mode = Mode.TimeLimit.name;
+        case Mode.TimeLimit.name:
+          this.mode = Mode.TimeLimit.text;
           break;
-        case Mode.Learn.text:
-          this.mode = Mode.Learn.name;
+        case Mode.Learn.name:
+          this.mode = Mode.Learn.text;
           break;
         default:
-          this.mode = Mode.SuddenDeath.name;
+          this.mode = Mode.SuddenDeath.text;
       }
     }
 
@@ -347,7 +379,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
               mode = Mode.Learn.name;
               break;
             default:
-              mode = "suddenDeath";
+              mode = Mode.SuddenDeath.name;
           }
           switch (this.challenge) {
             case Mode.SuddenDeath.name:
@@ -401,17 +433,14 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
       fontFamily: this.fontFamily,
     });
 
-    this.categoryButtons = categoryButtonArgs.map(arg => {
-      return this.add.text(
-        arg.x,
-        arg.y,
-        arg.text,
-        {
+    this.categoryButtons = categoryButtonArgs.map((arg) => {
+      return this.add
+        .text(arg.x, arg.y, arg.text, {
           fontSize: arg.font.size,
           fontFamily: this.fontFamily,
-          align: arg.font.align
-        }
-      ).setData(arg.dataKey, arg.dataValue)
+          align: arg.font.align,
+        })
+        .setData(arg.dataKey, arg.dataValue);
     });
     this.categoryButtons.forEach((element) =>
       element.setInteractive().on(
@@ -424,9 +453,9 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
       )
     );
 
-    this.settingElements = settingButtonArgs.map(arg => {
+    this.settingElements = settingButtonArgs.map((arg) => {
       switch (arg.type) {
-        case ("button"):
+        case "button":
           return new SettingButton(
             this,
             arg.x,
@@ -435,27 +464,19 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
             arg.height,
             arg.text,
             arg.fontSize,
-            this.fontFamily,
-          ).setData(
-            arg.dataKey,
-            arg.dataValue
-          )
-        case ("text"):
-          return this.add.text(
-            arg.x,
-            arg.y,
-            arg.text,
-            {
+            this.fontFamily
+          ).setData(arg.dataKey, arg.dataValue);
+        case "text":
+          return this.add
+            .text(arg.x, arg.y, arg.text, {
               fontSize: arg.font.size,
               fontFamily: this.fontFamily,
               align: arg.font.align,
-            },
-          ).setData(
-            arg.dataKey,
-            arg.dataValue
-          ).setLineSpacing(arg.lineSpacing)
+            })
+            .setData(arg.dataKey, arg.dataValue)
+            .setLineSpacing(arg.lineSpacing);
       }
-    })
+    });
     this.settingElements.forEach((element) => {
       if (element.constructor.name === "SettingButton") {
         element.buttonGraphic.on(

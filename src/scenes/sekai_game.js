@@ -5,13 +5,13 @@ const bgms = [
   ["game_bgm", "assets/audio/timer.mp3"],
   ["correct_se", "assets/audio/correct.mp3"],
   ["but_se", "assets/audio/but_se.mp3"],
-]
+];
 const images = [
   ["maru", "assets/img/maru.png"],
   ["batu", "assets/img/batu.png"],
   ["correctmogura", "assets/img/fun_mogura2.png"],
   ["mistakemogura", "assets/img/sad_mogura.png"],
-]
+];
 
 export default class SekaiGame extends Phaser.Scene {
   constructor() {
@@ -21,12 +21,12 @@ export default class SekaiGame extends Phaser.Scene {
   preload() {
     this.load.path = window.location.href.replace("index.html", "");
     // bgm
-    bgms.forEach(bgm => {
-      this.load.audio(...bgm)
-    })
-    images.forEach(image => {
-      this.load.image(...image)
-    })
+    bgms.forEach((bgm) => {
+      this.load.audio(...bgm);
+    });
+    images.forEach((image) => {
+      this.load.image(...image);
+    });
   }
 
   init(data) {
@@ -131,7 +131,7 @@ export default class SekaiGame extends Phaser.Scene {
         case "return-to-setting":
           this.events.off();
           this.scene.stop();
-          this.scene.start("sekainomoji_game_setting", {
+          this.scene.start("sekai_game_setting", {
             sizeY: this.sizeY,
             sizeX: this.sizeX,
             mode: this.mode,
@@ -206,14 +206,14 @@ export default class SekaiGame extends Phaser.Scene {
       ).depth = 2;
 
     const correctImg = this.add.sprite(100, 530, "maru");
-    correctImg.setScale(.2);
+    correctImg.setScale(0.2);
     correctImg.depth = 4;
 
     // const correctMoguraImg = this.add.sprite(700, 550, "correctmogura");
     // correctMoguraImg.depth = 4;
 
     const mistakeImg = this.add.sprite(620, 530, "batu");
-    mistakeImg.setScale(.2);
+    mistakeImg.setScale(0.2);
     mistakeImg.depth = 4;
 
     const correctAnsBox = this.add.graphics();
@@ -229,28 +229,25 @@ export default class SekaiGame extends Phaser.Scene {
     // console.log(this.correctAnsExample);
     // console.log(this.wrongAnsExample);
 
-    const correctAnsTitle = this.add
-      .text(210, 250, "正解", {
-        fill: "#000000",
-        fontSize: 32,
-        fontFamily: this.fontFamily,
-      })
+    const correctAnsTitle = this.add.text(210, 250, "正解", {
+      fill: "#000000",
+      fontSize: 32,
+      fontFamily: this.fontFamily,
+    });
     correctAnsTitle.depth = 4;
 
-    const correctAnsChar = this.add
-      .text(60, 320, this.correctCharacter, {
-        fill: "#000000",
-        fontSize: 64,
-        fontFamily: this.fontFamily,
-      })
+    const correctAnsChar = this.add.text(60, 320, this.correctCharacter, {
+      fill: "#000000",
+      fontSize: 64,
+      fontFamily: this.fontFamily,
+    });
     correctAnsChar.depth = 4;
 
-    const correctAnsExample = this.add
-      .text(60, 420, this.correctAnsExample, {
-        fill: "#000000",
-        fontSize: 16,
-        fontFamily: this.fontFamily,
-      })
+    const correctAnsExample = this.add.text(60, 420, this.correctAnsExample, {
+      fill: "#000000",
+      fontSize: 16,
+      fontFamily: this.fontFamily,
+    });
     correctAnsExample.depth = 4;
 
     const wrongAnsBox = this.add.graphics();
@@ -258,36 +255,32 @@ export default class SekaiGame extends Phaser.Scene {
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(550, 234, 432, 367, 14).depth = 3;
 
-    const wrongAnsTitle = this.add
-      .text(710, 250, "不正解", {
-        fill: "#000000",
-        fontSize: 32,
-        fontFamily: this.fontFamily,
-      })
+    const wrongAnsTitle = this.add.text(710, 250, "不正解", {
+      fill: "#000000",
+      fontSize: 32,
+      fontFamily: this.fontFamily,
+    });
     wrongAnsTitle.depth = 4;
 
-    const wrongAnsChar = this.add
-      .text(610, 320, this.mistakeCharacter, {
-        fill: "#000000",
-        fontSize: 64,
-        fontFamily: this.fontFamily,
-      })
+    const wrongAnsChar = this.add.text(610, 320, this.mistakeCharacter, {
+      fill: "#000000",
+      fontSize: 64,
+      fontFamily: this.fontFamily,
+    });
     wrongAnsChar.depth = 4;
 
-    const wrongAnsExample = this.add
-      .text(610, 420, this.wrongAnsExample, {
-        fill: "#000000",
-        fontSize: 16,
-        fontFamily: this.fontFamily,
-      })
+    const wrongAnsExample = this.add.text(610, 420, this.wrongAnsExample, {
+      fill: "#000000",
+      fontSize: 16,
+      fontFamily: this.fontFamily,
+    });
     wrongAnsExample.depth = 4;
 
-    const tips = this.add
-      .text(160, 120, this.tips, {
-        fill: "#ffffff",
-        fontSize: 32,
-        fontFamily: this.fontFamily,
-      })
+    const tips = this.add.text(160, 120, this.tips, {
+      fill: "#ffffff",
+      fontSize: 32,
+      fontFamily: this.fontFamily,
+    });
     tips.depth = 4;
 
     const commentGroup = this.add.group();
@@ -317,7 +310,7 @@ export default class SekaiGame extends Phaser.Scene {
       wrongAnsChar,
       wrongAnsExample,
       resumeButton,
-      tips
+      tips,
     ]);
     commentGroup.toggleVisible(true);
 
@@ -382,11 +375,11 @@ export default class SekaiGame extends Phaser.Scene {
 
     this.characterContainer.removeAll(true);
 
-    this.mistakeCharacter = this.characterList[i][1]
-    this.correctCharacter = this.characterList[i][2]
-    this.tips = this.characterList[i][3]
-    this.correctAnsExample = this.characterList[i][4]
-    this.wrongAnsExample = this.characterList[i][5]
+    this.mistakeCharacter = this.characterList[i][1];
+    this.correctCharacter = this.characterList[i][2];
+    this.tips = this.characterList[i][3];
+    this.correctAnsExample = this.characterList[i][4];
+    this.wrongAnsExample = this.characterList[i][5];
 
     for (let y = 0; y < this.sizeY; y += 1) {
       for (let x = 0; x < this.sizeX; x += 1) {
@@ -414,11 +407,14 @@ export default class SekaiGame extends Phaser.Scene {
             if (this.mode === "learn") {
               setTimeout(() => {
                 this.commentAnim();
-              }, 1500)
+              }, 1500);
             }
-            setTimeout(() => {
-              this.createCharacter();
-            }, this.mode === "learn" ? 2900 : 1400);
+            setTimeout(
+              () => {
+                this.createCharacter();
+              },
+              this.mode === "learn" ? 2900 : 1400
+            );
           });
         } else {
           characterArray[characterArray.length - 1].once("pointerdown", () => {
@@ -428,11 +424,14 @@ export default class SekaiGame extends Phaser.Scene {
             if (this.mode === "learn") {
               setTimeout(() => {
                 this.commentAnim();
-              }, 1500)
+              }, 1500);
             }
-            setTimeout(() => {
-              this.createCharacter();
-            }, this.mode === "learn" ? 2900 : 1400);
+            setTimeout(
+              () => {
+                this.createCharacter();
+              },
+              this.mode === "learn" ? 2900 : 1400
+            );
           });
         }
       }
@@ -481,7 +480,11 @@ export default class SekaiGame extends Phaser.Scene {
           fontFamily: this.fontFamily,
         }
       );
-    } else if (this.mode === "timeAttack" || this.mode === "timeLimit" || this.mode === "learn") {
+    } else if (
+      this.mode === "timeAttack" ||
+      this.mode === "timeLimit" ||
+      this.mode === "learn"
+    ) {
       this.answerComponent = this.add.text(
         155,
         671,
