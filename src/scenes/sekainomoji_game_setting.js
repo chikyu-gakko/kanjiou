@@ -253,8 +253,8 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
 
   init(data) {
     this.size = Size.M.name;
-    this.mode = Mode.TimeLimit.name;
-    this.country = "タイ";
+    this.mode = Mode.TimeLimit.text;
+    this.country = "タイ語";
 
     if (data.sizeY) {
       switch (data.sizeY) {
@@ -269,17 +269,17 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
     }
     if (data.mode) {
       switch (data.mode) {
-        case Mode.TimeAttack.text:
-          this.mode = Mode.TimeAttack.name;
+        case Mode.TimeAttack.name:
+          this.mode = Mode.TimeAttack.text;
           break;
-        case Mode.TimeLimit.text:
-          this.mode = Mode.TimeLimit.name;
+        case Mode.TimeLimit.name:
+          this.mode = Mode.TimeLimit.text;
           break;
-        case Mode.Learn.text:
-          this.mode = Mode.Learn.name;
+        case Mode.Learn.name:
+          this.mode = Mode.Learn.text;
           break;
         default:
-          this.mode = Mode.SuddenDeath.name;
+          this.mode = Mode.SuddenDeath.text;
       }
     }
 
@@ -379,7 +379,7 @@ export default class SekainomojiGameSetting extends Phaser.Scene {
               mode = Mode.Learn.name;
               break;
             default:
-              mode = "suddenDeath";
+              mode = Mode.SuddenDeath.name;
           }
           switch (this.challenge) {
             case Mode.SuddenDeath.name:
