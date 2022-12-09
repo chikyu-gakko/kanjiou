@@ -238,7 +238,7 @@ export default class GameMenu extends Phaser.Scene {
       "pointerdown",
       () => {
         modeDecideSe.play();
-        this.scene.start("sekainomoji_game_setting");
+        this.scene.start("sekai_game_setting");
       },
       this
     );

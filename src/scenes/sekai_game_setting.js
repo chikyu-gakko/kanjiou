@@ -235,7 +235,7 @@ const categoryButtonArgs = [
   },
 ];
 
-export default class SekainomojiGameSetting extends Phaser.Scene {
+export default class SekaiGameSetting extends Phaser.Scene {
   constructor() {
     super({ key: "sekai_game_setting", active: false });
   }

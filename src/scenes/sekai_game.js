@@ -131,7 +131,7 @@ export default class SekaiGame extends Phaser.Scene {
         case "return-to-setting":
           this.events.off();
           this.scene.stop();
-          this.scene.start("sekainomoji_game_setting", {
+          this.scene.start("sekai_game_setting", {
             sizeY: this.sizeY,
             sizeX: this.sizeX,
             mode: this.mode,
