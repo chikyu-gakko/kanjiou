@@ -1,5 +1,6 @@
 import { kanjiList } from "../kanjilist.js";
 import SoundButton from "../components/sound_button.js";
+import BackGround from "./ui/BackGround.js";
 
 export default class HitsujiGame extends Phaser.Scene {
   constructor() {
@@ -36,9 +37,7 @@ export default class HitsujiGame extends Phaser.Scene {
   }
 
   create() {
-    // 背景
-    const bgGameMenu = this.add.graphics();
-    bgGameMenu.fillStyle(0xeaeaea, 1).fillRect(0, 0, 1024, 768);
+    this.createBackGround();
 
     this.soundButton = new SoundButton(this, 70, 700, 40);
 
@@ -357,4 +356,8 @@ export default class HitsujiGame extends Phaser.Scene {
         .setOrigin(0.5, 0);
     }
   }
+
+  createBackGround = () => {
+    new BackGround(this, { color: 0xeaeaea, alpha: 1 });
+  };
 }
