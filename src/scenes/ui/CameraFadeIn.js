@@ -10,12 +10,12 @@ export default class CameraFadeIn extends Phaser.Cameras.Scene2D.CameraManager {
    * カメラ制御 フェードイン
    *
    * @param {Phaser.Scene} scene Phaser.Scene
-   * @param {afterFadeInCallback} callback
+   * @param {afterFadeInCallback | null} callback afterFadeInCallback | null
    */
-  constructor(scene, callback) {
+  constructor(scene, callback = null) {
     super(scene);
     this.addExisting(scene.cameras.main);
     scene.cameras.main.fadeIn(1000);
-    callback(scene);
+    if (callback !== null) callback(scene);
   }
 }

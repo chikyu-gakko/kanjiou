@@ -2,6 +2,8 @@ import SoundButton from "../components/sound_button.js";
 import SettingButton from "../components/setting_button.js";
 import { getRank, putRanking } from "../api/rank.js";
 
+import CameraFadeIn from "./ui/CameraFadeIn.js";
+
 export default class GameResult extends Phaser.Scene {
   constructor() {
     super({ key: "game_result", active: false });
@@ -52,7 +54,7 @@ export default class GameResult extends Phaser.Scene {
   }
 
   create() {
-    this.cameras.main.fadeIn(2000);
+    this.startCameraFadeIn();
 
     this.soundButton = new SoundButton(this, 70, 700, 40);
     this.soundButton.depth = 3;
@@ -438,15 +440,15 @@ export default class GameResult extends Phaser.Scene {
     rankingMenuBox
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(296, 234, 432, 367, 14).depth = 4;
-      // .fillRoundedRect(312, 234, 400, 300, 10).depth = 4;
+    // .fillRoundedRect(312, 234, 400, 300, 10).depth = 4;
 
-      // 1024 / 2 - モーダルの横幅 / 2
+    // 1024 / 2 - モーダルの横幅 / 2
 
-    this.add.image(560, 280 ,"clown").setDepth(5);
+    this.add.image(560, 280, "clown").setDepth(5);
 
     const rankMessageText = this.add
       .text(377, 340, "あなたの順位 　　    位", {
-        fontFamily:"sans-serif",
+        fontFamily: "sans-serif",
         fontSize: "24px",
         color: "#333333",
       })
@@ -581,4 +583,8 @@ export default class GameResult extends Phaser.Scene {
       this
     ).depth = 6;
   }
+
+  startCameraFadeIn = () => {
+    new CameraFadeIn(this);
+  };
 }
