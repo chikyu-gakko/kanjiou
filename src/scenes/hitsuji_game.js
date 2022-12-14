@@ -1,10 +1,12 @@
 import { kanjiList } from "../kanjilist.js";
 import SoundButton from "../components/sound_button.js";
 import BackGround from "./ui/BackGround.js";
+import KanjiContainer from "./ui/KanjiContainer.js";
 
 export default class HitsujiGame extends Phaser.Scene {
   constructor() {
     super({ key: "hitsuji_game", active: false });
+    this.kanjiContainer = undefined;
   }
 
   preload() {
@@ -39,31 +41,7 @@ export default class HitsujiGame extends Phaser.Scene {
   create() {
     this.createBackGround();
     this.startMusic();
-
-    this.kanjiContainer = this.add.container(0, 0);
-    switch (this.sizeX) {
-      case 6:
-        this.kanjiContainer.setY(250);
-        this.kanjiFontSize = 50;
-        this.kanjiSpace = 100;
-        break;
-      case 8:
-        this.kanjiContainer.setY(200);
-        this.kanjiFontSize = 50;
-        this.kanjiSpace = 100;
-        break;
-      default:
-        this.kanjiContainer.setY(190);
-        this.kanjiFontSize = 40;
-        this.kanjiSpace = 70;
-    }
-    this.kanjiContainer.setSize(
-      this.sizeX * this.kanjiSpace - this.kanjiFontSize,
-      this.sizeY * this.kanjiSpace - this.kanjiFontSize
-    );
-    this.kanjiContainer.setX(
-      this.game.canvas.width / 2 - this.kanjiContainer.width / 2
-    );
+    this.kanjiContainer = this.createKanjiContainer();
 
     this.createKanji();
 
@@ -236,9 +214,9 @@ export default class HitsujiGame extends Phaser.Scene {
 
         kanjiArray.push(
           this.add
-            .text(x * this.kanjiSpace, y * this.kanjiSpace, kanji, {
+            .text(x * this.kanjiContainer.kanjiSpace, y * this.kanjiContainer.kanjiSpace, kanji, {
               fill: 0x333333,
-              fontSize: this.kanjiFontSize,
+              fontSize: this.kanjiContainer.kanjiFontSize,
               fontFamily: this.fontFamily,
             })
             .setInteractive()
@@ -362,5 +340,9 @@ export default class HitsujiGame extends Phaser.Scene {
     this.fx = this.sound.add("game_bgm");
     this.fx.allowMultiple = false;
     this.fx.setLoop(true);
+  };
+
+  createKanjiContainer = () => {
+    return new KanjiContainer(this, 0, 0, this.sizeX, this.sizeY);
   };
 }
