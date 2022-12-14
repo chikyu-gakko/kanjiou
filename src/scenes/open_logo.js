@@ -1,3 +1,5 @@
+import CameraFadeIn from "./ui/CameraFadeIn";
+
 export default class OpenLogo extends Phaser.Scene {
   constructor() {
     super({ key: "logo", active: true });
@@ -47,27 +49,8 @@ export default class OpenLogo extends Phaser.Scene {
       .setOrigin(0.5, 0);
 
     // fadein/out
-    this.cameras.main.fadeIn(2000);
-    this.cameras.main.once("camerafadeincomplete", (camera) => {
-      this.add
-        .graphics()
-        .fillStyle(0x000000, 0.05)
-        .fillRect(0, 0, this.game.canvas.width, this.game.canvas.height)
-        .setInteractive(
-          new Phaser.Geom.Rectangle(
-            0,
-            0,
-            this.game.canvas.width,
-            this.game.canvas.height
-          ),
-          Phaser.Geom.Rectangle.Contains
-        )
 
-        .on("pointerdown", () => {
-          camera.fadeOut(2000);
-          this.scene.start("game_menu");
-        });
-    });
+    this.startCameraFadeIn();
 
     this.tweens.add({
       targets: logoImage,
@@ -77,4 +60,33 @@ export default class OpenLogo extends Phaser.Scene {
       duration: 3000,
     });
   }
+
+  startCameraFadeIn = () => {
+    /**
+     * @param {Phaser.Scene} scene
+     */
+    const callback = (scene) => {
+      scene.cameras.main.once("camerafadeincomplete", (camera) => {
+        this.add
+          .graphics()
+          .fillStyle(0x000000, 0.05)
+          .fillRect(0, 0, this.game.canvas.width, this.game.canvas.height)
+          .setInteractive(
+            new Phaser.Geom.Rectangle(
+              0,
+              0,
+              this.game.canvas.width,
+              this.game.canvas.height
+            ),
+            Phaser.Geom.Rectangle.Contains
+          )
+
+          .on("pointerdown", () => {
+            camera.fadeOut(2000);
+            this.scene.start("game_menu");
+          });
+      });
+    };
+    new CameraFadeIn(this, callback);
+  };
 }
