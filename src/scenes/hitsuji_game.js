@@ -42,7 +42,13 @@ export default class HitsujiGame extends Phaser.Scene {
     this.startMusic();
     this.kanjiContainer = this.createKanjiContainer();
 
-    this.createKanji();
+    this.kanjiContainer.createKanji(
+      this,
+      "correct_se",
+      "but_se",
+      this.correctAnim,
+      this.mistakeAnim
+    );
 
     this.add
       .text(775, 672, "一時停止", {
@@ -57,7 +63,6 @@ export default class HitsujiGame extends Phaser.Scene {
       });
 
     this.createTimerComponent();
-    this.createAnswerComponent();
 
     this.time.addEvent({
       delay: 1000,
@@ -98,7 +103,7 @@ export default class HitsujiGame extends Phaser.Scene {
     });
   }
 
-  correctAnim() {
+  correctAnim = () => {
     const correctBg = this.add.graphics();
     correctBg
       .fillStyle(0x333333, 0.5)
@@ -122,9 +127,9 @@ export default class HitsujiGame extends Phaser.Scene {
       correctGroup.toggleVisible(false);
     }, 1500);
     correctGroup.toggleVisible(true);
-  }
+  };
 
-  mistakeAnim() {
+  mistakeAnim = () => {
     const mistakeBg = this.add.graphics();
     mistakeBg
       .fillStyle(0x333333, 0.5)
@@ -148,7 +153,7 @@ export default class HitsujiGame extends Phaser.Scene {
       mistakeGroup.toggleVisible(false);
     }, 1500);
     mistakeGroup.toggleVisible(true);
-  }
+  };
 
   countTime() {
     this.check();
@@ -159,11 +164,14 @@ export default class HitsujiGame extends Phaser.Scene {
 
   check() {
     if (
-      (this.mode === "timeLimit" &&
-        (this.timer >= 60 || this.answerCounter >= this.numberOfQuestions)) ||
-      (this.mode === "timeAttack" &&
-        this.answerCounter >= this.numberOfQuestions) ||
-      (this.mode === "suddenDeath" && this.wrongFlag)
+      (this.kanjiContainer.mode === "timeLimit" &&
+        (this.timer >= 60 ||
+          this.kanjiContainer.answerCounter >=
+          this.kanjiContainer.numberOfQuestions)) ||
+      (this.kanjiContainer.mode === "timeAttack" &&
+        this.kanjiContainer.answerCounter >=
+        this.kanjiContainer.numberOfQuestions) ||
+      (this.kanjiContainer.mode === "suddenDeath" && this.wrongFlag)
     ) {
       this.fx.stop();
       this.scene.start("game_result", {
@@ -177,101 +185,6 @@ export default class HitsujiGame extends Phaser.Scene {
         sizeX: this.sizeX,
         sizeY: this.sizeY,
       });
-    }
-  }
-
-  createKanji() {
-    const answerY = Math.floor(Math.random() * this.sizeY);
-    const answerX = Math.floor(Math.random() * this.sizeX);
-    const kanjiArray = [];
-    const i = this.kanjiIndex;
-
-    // 正解/不正解SE
-    const correct = this.sound.add("correct_se");
-    const but = this.sound.add("but_se");
-
-    this.kanjiContainer.removeAll(true);
-
-    for (let y = 0; y < this.sizeY; y += 1) {
-      for (let x = 0; x < this.sizeX; x += 1) {
-        const kanji =
-          y === answerY && x === answerX
-            ? this.kanjiContainer.kanjiList[i][1]
-            : this.kanjiContainer.kanjiList[i][0];
-
-        kanjiArray.push(
-          this.add
-            .text(
-              x * this.kanjiContainer.kanjiSpace,
-              y * this.kanjiContainer.kanjiSpace,
-              kanji,
-              {
-                fill: 0x333333,
-                fontSize: this.kanjiContainer.kanjiFontSize,
-                fontFamily: this.fontFamily,
-              }
-            )
-            .setInteractive()
-        );
-
-        if (y === answerY && x === answerX) {
-          kanjiArray[kanjiArray.length - 1].once("pointerdown", () => {
-            this.correctAnim();
-            correct.play();
-            this.answerCounter += 1;
-            this.createAnswerComponent();
-            setTimeout(() => {
-              this.createKanji();
-            }, 1400);
-          });
-        } else {
-          kanjiArray[kanjiArray.length - 1].once("pointerdown", () => {
-            this.mistakeAnim();
-            but.play();
-            this.wrongFlag = true;
-            setTimeout(() => {
-              this.createKanji();
-            }, 1400);
-          });
-        }
-      }
-    }
-    this.kanjiContainer.add(kanjiArray);
-
-    this.kanjiIndex += 1;
-    if (this.kanjiIndex >= this.kanjiContainer.kanjiList.length) {
-      this.kanjiContainer.kanjiList = this.kanjiContainer.shuffleKanjiList(
-        this.kanjiContainer.kanjiList
-      );
-      this.kanjiIndex %= this.kanjiContainer.kanjiList.length;
-    }
-  }
-
-  createAnswerComponent() {
-    if (this.answerComponent) this.answerComponent.destroy();
-
-    if (this.mode === "suddenDeath") {
-      this.answerComponent = this.add.text(
-        155,
-        671,
-        `正解数：${this.answerCounter}問`,
-        {
-          fill: 0x333333,
-          fontSize: 50,
-          fontFamily: this.fontFamily,
-        }
-      );
-    } else if (this.mode === "timeAttack" || this.mode === "timeLimit") {
-      this.answerComponent = this.add.text(
-        155,
-        671,
-        `残り：${this.numberOfQuestions - this.answerCounter}問`,
-        {
-          fill: 0x333333,
-          fontSize: 50,
-          fontFamily: this.fontFamily,
-        }
-      );
     }
   }
 
@@ -323,7 +236,8 @@ export default class HitsujiGame extends Phaser.Scene {
       this.sizeX,
       this.sizeY,
       this.schoolYear,
-      this.isChallenge
+      this.isChallenge,
+      this.mode
     );
   };
 }

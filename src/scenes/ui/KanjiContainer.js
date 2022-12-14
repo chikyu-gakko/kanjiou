@@ -2,6 +2,11 @@ import Phaser from "phaser";
 import { kanjiList } from "../../kanjilist.js";
 
 /**
+ * @callback correctAnimCallback
+ * @callback mistakeAnimCallback
+ */
+
+/**
  * 漢字を複数画面に表示させるためのコンテナ
  *
  * 目安
@@ -18,18 +23,24 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
    * @param {number} sizeY number
    * @param {string} schoolYear string
    * @param {boolean} isChallenge boolean
+   * @param {string} mode string
    */
-  constructor(scene, x, y, sizeX, sizeY, schoolYear, isChallenge) {
+  constructor(scene, x, y, sizeX, sizeY, schoolYear, isChallenge, mode) {
     super(scene, x, y);
     scene.add.existing(this);
     this.sizeX = sizeX;
     this.sizeY = sizeY;
     this.kanjiFontSize = 40;
     this.kanjiSpace = 70;
+    this.mode = mode;
     this.setY(200);
-
+    this.kanjiIndex = 0;
+    this.answerCounter = 0;
+    this.numberOfQuestions = 10;
     this.changeDifficulty(scene);
     this.kanjiList = this.createKanjiList(schoolYear, isChallenge);
+    this.answerComponent = undefined;
+    this.createAnswerComponent(scene);
   }
 
   /**
@@ -98,4 +109,113 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
     return kanjilist;
   };
 
+  /**
+   * @param {Phaser.Scene} scene Phaser.Scene
+   * @param {string} correctKey string
+   * @param {string} butKey string
+   * @param {correctAnimCallback} correctAnim
+   * @param {mistakeAnimCallback} mistakeAnim
+   */
+  createKanji = (scene, correctKey, butKey, correctAnim, mistakeAnim) => {
+    const answerY = Math.floor(Math.random() * this.sizeY);
+    const answerX = Math.floor(Math.random() * this.sizeX);
+    const kanjiArray = [];
+    const i = this.kanjiIndex;
+
+    // 正解/不正解SE
+    const correct = scene.sound.add(correctKey);
+    const but = scene.sound.add(butKey);
+
+    this.removeAll(true);
+
+    for (let y = 0; y < this.sizeY; y += 1) {
+      for (let x = 0; x < this.sizeX; x += 1) {
+        const kanji =
+          y === answerY && x === answerX
+            ? this.kanjiList[i][1]
+            : this.kanjiList[i][0];
+
+        kanjiArray.push(
+          scene.add
+            .text(x * this.kanjiSpace, y * this.kanjiSpace, kanji, {
+              fill: 0x333333,
+              fontSize: this.kanjiFontSize,
+              fontFamily: scene.registry.get("fontFamily"),
+            })
+            .setInteractive()
+        );
+
+        if (y === answerY && x === answerX) {
+          kanjiArray[kanjiArray.length - 1].once("pointerdown", () => {
+            correctAnim();
+            correct.play();
+            this.answerCounter += 1;
+            this.createAnswerComponent(scene);
+            setTimeout(() => {
+              this.createKanji(
+                scene,
+                correctKey,
+                butKey,
+                correctAnim,
+                mistakeAnim
+              );
+            }, 1400);
+          });
+        } else {
+          kanjiArray[kanjiArray.length - 1].once("pointerdown", () => {
+            mistakeAnim();
+            but.play();
+            this.wrongFlag = true;
+            setTimeout(() => {
+              this.createKanji(
+                scene,
+                correctKey,
+                butKey,
+                correctAnim,
+                mistakeAnim
+              );
+            }, 1400);
+          });
+        }
+      }
+    }
+    this.add(kanjiArray);
+
+    this.kanjiIndex += 1;
+    if (this.kanjiIndex >= this.kanjiList.length) {
+      this.kanjiList = this.shuffleKanjiList(this.kanjiList);
+      this.kanjiIndex %= this.kanjiList.length;
+    }
+  };
+
+  /**
+   * @param {Phaser.Scene} scene Phaser.Scene
+   */
+  createAnswerComponent = (scene) => {
+    if (this.answerComponent) this.answerComponent.destroy();
+
+    if (this.mode === "suddenDeath") {
+      this.answerComponent = scene.add.text(
+        155,
+        671,
+        `正解数：${this.answerCounter}問`,
+        {
+          fill: 0x333333,
+          fontSize: 50,
+          fontFamily: scene.registry.get("fontFamily"),
+        }
+      );
+    } else if (this.mode === "timeAttack" || this.mode === "timeLimit") {
+      this.answerComponent = scene.add.text(
+        155,
+        671,
+        `残り：${this.numberOfQuestions - this.answerCounter}問`,
+        {
+          fill: 0x333333,
+          fontSize: 50,
+          fontFamily: scene.registry.get("fontFamily"),
+        }
+      );
+    }
+  };
 }
