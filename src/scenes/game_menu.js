@@ -55,20 +55,8 @@ export default class GameMenu extends Phaser.Scene {
 
   create() {
     this.startCameraFadeIn();
-
     this.createBackGround();
-
-    // 音楽
-    if (this.sound.get("top_bgm") === null) {
-      this.sound.add("top_bgm");
-      this.sound.play("top_bgm", {
-        loop: true,
-        delay: 9,
-      });
-    }
-
-    this.soundButton = new SoundButton(this, 70, 700, 40);
-    this.soundButton.depth = 3;
+    this.startMusic();
   }
 
   groundAnim() {
@@ -293,5 +281,19 @@ export default class GameMenu extends Phaser.Scene {
       });
     };
     new CameraFadeIn(this, callback);
+  };
+
+  startMusic = () => {
+    // 音楽
+    if (this.sound.get("top_bgm") === null) {
+      this.sound.add("top_bgm");
+      this.sound.play("top_bgm", {
+        loop: true,
+        delay: 9,
+      });
+    }
+
+    this.soundButton = new SoundButton(this, 70, 700, 40);
+    this.soundButton.depth = 3;
   };
 }
