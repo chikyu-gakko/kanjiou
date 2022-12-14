@@ -1,4 +1,6 @@
 import SoundButton from "../components/sound_button.js";
+import BackGround from "./ui/BackGround.js";
+import CameraFadeIn from "./ui/CameraFadeIn.js";
 
 import buttonJsx from "./sample";
 
@@ -52,30 +54,9 @@ export default class GameMenu extends Phaser.Scene {
   }
 
   create() {
-    this.cameras.main.fadeIn(1000);
-    this.cameras.main.once("camerafadeincomplete", () => {
-      setTimeout(() => {
-        this.groundAnim();
-      }, 2000);
-      setTimeout(() => {
-        this.treeAnim();
-      }, 3000);
-      setTimeout(() => {
-        this.cloudAnim();
-      }, 4000);
-      setTimeout(() => {
-        this.moguraAnim();
-      }, 5000);
-      setTimeout(() => {
-        this.gameMenuFade();
-      }, 8000);
-    });
+    this.startCameraFadeIn();
 
-    // 画像表示
-
-    // 背景描画
-    const bgGameMenu = this.add.graphics();
-    bgGameMenu.fillStyle(0xebfdff, 1).fillRect(0, 0, 1024, 768);
+    this.createBackGround();
 
     // 音楽
     if (this.sound.get("top_bgm") === null) {
@@ -283,4 +264,34 @@ export default class GameMenu extends Phaser.Scene {
     this.add.image(95, 400, "top_mogura");
     this.add.image(95, 531, "top_mogura");
   }
+
+  createBackGround = () => {
+    new BackGround(this);
+  };
+
+  startCameraFadeIn = () => {
+    /**
+     * @param {Phaser.Scene} scene
+     */
+    const callback = (scene) => {
+      scene.cameras.main.once("camerafadeincomplete", () => {
+        setTimeout(() => {
+          this.groundAnim();
+        }, 2000);
+        setTimeout(() => {
+          this.treeAnim();
+        }, 3000);
+        setTimeout(() => {
+          this.cloudAnim();
+        }, 4000);
+        setTimeout(() => {
+          this.moguraAnim();
+        }, 5000);
+        setTimeout(() => {
+          this.gameMenuFade();
+        }, 8000);
+      });
+    };
+    new CameraFadeIn(this, callback);
+  };
 }
