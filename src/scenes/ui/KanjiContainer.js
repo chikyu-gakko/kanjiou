@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { kanjiList } from "../../kanjilist.js";
 
 /**
  * 漢字を複数画面に表示させるためのコンテナ
@@ -15,8 +16,10 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
    * @param {number} y number
    * @param {number} sizeX number
    * @param {number} sizeY number
+   * @param {string} schoolYear string
+   * @param {boolean} isChallenge boolean
    */
-  constructor(scene, x, y, sizeX, sizeY) {
+  constructor(scene, x, y, sizeX, sizeY, schoolYear, isChallenge) {
     super(scene, x, y);
     scene.add.existing(this);
     this.sizeX = sizeX;
@@ -26,6 +29,7 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
     this.setY(200);
 
     this.changeDifficulty(scene);
+    this.kanjiList = this.createKanjiList(schoolYear, isChallenge);
   }
 
   /**
@@ -54,4 +58,44 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
     );
     this.setX(scene.game.canvas.width / 2 - this.width / 2);
   };
+
+  /**
+   * @param {string} schoolYear string
+   * @param {boolean} isChallenge boolean
+   * @returns {string[][]} kanjilist string[][]
+   */
+  createKanjiList = (schoolYear, isChallenge) => {
+    let kanji = [];
+    if (isChallenge) {
+      Object.values(kanjiList).forEach((element) => {
+        let i = element.length;
+        const list = element;
+        while (i > 1) {
+          i -= 1;
+          const j = Math.floor(Math.random() * i);
+          [list[i], list[j]] = [list[j], list[i]];
+        }
+        kanji = kanji.concat(list);
+      });
+    } else {
+      kanji = kanjiList[schoolYear];
+      kanji = this.shuffleKanjiList(kanji);
+    }
+    return kanji;
+  };
+
+  /**
+   * @param {string[][]} kanjilist string[][]
+   * @returns {string[][]} kanjilist string[][]
+   */
+  shuffleKanjiList = (kanjilist) => {
+    let i = kanjilist.length;
+    while (i > 1) {
+      i -= 1;
+      const j = Math.floor(Math.random() * i);
+      [kanjilist[i], kanjilist[j]] = [kanjilist[j], kanjilist[i]];
+    }
+    return kanjilist;
+  };
+
 }

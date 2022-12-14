@@ -29,7 +29,6 @@ export default class HitsujiGame extends Phaser.Scene {
     this.sizeY = data.sizeY;
     this.sizeX = data.sizeX;
     this.isChallenge = data.isChallenge;
-    this.createKanjiList();
     this.kanjiIndex = 0;
     this.timer = 0;
     this.answerCounter = 0;
@@ -181,18 +180,6 @@ export default class HitsujiGame extends Phaser.Scene {
     }
   }
 
-  shuffleKanjiList() {
-    let i = this.kanjiList.length;
-    while (i > 1) {
-      i -= 1;
-      const j = Math.floor(Math.random() * i);
-      [this.kanjiList[i], this.kanjiList[j]] = [
-        this.kanjiList[j],
-        this.kanjiList[i],
-      ];
-    }
-  }
-
   createKanji() {
     const answerY = Math.floor(Math.random() * this.sizeY);
     const answerX = Math.floor(Math.random() * this.sizeX);
@@ -209,16 +196,21 @@ export default class HitsujiGame extends Phaser.Scene {
       for (let x = 0; x < this.sizeX; x += 1) {
         const kanji =
           y === answerY && x === answerX
-            ? this.kanjiList[i][1]
-            : this.kanjiList[i][0];
+            ? this.kanjiContainer.kanjiList[i][1]
+            : this.kanjiContainer.kanjiList[i][0];
 
         kanjiArray.push(
           this.add
-            .text(x * this.kanjiContainer.kanjiSpace, y * this.kanjiContainer.kanjiSpace, kanji, {
-              fill: 0x333333,
-              fontSize: this.kanjiContainer.kanjiFontSize,
-              fontFamily: this.fontFamily,
-            })
+            .text(
+              x * this.kanjiContainer.kanjiSpace,
+              y * this.kanjiContainer.kanjiSpace,
+              kanji,
+              {
+                fill: 0x333333,
+                fontSize: this.kanjiContainer.kanjiFontSize,
+                fontFamily: this.fontFamily,
+              }
+            )
             .setInteractive()
         );
 
@@ -247,30 +239,11 @@ export default class HitsujiGame extends Phaser.Scene {
     this.kanjiContainer.add(kanjiArray);
 
     this.kanjiIndex += 1;
-    if (this.kanjiIndex >= this.kanjiList.length) {
-      this.shuffleKanjiList();
-      this.kanjiIndex %= this.kanjiList.length;
-    }
-  }
-
-  createKanjiList() {
-    let kanji = [];
-    if (this.isChallenge) {
-      Object.values(kanjiList).forEach((element) => {
-        let i = element.length;
-        const list = element;
-        while (i > 1) {
-          i -= 1;
-          const j = Math.floor(Math.random() * i);
-          [list[i], list[j]] = [list[j], list[i]];
-        }
-        kanji = kanji.concat(list);
-      });
-      this.kanjiList = kanji;
-    } else {
-      kanji = kanjiList[this.schoolYear];
-      this.kanjiList = kanji;
-      this.shuffleKanjiList();
+    if (this.kanjiIndex >= this.kanjiContainer.kanjiList.length) {
+      this.kanjiContainer.kanjiList = this.kanjiContainer.shuffleKanjiList(
+        this.kanjiContainer.kanjiList
+      );
+      this.kanjiIndex %= this.kanjiContainer.kanjiList.length;
     }
   }
 
@@ -343,6 +316,14 @@ export default class HitsujiGame extends Phaser.Scene {
   };
 
   createKanjiContainer = () => {
-    return new KanjiContainer(this, 0, 0, this.sizeX, this.sizeY);
+    return new KanjiContainer(
+      this,
+      0,
+      0,
+      this.sizeX,
+      this.sizeY,
+      this.schoolYear,
+      this.isChallenge
+    );
   };
 }
