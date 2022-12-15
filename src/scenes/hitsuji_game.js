@@ -2,6 +2,7 @@ import { kanjiList } from "../kanjilist.js";
 import SoundButton from "../components/sound_button.js";
 import BackGround from "./ui/BackGround.js";
 import KanjiContainer from "./ui/KanjiContainer.js";
+import TimeStopLabel from "./ui/TimerStopLabel.js";
 
 export default class HitsujiGame extends Phaser.Scene {
   constructor() {
@@ -41,7 +42,6 @@ export default class HitsujiGame extends Phaser.Scene {
     this.createBackGround();
     this.startMusic();
     this.kanjiContainer = this.createKanjiContainer();
-
     this.kanjiContainer.createKanji(
       this,
       "correct_se",
@@ -49,21 +49,8 @@ export default class HitsujiGame extends Phaser.Scene {
       this.correctAnim,
       this.mistakeAnim
     );
-
-    this.add
-      .text(775, 672, "一時停止", {
-        fill: 0x333333,
-        fontSize: 32,
-        fontFamily: this.fontFamily,
-      })
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.scene.pause();
-        this.scene.launch("pause_menu");
-      });
-
+    this.createTimeStopLabel();
     this.createTimerComponent();
-
     this.time.addEvent({
       delay: 1000,
       repeat: Infinity,
@@ -239,5 +226,17 @@ export default class HitsujiGame extends Phaser.Scene {
       this.isChallenge,
       this.mode
     );
+  };
+
+  createTimeStopLabel = () => {
+    const timeStopLabel = new TimeStopLabel(this, 775, 672, "一時停止", {
+      fill: 0x333333,
+      fontSize: 32,
+      fontFamily: this.fontFamily,
+    });
+    timeStopLabel.setInteractive().on("pointerdown", () => {
+      this.scene.pause();
+      this.scene.launch("pause_menu");
+    });
   };
 }
