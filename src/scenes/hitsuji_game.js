@@ -3,11 +3,16 @@ import SoundButton from "../components/sound_button.js";
 import BackGround from "./ui/BackGround.js";
 import KanjiContainer from "./ui/KanjiContainer.js";
 import TimeStopLabel from "./ui/TimerStopLabel.js";
+import GameTime from "./ui/GameTime.js";
 
 export default class HitsujiGame extends Phaser.Scene {
   constructor() {
     super({ key: "hitsuji_game", active: false });
+    this.fontFamily = undefined;
+    this.prevSceneData = undefined;
     this.kanjiContainer = undefined;
+    this.gameTime = undefined;
+    this.timerComponent = undefined;
   }
 
   preload() {
@@ -25,17 +30,14 @@ export default class HitsujiGame extends Phaser.Scene {
   }
 
   init(data) {
-    this.schoolYear = data.schoolYear;
-    this.mode = data.mode;
-    this.sizeY = data.sizeY;
-    this.sizeX = data.sizeX;
-    this.isChallenge = data.isChallenge;
-    this.kanjiIndex = 0;
-    this.timer = 0;
-    this.answerCounter = 0;
-    this.wrongFlag = false;
-    this.numberOfQuestions = 10;
     this.fontFamily = this.registry.get("fontFamily");
+    this.prevSceneData = {
+      schoolYear: data.schoolYear,
+      mode: data.mode,
+      sizeY: data.sizeY,
+      sizeX: data.sizeX,
+      isChallenge: data.isChallenge,
+    };
   }
 
   create() {
@@ -50,13 +52,40 @@ export default class HitsujiGame extends Phaser.Scene {
       this.mistakeAnim
     );
     this.createTimeStopLabel();
-    this.createTimerComponent();
+    this.gameTime = this.createGameTime();
     this.time.addEvent({
       delay: 1000,
       repeat: Infinity,
-      callback: this.countTime,
+      callback: () => {
+        this.gameTime.countTime(
+          () => {
+            this.gameTime.check(
+              this.kanjiContainer.mode,
+              this.kanjiContainer.answerCounter,
+              this.kanjiContainer.numberOfQuestions,
+              this.kanjiContainer.wrongFlag,
+              () => {
+                this.fx.stop();
+                this.scene.start("game_result", {
+                  time: this.gameTime.timer,
+                  ranking: true,
+                  modalVisible: true,
+                  rankingRegistered: false,
+                  answers: this.kanjiContainer.answerCounter,
+                  mode: this.kanjiContainer.mode,
+                  schoolYear: this.kanjiContainer.schoolYear,
+                  sizeX: this.kanjiContainer.sizeX,
+                  sizeY: this.kanjiContainer.sizeY,
+                });
+              }
+            );
+          },
+          () => this.createTimerComponent(this.gameTime.timer)
+        );
+      },
       callbackScope: this,
     });
+    this.createTimerComponent(this.gameTime.timer);
 
     this.events.on("resume", (scene, data) => {
       switch (data.status) {
@@ -64,10 +93,10 @@ export default class HitsujiGame extends Phaser.Scene {
           this.events.off();
           this.scene.stop();
           this.scene.start("hitsuji_game", {
-            sizeY: this.sizeY,
-            sizeX: this.sizeX,
-            mode: this.mode,
-            schoolYear: this.schoolYear,
+            sizeY: this.kanjiContainer.sizeY,
+            sizeX: this.kanjiContainer.sizeX,
+            mode: this.kanjiContainer.mode,
+            schoolYear: this.kanjiContainer.schoolYear,
           });
           break;
         case "return-to-top":
@@ -79,10 +108,10 @@ export default class HitsujiGame extends Phaser.Scene {
           this.events.off();
           this.scene.stop();
           this.scene.start("game_setting", {
-            sizeY: this.sizeY,
-            sizeX: this.sizeX,
-            mode: this.mode,
-            schoolYear: this.schoolYear,
+            sizeY: this.kanjiContainer.sizeY,
+            sizeX: this.kanjiContainer.sizeX,
+            mode: this.kanjiContainer.mode,
+            schoolYear: this.kanjiContainer.schoolYear,
           });
           break;
         default:
@@ -142,64 +171,29 @@ export default class HitsujiGame extends Phaser.Scene {
     mistakeGroup.toggleVisible(true);
   };
 
-  countTime() {
-    this.check();
-    this.timer += 1;
-    this.check();
-    this.createTimerComponent();
-  }
-
-  check() {
-    if (
-      (this.kanjiContainer.mode === "timeLimit" &&
-        (this.timer >= 60 ||
-          this.kanjiContainer.answerCounter >=
-          this.kanjiContainer.numberOfQuestions)) ||
-      (this.kanjiContainer.mode === "timeAttack" &&
-        this.kanjiContainer.answerCounter >=
-        this.kanjiContainer.numberOfQuestions) ||
-      (this.kanjiContainer.mode === "suddenDeath" && this.wrongFlag)
-    ) {
-      this.fx.stop();
-      this.scene.start("game_result", {
-        time: this.timer,
-        ranking: true,
-        modalVisible: true,
-        rankingRegistered: false,
-        answers: this.answerCounter,
-        mode: this.mode,
-        schoolYear: this.schoolYear,
-        sizeX: this.sizeX,
-        sizeY: this.sizeY,
-      });
-    }
-  }
-
-  createTimerComponent() {
+  /**
+   * @param {number} time
+   */
+  createTimerComponent = (time) => {
     if (this.timerComponent) this.timerComponent.destroy();
-    if (this.mode === "timeLimit") {
+    if (this.kanjiContainer.mode === "timeLimit") {
       this.timerComponent = this.add
-        .text(
-          this.game.canvas.width / 2,
-          54,
-          `残り時間：${60 - this.timer}秒`,
-          {
-            fill: 0x333333,
-            fontSize: 50,
-            fontFamily: this.fontFamily,
-          }
-        )
+        .text(this.game.canvas.width / 2, 54, `残り時間：${60 - time}秒`, {
+          fill: 0x333333,
+          fontSize: 50,
+          fontFamily: this.fontFamily,
+        })
         .setOrigin(0.5, 0);
-    } else if (this.mode === "timeAttack") {
+    } else if (this.kanjiContainer.mode === "timeAttack") {
       this.timerComponent = this.add
-        .text(this.game.canvas.width / 2, 54, `タイム：${this.timer}秒`, {
+        .text(this.game.canvas.width / 2, 54, `タイム：${time}秒`, {
           fill: 0x333333,
           fontSize: 50,
           fontFamily: this.fontFamily,
         })
         .setOrigin(0.5, 0);
     }
-  }
+  };
 
   createBackGround = () => {
     new BackGround(this, { color: 0xeaeaea, alpha: 1 });
@@ -220,11 +214,11 @@ export default class HitsujiGame extends Phaser.Scene {
       this,
       0,
       0,
-      this.sizeX,
-      this.sizeY,
-      this.schoolYear,
-      this.isChallenge,
-      this.mode
+      this.prevSceneData.sizeX,
+      this.prevSceneData.sizeY,
+      this.prevSceneData.schoolYear,
+      this.prevSceneData.isChallenge,
+      this.prevSceneData.mode
     );
   };
 
@@ -238,5 +232,9 @@ export default class HitsujiGame extends Phaser.Scene {
       this.scene.pause();
       this.scene.launch("pause_menu");
     });
+  };
+
+  createGameTime = () => {
+    return new GameTime(this);
   };
 }

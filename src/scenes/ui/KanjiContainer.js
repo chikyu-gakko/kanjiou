@@ -30,6 +30,7 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
     scene.add.existing(this);
     this.sizeX = sizeX;
     this.sizeY = sizeY;
+    this.schoolYear = schoolYear;
     this.kanjiFontSize = 40;
     this.kanjiSpace = 70;
     this.mode = mode;
