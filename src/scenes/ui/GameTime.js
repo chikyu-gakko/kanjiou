@@ -15,7 +15,7 @@ import Phaser from "phaser";
 /**
  * ゲーム(Scene)内時間
  *
- * 1秒ごとにチェックも行う
+ * Scene.time.addEvent() で GameTime.countTime() をコールバックにしてください
  */
 export default class GameTime extends Phaser.Time.Clock {
   /**
@@ -37,7 +37,8 @@ export default class GameTime extends Phaser.Time.Clock {
     if (
       (mode === "timeLimit" && (this.timer >= 60 || counter >= questions)) ||
       (mode === "timeAttack" && counter >= questions) ||
-      (mode === "suddenDeath" && wrongFlag)
+      (mode === "suddenDeath" && wrongFlag) ||
+      (mode === "learn" && counter >= questions)
     ) {
       whenCleared();
     }

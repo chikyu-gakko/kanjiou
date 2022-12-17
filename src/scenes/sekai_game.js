@@ -1,7 +1,9 @@
 import { characterList } from "../characterlist.js";
 import SoundButton from "../components/sound_button.js";
 import BackGround from "./ui/BackGround.js";
-import CharContainer from "./ui/charContainer.js";
+import CharContainer from "./ui/CharContainer.js";
+import TimeStopLabel from "./ui/TimerStopLabel.js";
+import GameTime from "./ui/GameTime.js";
 
 const bgms = [
   ["game_bgm", "assets/audio/timer.mp3"],
@@ -21,6 +23,7 @@ export default class SekaiGame extends Phaser.Scene {
     this.fontFamily = undefined;
     this.prevSceneData = undefined;
     this.charContainer = undefined;
+    this.gameTime = undefined;
   }
 
   preload() {
@@ -44,7 +47,6 @@ export default class SekaiGame extends Phaser.Scene {
       isChallenge: data.isChallenge,
     };
     this.characterIndex = 0;
-    this.timer = 0;
   }
 
   create() {
@@ -58,29 +60,37 @@ export default class SekaiGame extends Phaser.Scene {
       "but_se",
       this.correctAnim,
       this.mistakeAnim,
-      this.commentAnim
+      () =>
+        this.commentAnim(
+          this.charContainer.mistakeCharacter,
+          this.charContainer.correctCharacter,
+          this.charContainer.mistakeAnsExample,
+          this.charContainer.correctAnsExample,
+          this.charContainer.tips
+        )
     );
-
-    this.add
-      .text(775, 672, "一時停止", {
-        fill: 0x333333,
-        fontSize: 32,
-        fontFamily: this.fontFamily,
-      })
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.scene.pause();
-        this.scene.launch("sekai_pause_menu");
-      });
-
-    this.createTimerComponent();
-
+    this.createTimeStopLabel();
+    this.gameTime = this.createGameTime();
     this.time.addEvent({
       delay: 1000,
       repeat: Infinity,
-      callback: this.countTime,
+      callback: () => {
+        this.gameTime.countTime(
+          () => {
+            this.gameTime.check(
+              this.charContainer.mode,
+              this.charContainer.answerCounter,
+              this.charContainer.numberOfQuestions,
+              this.charContainer.wrongFlag,
+              this.transitionToResult
+            );
+          },
+          () => this.createTimerComponent(this.gameTime.timer)
+        );
+      },
       callbackScope: this,
     });
+    this.createTimerComponent(this.gameTime.timer);
 
     this.events.on("resume", (scene, data) => {
       switch (data.status) {
@@ -169,8 +179,17 @@ export default class SekaiGame extends Phaser.Scene {
   /**
    * @param {string} mistakeCharacter
    * @param {string} correctCharacter
+   * @param {string} mistakeAnsExample
+   * @param {string} correctAnsExample
+   * @param {string} tips
    */
-  commentAnim = (mistakeCharacter, correctCharacter) => {
+  commentAnim = (
+    mistakeCharacter,
+    correctCharacter,
+    mistakeAnsExample,
+    correctAnsExample,
+    tips
+  ) => {
     const commentBg = this.add.graphics();
     commentBg
       .fillStyle(0x333333, 0.5)
@@ -210,12 +229,12 @@ export default class SekaiGame extends Phaser.Scene {
     });
     correctAnsChar.depth = 4;
 
-    const correctAnsExample = this.add.text(60, 420, this.correctAnsExample, {
+    const correctExample = this.add.text(60, 420, correctAnsExample, {
       fill: "#000000",
       fontSize: 16,
       fontFamily: this.fontFamily,
     });
-    correctAnsExample.depth = 4;
+    correctExample.depth = 4;
 
     const wrongAnsBox = this.add.graphics();
     wrongAnsBox
@@ -236,19 +255,19 @@ export default class SekaiGame extends Phaser.Scene {
     });
     wrongAnsChar.depth = 4;
 
-    const wrongAnsExample = this.add.text(610, 420, this.wrongAnsExample, {
+    const wrongExample = this.add.text(610, 420, mistakeAnsExample, {
       fill: "#000000",
       fontSize: 16,
       fontFamily: this.fontFamily,
     });
-    wrongAnsExample.depth = 4;
+    wrongExample.depth = 4;
 
-    const tips = this.add.text(160, 120, this.tips, {
+    const tipsText = this.add.text(160, 120, tips, {
       fill: "#ffffff",
       fontSize: 32,
       fontFamily: this.fontFamily,
     });
-    tips.depth = 4;
+    tipsText.depth = 4;
 
     const commentGroup = this.add.group();
 
@@ -271,86 +290,34 @@ export default class SekaiGame extends Phaser.Scene {
       correctAnsBox,
       correctAnsTitle,
       correctAnsChar,
-      correctAnsExample,
+      correctExample,
       wrongAnsBox,
       wrongAnsTitle,
       wrongAnsChar,
-      wrongAnsExample,
+      wrongExample,
       resumeButton,
-      tips,
+      tipsText,
     ]);
     commentGroup.toggleVisible(true);
-
     commentGroup.toggleVisible(true);
   };
 
-  countTime() {
-    this.check();
-    this.timer += 1;
-    this.check();
-    this.createTimerComponent();
-  }
-
-  check() {
-    if (
-      (this.prevSceneData.mode === "timeLimit" &&
-        (this.timer >= 60 ||
-          this.charContainer.answerCounter >=
-          this.charContainer.numberOfQuestions)) ||
-      (this.prevSceneData.mode === "timeAttack" &&
-        this.charContainer.answerCounter >=
-        this.charContainer.numberOfQuestions) ||
-      (this.prevSceneData.mode === "suddenDeath" &&
-        this.charContainer.wrongFlag) ||
-      (this.prevSceneData.mode === "learn" &&
-        this.charContainer.answerCounter >=
-        this.charContainer.numberOfQuestions)
-    ) {
-      this.fx.stop();
-      this.scene.start("sekai_game_result", {
-        time: this.timer,
-        ranking: true,
-        modalVisible: true,
-        rankingRegistered: false,
-        answers: this.charContainer.answerCounter,
-        mode: this.prevSceneData.mode,
-        country: this.prevSceneData.country,
-        sizeX: this.prevSceneData.sizeX,
-        sizeY: this.prevSceneData.sizeY,
-      });
-    }
-  }
-
-  shuffleCharacterList() {
-    let i = this.charContainer.charList.length;
-    while (i > 1) {
-      i -= 1;
-      const j = Math.floor(Math.random() * i);
-      [this.charContainer.charList[i], this.charContainer.charList[j]] = [
-        this.charContainer.charList[j],
-        this.charContainer.charList[i],
-      ];
-    }
-  }
-
-  createTimerComponent() {
+  /**
+   * @param {number} time
+   */
+  createTimerComponent(time) {
     if (this.timerComponent) this.timerComponent.destroy();
     if (this.prevSceneData.mode === "timeLimit") {
       this.timerComponent = this.add
-        .text(
-          this.game.canvas.width / 2,
-          54,
-          `残り時間：${60 - this.timer}秒`,
-          {
-            fill: 0x333333,
-            fontSize: 50,
-            fontFamily: this.fontFamily,
-          }
-        )
+        .text(this.game.canvas.width / 2, 54, `残り時間：${60 - time}秒`, {
+          fill: 0x333333,
+          fontSize: 50,
+          fontFamily: this.fontFamily,
+        })
         .setOrigin(0.5, 0);
     } else if (this.prevSceneData.mode === "timeAttack") {
       this.timerComponent = this.add
-        .text(this.game.canvas.width / 2, 54, `タイム：${this.timer}秒`, {
+        .text(this.game.canvas.width / 2, 54, `タイム：${time}秒`, {
           fill: 0x333333,
           fontSize: 50,
           fontFamily: this.fontFamily,
@@ -358,7 +325,7 @@ export default class SekaiGame extends Phaser.Scene {
         .setOrigin(0.5, 0);
     } else if (this.prevSceneData.mode === "learn") {
       this.timerComponent = this.add
-        .text(this.game.canvas.width / 2, 54, `経過時間：${this.timer}秒`, {
+        .text(this.game.canvas.width / 2, 54, `経過時間：${time}秒`, {
           fill: 0x333333,
           fontSize: 50,
           fontFamily: this.fontFamily,
@@ -392,5 +359,36 @@ export default class SekaiGame extends Phaser.Scene {
       this.prevSceneData.isChallenge,
       this.prevSceneData.mode
     );
+  };
+
+  createTimeStopLabel = () => {
+    const timeStopLabel = new TimeStopLabel(this, 775, 672, "一時停止", {
+      fill: 0x333333,
+      fontSize: 32,
+      fontFamily: this.fontFamily,
+    });
+    timeStopLabel.setInteractive().on("pointerdown", () => {
+      this.scene.pause();
+      this.scene.launch("sekai_pause_menu");
+    });
+  };
+
+  createGameTime = () => {
+    return new GameTime(this);
+  };
+
+  transitionToResult = () => {
+    this.fx.stop();
+    this.scene.start("sekai_game_result", {
+      time: this.gameTime.timer,
+      ranking: true,
+      modalVisible: true,
+      rankingRegistered: false,
+      answers: this.charContainer.answerCounter,
+      mode: this.prevSceneData.mode,
+      country: this.prevSceneData.country,
+      sizeX: this.prevSceneData.sizeX,
+      sizeY: this.prevSceneData.sizeY,
+    });
   };
 }
