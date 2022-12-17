@@ -1,5 +1,6 @@
 import { characterList } from "../characterlist.js";
 import SoundButton from "../components/sound_button.js";
+import BackGround from "./ui/BackGround.js";
 
 const bgms = [
   ["game_bgm", "assets/audio/timer.mp3"],
@@ -54,17 +55,9 @@ export default class SekaiGame extends Phaser.Scene {
   }
 
   create() {
-    // 背景
-    const bgGameMenu = this.add.graphics();
-    bgGameMenu.fillStyle(0xeaeaea, 1).fillRect(0, 0, 1024, 768);
-
-    this.soundButton = new SoundButton(this, 70, 700, 40);
-
-    // 音楽
-    // ゲームBGM
-    this.fx = this.sound.add("game_bgm");
-    this.fx.allowMultiple = false;
-    this.fx.setLoop(true);
+    this.createBackGround();
+    this.createSoundButton();
+    this.startMusic();
 
     this.characterContainer = this.add.container(0, 0);
     switch (this.prevSceneData.sizeX) {
@@ -536,4 +529,18 @@ export default class SekaiGame extends Phaser.Scene {
         .setOrigin(0.5, 0);
     }
   }
+
+  createBackGround = () => {
+    new BackGround(this, { color: 0xeaeaea, alpha: 1 });
+  };
+
+  createSoundButton = () => {
+    new SoundButton(this, 70, 700, 40);
+  };
+
+  startMusic = () => {
+    this.fx = this.sound.add("game_bgm");
+    this.fx.allowMultiple = false;
+    this.fx.setLoop(true);
+  };
 }

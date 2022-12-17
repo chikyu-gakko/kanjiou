@@ -42,6 +42,7 @@ export default class HitsujiGame extends Phaser.Scene {
 
   create() {
     this.createBackGround();
+    this.createSoundButton();
     this.startMusic();
     this.kanjiContainer = this.createKanjiContainer();
     this.kanjiContainer.createKanji(
@@ -199,11 +200,11 @@ export default class HitsujiGame extends Phaser.Scene {
     new BackGround(this, { color: 0xeaeaea, alpha: 1 });
   };
 
-  startMusic = () => {
-    this.soundButton = new SoundButton(this, 70, 700, 40);
+  createSoundButton = () => {
+    new SoundButton(this, 70, 700, 40);
+  };
 
-    // 音楽
-    // ゲームBGM
+  startMusic = () => {
     this.fx = this.sound.add("game_bgm");
     this.fx.allowMultiple = false;
     this.fx.setLoop(true);
