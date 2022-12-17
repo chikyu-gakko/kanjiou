@@ -16,6 +16,8 @@ const images = [
 export default class SekaiGame extends Phaser.Scene {
   constructor() {
     super({ key: "sekai_game", active: false });
+    this.fontFamily = undefined;
+    this.prevSceneData = undefined;
   }
 
   preload() {
@@ -30,18 +32,20 @@ export default class SekaiGame extends Phaser.Scene {
   }
 
   init(data) {
-    this.country = data.country;
-    this.mode = data.mode;
-    this.sizeY = data.sizeY;
-    this.sizeX = data.sizeX;
-    this.isChallenge = data.isChallenge;
+    this.fontFamily = this.registry.get("fontFamily");
+    this.prevSceneData = {
+      country: data.country,
+      mode: data.mode,
+      sizeY: data.sizeY,
+      sizeX: data.sizeX,
+      isChallenge: data.isChallenge,
+    };
     this.createCharacterList();
     this.characterIndex = 0;
     this.timer = 0;
     this.answerCounter = 0;
     this.wrongFlag = false;
     this.numberOfQuestions = 10;
-    this.fontFamily = this.registry.get("fontFamily");
     this.correctCharacter = "";
     this.mistakeCharacter = "";
     this.tips = "";
@@ -63,7 +67,7 @@ export default class SekaiGame extends Phaser.Scene {
     this.fx.setLoop(true);
 
     this.characterContainer = this.add.container(0, 0);
-    switch (this.sizeX) {
+    switch (this.prevSceneData.sizeX) {
       case 6:
         this.characterContainer.setY(250);
         this.characterFontSize = 50;
@@ -80,8 +84,8 @@ export default class SekaiGame extends Phaser.Scene {
         this.characterSpace = 70;
     }
     this.characterContainer.setSize(
-      this.sizeX * this.characterSpace - this.characterFontSize,
-      this.sizeY * this.characterSpace - this.characterFontSize
+      this.prevSceneData.sizeX * this.characterSpace - this.characterFontSize,
+      this.prevSceneData.sizeY * this.characterSpace - this.characterFontSize
     );
     this.characterContainer.setX(
       this.game.canvas.width / 2 - this.characterContainer.width / 2
@@ -117,10 +121,10 @@ export default class SekaiGame extends Phaser.Scene {
           this.events.off();
           this.scene.stop();
           this.scene.start("sekai_game", {
-            sizeY: this.sizeY,
-            sizeX: this.sizeX,
-            mode: this.mode,
-            country: this.country,
+            sizeY: this.prevSceneData.sizeY,
+            sizeX: this.prevSceneData.sizeX,
+            mode: this.prevSceneData.mode,
+            country: this.prevSceneData.country,
           });
           break;
         case "return-to-top":
@@ -132,10 +136,10 @@ export default class SekaiGame extends Phaser.Scene {
           this.events.off();
           this.scene.stop();
           this.scene.start("sekai_game_setting", {
-            sizeY: this.sizeY,
-            sizeX: this.sizeX,
-            mode: this.mode,
-            country: this.country,
+            sizeY: this.prevSceneData.sizeY,
+            sizeX: this.prevSceneData.sizeX,
+            mode: this.prevSceneData.mode,
+            country: this.prevSceneData.country,
           });
           break;
         default:
@@ -329,12 +333,13 @@ export default class SekaiGame extends Phaser.Scene {
 
   check() {
     if (
-      (this.mode === "timeLimit" &&
+      (this.prevSceneData.mode === "timeLimit" &&
         (this.timer >= 60 || this.answerCounter >= this.numberOfQuestions)) ||
-      (this.mode === "timeAttack" &&
+      (this.prevSceneData.mode === "timeAttack" &&
         this.answerCounter >= this.numberOfQuestions) ||
-      (this.mode === "suddenDeath" && this.wrongFlag) ||
-      (this.mode === "learn" && this.answerCounter >= this.numberOfQuestions)
+      (this.prevSceneData.mode === "suddenDeath" && this.wrongFlag) ||
+      (this.prevSceneData.mode === "learn" &&
+        this.answerCounter >= this.numberOfQuestions)
     ) {
       this.fx.stop();
       this.scene.start("sekai_game_result", {
@@ -343,10 +348,10 @@ export default class SekaiGame extends Phaser.Scene {
         modalVisible: true,
         rankingRegistered: false,
         answers: this.answerCounter,
-        mode: this.mode,
-        country: this.country,
-        sizeX: this.sizeX,
-        sizeY: this.sizeY,
+        mode: this.prevSceneData.mode,
+        country: this.prevSceneData.country,
+        sizeX: this.prevSceneData.sizeX,
+        sizeY: this.prevSceneData.sizeY,
       });
     }
   }
@@ -364,8 +369,8 @@ export default class SekaiGame extends Phaser.Scene {
   }
 
   createCharacter() {
-    const answerY = Math.floor(Math.random() * this.sizeY);
-    const answerX = Math.floor(Math.random() * this.sizeX);
+    const answerY = Math.floor(Math.random() * this.prevSceneData.sizeY);
+    const answerX = Math.floor(Math.random() * this.prevSceneData.sizeX);
     const characterArray = [];
     const i = this.characterIndex;
 
@@ -381,8 +386,8 @@ export default class SekaiGame extends Phaser.Scene {
     this.correctAnsExample = this.characterList[i][4];
     this.wrongAnsExample = this.characterList[i][5];
 
-    for (let y = 0; y < this.sizeY; y += 1) {
-      for (let x = 0; x < this.sizeX; x += 1) {
+    for (let y = 0; y < this.prevSceneData.sizeY; y += 1) {
+      for (let x = 0; x < this.prevSceneData.sizeX; x += 1) {
         const character =
           y === answerY && x === answerX
             ? this.characterList[i][1]
@@ -404,7 +409,7 @@ export default class SekaiGame extends Phaser.Scene {
             correct.play();
             this.answerCounter += 1;
             this.createAnswerComponent();
-            if (this.mode === "learn") {
+            if (this.prevSceneData.mode === "learn") {
               setTimeout(() => {
                 this.commentAnim();
               }, 1500);
@@ -413,7 +418,7 @@ export default class SekaiGame extends Phaser.Scene {
               () => {
                 this.createCharacter();
               },
-              this.mode === "learn" ? 2900 : 1400
+              this.prevSceneData.mode === "learn" ? 2900 : 1400
             );
           });
         } else {
@@ -421,7 +426,7 @@ export default class SekaiGame extends Phaser.Scene {
             this.mistakeAnim();
             but.play();
             this.wrongFlag = true;
-            if (this.mode === "learn") {
+            if (this.prevSceneData.mode === "learn") {
               setTimeout(() => {
                 this.commentAnim();
               }, 1500);
@@ -430,7 +435,7 @@ export default class SekaiGame extends Phaser.Scene {
               () => {
                 this.createCharacter();
               },
-              this.mode === "learn" ? 2900 : 1400
+              this.prevSceneData.mode === "learn" ? 2900 : 1400
             );
           });
         }
@@ -447,7 +452,7 @@ export default class SekaiGame extends Phaser.Scene {
 
   createCharacterList() {
     let character = [];
-    if (this.isChallenge) {
+    if (this.prevSceneData.isChallenge) {
       Object.values(characterList).forEach((element) => {
         let i = element.length;
         const list = element;
@@ -460,7 +465,7 @@ export default class SekaiGame extends Phaser.Scene {
       });
       this.characterList = character;
     } else {
-      character = characterList[this.country];
+      character = characterList[this.prevSceneData.country];
       this.characterList = character;
       this.shuffleCharacterList();
     }
@@ -469,7 +474,7 @@ export default class SekaiGame extends Phaser.Scene {
   createAnswerComponent() {
     if (this.answerComponent) this.answerComponent.destroy();
 
-    if (this.mode === "suddenDeath") {
+    if (this.prevSceneData.mode === "suddenDeath") {
       this.answerComponent = this.add.text(
         155,
         671,
@@ -481,9 +486,9 @@ export default class SekaiGame extends Phaser.Scene {
         }
       );
     } else if (
-      this.mode === "timeAttack" ||
-      this.mode === "timeLimit" ||
-      this.mode === "learn"
+      this.prevSceneData.mode === "timeAttack" ||
+      this.prevSceneData.mode === "timeLimit" ||
+      this.prevSceneData.mode === "learn"
     ) {
       this.answerComponent = this.add.text(
         155,
@@ -500,7 +505,7 @@ export default class SekaiGame extends Phaser.Scene {
 
   createTimerComponent() {
     if (this.timerComponent) this.timerComponent.destroy();
-    if (this.mode === "timeLimit") {
+    if (this.prevSceneData.mode === "timeLimit") {
       this.timerComponent = this.add
         .text(
           this.game.canvas.width / 2,
@@ -513,7 +518,7 @@ export default class SekaiGame extends Phaser.Scene {
           }
         )
         .setOrigin(0.5, 0);
-    } else if (this.mode === "timeAttack") {
+    } else if (this.prevSceneData.mode === "timeAttack") {
       this.timerComponent = this.add
         .text(this.game.canvas.width / 2, 54, `タイム：${this.timer}秒`, {
           fill: 0x333333,
@@ -521,7 +526,7 @@ export default class SekaiGame extends Phaser.Scene {
           fontFamily: this.fontFamily,
         })
         .setOrigin(0.5, 0);
-    } else if (this.mode === "learn") {
+    } else if (this.prevSceneData.mode === "learn") {
       this.timerComponent = this.add
         .text(this.game.canvas.width / 2, 54, `経過時間：${this.timer}秒`, {
           fill: 0x333333,
