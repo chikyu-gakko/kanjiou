@@ -1,6 +1,7 @@
 import { characterList } from "../characterlist.js";
 import SoundButton from "../components/sound_button.js";
 import BackGround from "./ui/BackGround.js";
+import CharContainer from "./ui/charContainer.js";
 
 const bgms = [
   ["game_bgm", "assets/audio/timer.mp3"],
@@ -19,6 +20,7 @@ export default class SekaiGame extends Phaser.Scene {
     super({ key: "sekai_game", active: false });
     this.fontFamily = undefined;
     this.prevSceneData = undefined;
+    this.charContainer = undefined;
   }
 
   preload() {
@@ -41,50 +43,59 @@ export default class SekaiGame extends Phaser.Scene {
       sizeX: data.sizeX,
       isChallenge: data.isChallenge,
     };
-    this.createCharacterList();
+    // this.createCharacterList();
     this.characterIndex = 0;
     this.timer = 0;
-    this.answerCounter = 0;
-    this.wrongFlag = false;
-    this.numberOfQuestions = 10;
-    this.correctCharacter = "";
-    this.mistakeCharacter = "";
-    this.tips = "";
-    this.correctAnsExample = "";
-    this.wrongAnsExample = "";
+    // this.answerCounter = 0;
+    // this.wrongFlag = false;
+    // this.numberOfQuestions = 10;
+    // this.correctCharacter = "";
+    // this.mistakeCharacter = "";
+    // this.tips = "";
+    // this.correctAnsExample = "";
+    // this.wrongAnsExample = "";
   }
 
   create() {
     this.createBackGround();
     this.createSoundButton();
     this.startMusic();
-
-    this.characterContainer = this.add.container(0, 0);
-    switch (this.prevSceneData.sizeX) {
-      case 6:
-        this.characterContainer.setY(250);
-        this.characterFontSize = 50;
-        this.characterSpace = 100;
-        break;
-      case 8:
-        this.characterContainer.setY(200);
-        this.characterFontSize = 50;
-        this.characterSpace = 100;
-        break;
-      default:
-        this.characterContainer.setY(190);
-        this.characterFontSize = 40;
-        this.characterSpace = 70;
-    }
-    this.characterContainer.setSize(
-      this.prevSceneData.sizeX * this.characterSpace - this.characterFontSize,
-      this.prevSceneData.sizeY * this.characterSpace - this.characterFontSize
-    );
-    this.characterContainer.setX(
-      this.game.canvas.width / 2 - this.characterContainer.width / 2
+    this.charContainer = this.createCharContainer();
+    this.charContainer.createChar(
+      this,
+      "correct_se",
+      "but_se",
+      this.correctAnim,
+      this.mistakeAnim,
+      this.commentAnim
     );
 
-    this.createCharacter();
+    // this.characterContainer = this.add.container(0, 0);
+    // switch (this.prevSceneData.sizeX) {
+    //   case 6:
+    //     this.characterContainer.setY(250);
+    //     this.characterFontSize = 50;
+    //     this.characterSpace = 100;
+    //     break;
+    //   case 8:
+    //     this.characterContainer.setY(200);
+    //     this.characterFontSize = 50;
+    //     this.characterSpace = 100;
+    //     break;
+    //   default:
+    //     this.characterContainer.setY(190);
+    //     this.characterFontSize = 40;
+    //     this.characterSpace = 70;
+    // }
+    // this.characterContainer.setSize(
+    //   this.prevSceneData.sizeX * this.characterSpace - this.characterFontSize,
+    //   this.prevSceneData.sizeY * this.characterSpace - this.characterFontSize
+    // );
+    // this.characterContainer.setX(
+    //   this.game.canvas.width / 2 - this.characterContainer.width / 2
+    // );
+    //
+    // this.createCharacter();
 
     this.add
       .text(775, 672, "一時停止", {
@@ -99,7 +110,6 @@ export default class SekaiGame extends Phaser.Scene {
       });
 
     this.createTimerComponent();
-    this.createAnswerComponent();
 
     this.time.addEvent({
       delay: 1000,
@@ -140,7 +150,7 @@ export default class SekaiGame extends Phaser.Scene {
     });
   }
 
-  correctAnim() {
+  correctAnim = () => {
     const correctBg = this.add.graphics();
     correctBg
       .fillStyle(0x333333, 0.5)
@@ -164,9 +174,9 @@ export default class SekaiGame extends Phaser.Scene {
       correctGroup.toggleVisible(false);
     }, 1500);
     correctGroup.toggleVisible(true);
-  }
+  };
 
-  mistakeAnim() {
+  mistakeAnim = () => {
     const mistakeBg = this.add.graphics();
     mistakeBg
       .fillStyle(0x333333, 0.5)
@@ -190,9 +200,13 @@ export default class SekaiGame extends Phaser.Scene {
       mistakeGroup.toggleVisible(false);
     }, 1500);
     mistakeGroup.toggleVisible(true);
-  }
+  };
 
-  commentAnim() {
+  /**
+   * @param {string} mistakeCharacter
+   * @param {string} correctCharacter
+   */
+  commentAnim = (mistakeCharacter, correctCharacter) => {
     const commentBg = this.add.graphics();
     commentBg
       .fillStyle(0x333333, 0.5)
@@ -233,7 +247,7 @@ export default class SekaiGame extends Phaser.Scene {
     });
     correctAnsTitle.depth = 4;
 
-    const correctAnsChar = this.add.text(60, 320, this.correctCharacter, {
+    const correctAnsChar = this.add.text(60, 320, correctCharacter, {
       fill: "#000000",
       fontSize: 64,
       fontFamily: this.fontFamily,
@@ -259,7 +273,7 @@ export default class SekaiGame extends Phaser.Scene {
     });
     wrongAnsTitle.depth = 4;
 
-    const wrongAnsChar = this.add.text(610, 320, this.mistakeCharacter, {
+    const wrongAnsChar = this.add.text(610, 320, mistakeCharacter, {
       fill: "#000000",
       fontSize: 64,
       fontFamily: this.fontFamily,
@@ -315,7 +329,7 @@ export default class SekaiGame extends Phaser.Scene {
     //   commentGroup.toggleVisible(false);
     // }, 1500);
     commentGroup.toggleVisible(true);
-  }
+  };
 
   countTime() {
     this.check();
@@ -327,12 +341,17 @@ export default class SekaiGame extends Phaser.Scene {
   check() {
     if (
       (this.prevSceneData.mode === "timeLimit" &&
-        (this.timer >= 60 || this.answerCounter >= this.numberOfQuestions)) ||
+        (this.timer >= 60 ||
+          this.charContainer.answerCounter >=
+          this.charContainer.numberOfQuestions)) ||
       (this.prevSceneData.mode === "timeAttack" &&
-        this.answerCounter >= this.numberOfQuestions) ||
-      (this.prevSceneData.mode === "suddenDeath" && this.wrongFlag) ||
+        this.charContainer.answerCounter >=
+        this.charContainer.numberOfQuestions) ||
+      (this.prevSceneData.mode === "suddenDeath" &&
+        this.charContainer.wrongFlag) ||
       (this.prevSceneData.mode === "learn" &&
-        this.answerCounter >= this.numberOfQuestions)
+        this.charContainer.answerCounter >=
+        this.charContainer.numberOfQuestions)
     ) {
       this.fx.stop();
       this.scene.start("sekai_game_result", {
@@ -340,7 +359,7 @@ export default class SekaiGame extends Phaser.Scene {
         ranking: true,
         modalVisible: true,
         rankingRegistered: false,
-        answers: this.answerCounter,
+        answers: this.charContainer.answerCounter,
         mode: this.prevSceneData.mode,
         country: this.prevSceneData.country,
         sizeX: this.prevSceneData.sizeX,
@@ -350,151 +369,153 @@ export default class SekaiGame extends Phaser.Scene {
   }
 
   shuffleCharacterList() {
-    let i = this.characterList.length;
+    let i = this.charContainer.charList.length;
     while (i > 1) {
       i -= 1;
       const j = Math.floor(Math.random() * i);
-      [this.characterList[i], this.characterList[j]] = [
-        this.characterList[j],
-        this.characterList[i],
+      [this.charContainer.charList[i], this.charContainer.charList[j]] = [
+        this.charContainer.charList[j],
+        this.charContainer.charList[i],
       ];
     }
   }
 
-  createCharacter() {
-    const answerY = Math.floor(Math.random() * this.prevSceneData.sizeY);
-    const answerX = Math.floor(Math.random() * this.prevSceneData.sizeX);
-    const characterArray = [];
-    const i = this.characterIndex;
+  // createCharacter() {
+  //   const answerY = Math.floor(Math.random() * this.prevSceneData.sizeY);
+  //   const answerX = Math.floor(Math.random() * this.prevSceneData.sizeX);
+  //   const characterArray = [];
+  //   const i = this.characterIndex;
+  //
+  //   // 正解/不正解SE
+  //   const correct = this.sound.add("correct_se");
+  //   const but = this.sound.add("but_se");
+  //
+  //   this.charContainer.removeAll(true);
+  //
+  //   this.mistakeCharacter = this.characterList[i][1];
+  //   this.correctCharacter = this.characterList[i][2];
+  //   this.tips = this.characterList[i][3];
+  //   this.correctAnsExample = this.characterList[i][4];
+  //   this.wrongAnsExample = this.characterList[i][5];
+  //
+  //   for (let y = 0; y < this.prevSceneData.sizeY; y += 1) {
+  //     for (let x = 0; x < this.prevSceneData.sizeX; x += 1) {
+  //       const character =
+  //         y === answerY && x === answerX
+  //           ? this.characterList[i][1]
+  //           : this.characterList[i][2];
+  //
+  //       characterArray.push(
+  //         this.add
+  //           .text(x * this.characterSpace, y * this.characterSpace, character, {
+  //             fill: 0x333333,
+  //             fontSize: this.characterFontSize,
+  //             fontFamily: this.fontFamily,
+  //           })
+  //           .setInteractive()
+  //       );
+  //
+  //       if (y === answerY && x === answerX) {
+  //         characterArray[characterArray.length - 1].once("pointerdown", () => {
+  //           this.correctAnim();
+  //           correct.play();
+  //           this.answerCounter += 1;
+  //           this.createAnswerComponent();
+  //           if (this.prevSceneData.mode === "learn") {
+  //             setTimeout(() => {
+  //               this.commentAnim();
+  //             }, 1500);
+  //           }
+  //           setTimeout(
+  //             () => {
+  //               this.createCharacter();
+  //             },
+  //             this.prevSceneData.mode === "learn" ? 2900 : 1400
+  //           );
+  //         });
+  //       } else {
+  //         characterArray[characterArray.length - 1].once("pointerdown", () => {
+  //           this.mistakeAnim();
+  //           but.play();
+  //           this.wrongFlag = true;
+  //           if (this.prevSceneData.mode === "learn") {
+  //             setTimeout(() => {
+  //               this.commentAnim();
+  //             }, 1500);
+  //           }
+  //           setTimeout(
+  //             () => {
+  //               this.createCharacter();
+  //             },
+  //             this.prevSceneData.mode === "learn" ? 2900 : 1400
+  //           );
+  //         });
+  //       }
+  //     }
+  //   }
+  //   this.characterContainer.add(characterArray);
+  //
+  //   this.characterIndex += 1;
+  //   if (this.characterIndex >= this.characterList.length) {
+  //     this.shuffleCharacterList();
+  //     this.characterIndex %= this.characterList.length;
+  //   }
+  // }
 
-    // 正解/不正解SE
-    const correct = this.sound.add("correct_se");
-    const but = this.sound.add("but_se");
+  // createCharacterList() {
+  //   let character = [];
+  //   if (this.prevSceneData.isChallenge) {
+  //     Object.values(characterList).forEach((element) => {
+  //       let i = element.length;
+  //       const list = element;
+  //       while (i > 1) {
+  //         i -= 1;
+  //         const j = Math.floor(Math.random() * i);
+  //         [list[i], list[j]] = [list[j], list[i]];
+  //       }
+  //       character = character.concat(list);
+  //     });
+  //     this.characterList = character;
+  //   } else {
+  //     character = characterList[this.prevSceneData.country];
+  //     this.characterList = character;
+  //     this.shuffleCharacterList();
+  //   }
+  // }
 
-    this.characterContainer.removeAll(true);
-
-    this.mistakeCharacter = this.characterList[i][1];
-    this.correctCharacter = this.characterList[i][2];
-    this.tips = this.characterList[i][3];
-    this.correctAnsExample = this.characterList[i][4];
-    this.wrongAnsExample = this.characterList[i][5];
-
-    for (let y = 0; y < this.prevSceneData.sizeY; y += 1) {
-      for (let x = 0; x < this.prevSceneData.sizeX; x += 1) {
-        const character =
-          y === answerY && x === answerX
-            ? this.characterList[i][1]
-            : this.characterList[i][2];
-
-        characterArray.push(
-          this.add
-            .text(x * this.characterSpace, y * this.characterSpace, character, {
-              fill: 0x333333,
-              fontSize: this.characterFontSize,
-              fontFamily: this.fontFamily,
-            })
-            .setInteractive()
-        );
-
-        if (y === answerY && x === answerX) {
-          characterArray[characterArray.length - 1].once("pointerdown", () => {
-            this.correctAnim();
-            correct.play();
-            this.answerCounter += 1;
-            this.createAnswerComponent();
-            if (this.prevSceneData.mode === "learn") {
-              setTimeout(() => {
-                this.commentAnim();
-              }, 1500);
-            }
-            setTimeout(
-              () => {
-                this.createCharacter();
-              },
-              this.prevSceneData.mode === "learn" ? 2900 : 1400
-            );
-          });
-        } else {
-          characterArray[characterArray.length - 1].once("pointerdown", () => {
-            this.mistakeAnim();
-            but.play();
-            this.wrongFlag = true;
-            if (this.prevSceneData.mode === "learn") {
-              setTimeout(() => {
-                this.commentAnim();
-              }, 1500);
-            }
-            setTimeout(
-              () => {
-                this.createCharacter();
-              },
-              this.prevSceneData.mode === "learn" ? 2900 : 1400
-            );
-          });
-        }
-      }
-    }
-    this.characterContainer.add(characterArray);
-
-    this.characterIndex += 1;
-    if (this.characterIndex >= this.characterList.length) {
-      this.shuffleCharacterList();
-      this.characterIndex %= this.characterList.length;
-    }
-  }
-
-  createCharacterList() {
-    let character = [];
-    if (this.prevSceneData.isChallenge) {
-      Object.values(characterList).forEach((element) => {
-        let i = element.length;
-        const list = element;
-        while (i > 1) {
-          i -= 1;
-          const j = Math.floor(Math.random() * i);
-          [list[i], list[j]] = [list[j], list[i]];
-        }
-        character = character.concat(list);
-      });
-      this.characterList = character;
-    } else {
-      character = characterList[this.prevSceneData.country];
-      this.characterList = character;
-      this.shuffleCharacterList();
-    }
-  }
-
-  createAnswerComponent() {
-    if (this.answerComponent) this.answerComponent.destroy();
-
-    if (this.prevSceneData.mode === "suddenDeath") {
-      this.answerComponent = this.add.text(
-        155,
-        671,
-        `正解数：${this.answerCounter}問`,
-        {
-          fill: 0x333333,
-          fontSize: 50,
-          fontFamily: this.fontFamily,
-        }
-      );
-    } else if (
-      this.prevSceneData.mode === "timeAttack" ||
-      this.prevSceneData.mode === "timeLimit" ||
-      this.prevSceneData.mode === "learn"
-    ) {
-      this.answerComponent = this.add.text(
-        155,
-        671,
-        `残り：${this.numberOfQuestions - this.answerCounter}問`,
-        {
-          fill: 0x333333,
-          fontSize: 50,
-          fontFamily: this.fontFamily,
-        }
-      );
-    }
-  }
+  // createAnswerComponent() {
+  //   if (this.answerComponent) this.answerComponent.destroy();
+  //
+  //   if (this.prevSceneData.mode === "suddenDeath") {
+  //     this.answerComponent = this.add.text(
+  //       155,
+  //       671,
+  //       `正解数：${this.charContainer.answerCounter}問`,
+  //       {
+  //         fill: 0x333333,
+  //         fontSize: 50,
+  //         fontFamily: this.fontFamily,
+  //       }
+  //     );
+  //   } else if (
+  //     this.prevSceneData.mode === "timeAttack" ||
+  //     this.prevSceneData.mode === "timeLimit" ||
+  //     this.prevSceneData.mode === "learn"
+  //   ) {
+  //     this.answerComponent = this.add.text(
+  //       155,
+  //       671,
+  //       `残り：${this.charContainer.numberOfQuestions -
+  //       this.charContainer.answerCounter
+  //       }問`,
+  //       {
+  //         fill: 0x333333,
+  //         fontSize: 50,
+  //         fontFamily: this.fontFamily,
+  //       }
+  //     );
+  //   }
+  // }
 
   createTimerComponent() {
     if (this.timerComponent) this.timerComponent.destroy();
@@ -542,5 +563,18 @@ export default class SekaiGame extends Phaser.Scene {
     this.fx = this.sound.add("game_bgm");
     this.fx.allowMultiple = false;
     this.fx.setLoop(true);
+  };
+
+  createCharContainer = () => {
+    return new CharContainer(
+      this,
+      0,
+      0,
+      this.prevSceneData.sizeX,
+      this.prevSceneData.sizeY,
+      this.prevSceneData.country,
+      this.prevSceneData.isChallenge,
+      this.prevSceneData.mode
+    );
   };
 }

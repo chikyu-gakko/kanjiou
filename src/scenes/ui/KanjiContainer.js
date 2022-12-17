@@ -13,6 +13,8 @@ import { kanjiList } from "../../kanjilist.js";
  * 少ない: 3 x 6
  * ふつう: 4 x 8
  * 多い: 6 x 12
+ *
+ * インスタンス生成後 createKanji を呼び出してください
  */
 export default class KanjiContainer extends Phaser.GameObjects.Container {
   /**
@@ -41,6 +43,7 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
     this.changeDifficulty(scene);
     this.kanjiList = this.createKanjiList(schoolYear, isChallenge);
     this.answerComponent = undefined;
+    this.wrongFlag = undefined;
     this.createAnswerComponent(scene);
   }
 
@@ -111,6 +114,8 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
   };
 
   /**
+   * 漢字を選んだときの挙動を設定する
+   *
    * @param {Phaser.Scene} scene Phaser.Scene
    * @param {string} correctKey string
    * @param {string} butKey string
