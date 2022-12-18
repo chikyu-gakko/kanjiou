@@ -1,6 +1,7 @@
 import SoundButton from "../components/sound_button.js";
 import SettingButton from "../components/setting_button.js";
 import { getRank, putRanking } from "../api/rank.js";
+import CameraFadeIn from "./ui/CameraFadeIn.js";
 
 export default class SekaiGameResult extends Phaser.Scene {
   constructor() {
@@ -49,11 +50,11 @@ export default class SekaiGameResult extends Phaser.Scene {
     this.sizeX = data.sizeX;
     this.schoolYear = data.schoolYear;
     this.fontFamily = this.registry.get("fontFamily");
-    this.country = data.country
+    this.country = data.country;
   }
 
   create() {
-    this.cameras.main.fadeIn(2000);
+    this.startCameraFadeIn();
 
     this.soundButton = new SoundButton(this, 70, 700, 40);
     this.soundButton.depth = 3;
@@ -405,6 +406,10 @@ export default class SekaiGameResult extends Phaser.Scene {
       fontSize: 26,
     });
     this.add.container(220, 310, [fukidashiImage, text1, text2]);
+  }
+
+  startCameraFadeIn() {
+    new CameraFadeIn(this);
   }
 
   // async rankingModal(rank) {

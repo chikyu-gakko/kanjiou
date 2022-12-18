@@ -46,11 +46,11 @@ const config = {
   // },
   scene: [
     OpenLogo,
-    PauseMenu,
     GameMenu,
     GameResult,
     GameSetting,
     HitsujiGame,
+    PauseMenu,
     HitsujiRanking,
     HowToPlay,
     SekaiGame,

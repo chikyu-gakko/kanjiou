@@ -1,5 +1,9 @@
 import { characterList } from "../characterlist.js";
 import SoundButton from "../components/sound_button.js";
+import BackGround from "./ui/BackGround.js";
+import CharContainer from "./ui/CharContainer.js";
+import TimeStopLabel from "./ui/TimerStopLabel.js";
+import GameTime from "./ui/GameTime.js";
 
 const bgms = [
   ["game_bgm", "assets/audio/timer.mp3"],
@@ -16,6 +20,10 @@ const images = [
 export default class SekaiGame extends Phaser.Scene {
   constructor() {
     super({ key: "sekai_game", active: false });
+    this.fontFamily = undefined;
+    this.prevSceneData = undefined;
+    this.charContainer = undefined;
+    this.gameTime = undefined;
   }
 
   preload() {
@@ -30,86 +38,59 @@ export default class SekaiGame extends Phaser.Scene {
   }
 
   init(data) {
-    this.country = data.country;
-    this.mode = data.mode;
-    this.sizeY = data.sizeY;
-    this.sizeX = data.sizeX;
-    this.isChallenge = data.isChallenge;
-    this.createCharacterList();
-    this.characterIndex = 0;
-    this.timer = 0;
-    this.answerCounter = 0;
-    this.wrongFlag = false;
-    this.numberOfQuestions = 10;
     this.fontFamily = this.registry.get("fontFamily");
-    this.correctCharacter = "";
-    this.mistakeCharacter = "";
-    this.tips = "";
-    this.correctAnsExample = "";
-    this.wrongAnsExample = "";
+    this.prevSceneData = {
+      country: data.country,
+      mode: data.mode,
+      sizeY: data.sizeY,
+      sizeX: data.sizeX,
+      isChallenge: data.isChallenge,
+    };
+    this.characterIndex = 0;
   }
 
   create() {
-    // 背景
-    const bgGameMenu = this.add.graphics();
-    bgGameMenu.fillStyle(0xeaeaea, 1).fillRect(0, 0, 1024, 768);
-
-    this.soundButton = new SoundButton(this, 70, 700, 40);
-
-    // 音楽
-    // ゲームBGM
-    this.fx = this.sound.add("game_bgm");
-    this.fx.allowMultiple = false;
-    this.fx.setLoop(true);
-
-    this.characterContainer = this.add.container(0, 0);
-    switch (this.sizeX) {
-      case 6:
-        this.characterContainer.setY(250);
-        this.characterFontSize = 50;
-        this.characterSpace = 100;
-        break;
-      case 8:
-        this.characterContainer.setY(200);
-        this.characterFontSize = 50;
-        this.characterSpace = 100;
-        break;
-      default:
-        this.characterContainer.setY(190);
-        this.characterFontSize = 40;
-        this.characterSpace = 70;
-    }
-    this.characterContainer.setSize(
-      this.sizeX * this.characterSpace - this.characterFontSize,
-      this.sizeY * this.characterSpace - this.characterFontSize
+    this.createBackGround();
+    this.createSoundButton();
+    this.startMusic();
+    this.charContainer = this.createCharContainer();
+    this.charContainer.createChar(
+      this,
+      "correct_se",
+      "but_se",
+      this.correctAnim,
+      this.mistakeAnim,
+      () =>
+        this.commentAnim(
+          this.charContainer.mistakeCharacter,
+          this.charContainer.correctCharacter,
+          this.charContainer.mistakeAnsExample,
+          this.charContainer.correctAnsExample,
+          this.charContainer.tips
+        )
     );
-    this.characterContainer.setX(
-      this.game.canvas.width / 2 - this.characterContainer.width / 2
-    );
-
-    this.createCharacter();
-
-    this.add
-      .text(775, 672, "一時停止", {
-        fill: 0x333333,
-        fontSize: 32,
-        fontFamily: this.fontFamily,
-      })
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.scene.pause();
-        this.scene.launch("sekai_pause_menu");
-      });
-
-    this.createTimerComponent();
-    this.createAnswerComponent();
-
+    this.createTimeStopLabel();
+    this.gameTime = this.createGameTime();
     this.time.addEvent({
       delay: 1000,
       repeat: Infinity,
-      callback: this.countTime,
+      callback: () => {
+        this.gameTime.countTime(
+          () => {
+            this.gameTime.check(
+              this.charContainer.mode,
+              this.charContainer.answerCounter,
+              this.charContainer.numberOfQuestions,
+              this.charContainer.wrongFlag,
+              this.transitionToResult
+            );
+          },
+          () => this.createTimerComponent(this.gameTime.timer)
+        );
+      },
       callbackScope: this,
     });
+    this.createTimerComponent(this.gameTime.timer);
 
     this.events.on("resume", (scene, data) => {
       switch (data.status) {
@@ -117,10 +98,10 @@ export default class SekaiGame extends Phaser.Scene {
           this.events.off();
           this.scene.stop();
           this.scene.start("sekai_game", {
-            sizeY: this.sizeY,
-            sizeX: this.sizeX,
-            mode: this.mode,
-            country: this.country,
+            sizeY: this.prevSceneData.sizeY,
+            sizeX: this.prevSceneData.sizeX,
+            mode: this.prevSceneData.mode,
+            country: this.prevSceneData.country,
           });
           break;
         case "return-to-top":
@@ -132,10 +113,10 @@ export default class SekaiGame extends Phaser.Scene {
           this.events.off();
           this.scene.stop();
           this.scene.start("sekai_game_setting", {
-            sizeY: this.sizeY,
-            sizeX: this.sizeX,
-            mode: this.mode,
-            country: this.country,
+            sizeY: this.prevSceneData.sizeY,
+            sizeX: this.prevSceneData.sizeX,
+            mode: this.prevSceneData.mode,
+            country: this.prevSceneData.country,
           });
           break;
         default:
@@ -143,7 +124,7 @@ export default class SekaiGame extends Phaser.Scene {
     });
   }
 
-  correctAnim() {
+  correctAnim = () => {
     const correctBg = this.add.graphics();
     correctBg
       .fillStyle(0x333333, 0.5)
@@ -167,9 +148,9 @@ export default class SekaiGame extends Phaser.Scene {
       correctGroup.toggleVisible(false);
     }, 1500);
     correctGroup.toggleVisible(true);
-  }
+  };
 
-  mistakeAnim() {
+  mistakeAnim = () => {
     const mistakeBg = this.add.graphics();
     mistakeBg
       .fillStyle(0x333333, 0.5)
@@ -193,9 +174,22 @@ export default class SekaiGame extends Phaser.Scene {
       mistakeGroup.toggleVisible(false);
     }, 1500);
     mistakeGroup.toggleVisible(true);
-  }
+  };
 
-  commentAnim() {
+  /**
+   * @param {string} mistakeCharacter
+   * @param {string} correctCharacter
+   * @param {string} mistakeAnsExample
+   * @param {string} correctAnsExample
+   * @param {string} tips
+   */
+  commentAnim = (
+    mistakeCharacter,
+    correctCharacter,
+    mistakeAnsExample,
+    correctAnsExample,
+    tips
+  ) => {
     const commentBg = this.add.graphics();
     commentBg
       .fillStyle(0x333333, 0.5)
@@ -221,14 +215,6 @@ export default class SekaiGame extends Phaser.Scene {
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(30, 234, 432, 367, 14).depth = 3;
 
-    // FIXME: たまに読み込めない文字がある
-    // FIXME: レイアウトが雑なので修正する
-    // console.log(this.mistakeCharacter);
-    // console.log(this.correctCharacter);
-    // console.log(this.tips);
-    // console.log(this.correctAnsExample);
-    // console.log(this.wrongAnsExample);
-
     const correctAnsTitle = this.add.text(210, 250, "正解", {
       fill: "#000000",
       fontSize: 32,
@@ -236,19 +222,19 @@ export default class SekaiGame extends Phaser.Scene {
     });
     correctAnsTitle.depth = 4;
 
-    const correctAnsChar = this.add.text(60, 320, this.correctCharacter, {
+    const correctAnsChar = this.add.text(60, 320, correctCharacter, {
       fill: "#000000",
       fontSize: 64,
       fontFamily: this.fontFamily,
     });
     correctAnsChar.depth = 4;
 
-    const correctAnsExample = this.add.text(60, 420, this.correctAnsExample, {
+    const correctExample = this.add.text(60, 420, correctAnsExample, {
       fill: "#000000",
       fontSize: 16,
       fontFamily: this.fontFamily,
     });
-    correctAnsExample.depth = 4;
+    correctExample.depth = 4;
 
     const wrongAnsBox = this.add.graphics();
     wrongAnsBox
@@ -262,26 +248,26 @@ export default class SekaiGame extends Phaser.Scene {
     });
     wrongAnsTitle.depth = 4;
 
-    const wrongAnsChar = this.add.text(610, 320, this.mistakeCharacter, {
+    const wrongAnsChar = this.add.text(610, 320, mistakeCharacter, {
       fill: "#000000",
       fontSize: 64,
       fontFamily: this.fontFamily,
     });
     wrongAnsChar.depth = 4;
 
-    const wrongAnsExample = this.add.text(610, 420, this.wrongAnsExample, {
+    const wrongExample = this.add.text(610, 420, mistakeAnsExample, {
       fill: "#000000",
       fontSize: 16,
       fontFamily: this.fontFamily,
     });
-    wrongAnsExample.depth = 4;
+    wrongExample.depth = 4;
 
-    const tips = this.add.text(160, 120, this.tips, {
+    const tipsText = this.add.text(160, 120, tips, {
       fill: "#ffffff",
       fontSize: 32,
       fontFamily: this.fontFamily,
     });
-    tips.depth = 4;
+    tipsText.depth = 4;
 
     const commentGroup = this.add.group();
 
@@ -304,226 +290,42 @@ export default class SekaiGame extends Phaser.Scene {
       correctAnsBox,
       correctAnsTitle,
       correctAnsChar,
-      correctAnsExample,
+      correctExample,
       wrongAnsBox,
       wrongAnsTitle,
       wrongAnsChar,
-      wrongAnsExample,
+      wrongExample,
       resumeButton,
-      tips,
+      tipsText,
     ]);
     commentGroup.toggleVisible(true);
-
-    // setTimeout(() => {
-    //   commentGroup.toggleVisible(false);
-    // }, 1500);
     commentGroup.toggleVisible(true);
-  }
+  };
 
-  countTime() {
-    this.check();
-    this.timer += 1;
-    this.check();
-    this.createTimerComponent();
-  }
-
-  check() {
-    if (
-      (this.mode === "timeLimit" &&
-        (this.timer >= 60 || this.answerCounter >= this.numberOfQuestions)) ||
-      (this.mode === "timeAttack" &&
-        this.answerCounter >= this.numberOfQuestions) ||
-      (this.mode === "suddenDeath" && this.wrongFlag) ||
-      (this.mode === "learn" && this.answerCounter >= this.numberOfQuestions)
-    ) {
-      this.fx.stop();
-      this.scene.start("sekai_game_result", {
-        time: this.timer,
-        ranking: true,
-        modalVisible: true,
-        rankingRegistered: false,
-        answers: this.answerCounter,
-        mode: this.mode,
-        country: this.country,
-        sizeX: this.sizeX,
-        sizeY: this.sizeY,
-      });
-    }
-  }
-
-  shuffleCharacterList() {
-    let i = this.characterList.length;
-    while (i > 1) {
-      i -= 1;
-      const j = Math.floor(Math.random() * i);
-      [this.characterList[i], this.characterList[j]] = [
-        this.characterList[j],
-        this.characterList[i],
-      ];
-    }
-  }
-
-  createCharacter() {
-    const answerY = Math.floor(Math.random() * this.sizeY);
-    const answerX = Math.floor(Math.random() * this.sizeX);
-    const characterArray = [];
-    const i = this.characterIndex;
-
-    // 正解/不正解SE
-    const correct = this.sound.add("correct_se");
-    const but = this.sound.add("but_se");
-
-    this.characterContainer.removeAll(true);
-
-    this.mistakeCharacter = this.characterList[i][1];
-    this.correctCharacter = this.characterList[i][2];
-    this.tips = this.characterList[i][3];
-    this.correctAnsExample = this.characterList[i][4];
-    this.wrongAnsExample = this.characterList[i][5];
-
-    for (let y = 0; y < this.sizeY; y += 1) {
-      for (let x = 0; x < this.sizeX; x += 1) {
-        const character =
-          y === answerY && x === answerX
-            ? this.characterList[i][1]
-            : this.characterList[i][2];
-
-        characterArray.push(
-          this.add
-            .text(x * this.characterSpace, y * this.characterSpace, character, {
-              fill: 0x333333,
-              fontSize: this.characterFontSize,
-              fontFamily: this.fontFamily,
-            })
-            .setInteractive()
-        );
-
-        if (y === answerY && x === answerX) {
-          characterArray[characterArray.length - 1].once("pointerdown", () => {
-            this.correctAnim();
-            correct.play();
-            this.answerCounter += 1;
-            this.createAnswerComponent();
-            if (this.mode === "learn") {
-              setTimeout(() => {
-                this.commentAnim();
-              }, 1500);
-            }
-            setTimeout(
-              () => {
-                this.createCharacter();
-              },
-              this.mode === "learn" ? 2900 : 1400
-            );
-          });
-        } else {
-          characterArray[characterArray.length - 1].once("pointerdown", () => {
-            this.mistakeAnim();
-            but.play();
-            this.wrongFlag = true;
-            if (this.mode === "learn") {
-              setTimeout(() => {
-                this.commentAnim();
-              }, 1500);
-            }
-            setTimeout(
-              () => {
-                this.createCharacter();
-              },
-              this.mode === "learn" ? 2900 : 1400
-            );
-          });
-        }
-      }
-    }
-    this.characterContainer.add(characterArray);
-
-    this.characterIndex += 1;
-    if (this.characterIndex >= this.characterList.length) {
-      this.shuffleCharacterList();
-      this.characterIndex %= this.characterList.length;
-    }
-  }
-
-  createCharacterList() {
-    let character = [];
-    if (this.isChallenge) {
-      Object.values(characterList).forEach((element) => {
-        let i = element.length;
-        const list = element;
-        while (i > 1) {
-          i -= 1;
-          const j = Math.floor(Math.random() * i);
-          [list[i], list[j]] = [list[j], list[i]];
-        }
-        character = character.concat(list);
-      });
-      this.characterList = character;
-    } else {
-      character = characterList[this.country];
-      this.characterList = character;
-      this.shuffleCharacterList();
-    }
-  }
-
-  createAnswerComponent() {
-    if (this.answerComponent) this.answerComponent.destroy();
-
-    if (this.mode === "suddenDeath") {
-      this.answerComponent = this.add.text(
-        155,
-        671,
-        `正解数：${this.answerCounter}問`,
-        {
-          fill: 0x333333,
-          fontSize: 50,
-          fontFamily: this.fontFamily,
-        }
-      );
-    } else if (
-      this.mode === "timeAttack" ||
-      this.mode === "timeLimit" ||
-      this.mode === "learn"
-    ) {
-      this.answerComponent = this.add.text(
-        155,
-        671,
-        `残り：${this.numberOfQuestions - this.answerCounter}問`,
-        {
-          fill: 0x333333,
-          fontSize: 50,
-          fontFamily: this.fontFamily,
-        }
-      );
-    }
-  }
-
-  createTimerComponent() {
+  /**
+   * @param {number} time
+   */
+  createTimerComponent(time) {
     if (this.timerComponent) this.timerComponent.destroy();
-    if (this.mode === "timeLimit") {
+    if (this.prevSceneData.mode === "timeLimit") {
       this.timerComponent = this.add
-        .text(
-          this.game.canvas.width / 2,
-          54,
-          `残り時間：${60 - this.timer}秒`,
-          {
-            fill: 0x333333,
-            fontSize: 50,
-            fontFamily: this.fontFamily,
-          }
-        )
-        .setOrigin(0.5, 0);
-    } else if (this.mode === "timeAttack") {
-      this.timerComponent = this.add
-        .text(this.game.canvas.width / 2, 54, `タイム：${this.timer}秒`, {
+        .text(this.game.canvas.width / 2, 54, `残り時間：${60 - time}秒`, {
           fill: 0x333333,
           fontSize: 50,
           fontFamily: this.fontFamily,
         })
         .setOrigin(0.5, 0);
-    } else if (this.mode === "learn") {
+    } else if (this.prevSceneData.mode === "timeAttack") {
       this.timerComponent = this.add
-        .text(this.game.canvas.width / 2, 54, `経過時間：${this.timer}秒`, {
+        .text(this.game.canvas.width / 2, 54, `タイム：${time}秒`, {
+          fill: 0x333333,
+          fontSize: 50,
+          fontFamily: this.fontFamily,
+        })
+        .setOrigin(0.5, 0);
+    } else if (this.prevSceneData.mode === "learn") {
+      this.timerComponent = this.add
+        .text(this.game.canvas.width / 2, 54, `経過時間：${time}秒`, {
           fill: 0x333333,
           fontSize: 50,
           fontFamily: this.fontFamily,
@@ -531,4 +333,62 @@ export default class SekaiGame extends Phaser.Scene {
         .setOrigin(0.5, 0);
     }
   }
+
+  createBackGround = () => {
+    new BackGround(this, { color: 0xeaeaea, alpha: 1 });
+  };
+
+  createSoundButton = () => {
+    new SoundButton(this, 70, 700, 40);
+  };
+
+  startMusic = () => {
+    this.fx = this.sound.add("game_bgm");
+    this.fx.allowMultiple = false;
+    this.fx.setLoop(true);
+  };
+
+  createCharContainer = () => {
+    return new CharContainer(
+      this,
+      0,
+      0,
+      this.prevSceneData.sizeX,
+      this.prevSceneData.sizeY,
+      this.prevSceneData.country,
+      this.prevSceneData.isChallenge,
+      this.prevSceneData.mode
+    );
+  };
+
+  createTimeStopLabel = () => {
+    const timeStopLabel = new TimeStopLabel(this, 775, 672, "一時停止", {
+      fill: 0x333333,
+      fontSize: 32,
+      fontFamily: this.fontFamily,
+    });
+    timeStopLabel.setInteractive().on("pointerdown", () => {
+      this.scene.pause();
+      this.scene.launch("sekai_pause_menu");
+    });
+  };
+
+  createGameTime = () => {
+    return new GameTime(this);
+  };
+
+  transitionToResult = () => {
+    this.fx.stop();
+    this.scene.start("sekai_game_result", {
+      time: this.gameTime.timer,
+      ranking: true,
+      modalVisible: true,
+      rankingRegistered: false,
+      answers: this.charContainer.answerCounter,
+      mode: this.prevSceneData.mode,
+      country: this.prevSceneData.country,
+      sizeX: this.prevSceneData.sizeX,
+      sizeY: this.prevSceneData.sizeY,
+    });
+  };
 }
