@@ -6,7 +6,10 @@ import CameraFadeIn from "./ui/CameraFadeIn.js";
 
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "game_result", active: false });
+    super({ key: "game_result", active: true });
+    this.backTopButton = undefined;
+    this.backGameSetButton = undefined;
+    this.retryGameButton = undefined;
   }
 
   preload() {
@@ -55,9 +58,7 @@ export default class GameResult extends Phaser.Scene {
 
   create() {
     this.startCameraFadeIn();
-
-    this.soundButton = new SoundButton(this, 70, 700, 40);
-    this.soundButton.depth = 3;
+    this.createSoundButton();
 
     // リザルト表示
     const gameResultFontStyle = {
@@ -68,71 +69,10 @@ export default class GameResult extends Phaser.Scene {
       strokeThickness: 4,
     };
 
-    const backTopButton = new SettingButton(
-      this,
-      57,
-      332,
-      265,
-      72,
-      "トップへ戻る",
-      24,
-      this.fontFamily
-    );
-    backTopButton.buttonGraphic.on(
-      "pointerdown",
-      () => {
-        this.scene.start("game_menu");
-      },
-      this
-    );
-
-    // ゲーム設定に戻るボタン
-    const backGameSetButton = new SettingButton(
-      this,
-      377,
-      332,
-      265,
-      72,
-      "ゲーム設定に戻る",
-      24,
-      this.fontFamily
-    );
-    backGameSetButton.buttonGraphic.on(
-      "pointerdown",
-      () => {
-        this.scene.start("game_setting", {
-          mode: this.mode,
-          sizeX: this.sizeX,
-          sizeY: this.sizeY,
-          schoolYear: this.schoolYear,
-        });
-      },
-      this
-    );
-
-    // もう一度プレイするボタン
-    const retryGameButton = new SettingButton(
-      this,
-      697,
-      332,
-      265,
-      72,
-      "もう一度プレイする",
-      24,
-      this.fontFamily
-    );
-    retryGameButton.buttonGraphic.on(
-      "pointerdown",
-      () => {
-        this.scene.start("hitsuji_game", {
-          mode: this.mode,
-          sizeX: this.sizeX,
-          sizeY: this.sizeY,
-          schoolYear: this.schoolYear,
-        });
-      },
-      this
-    );
+    this.backTopButton = this.createBackTopButton();
+    this.backGameSetButton = this.createBackGameSetButton();
+    this.retryGameButton = this.createRetryGameButton();
+    this.createRankingPageButton();
 
     (async () => {
       // const rankData = await getRank(60 - this.timer);
@@ -179,29 +119,11 @@ export default class GameResult extends Phaser.Scene {
       }
     })();
 
-    const rankingPageButton = new SettingButton(
-      this,
-      697,
-      470,
-      265,
-      72,
-      "ランキング",
-      24,
-      this.fontFamily
-    );
-    rankingPageButton.buttonGraphic.on(
-      "pointerdown",
-      () => {
-        this.scene.start("hitsuji_ranking");
-      },
-      this
-    ).depth = 8;
-
     if (this.mode === "timeLimit" && this.timer === 60) {
       // ゲームオーバー
-      backTopButton.setY(136);
-      backGameSetButton.setY(136);
-      retryGameButton.setY(136);
+      this.backTopButton.setY(136);
+      this.backGameSetButton.setY(136);
+      this.retryGameButton.setY(136);
 
       this.displayGameOverGraphics();
     } else {
@@ -586,5 +508,103 @@ export default class GameResult extends Phaser.Scene {
 
   startCameraFadeIn = () => {
     new CameraFadeIn(this);
+  };
+
+  createSoundButton = () => {
+    const soundButton = new SoundButton(this, 70, 700, 40);
+    soundButton.depth = 3;
+  };
+
+  createBackTopButton = () => {
+    const backTopButton = new SettingButton(
+      this,
+      57,
+      332,
+      265,
+      72,
+      "トップへ戻る",
+      24,
+      this.fontFamily
+    );
+    backTopButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_menu");
+      },
+      this
+    );
+    return backTopButton;
+  };
+
+  createBackGameSetButton = () => {
+    const backGameSetButton = new SettingButton(
+      this,
+      377,
+      332,
+      265,
+      72,
+      "ゲーム設定に戻る",
+      24,
+      this.fontFamily
+    );
+    backGameSetButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_setting", {
+          mode: this.mode,
+          sizeX: this.sizeX,
+          sizeY: this.sizeY,
+          schoolYear: this.schoolYear,
+        });
+      },
+      this
+    );
+    return backGameSetButton;
+  };
+
+  createRetryGameButton = () => {
+    const retryGameButton = new SettingButton(
+      this,
+      697,
+      332,
+      265,
+      72,
+      "もう一度プレイする",
+      24,
+      this.fontFamily
+    );
+    retryGameButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.scene.start("hitsuji_game", {
+          mode: this.mode,
+          sizeX: this.sizeX,
+          sizeY: this.sizeY,
+          schoolYear: this.schoolYear,
+        });
+      },
+      this
+    );
+    return retryGameButton;
+  };
+
+  createRankingPageButton = () => {
+    const rankingPageButton = new SettingButton(
+      this,
+      697,
+      470,
+      265,
+      72,
+      "ランキング",
+      24,
+      this.fontFamily
+    );
+    rankingPageButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.scene.start("hitsuji_ranking");
+      },
+      this
+    ).depth = 8;
   };
 }
