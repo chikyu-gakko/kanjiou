@@ -3,7 +3,9 @@ import SoundButton from "../components/sound_button.js";
 
 export default class GameSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "game_setting", active: false });
+    super({ key: "game_setting", active: true });
+    this.categoryButtons = undefined;
+    this.settingElements = undefined;
   }
 
   preload() {
@@ -47,28 +49,61 @@ export default class GameSetting extends Phaser.Scene {
 
     this.selectedSettingCategory = "size";
     this.challenge = false;
-    this.categoryButtons = [];
-    this.settingElements = [];
     this.fontFamily = this.registry.get("fontFamily");
   }
 
   create() {
-    // 音楽
+    this.startMusic();
+    this.createSoundButton();
+    this.createCrossButton();
+    this.createGameTitle();
+    this.createGameMenu();
+    this.createGameStartButton();
+    this.createHowToPlayButton();
+    this.categoryButtons = this.createCategoryButtons();
+    this.settingElements = this.createSettingButtons();
+    this.updateView();
+  }
+
+  updateView() {
+    this.categoryButtons.forEach((element) => {
+      if (this.selectedSettingCategory === element.getData("value")) {
+        if (element.getData("value") === "challenge")
+          element.setStyle({ color: "#B63237" });
+        else element.setStyle({ color: "#00bfff" });
+      } else element.setStyle({ color: "#ffffff" });
+    });
+
+    this.settingElements.forEach((element) => {
+      if (this.selectedSettingCategory === element.getData("category")) {
+        element.setVisible(true);
+        if (element.constructor.name === "SettingButton") {
+          if (this[this.selectedSettingCategory] === element.getData("value")) {
+            if (element.getData("category") === "challenge")
+              element.changeChallengeButton();
+            else element.changeSelected();
+          } else element.changeUnselected();
+        }
+      } else element.setVisible(false);
+    });
+  }
+
+  startMusic = () => {
     if (this.sound.get("top_bgm") === null) {
       this.sound.add("top_bgm");
       this.sound.play("top_bgm", { loop: true });
     }
+  };
 
-    this.soundButton = new SoundButton(this, 70, 700, 40);
+  createSoundButton = () => {
+    new SoundButton(this, 70, 700, 40);
+  };
 
-    // --- ボタン---
-
-    // --- ✖ボタン・イベント ---
+  createCrossButton = () => {
     const crossButton = this.add.text(967, 36, "✖", {
       fontSize: "32px",
       fill: "#ffffff",
     });
-
     crossButton.setInteractive().on(
       "pointerdown",
       () => {
@@ -76,8 +111,9 @@ export default class GameSetting extends Phaser.Scene {
       },
       this
     );
+  };
 
-    // タイトル
+  createGameTitle = () => {
     this.add
       .text(330, 64, "羊の中に犬が一匹", {
         fontSize: 48,
@@ -85,15 +121,17 @@ export default class GameSetting extends Phaser.Scene {
         padding: 3,
       })
       .setPadding(4);
+  };
 
-    // ゲームメニュー
+  createGameMenu = () => {
     const gameMenuBox = this.add.graphics();
     gameMenuBox.fillStyle(0x333333, 1).fillRect(120, 138, 787, 478);
 
     const gameMenuLine = this.add.graphics();
     gameMenuLine.fillStyle(0x535353, 1).fillRect(396, 138, 2, 478);
+  };
 
-    // ゲームスタートSE
+  createGameStartButton = () => {
     const gameStartSe = this.sound.add("game_start_se");
 
     // ゲームスタートボタン・テキスト
@@ -155,16 +193,16 @@ export default class GameSetting extends Phaser.Scene {
         },
         this
       );
-
     this.add.text(417, 666, "ゲームスタート", {
       fontSize: "32px",
       fill: "#ffffff",
       fontFamily: this.fontFamily,
     });
-
     // mogura画像
     this.add.image(410, 680, "mogura");
+  };
 
+  createHowToPlayButton = () => {
     // 遊び方ボタン
     this.add
       .graphics()
@@ -189,8 +227,10 @@ export default class GameSetting extends Phaser.Scene {
       fill: "#ffffff",
       fontFamily: this.fontFamily,
     });
+  };
 
-    this.categoryButtons = [
+  createCategoryButtons = () => {
+    const categoryButtons = [
       // ゲームサイズ
       this.add
         .text(194, 236, "漢字の数", {
@@ -218,18 +258,20 @@ export default class GameSetting extends Phaser.Scene {
         })
         .setData("value", "schoolYear"),
     ];
-    this.categoryButtons.forEach((element) =>
+    return categoryButtons.map((element) =>
       element.setInteractive().on(
         "pointerdown",
         () => {
           this.selectedSettingCategory = element.getData("value");
-          this.updateView();
+          this.updateView(element);
         },
         this
       )
     );
+  };
 
-    this.settingElements = [
+  createSettingButtons = () => {
+    const settingElements = [
       new SettingButton(
         this,
         585,
@@ -445,7 +487,7 @@ export default class GameSetting extends Phaser.Scene {
         .setData("category", "challenge")
         .setLineSpacing(12),
     ];
-    this.settingElements.forEach((element) => {
+    return settingElements.map((element) => {
       if (element.constructor.name === "SettingButton") {
         element.buttonGraphic.on(
           "pointerdown",
@@ -461,30 +503,7 @@ export default class GameSetting extends Phaser.Scene {
           this
         );
       }
+      return element;
     });
-    this.updateView();
-  }
-
-  updateView() {
-    this.categoryButtons.forEach((element) => {
-      if (this.selectedSettingCategory === element.getData("value")) {
-        if (element.getData("value") === "challenge")
-          element.setStyle({ color: "#B63237" });
-        else element.setStyle({ color: "#00bfff" });
-      } else element.setStyle({ color: "#ffffff" });
-    });
-
-    this.settingElements.forEach((element) => {
-      if (this.selectedSettingCategory === element.getData("category")) {
-        element.setVisible(true);
-        if (element.constructor.name === "SettingButton") {
-          if (this[this.selectedSettingCategory] === element.getData("value")) {
-            if (element.getData("category") === "challenge")
-              element.changeChallengeButton();
-            else element.changeSelected();
-          } else element.changeUnselected();
-        }
-      } else element.setVisible(false);
-    });
-  }
+  };
 }
