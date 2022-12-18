@@ -1,11 +1,22 @@
 import SoundButton from "../components/sound_button.js";
 import SettingButton from "../components/setting_button.js";
-import { getRank, putRanking } from "../api/rank.js";
 import CameraFadeIn from "./ui/CameraFadeIn.js";
+
+const debugMode = false;
+const dataForDebugging = {
+  mode: "timeAttack",
+  timer: 30,
+  answers: 3,
+  sizeY: 3,
+  sizeX: 6,
+  country: "タイ語",
+};
 
 export default class SekaiGameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "sekai_game_result", active: false });
+    super({ key: "sekai_game_result", active: debugMode });
+    this.fontFamily = undefined;
+    this.prevSceneData = undefined;
   }
 
   preload() {
@@ -39,18 +50,19 @@ export default class SekaiGameResult extends Phaser.Scene {
   }
 
   init(data) {
-    this.mode = data.mode;
-    this.timer = data.time;
-    // this.timer = 30; // develop
-    this.ranking = data.ranking;
-    this.modalVisible = data.modalVisible;
-    this.rankingRegistered = data.rankingRegistered;
-    this.answers = data.answers;
-    this.sizeY = data.sizeY;
-    this.sizeX = data.sizeX;
-    this.schoolYear = data.schoolYear;
+    this.prevSceneData = {
+      mode: data.mode,
+      timer: data.time,
+      ranking: data.ranking,
+      modalVisible: data.modalVisible,
+      rankingRegistered: data.rankingRegistered,
+      answers: data.answers,
+      sizeY: data.sizeY,
+      sizeX: data.sizeX,
+      country: data.country,
+    };
+    if (debugMode) this.prevSceneData = dataForDebugging;
     this.fontFamily = this.registry.get("fontFamily");
-    this.country = data.country;
   }
 
   create() {
@@ -102,11 +114,10 @@ export default class SekaiGameResult extends Phaser.Scene {
       "pointerdown",
       () => {
         this.scene.start("sekai_game_setting", {
-          country: this.country,
-          mode: this.mode,
-          sizeX: this.sizeX,
-          sizeY: this.sizeY,
-          schoolYear: this.schoolYear,
+          country: this.prevSceneData.country,
+          mode: this.prevSceneData.mode,
+          sizeX: this.prevSceneData.sizeX,
+          sizeY: this.prevSceneData.sizeY,
         });
       },
       this
@@ -127,80 +138,19 @@ export default class SekaiGameResult extends Phaser.Scene {
       "pointerdown",
       () => {
         this.scene.start("sekai_game", {
-          country: this.country,
-          mode: this.mode,
-          sizeX: this.sizeX,
-          sizeY: this.sizeY,
-          schoolYear: this.schoolYear,
+          country: this.prevSceneData.country,
+          mode: this.prevSceneData.mode,
+          sizeX: this.prevSceneData.sizeX,
+          sizeY: this.prevSceneData.sizeY,
         });
       },
       this
     );
 
-    // (async () => {
-    //   // const rankData = await getRank(60 - this.timer);
-    //   const rankData = await getRank(60 - 1);
-    //   if (rankData.rank <= 100 && !this.rankingRegistered) {
-    //     if (this.modalVisible) {
-    //       this.rankingModal(rankData.rank);
-    //     }
-    //     // ランキング登録ボタン
-    //     const rankingButton = new SettingButton(
-    //       this,
-    //       697,
-    //       660,
-    //       265,
-    //       72,
-    //       "ランキング登録",
-    //       24,
-    //       this.fontFamily,
-    //       0x32b65e,
-    //       "#ffffff"
-    //     );
-    //     rankingButton.buttonGraphic.on(
-    //       "pointerdown",
-    //       () => {
-    //         this.rankingModal(rankData.rank);
-    //       },
-    //       this
-    //     );
-    //     rankingButton.depth = 2;
-    //
-    //     // ランクイン時に表示する
-    //     this.add
-    //       .text(
-    //         this.game.canvas.width / 1.24,
-    //         630,
-    //         `\\ TOP 100位にランクイン /`,
-    //         {
-    //           color: "#ffffff",
-    //           fontFamily: "SemiBold",
-    //           fontSize: "14px",
-    //         }
-    //       )
-    //       .setOrigin(0.5, 0).depth = 2;
-    //   }
-    // })();
-    //
-    // const rankingPageButton = new SettingButton(
-    //   this,
-    //   697,
-    //   470,
-    //   265,
-    //   72,
-    //   "ランキング",
-    //   24,
-    //   this.fontFamily
-    // );
-    // rankingPageButton.buttonGraphic.on(
-    //   "pointerdown",
-    //   () => {
-    //     this.scene.start("hitsuji_ranking");
-    //   },
-    //   this
-    // ).depth = 8;
-
-    if (this.mode === "timeLimit" && this.timer === 60) {
+    if (
+      this.prevSceneData.mode === "timeLimit" &&
+      this.prevSceneData.timer === 60
+    ) {
       // ゲームオーバー
       backTopButton.setY(136);
       backGameSetButton.setY(136);
@@ -225,7 +175,7 @@ export default class SekaiGameResult extends Phaser.Scene {
 
   displayResultDetails() {
     const text1 = (() => {
-      switch (this.mode) {
+      switch (this.prevSceneData.mode) {
         case "timeLimit":
           return "残り時間：";
         case "timeAttack":
@@ -239,20 +189,21 @@ export default class SekaiGameResult extends Phaser.Scene {
       }
     })();
     const number = (() => {
-      switch (this.mode) {
+      switch (this.prevSceneData.mode) {
         case "timeLimit":
-          return 60 - this.timer;
+          return 60 - this.prevSceneData.timer;
         case "timeAttack":
-          return this.timer;
+          return this.prevSceneData.timer;
         case "suddenDeath":
-          return this.answers;
+          return this.prevSceneData.answers;
         case "learn":
-          return this.answers;
+          return this.prevSceneData.answers;
         default:
           return "";
       }
     })();
-    const text2 = this.mode === "suddenDeath" || "learn" ? " 問" : " 秒";
+    const text2 =
+      this.prevSceneData.mode === "suddenDeath" || "learn" ? " 問" : " 秒";
 
     const text1Object = this.add.text(0, 22, text1, {
       color: "#333333",
@@ -411,187 +362,4 @@ export default class SekaiGameResult extends Phaser.Scene {
   startCameraFadeIn() {
     new CameraFadeIn(this);
   }
-
-  // async rankingModal(rank) {
-  //   let rankText = this.add.text(560, 305, "?", {
-  //     fontFamily: this.fontFamily,
-  //     fontSize: "30px",
-  //     color: "#333333",
-  //   });
-  //   rankText.depth = 5;
-  //
-  //   try {
-  //     rankText.destroy();
-  //     rankText = this.add.text(540, 305, rank, {
-  //       fontFamily: "sans-serif",
-  //       fontSize: "64px",
-  //       color: "#AA9311",
-  //     });
-  //     rankText.depth = 5;
-  //   } catch (e) {
-  //     // rankText.destroy();
-  //     // rankText = this.add.text(560, 305, e.message, {
-  //     //   fontFamily: this.fontFamily,
-  //     //   fontSize: "30px",
-  //     //   color: "#333333",
-  //     // });
-  //     // rankText.depth = 5;
-  //   }
-  //
-  //   const rankingBg = this.add.graphics();
-  //   rankingBg
-  //     .fillStyle(0x333333, 0.5)
-  //     .fillRect(0, 0, 1024, 768)
-  //     .setInteractive(
-  //       new Phaser.Geom.Rectangle(0, 0, 1024, 768),
-  //       Phaser.Geom.Rectangle.Contains
-  //     ).depth = 3;
-  //
-  //   const rankingMenuBox = this.add.graphics();
-  //   rankingMenuBox
-  //     .fillStyle(0xffffff, 1)
-  //     .fillRoundedRect(296, 234, 432, 367, 14).depth = 4;
-  //     // .fillRoundedRect(312, 234, 400, 300, 10).depth = 4;
-  //
-  //     // 1024 / 2 - モーダルの横幅 / 2
-  //
-  //   this.add.image(560, 280 ,"clown").setDepth(5);
-  //
-  //   const rankMessageText = this.add
-  //     .text(377, 340, "あなたの順位 　　    位", {
-  //       fontFamily:"sans-serif",
-  //       fontSize: "24px",
-  //       color: "#333333",
-  //     })
-  //     .setDepth(5);
-  //
-  //   const nameForm = this.add.dom(512, 450).createFromCache("nameForm");
-  //
-  //   // スコア送信ボタン
-  //   const submitButton = new SettingButton(
-  //     this,
-  //     330,
-  //     500,
-  //     368,
-  //     72,
-  //     "登録する",
-  //     32,
-  //     "sans-serif",
-  //     0x32b65e,
-  //     "#ffffff"
-  //   );
-  //
-  //   // 名前検証テキスト
-  //   const validationMessageText = this.add
-  //     .text(296, 350, "記号なし8文字以内で入力してください", {
-  //       fontFamily: this.fontFamily,
-  //       fontSize: "14px",
-  //       color: "#d53f3f",
-  //     })
-  //     .setDepth(5)
-  //     .setVisible(false);
-  //
-  //   const annotationText = this.add
-  //     .text(330, 390, "8文字以内", {
-  //       fontFamily: "sans-serif",
-  //       fontSize: "14px",
-  //       color: "#999999",
-  //     })
-  //     .setDepth(5);
-  //
-  //   const celebrationText = this.add
-  //     .text(290, 150, "ランキング入りおめでとう！", {
-  //       fontFamily: this.fontFamily,
-  //       fontSize: "36px",
-  //       color: "#FFFFFF",
-  //     })
-  //     .setDepth(5);
-  //
-  //   const httpStatusMessage = this.add
-  //     .text(420, 400, "登録に成功しました", {
-  //       fontFamily: this.fontFamily,
-  //       fontSize: "20px",
-  //       color: "#333333",
-  //     })
-  //     .setDepth(5)
-  //     .setVisible(false);
-  //
-  //   submitButton.buttonGraphic.on(
-  //     "pointerdown",
-  //     () => {
-  //       const name = nameForm.getChildByName("name");
-  //       let text = "ゲスト";
-  //       const reg = new RegExp(/^.{1,8}$/);
-  //       if (reg.test(name.value)) {
-  //         validationMessageText.setVisible(false);
-  //         annotationText.setVisible(true);
-  //         text = name.value;
-  //       } else {
-  //         annotationText.setVisible(false);
-  //         validationMessageText.setVisible(true);
-  //         return;
-  //       }
-  //       putRanking(this.timer, text)
-  //         .then(() => {
-  //           this.rankingRegistered = true;
-  //           const status = "登録に成功しました";
-  //           httpStatusMessage.setText(status);
-  //           httpStatusMessage.setVisible(true);
-  //           rankText.destroy();
-  //           rankMessageText.destroy();
-  //           validationMessageText.destroy();
-  //           annotationText.destroy();
-  //           celebrationText.destroy();
-  //           nameForm.destroy();
-  //           submitButton.destroy();
-  //         })
-  //         .catch(() => {
-  //           const status = "登録に失敗しました";
-  //           // const status = e.message; // debug
-  //           httpStatusMessage.setText(status);
-  //           httpStatusMessage.setVisible(true);
-  //           rankText.destroy();
-  //           rankMessageText.destroy();
-  //           validationMessageText.destroy();
-  //           annotationText.destroy();
-  //           celebrationText.destroy();
-  //           nameForm.destroy();
-  //           submitButton.destroy();
-  //         });
-  //     },
-  //     this
-  //   );
-  //   submitButton.depth = 6;
-  //
-  //   const crossButton = this.add.text(685, 246, "✖", {
-  //     fontSize: "32px",
-  //     fill: "#333333",
-  //   });
-  //   crossButton.setInteractive().on(
-  //     "pointerdown",
-  //     () => {
-  //       this.scene.start("game_result", {
-  //         time: this.timer,
-  //         ranking: false,
-  //         modalVisible: false,
-  //         rankingRegistered: this.rankingRegistered,
-  //         answers: this.answerCounter,
-  //         mode: this.mode,
-  //         schoolYear: this.schoolYear,
-  //         sizeX: this.sizeX,
-  //         sizeY: this.sizeY,
-  //       });
-  //       validationMessageText.setVisible(false);
-  //       httpStatusMessage.setVisible(false);
-  //       rankText.destroy();
-  //       rankingBg.destroy();
-  //       rankingMenuBox.destroy();
-  //       rankMessageText.destroy();
-  //       nameForm.destroy();
-  //       submitButton.destroy();
-  //       crossButton.destroy();
-  //     },
-  //     this
-  //   ).depth = 6;
-  // }
 }
