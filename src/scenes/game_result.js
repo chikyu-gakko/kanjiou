@@ -4,9 +4,24 @@ import { getRank, putRanking } from "../api/rank.js";
 
 import CameraFadeIn from "./ui/CameraFadeIn.js";
 
+const debugMode = false;
+const dataForDebugging = {
+  mode: "timeAttack",
+  timer: 30,
+  ranking: 10,
+  modalVisible: false,
+  rankingRegistered: false,
+  answers: 3,
+  sizeY: 3,
+  sizeX: 6,
+  schoolYear: "1年生",
+};
+
 export default class GameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "game_result", active: true });
+    super({ key: "game_result", active: debugMode });
+    this.fontFamily = undefined;
+    this.prevSceneData = undefined;
     this.backTopButton = undefined;
     this.backGameSetButton = undefined;
     this.retryGameButton = undefined;
@@ -43,16 +58,18 @@ export default class GameResult extends Phaser.Scene {
   }
 
   init(data) {
-    this.mode = data.mode;
-    this.timer = data.time;
-    // this.timer = 30; // develop
-    this.ranking = data.ranking;
-    this.modalVisible = data.modalVisible;
-    this.rankingRegistered = data.rankingRegistered;
-    this.answers = data.answers;
-    this.sizeY = data.sizeY;
-    this.sizeX = data.sizeX;
-    this.schoolYear = data.schoolYear;
+    this.prevSceneData = {
+      mode: data.mode,
+      timer: data.time,
+      ranking: data.ranking,
+      modalVisible: data.modalVisible,
+      rankingRegistered: data.rankingRegistered,
+      answers: data.answers,
+      sizeY: data.sizeY,
+      sizeX: data.sizeX,
+      schoolYear: data.schoolYear,
+    };
+    if (debugMode) this.prevSceneData = dataForDebugging;
     this.fontFamily = this.registry.get("fontFamily");
   }
 
@@ -78,7 +95,7 @@ export default class GameResult extends Phaser.Scene {
       // const rankData = await getRank(60 - this.timer);
       const rankData = await getRank(60 - 1);
       if (rankData.rank <= 100 && !this.rankingRegistered) {
-        if (this.modalVisible) {
+        if (this.prevSceneData.modalVisible) {
           this.rankingModal(rankData.rank);
         }
         // ランキング登録ボタン
@@ -119,7 +136,10 @@ export default class GameResult extends Phaser.Scene {
       }
     })();
 
-    if (this.mode === "timeLimit" && this.timer === 60) {
+    if (
+      this.prevSceneData.mode === "timeLimit" &&
+      this.prevSceneData.timer === 60
+    ) {
       // ゲームオーバー
       this.backTopButton.setY(136);
       this.backGameSetButton.setY(136);
@@ -144,7 +164,7 @@ export default class GameResult extends Phaser.Scene {
 
   displayResultDetails() {
     const text1 = (() => {
-      switch (this.mode) {
+      switch (this.prevSceneData.mode) {
         case "timeLimit":
           return "残り時間：";
         case "timeAttack":
@@ -156,18 +176,18 @@ export default class GameResult extends Phaser.Scene {
       }
     })();
     const number = (() => {
-      switch (this.mode) {
+      switch (this.prevSceneData.mode) {
         case "timeLimit":
-          return 60 - this.timer;
+          return 60 - this.prevSceneData.timer;
         case "timeAttack":
-          return this.timer;
+          return this.prevSceneData.timer;
         case "suddenDeath":
-          return this.answers;
+          return this.prevSceneData.answers;
         default:
           return "";
       }
     })();
-    const text2 = this.mode === "suddenDeath" ? " 問" : " 秒";
+    const text2 = this.prevSceneData.mode === "suddenDeath" ? " 問" : " 秒";
 
     const text1Object = this.add.text(0, 22, text1, {
       color: "#333333",
@@ -442,7 +462,7 @@ export default class GameResult extends Phaser.Scene {
           validationMessageText.setVisible(true);
           return;
         }
-        putRanking(this.timer, text)
+        putRanking(this.prevSceneData.timer, text)
           .then(() => {
             this.rankingRegistered = true;
             const status = "登録に成功しました";
@@ -482,15 +502,15 @@ export default class GameResult extends Phaser.Scene {
       "pointerdown",
       () => {
         this.scene.start("game_result", {
-          time: this.timer,
+          time: this.prevSceneData.timer,
           ranking: false,
           modalVisible: false,
           rankingRegistered: this.rankingRegistered,
-          answers: this.answerCounter,
-          mode: this.mode,
-          schoolYear: this.schoolYear,
-          sizeX: this.sizeX,
-          sizeY: this.sizeY,
+          answers: this.prevSceneData.answerCounter,
+          mode: this.prevSceneData.mode,
+          schoolYear: this.prevSceneData.schoolYear,
+          sizeX: this.prevSceneData.sizeX,
+          sizeY: this.prevSceneData.sizeY,
         });
         validationMessageText.setVisible(false);
         httpStatusMessage.setVisible(false);
@@ -551,10 +571,10 @@ export default class GameResult extends Phaser.Scene {
       "pointerdown",
       () => {
         this.scene.start("game_setting", {
-          mode: this.mode,
-          sizeX: this.sizeX,
-          sizeY: this.sizeY,
-          schoolYear: this.schoolYear,
+          mode: this.prevSceneData.mode,
+          sizeX: this.prevSceneData.sizeX,
+          sizeY: this.prevSceneData.sizeY,
+          schoolYear: this.prevSceneData.schoolYear,
         });
       },
       this
@@ -577,10 +597,10 @@ export default class GameResult extends Phaser.Scene {
       "pointerdown",
       () => {
         this.scene.start("hitsuji_game", {
-          mode: this.mode,
-          sizeX: this.sizeX,
-          sizeY: this.sizeY,
-          schoolYear: this.schoolYear,
+          mode: this.prevSceneData.mode,
+          sizeX: this.prevSceneData.sizeX,
+          sizeY: this.prevSceneData.sizeY,
+          schoolYear: this.prevSceneData.schoolYear,
         });
       },
       this
