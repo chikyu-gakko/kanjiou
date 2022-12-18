@@ -17,6 +17,8 @@ export default class SekaiGameResult extends Phaser.Scene {
     super({ key: "sekai_game_result", active: debugMode });
     this.fontFamily = undefined;
     this.prevSceneData = undefined;
+    this.backTopButton = undefined;
+    this.backGameSetButton = undefined;
   }
 
   preload() {
@@ -67,7 +69,6 @@ export default class SekaiGameResult extends Phaser.Scene {
 
   create() {
     this.startCameraFadeIn();
-
     this.soundButton = new SoundButton(this, 70, 700, 40);
     this.soundButton.depth = 3;
 
@@ -80,82 +81,18 @@ export default class SekaiGameResult extends Phaser.Scene {
       strokeThickness: 4,
     };
 
-    const backTopButton = new SettingButton(
-      this,
-      57,
-      332,
-      265,
-      72,
-      "トップへ戻る",
-      24,
-      this.fontFamily
-    );
-    backTopButton.buttonGraphic.on(
-      "pointerdown",
-      () => {
-        this.scene.start("game_menu");
-      },
-      this
-    );
-
-    // ゲーム設定に戻るボタン
-    const backGameSetButton = new SettingButton(
-      this,
-      377,
-      332,
-      265,
-      72,
-      "ゲーム設定に戻る",
-      24,
-      this.fontFamily
-    );
-    // FIXME: sekai_game_resultへの遷移時に画面真っ暗になる
-    backGameSetButton.buttonGraphic.on(
-      "pointerdown",
-      () => {
-        this.scene.start("sekai_game_setting", {
-          country: this.prevSceneData.country,
-          mode: this.prevSceneData.mode,
-          sizeX: this.prevSceneData.sizeX,
-          sizeY: this.prevSceneData.sizeY,
-        });
-      },
-      this
-    );
-
-    // もう一度プレイするボタン
-    const retryGameButton = new SettingButton(
-      this,
-      697,
-      332,
-      265,
-      72,
-      "もう一度プレイする",
-      24,
-      this.fontFamily
-    );
-    retryGameButton.buttonGraphic.on(
-      "pointerdown",
-      () => {
-        this.scene.start("sekai_game", {
-          country: this.prevSceneData.country,
-          mode: this.prevSceneData.mode,
-          sizeX: this.prevSceneData.sizeX,
-          sizeY: this.prevSceneData.sizeY,
-        });
-      },
-      this
-    );
+    this.backTopButton = this.createBackTopButton();
+    this.backGameSetButton = this.createBackGameSetButton();
+    this.retryGameButton = this.createRetryGameButton();
 
     if (
       this.prevSceneData.mode === "timeLimit" &&
       this.prevSceneData.timer === 60
     ) {
       // ゲームオーバー
-      backTopButton.setY(136);
-      backGameSetButton.setY(136);
-      retryGameButton.setY(136);
-
+      this.backTopButton.setY(136);
+      this.backGameSetButton.setY(136);
+      this.retryGameButton.setY(136);
       this.displayGameOverGraphics();
     } else {
       // ゲームクリア
@@ -359,7 +296,80 @@ export default class SekaiGameResult extends Phaser.Scene {
     this.add.container(220, 310, [fukidashiImage, text1, text2]);
   }
 
-  startCameraFadeIn() {
+  startCameraFadeIn = () => {
     new CameraFadeIn(this);
-  }
+  };
+
+  createBackTopButton = () => {
+    const backTopButton = new SettingButton(
+      this,
+      57,
+      332,
+      265,
+      72,
+      "トップへ戻る",
+      24,
+      this.fontFamily
+    );
+    backTopButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_menu");
+      },
+      this
+    );
+    return backTopButton;
+  };
+
+  createBackGameSetButton = () => {
+    const backGameSetButton = new SettingButton(
+      this,
+      377,
+      332,
+      265,
+      72,
+      "ゲーム設定に戻る",
+      24,
+      this.fontFamily
+    );
+    backGameSetButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.scene.start("sekai_game_setting", {
+          country: this.prevSceneData.country,
+          mode: this.prevSceneData.mode,
+          sizeX: this.prevSceneData.sizeX,
+          sizeY: this.prevSceneData.sizeY,
+        });
+      },
+      this
+    );
+    return backGameSetButton;
+  };
+
+  createRetryGameButton = () => {
+    const retryGameButton = new SettingButton(
+      this,
+      697,
+      332,
+      265,
+      72,
+      "もう一度プレイする",
+      24,
+      this.fontFamily
+    );
+    retryGameButton.buttonGraphic.on(
+      "pointerdown",
+      () => {
+        this.scene.start("sekai_game", {
+          country: this.prevSceneData.country,
+          mode: this.prevSceneData.mode,
+          sizeX: this.prevSceneData.sizeX,
+          sizeY: this.prevSceneData.sizeY,
+        });
+      },
+      this
+    );
+    return retryGameButton;
+  };
 }
