@@ -3,7 +3,7 @@ import SoundButton from "../components/sound_button.js";
 
 export default class GameSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "game_setting", active: true });
+    super({ key: "game_setting", active: false });
     this.prevSceneData = undefined;
     this.categoryButtons = undefined;
     this.settingElements = undefined;
