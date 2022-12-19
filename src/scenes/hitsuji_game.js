@@ -32,10 +32,9 @@ export default class HitsujiGame extends Phaser.Scene {
   init(data) {
     this.fontFamily = this.registry.get("fontFamily");
     this.prevSceneData = {
-      schoolYear: data.schoolYear,
+      size: data.size,
       mode: data.mode,
-      sizeY: data.sizeY,
-      sizeX: data.sizeX,
+      schoolYear: data.schoolYear,
       isChallenge: data.isChallenge,
     };
   }
@@ -75,8 +74,7 @@ export default class HitsujiGame extends Phaser.Scene {
                   answers: this.kanjiContainer.answerCounter,
                   mode: this.kanjiContainer.mode,
                   schoolYear: this.kanjiContainer.schoolYear,
-                  sizeX: this.kanjiContainer.sizeX,
-                  sizeY: this.kanjiContainer.sizeY,
+                  size: this.kanjiContainer.size,
                 });
               }
             );
@@ -94,8 +92,7 @@ export default class HitsujiGame extends Phaser.Scene {
           this.events.off();
           this.scene.stop();
           this.scene.start("hitsuji_game", {
-            sizeY: this.kanjiContainer.sizeY,
-            sizeX: this.kanjiContainer.sizeX,
+            size: this.kanjiContainer.size,
             mode: this.kanjiContainer.mode,
             schoolYear: this.kanjiContainer.schoolYear,
           });
@@ -109,8 +106,7 @@ export default class HitsujiGame extends Phaser.Scene {
           this.events.off();
           this.scene.stop();
           this.scene.start("game_setting", {
-            sizeY: this.kanjiContainer.sizeY,
-            sizeX: this.kanjiContainer.sizeX,
+            size: this.kanjiContainer.size,
             mode: this.kanjiContainer.mode,
             schoolYear: this.kanjiContainer.schoolYear,
           });
@@ -215,8 +211,7 @@ export default class HitsujiGame extends Phaser.Scene {
       this,
       0,
       0,
-      this.prevSceneData.sizeX,
-      this.prevSceneData.sizeY,
+      this.prevSceneData.size,
       this.prevSceneData.schoolYear,
       this.prevSceneData.isChallenge,
       this.prevSceneData.mode

@@ -3,6 +3,7 @@ import SettingButton from "../components/setting_button.js";
 import { getRank, putRanking } from "../api/rank.js";
 
 import CameraFadeIn from "./ui/CameraFadeIn.js";
+import KanjiContainer from "./ui/KanjiContainer.js";
 
 const debugMode = false;
 const dataForDebugging = {
@@ -12,8 +13,7 @@ const dataForDebugging = {
   modalVisible: false,
   rankingRegistered: false,
   answers: 3,
-  sizeY: 3,
-  sizeX: 6,
+  size: KanjiContainer.Size.M.name,
   schoolYear: "1年生",
 };
 
@@ -65,8 +65,7 @@ export default class GameResult extends Phaser.Scene {
       modalVisible: data.modalVisible,
       rankingRegistered: data.rankingRegistered,
       answers: data.answers,
-      sizeY: data.sizeY,
-      sizeX: data.sizeX,
+      size: data.size,
       schoolYear: data.schoolYear,
     };
     if (debugMode) this.prevSceneData = dataForDebugging;
@@ -509,8 +508,7 @@ export default class GameResult extends Phaser.Scene {
           answers: this.prevSceneData.answerCounter,
           mode: this.prevSceneData.mode,
           schoolYear: this.prevSceneData.schoolYear,
-          sizeX: this.prevSceneData.sizeX,
-          sizeY: this.prevSceneData.sizeY,
+          size: this.prevSceneData.size,
         });
         validationMessageText.setVisible(false);
         httpStatusMessage.setVisible(false);
@@ -572,8 +570,7 @@ export default class GameResult extends Phaser.Scene {
       () => {
         this.scene.start("game_setting", {
           mode: this.prevSceneData.mode,
-          sizeX: this.prevSceneData.sizeX,
-          sizeY: this.prevSceneData.sizeY,
+          size: this.prevSceneData.size,
           schoolYear: this.prevSceneData.schoolYear,
         });
       },
@@ -598,8 +595,7 @@ export default class GameResult extends Phaser.Scene {
       () => {
         this.scene.start("hitsuji_game", {
           mode: this.prevSceneData.mode,
-          sizeX: this.prevSceneData.sizeX,
-          sizeY: this.prevSceneData.sizeY,
+          size: this.prevSceneData.size,
           schoolYear: this.prevSceneData.schoolYear,
         });
       },

@@ -18,7 +18,7 @@ const Category = CharContainer.Category;
 
 export default class SekaiGameSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "sekai_game_setting", active: true });
+    super({ key: "sekai_game_setting", active: false });
     this.prevSceneData = undefined;
     this.categoryButtons = undefined;
     this.settingElements = undefined;
