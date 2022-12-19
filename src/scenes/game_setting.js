@@ -4,6 +4,7 @@ import SoundButton from "../components/sound_button.js";
 export default class GameSetting extends Phaser.Scene {
   constructor() {
     super({ key: "game_setting", active: true });
+    this.prevSceneData = undefined;
     this.categoryButtons = undefined;
     this.settingElements = undefined;
   }
@@ -22,12 +23,17 @@ export default class GameSetting extends Phaser.Scene {
   }
 
   init(data) {
+    this.prevSceneData = {
+      sizeY: data.sizeY,
+      mode: data.mode,
+      school: data.school,
+    };
     this.size = "ふつう";
     this.mode = "時間制限";
     this.schoolYear = "1年生";
 
-    if (data.sizeY) {
-      switch (data.sizeY) {
+    if (this.prevSceneData.sizeY) {
+      switch (this.prevSceneData.sizeY) {
         case 3:
           this.size = "少ない";
           break;
@@ -37,15 +43,16 @@ export default class GameSetting extends Phaser.Scene {
         default:
       }
     }
-    if (data.mode) {
-      switch (data.mode) {
+    if (this.prevSceneData.mode) {
+      switch (this.prevSceneData.mode) {
         case "timeAttack":
           this.mode = "タイムアタック";
           break;
         default:
       }
     }
-    if (data.schoolYear) this.schoolYear = data.schoolYear;
+    if (this.prevSceneData.schoolYear)
+      this.schoolYear = this.prevSceneData.schoolYear;
 
     this.selectedSettingCategory = "size";
     this.challenge = false;
