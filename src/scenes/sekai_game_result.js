@@ -1,15 +1,15 @@
 import SoundButton from "../components/sound_button.js";
 import SettingButton from "../components/setting_button.js";
 import CameraFadeIn from "./ui/CameraFadeIn.js";
+import CharContainer from "./ui/CharContainer.js";
 
 const debugMode = false;
 const dataForDebugging = {
   mode: "timeAttack",
   timer: 30,
   answers: 3,
-  sizeY: 3,
-  sizeX: 6,
-  country: "タイ語",
+  size: CharContainer.Size.M.name,
+  country: CharContainer.Country.Thai.name,
 };
 
 export default class SekaiGameResult extends Phaser.Scene {
@@ -59,8 +59,7 @@ export default class SekaiGameResult extends Phaser.Scene {
       modalVisible: data.modalVisible,
       rankingRegistered: data.rankingRegistered,
       answers: data.answers,
-      sizeY: data.sizeY,
-      sizeX: data.sizeX,
+      size: data.size,
       country: data.country,
     };
     if (debugMode) this.prevSceneData = dataForDebugging;
@@ -338,8 +337,7 @@ export default class SekaiGameResult extends Phaser.Scene {
         this.scene.start("sekai_game_setting", {
           country: this.prevSceneData.country,
           mode: this.prevSceneData.mode,
-          sizeX: this.prevSceneData.sizeX,
-          sizeY: this.prevSceneData.sizeY,
+          size: this.prevSceneData.size,
         });
       },
       this
@@ -364,8 +362,7 @@ export default class SekaiGameResult extends Phaser.Scene {
         this.scene.start("sekai_game", {
           country: this.prevSceneData.country,
           mode: this.prevSceneData.mode,
-          sizeX: this.prevSceneData.sizeX,
-          sizeY: this.prevSceneData.sizeY,
+          size: this.prevSceneData.size,
         });
       },
       this

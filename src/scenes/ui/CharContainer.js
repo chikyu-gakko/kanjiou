@@ -106,17 +106,27 @@ export default class CharContainer extends Phaser.GameObjects.Container {
    * @param {Phaser.Scene} scene Phaser.Scene
    * @param {number} x number
    * @param {number} y number
-   * @param {number} sizeX number
-   * @param {number} sizeY number
+   * @param {string} size sizename
    * @param {string} country string
    * @param {boolean} isChallenge boolean
    * @param {string} mode string
    */
-  constructor(scene, x, y, sizeX, sizeY, country, isChallenge, mode) {
+  constructor(scene, x, y, size, country, isChallenge, mode) {
     super(scene, x, y);
     scene.add.existing(this);
-    this.sizeX = sizeX;
-    this.sizeY = sizeY;
+    switch (size) {
+      case CharContainer.Size.M.name:
+        this.sizeX = CharContainer.Size.M.x;
+        this.sizeY = CharContainer.Size.M.y;
+        break;
+      case CharContainer.Size.L.name:
+        this.sizeX = CharContainer.Size.L.x;
+        this.sizeY = CharContainer.Size.L.y;
+        break;
+      default:
+        this.sizeX = CharContainer.Size.S.x;
+        this.sizeY = CharContainer.Size.S.y;
+    }
     this.country = country;
     this.charFontSize = 40;
     this.charSpace = 70;
@@ -184,7 +194,19 @@ export default class CharContainer extends Phaser.GameObjects.Container {
       });
       character = character;
     } else {
-      character = characterList[country];
+      switch (country) {
+        case CharContainer.Country.Bengali.name:
+          character = characterList[CharContainer.Country.Bengali.text];
+          break;
+        case CharContainer.Country.Lao.name:
+          character = characterList[CharContainer.Country.Lao.text];
+          break;
+        case CharContainer.Country.Korean.name:
+          character = characterList[CharContainer.Country.Korean.text];
+          break;
+        default:
+          character = characterList[CharContainer.Country.Thai.text];
+      }
       character = character;
       character = this.shuffleCharList(character);
     }

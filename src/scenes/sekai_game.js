@@ -1,4 +1,3 @@
-import { characterList } from "../characterlist.js";
 import SoundButton from "../components/sound_button.js";
 import BackGround from "./ui/BackGround.js";
 import CharContainer from "./ui/CharContainer.js";
@@ -40,10 +39,9 @@ export default class SekaiGame extends Phaser.Scene {
   init(data) {
     this.fontFamily = this.registry.get("fontFamily");
     this.prevSceneData = {
-      country: data.country,
+      size: data.size,
       mode: data.mode,
-      sizeY: data.sizeY,
-      sizeX: data.sizeX,
+      country: data.country,
       isChallenge: data.isChallenge,
     };
     this.characterIndex = 0;
@@ -98,8 +96,7 @@ export default class SekaiGame extends Phaser.Scene {
           this.events.off();
           this.scene.stop();
           this.scene.start("sekai_game", {
-            sizeY: this.prevSceneData.sizeY,
-            sizeX: this.prevSceneData.sizeX,
+            size: this.prevSceneData.size,
             mode: this.prevSceneData.mode,
             country: this.prevSceneData.country,
           });
@@ -113,8 +110,7 @@ export default class SekaiGame extends Phaser.Scene {
           this.events.off();
           this.scene.stop();
           this.scene.start("sekai_game_setting", {
-            sizeY: this.prevSceneData.sizeY,
-            sizeX: this.prevSceneData.sizeX,
+            size: this.prevSceneData.size,
             mode: this.prevSceneData.mode,
             country: this.prevSceneData.country,
           });
@@ -353,8 +349,7 @@ export default class SekaiGame extends Phaser.Scene {
       this,
       0,
       0,
-      this.prevSceneData.sizeX,
-      this.prevSceneData.sizeY,
+      this.prevSceneData.size,
       this.prevSceneData.country,
       this.prevSceneData.isChallenge,
       this.prevSceneData.mode
@@ -387,8 +382,7 @@ export default class SekaiGame extends Phaser.Scene {
       answers: this.charContainer.answerCounter,
       mode: this.prevSceneData.mode,
       country: this.prevSceneData.country,
-      sizeX: this.prevSceneData.sizeX,
-      sizeY: this.prevSceneData.sizeY,
+      size: this.prevSceneData.size,
     });
   };
 }

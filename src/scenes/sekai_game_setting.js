@@ -169,29 +169,11 @@ export default class SekaiGameSetting extends Phaser.Scene {
           this.sound.stopAll();
           this.sound.removeByKey("top_bgm");
           gameStartSe.play();
-          let mode = "";
-          let sizeY = 0;
-          let sizeX = 0;
-          switch (this.selectedSize) {
-            case Size.S.name:
-              sizeY = Size.S.y;
-              sizeX = Size.S.x;
-              break;
-            case Size.L.name:
-              sizeY = Size.L.y;
-              sizeX = Size.L.x;
-              break;
-            default:
-              sizeY = Size.M.y;
-              sizeX = Size.M.x;
-          }
-          mode = this.selectedMode;
           this.scene.start("sekai_game", {
-            sizeY,
-            sizeX,
-            mode,
-            isChallenge: Boolean(this.challenge),
+            size: this.selectedSize,
+            mode: this.selectedMode,
             country: this.selectedCountry,
+            isChallenge: Boolean(this.challenge),
           });
         },
         this
