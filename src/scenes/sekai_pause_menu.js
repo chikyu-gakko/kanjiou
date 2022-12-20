@@ -12,7 +12,7 @@ export default class SekaiPauseMenu extends Phaser.Scene {
     const textStyle = {
       color: "#ffffff",
       fontFamily: this.registry.get("fontFamily"),
-      fontSize: 32,
+      fontSize: "32px",
     };
 
     this.add

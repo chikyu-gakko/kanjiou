@@ -1,4 +1,3 @@
-import { kanjiList } from "../kanjilist.js";
 import SoundButton from "../components/sound_button.js";
 import BackGround from "./ui/BackGround.js";
 import KanjiContainer from "./ui/KanjiContainer.js";
@@ -32,10 +31,9 @@ export default class HitsujiGame extends Phaser.Scene {
   init(data) {
     this.fontFamily = this.registry.get("fontFamily");
     this.prevSceneData = {
-      schoolYear: data.schoolYear,
+      size: data.size,
       mode: data.mode,
-      sizeY: data.sizeY,
-      sizeX: data.sizeX,
+      schoolYear: data.schoolYear,
       isChallenge: data.isChallenge,
     };
   }
@@ -66,7 +64,7 @@ export default class HitsujiGame extends Phaser.Scene {
               this.kanjiContainer.numberOfQuestions,
               this.kanjiContainer.wrongFlag,
               () => {
-                this.fx.stop();
+                this.sound.stopAll();
                 this.scene.start("game_result", {
                   time: this.gameTime.timer,
                   ranking: true,
@@ -75,8 +73,7 @@ export default class HitsujiGame extends Phaser.Scene {
                   answers: this.kanjiContainer.answerCounter,
                   mode: this.kanjiContainer.mode,
                   schoolYear: this.kanjiContainer.schoolYear,
-                  sizeX: this.kanjiContainer.sizeX,
-                  sizeY: this.kanjiContainer.sizeY,
+                  size: this.kanjiContainer.size,
                 });
               }
             );
@@ -91,26 +88,24 @@ export default class HitsujiGame extends Phaser.Scene {
     this.events.on("resume", (scene, data) => {
       switch (data.status) {
         case "restart":
-          this.events.off();
+          this.sound.stopAll();
           this.scene.stop();
           this.scene.start("hitsuji_game", {
-            sizeY: this.kanjiContainer.sizeY,
-            sizeX: this.kanjiContainer.sizeX,
+            size: this.kanjiContainer.size,
             mode: this.kanjiContainer.mode,
             schoolYear: this.kanjiContainer.schoolYear,
           });
           break;
         case "return-to-top":
-          this.events.off();
+          this.sound.stopAll();
           this.scene.stop();
           this.scene.start("game_menu");
           break;
         case "return-to-setting":
-          this.events.off();
+          this.sound.stopAll();
           this.scene.stop();
           this.scene.start("game_setting", {
-            sizeY: this.kanjiContainer.sizeY,
-            sizeX: this.kanjiContainer.sizeX,
+            size: this.kanjiContainer.size,
             mode: this.kanjiContainer.mode,
             schoolYear: this.kanjiContainer.schoolYear,
           });
@@ -138,12 +133,12 @@ export default class HitsujiGame extends Phaser.Scene {
 
     const correctGroup = this.add.group();
     correctGroup.addMultiple([correctBg, correctMoguraImg, correctImg]);
-    correctGroup.toggleVisible(true);
+    correctGroup.toggleVisible();
 
     setTimeout(() => {
-      correctGroup.toggleVisible(false);
+      correctGroup.toggleVisible();
     }, 1500);
-    correctGroup.toggleVisible(true);
+    correctGroup.toggleVisible();
   };
 
   mistakeAnim = () => {
@@ -164,12 +159,12 @@ export default class HitsujiGame extends Phaser.Scene {
 
     const mistakeGroup = this.add.group();
     mistakeGroup.addMultiple([mistakeBg, mistakeMogura, mistakeImg]);
-    mistakeGroup.toggleVisible(true);
+    mistakeGroup.toggleVisible();
 
     setTimeout(() => {
-      mistakeGroup.toggleVisible(false);
+      mistakeGroup.toggleVisible();
     }, 1500);
-    mistakeGroup.toggleVisible(true);
+    mistakeGroup.toggleVisible();
   };
 
   /**
@@ -180,16 +175,16 @@ export default class HitsujiGame extends Phaser.Scene {
     if (this.kanjiContainer.mode === "timeLimit") {
       this.timerComponent = this.add
         .text(this.game.canvas.width / 2, 54, `残り時間：${60 - time}秒`, {
-          fill: 0x333333,
-          fontSize: 50,
+          color: "#333333",
+          fontSize: "50px",
           fontFamily: this.fontFamily,
         })
         .setOrigin(0.5, 0);
     } else if (this.kanjiContainer.mode === "timeAttack") {
       this.timerComponent = this.add
         .text(this.game.canvas.width / 2, 54, `タイム：${time}秒`, {
-          fill: 0x333333,
-          fontSize: 50,
+          color: "333333",
+          fontSize: "50px",
           fontFamily: this.fontFamily,
         })
         .setOrigin(0.5, 0);
@@ -205,9 +200,7 @@ export default class HitsujiGame extends Phaser.Scene {
   };
 
   startMusic = () => {
-    this.fx = this.sound.add("game_bgm");
-    this.fx.allowMultiple = false;
-    this.fx.setLoop(true);
+    this.sound.play("game_bgm", { loop: true });
   };
 
   createKanjiContainer = () => {
@@ -215,8 +208,7 @@ export default class HitsujiGame extends Phaser.Scene {
       this,
       0,
       0,
-      this.prevSceneData.sizeX,
-      this.prevSceneData.sizeY,
+      this.prevSceneData.size,
       this.prevSceneData.schoolYear,
       this.prevSceneData.isChallenge,
       this.prevSceneData.mode
@@ -225,8 +217,8 @@ export default class HitsujiGame extends Phaser.Scene {
 
   createTimeStopLabel = () => {
     const timeStopLabel = new TimeStopLabel(this, 775, 672, "一時停止", {
-      fill: 0x333333,
-      fontSize: 32,
+      color: "#333333",
+      fontSize: "32px",
       fontFamily: this.fontFamily,
     });
     timeStopLabel.setInteractive().on("pointerdown", () => {

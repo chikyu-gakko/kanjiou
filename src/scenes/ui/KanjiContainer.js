@@ -17,21 +17,148 @@ import { kanjiList } from "../../kanjilist.js";
  * インスタンス生成後 createKanji を呼び出してください
  */
 export default class KanjiContainer extends Phaser.GameObjects.Container {
+  static Size = {
+    S: {
+      name: "s",
+      text: "少ない",
+      y: 3,
+      x: 4,
+    },
+    M: {
+      name: "m",
+      text: "ふつう",
+      y: 4,
+      x: 8,
+    },
+    L: {
+      name: "l",
+      text: "多い",
+      y: 6,
+      x: 12,
+    },
+  };
+  static Mode = {
+    TimeLimit: {
+      name: "timeLimit",
+      text: "時間制限",
+    },
+    TimeAttack: {
+      name: "timeAttack",
+      text: "タイムアタック",
+    },
+    SuddenDeath: {
+      name: "suddenDeath",
+      text: "サドンデス",
+    },
+  };
+  static SchoolYear = {
+    Grade1: {
+      name: "grade1",
+      text: "1年生",
+    },
+    Grade2: {
+      name: "grade2",
+      text: "2年生",
+    },
+    Grade3: {
+      name: "grade3",
+      text: "3年生",
+    },
+    Grade4: {
+      name: "grade4",
+      text: "4年生",
+    },
+    Grade5: {
+      name: "grade5",
+      text: "5年生",
+    },
+    Grade6: {
+      name: "grade6",
+      text: "6年生",
+    },
+    Underclassmen: {
+      name: "underclassmen",
+      text: "低学年",
+    },
+    Upperclassmen: {
+      name: "upperclassmen",
+      text: "高学年",
+    },
+    Comprehensive: {
+      name: "comprehensive",
+      text: "総合問題",
+    },
+    Middle: {
+      name: "middle",
+      text: "中学生",
+    },
+    MiddleRange: {
+      name: "middleRange",
+      text: "中学生範囲",
+    },
+    ElementalyAndMiddle: {
+      name: "elementalyAndMiddle",
+      text: "小学＋中学",
+    },
+    High: {
+      name: "high",
+      text: "高校生以上",
+    },
+    Uncommon: {
+      name: "uncommon",
+      text: "常用外漢字",
+    },
+  };
+  static Category = {
+    key: "category",
+    value: "value",
+    data: {
+      Size: {
+        name: "size",
+        text: "文字の数",
+      },
+      Mode: {
+        name: "mode",
+        text: "ゲームモード",
+      },
+      SchoolYear: {
+        name: "schoolYear",
+        text: "出てくる漢字",
+      },
+      Challenge: {
+        name: "challenge",
+        text: "チャレンジ",
+      },
+    },
+  };
+
   /**
    * @param {Phaser.Scene} scene Phaser.Scene
    * @param {number} x number
    * @param {number} y number
-   * @param {number} sizeX number
-   * @param {number} sizeY number
+   * @param {string} size sizename
    * @param {string} schoolYear string
    * @param {boolean} isChallenge boolean
    * @param {string} mode string
    */
-  constructor(scene, x, y, sizeX, sizeY, schoolYear, isChallenge, mode) {
+  constructor(scene, x, y, size, schoolYear, isChallenge, mode) {
     super(scene, x, y);
     scene.add.existing(this);
-    this.sizeX = sizeX;
-    this.sizeY = sizeY;
+    this.size = size;
+    switch (size) {
+      case KanjiContainer.Size.S.name:
+        this.sizeX = KanjiContainer.Size.S.x;
+        this.sizeY = KanjiContainer.Size.S.y;
+        break;
+      case KanjiContainer.Size.M.name:
+        this.sizeX = KanjiContainer.Size.M.x;
+        this.sizeY = KanjiContainer.Size.M.y;
+        break;
+      case KanjiContainer.Size.L.name:
+        this.sizeX = KanjiContainer.Size.L.x;
+        this.sizeY = KanjiContainer.Size.L.y;
+        break;
+    }
     this.schoolYear = schoolYear;
     this.kanjiFontSize = 40;
     this.kanjiSpace = 70;
@@ -93,7 +220,50 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
         kanji = kanji.concat(list);
       });
     } else {
-      kanji = kanjiList[schoolYear];
+      switch (schoolYear) {
+        case KanjiContainer.SchoolYear.Grade1.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Grade1.text];
+          break;
+        case KanjiContainer.SchoolYear.Grade2.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Grade2.text];
+          break;
+        case KanjiContainer.SchoolYear.Grade3.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Grade3.text];
+          break;
+        case KanjiContainer.SchoolYear.Grade4.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Grade4.text];
+          break;
+        case KanjiContainer.SchoolYear.Grade5.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Grade5.text];
+          break;
+        case KanjiContainer.SchoolYear.Grade6.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Grade6.text];
+          break;
+        case KanjiContainer.SchoolYear.Underclassmen.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Underclassmen.text];
+          break;
+        case KanjiContainer.SchoolYear.Upperclassmen.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Upperclassmen.text];
+          break;
+        case KanjiContainer.SchoolYear.Comprehensive.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Comprehensive.text];
+          break;
+        case KanjiContainer.SchoolYear.Middle.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Middle.text];
+          break;
+        case KanjiContainer.SchoolYear.MiddleRange.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.MiddleRange.text];
+          break;
+        case KanjiContainer.SchoolYear.ElementalyAndMiddle.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.ElementalyAndMiddle.text];
+          break;
+        case KanjiContainer.SchoolYear.High.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.High.text];
+          break;
+        case KanjiContainer.SchoolYear.Uncommon.name:
+          kanji = kanjiList[KanjiContainer.SchoolYear.Uncommon.text];
+          break;
+      }
       kanji = this.shuffleKanjiList(kanji);
     }
     return kanji;

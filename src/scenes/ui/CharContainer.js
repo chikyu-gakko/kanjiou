@@ -23,21 +23,110 @@ import { characterList } from "../../characterlist.js";
  * インスタンス生成後 createChar を呼び出してください
  */
 export default class CharContainer extends Phaser.GameObjects.Container {
+  static Size = {
+    S: {
+      name: "s",
+      text: "少ない",
+      y: 3,
+      x: 4,
+    },
+    M: {
+      name: "m",
+      text: "ふつう",
+      y: 4,
+      x: 8,
+    },
+    L: {
+      name: "l",
+      text: "多い",
+      y: 6,
+      x: 12,
+    },
+  };
+  static Mode = {
+    TimeLimit: {
+      name: "timeLimit",
+      text: "時間制限",
+    },
+    TimeAttack: {
+      name: "timeAttack",
+      text: "タイムアタック",
+    },
+    SuddenDeath: {
+      name: "suddenDeath",
+      text: "サドンデス",
+    },
+    Learn: {
+      name: "learn",
+      text: "学習",
+    },
+  };
+  static Country = {
+    Thai: {
+      name: "thai",
+      text: "タイ語",
+    },
+    Bengali: {
+      name: "bengali",
+      text: "ベンガル語",
+    },
+    Lao: {
+      name: "lao",
+      text: "ラオス語",
+    },
+    Korean: {
+      name: "korean",
+      text: "韓国語",
+    },
+  };
+  static Category = {
+    key: "category",
+    value: "value",
+    data: {
+      Size: {
+        name: "size",
+        text: "文字の数",
+      },
+      Mode: {
+        name: "mode",
+        text: "ゲームモード",
+      },
+      Country: {
+        name: "country",
+        text: "どこの国？",
+      },
+      Challenge: {
+        name: "challenge",
+        text: "チャレンジ",
+      },
+    },
+  };
+
   /**
    * @param {Phaser.Scene} scene Phaser.Scene
    * @param {number} x number
    * @param {number} y number
-   * @param {number} sizeX number
-   * @param {number} sizeY number
+   * @param {string} size sizename
    * @param {string} country string
    * @param {boolean} isChallenge boolean
    * @param {string} mode string
    */
-  constructor(scene, x, y, sizeX, sizeY, country, isChallenge, mode) {
+  constructor(scene, x, y, size, country, isChallenge, mode) {
     super(scene, x, y);
     scene.add.existing(this);
-    this.sizeX = sizeX;
-    this.sizeY = sizeY;
+    switch (size) {
+      case CharContainer.Size.M.name:
+        this.sizeX = CharContainer.Size.M.x;
+        this.sizeY = CharContainer.Size.M.y;
+        break;
+      case CharContainer.Size.L.name:
+        this.sizeX = CharContainer.Size.L.x;
+        this.sizeY = CharContainer.Size.L.y;
+        break;
+      default:
+        this.sizeX = CharContainer.Size.S.x;
+        this.sizeY = CharContainer.Size.S.y;
+    }
     this.country = country;
     this.charFontSize = 40;
     this.charSpace = 70;
@@ -105,7 +194,19 @@ export default class CharContainer extends Phaser.GameObjects.Container {
       });
       character = character;
     } else {
-      character = characterList[country];
+      switch (country) {
+        case CharContainer.Country.Bengali.name:
+          character = characterList[CharContainer.Country.Bengali.text];
+          break;
+        case CharContainer.Country.Lao.name:
+          character = characterList[CharContainer.Country.Lao.text];
+          break;
+        case CharContainer.Country.Korean.name:
+          character = characterList[CharContainer.Country.Korean.text];
+          break;
+        default:
+          character = characterList[CharContainer.Country.Thai.text];
+      }
       character = character;
       character = this.shuffleCharList(character);
     }
