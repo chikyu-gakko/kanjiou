@@ -114,8 +114,8 @@ export default class GameSetting extends Phaser.Scene {
 
   createCrossButton = () => {
     const crossButton = this.add.text(967, 36, "✖", {
+      color: "#ffffff",
       fontSize: "32px",
-      fill: "#ffffff",
     });
     crossButton.setInteractive().on(
       "pointerdown",
@@ -129,9 +129,8 @@ export default class GameSetting extends Phaser.Scene {
   createGameTitle = () => {
     this.add
       .text(330, 64, "羊の中に犬が一匹", {
-        fontSize: 48,
+        fontSize: "48px",
         fontFamily: this.fontFamily,
-        padding: 3,
       })
       .setPadding(4);
   };
@@ -175,7 +174,7 @@ export default class GameSetting extends Phaser.Scene {
       );
     this.add.text(417, 666, "ゲームスタート", {
       fontSize: "32px",
-      fill: "#ffffff",
+      color: "#ffffff",
       fontFamily: this.fontFamily,
     });
     // mogura画像
@@ -204,7 +203,7 @@ export default class GameSetting extends Phaser.Scene {
 
     this.add.text(830, 665, "遊び方", {
       fontSize: "32px",
-      fill: "#ffffff",
+      color: "#ffffff",
       fontFamily: this.fontFamily,
     });
   };
@@ -214,8 +213,7 @@ export default class GameSetting extends Phaser.Scene {
       // ゲームサイズ
       this.add
         .text(194, 236, "漢字の数", {
-          fontSize: 32,
-          padding: 3,
+          fontSize: "32px",
           fontFamily: this.fontFamily,
         })
         .setData(Category.value, "size"),
@@ -223,8 +221,7 @@ export default class GameSetting extends Phaser.Scene {
       // プレイモード
       this.add
         .text(162, 350, "ゲームモード", {
-          fontSize: 32,
-          padding: 3,
+          fontSize: "32px",
           fontFamily: this.fontFamily,
         })
         .setData(Category.value, "mode"),
@@ -232,8 +229,7 @@ export default class GameSetting extends Phaser.Scene {
       // 出てくる漢字
       this.add
         .text(163, 463, "出てくる漢字", {
-          fontSize: 32,
-          padding: 3,
+          fontSize: "32px",
           fontFamily: this.fontFamily,
         })
         .setData(Category.value, "schoolYear"),
@@ -513,19 +509,19 @@ export default class GameSetting extends Phaser.Scene {
       //   [Category.key]: Category.data.Mode.name,
       //   [Category.value]: Mode.SuddenDeath.name,
       // }),
-      this.add
-        .text(
-          456,
-          380,
-          "すべての漢字が登場！\nどんどん難易度が上がっていくぞ！",
-          {
-            fontSize: 24,
-            fontFamily: this.fontFamily,
-            align: "center",
-          }
-        )
-        .setData({ [Category.key]: Category.data.Challenge.name })
-        .setLineSpacing(12),
+      // this.add
+      //   .text(
+      //     456,
+      //     380,
+      //     "すべての漢字が登場！\nどんどん難易度が上がっていくぞ！",
+      //     {
+      //       fontSize: 24,
+      //       fontFamily: this.fontFamily,
+      //       align: "center",
+      //     }
+      //   )
+      //   .setData({ [Category.key]: Category.data.Challenge.name })
+      //   .setLineSpacing(12),
     ];
     return settingElements.map((element) => {
       if (element.constructor.name === "SettingButton") {
