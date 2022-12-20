@@ -181,7 +181,7 @@ export default class GameMenu extends Phaser.Scene {
     this.add.text(70, 130, "羊の中に犬が一匹", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
-      fill: "#333333",
+      color: "#333333",
     });
 
     // 作成中にする
@@ -200,7 +200,7 @@ export default class GameMenu extends Phaser.Scene {
     this.add.text(120, 260, "世界の文字", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
-      fill: "#ffffff",
+      color: "#ffffff",
     });
 
     mnyLngButton.on(
@@ -227,7 +227,7 @@ export default class GameMenu extends Phaser.Scene {
     this.add.text(150, 390, "作成中", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
-      fill: "#ffffff",
+      color: "#ffffff",
     });
 
     // 仲間で集まれ
@@ -245,7 +245,7 @@ export default class GameMenu extends Phaser.Scene {
     this.add.text(150, 520, "作成中", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
-      fill: "#ffffff",
+      color: "#ffffff",
     });
 
     // 作成中の横モグラ

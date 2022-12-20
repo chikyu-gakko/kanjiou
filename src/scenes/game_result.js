@@ -237,9 +237,7 @@ export default class GameResult extends Phaser.Scene {
     this.add.image(510, 682, "bg");
 
     // bgm
-    const endingBgm = this.sound.add("ending");
-    endingBgm.allowMultiple = false;
-    endingBgm.play();
+    this.sound.play("ending");
 
     // 花火
     this.anims.create({
@@ -331,13 +329,13 @@ export default class GameResult extends Phaser.Scene {
       .setOrigin(0, 0);
     const text1 = this.add.text(48, 29, "あともう少し！", {
       fontFamily: this.fontFamily,
-      fontSize: 34,
+      fontSize: "34px",
       color: "#32B65E",
     });
     const text2 = this.add.text(286, 36, "次も頑張ろう！", {
       color: "#333333",
       fontFamily: this.fontFamily,
-      fontSize: 26,
+      fontSize: "26px",
     });
     this.add.container(220, 310, [fukidashiImage, text1, text2]);
   }
@@ -495,7 +493,7 @@ export default class GameResult extends Phaser.Scene {
 
     const crossButton = this.add.text(685, 246, "✖", {
       fontSize: "32px",
-      fill: "#333333",
+      color: "#333333",
     });
     crossButton.setInteractive().on(
       "pointerdown",

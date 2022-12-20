@@ -44,18 +44,18 @@ export default class HowToPlay extends Phaser.Scene {
       .graphics()
 
       .fillStyle(0xffffff, 1)
-      .fillRect(121, 37, 788, 694, 5, 5);
+      .fillRect(121, 37, 788, 694);
 
     // 画面描画（大）
     this.add
       .graphics()
 
       .fillStyle(0xeaeaea, 1)
-      .fillRect(231, 82, 561, 419, 5, 5);
+      .fillRect(231, 82, 561, 419);
 
     this.add.text(270, 548, `ひとつだけ違う漢字を選んでね！`, {
       fontSize: "32px",
-      fill: 0x333333,
+      color: "#333333",
       fontFamily: this.fontFamily,
     });
 
@@ -80,7 +80,7 @@ export default class HowToPlay extends Phaser.Scene {
 
     this.add.text(453, 635, "わかった！", {
       fontSize: "32px",
-      fill: "#FFFFFF",
+      color: "#FFFFFF",
       fontFamily: this.fontFamily,
     });
 
@@ -110,12 +110,12 @@ export default class HowToPlay extends Phaser.Scene {
 
     const correctGroup = this.add.group();
     correctGroup.addMultiple([correctBg, correctMoguraImg, correctImg]);
-    correctGroup.toggleVisible(true);
+    correctGroup.toggleVisible();
 
     setTimeout(() => {
-      correctGroup.toggleVisible(false);
+      correctGroup.toggleVisible();
     }, 1500);
-    correctGroup.toggleVisible(true);
+    correctGroup.toggleVisible();
   }
 
   mistakeAnim() {
@@ -136,12 +136,12 @@ export default class HowToPlay extends Phaser.Scene {
 
     const mistakeGroup = this.add.group();
     mistakeGroup.addMultiple([mistakeBg, mistakeMogura, mistakeImg]);
-    mistakeGroup.toggleVisible(true);
+    mistakeGroup.toggleVisible();
 
     setTimeout(() => {
-      mistakeGroup.toggleVisible(false);
+      mistakeGroup.toggleVisible();
     }, 1500);
-    mistakeGroup.toggleVisible(true);
+    mistakeGroup.toggleVisible();
   }
 
   createKanji() {
@@ -165,8 +165,8 @@ export default class HowToPlay extends Phaser.Scene {
         this.kanjiComponents[y].push(
           this.add
             .text(300 + x * 114, 163 + y * 128, kanji, {
-              fill: 0x333333,
-              fontSize: 80,
+              color: "#333333",
+              fontSize: "80px",
               fontFamily: this.fontFamily,
             })
             .setInteractive()

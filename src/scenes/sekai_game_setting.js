@@ -32,10 +32,10 @@ export default class SekaiGameSetting extends Phaser.Scene {
     // メニュー画面に出てくる画像のロード
     this.load.path = window.location.href.replace("index.html", "");
     images.forEach((image) => {
-      this.load.image(...image);
+      this.load.image(image[0], image[1]);
     });
     bgms.forEach((bgm) => {
-      this.load.audio(...bgm);
+      this.load.audio(bgm[0], bgm[1]);
     });
   }
 
@@ -120,7 +120,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
   createCrossButton = () => {
     const crossButton = this.add.text(967, 36, "✖", {
       fontSize: "32px",
-      fill: "#ffffff",
+      color: "#ffffff",
     });
 
     crossButton.setInteractive().on(
@@ -135,9 +135,8 @@ export default class SekaiGameSetting extends Phaser.Scene {
   createTitle = () => {
     this.add
       .text(390, 64, "世界の文字", {
-        fontSize: 48,
+        fontSize: "48px",
         fontFamily: this.fontFamily,
-        padding: 3,
       })
       .setPadding(4);
   };
@@ -181,7 +180,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
 
     this.add.text(417, 666, "ゲームスタート", {
       fontSize: "32px",
-      fill: "#ffffff",
+      color: "#ffffff",
       fontFamily: this.fontFamily,
     });
 
@@ -211,7 +210,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
 
     this.add.text(830, 665, "遊び方", {
       fontSize: "32px",
-      fill: "#ffffff",
+      color: "#ffffff",
       fontFamily: this.fontFamily,
     });
   };
@@ -257,7 +256,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
     return categoryButtonArgs.map((arg) => {
       return this.add
         .text(arg.x, arg.y, arg.text, {
-          fontSize: arg.font.size,
+          fontSize: arg.font.size + "px",
           fontFamily: this.fontFamily,
           align: arg.font.align,
         })
@@ -418,19 +417,19 @@ export default class SekaiGameSetting extends Phaser.Scene {
           [Category.value]: Country.Korean.name,
         },
       },
-      {
-        type: "text",
-        x: 456,
-        y: 380,
-        text: "すべての漢字が登場！\nどんどん難易度が上がっていくぞ！",
-        font: {
-          size: 24,
-          align: "center",
-        },
-        dataKey: Category.key,
-        dataValue: Category.data.Challenge.name,
-        lineSpacing: 12,
-      },
+      // {
+      //   type: "text",
+      //   x: 456,
+      //   y: 380,
+      //   text: "すべての漢字が登場！\nどんどん難易度が上がっていくぞ！",
+      //   font: {
+      //     size: 24,
+      //     align: "center",
+      //   },
+      //   dataKey: Category.key,
+      //   dataValue: Category.data.Challenge.name,
+      //   lineSpacing: 12,
+      // },
     ];
     return settingButtonArgs.map((arg) => {
       switch (arg.type) {
@@ -481,15 +480,15 @@ export default class SekaiGameSetting extends Phaser.Scene {
               break;
           }
           break;
-        case "text":
-          return this.add
-            .text(arg.x, arg.y, arg.text, {
-              fontSize: arg.font.size,
-              fontFamily: this.fontFamily,
-              align: arg.font.align,
-            })
-            .setData(arg.dataKey, arg.dataValue)
-            .setLineSpacing(arg.lineSpacing);
+        // case "text":
+        //   return this.add
+        //     .text(arg.x, arg.y, arg.text, {
+        //       fontSize: arg.font.size,
+        //       fontFamily: this.fontFamily,
+        //       align: arg.font.align,
+        //     })
+        //     .setData(arg.dataKey, arg.dataValue)
+        //     .setLineSpacing(arg.lineSpacing);
       }
     });
   };

@@ -25,7 +25,7 @@ export default class OpenLogo extends Phaser.Scene {
 
     this.add
       .text(this.game.canvas.width / 2, 150, "画面をタッチしてスタート！", {
-        fill: "#ffff",
+        color: "#ffff",
         fontFamily: this.fontFamily,
         fontSize: "48px",
       })
@@ -41,7 +41,7 @@ export default class OpenLogo extends Phaser.Scene {
         権利は認定NPO法人地球学校が有しています。無断で転載することはできません。
         `,
         {
-          fill: "#ffff",
+          color: "#ffff",
           fontFamily: this.fontFamily,
           fontSize: "16px",
         }
