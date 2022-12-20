@@ -200,7 +200,6 @@ export default class HitsujiGame extends Phaser.Scene {
   };
 
   startMusic = () => {
-    this.sound.add("game_bgm");
     this.sound.play("game_bgm", { loop: true });
   };
 
