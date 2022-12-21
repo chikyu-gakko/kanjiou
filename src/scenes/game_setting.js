@@ -521,7 +521,6 @@ export default class GameSetting extends Phaser.Scene {
             "pointerdown",
             () => {
               this.selectedSize = arg.data[Category.value];
-              console.log(this.selectedSize);
               this.updateView();
             },
             this
@@ -532,7 +531,6 @@ export default class GameSetting extends Phaser.Scene {
             "pointerdown",
             () => {
               this.selectedMode = arg.data[Category.value];
-              console.log(this.selectedMode);
               this.updateView();
             },
             this
@@ -543,7 +541,6 @@ export default class GameSetting extends Phaser.Scene {
             "pointerdown",
             () => {
               this.selectedSchoolYear = arg.data[Category.value];
-              console.log(this.selectedSchoolYear);
               this.updateView();
             },
             this
