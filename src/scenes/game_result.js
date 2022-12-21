@@ -5,7 +5,7 @@ import { getRank, putRanking } from "../api/rank.js";
 import CameraFadeIn from "./ui/CameraFadeIn.js";
 import KanjiContainer from "./ui/KanjiContainer.js";
 
-const debugMode = true;
+const debugMode = false;
 const dataForDebugging = {
   mode: "timeAttack",
   timer: 30,

@@ -12,7 +12,7 @@ export default class GameSetting extends Phaser.Scene {
     super({ key: "game_setting", active: false });
     this.prevSceneData = undefined;
     this.categoryButtons = undefined;
-    this.settingElements = undefined;
+    this.settingButtons = undefined;
     this.selectedSettingCategory = undefined;
     this.selectedSize = undefined;
     this.selectedMode = undefined;
@@ -57,7 +57,7 @@ export default class GameSetting extends Phaser.Scene {
     this.createGameStartButton();
     this.createHowToPlayButton();
     this.categoryButtons = this.createCategoryButtons();
-    this.settingElements = this.createSettingButtons();
+    this.settingButtons = this.createSettingButtons();
     this.updateView();
   }
 
@@ -77,7 +77,7 @@ export default class GameSetting extends Phaser.Scene {
       }
     });
 
-    this.settingElements.forEach((element) => {
+    this.settingButtons.forEach((element) => {
       switch (element.getData(Category.key)) {
         case this.selectedSettingCategory:
           element.setVisible(true);
@@ -247,255 +247,235 @@ export default class GameSetting extends Phaser.Scene {
   };
 
   createSettingButtons = () => {
-    const settingElements = [
-      new SettingButton(
-        this,
-        585,
-        224,
-        134,
-        56,
-        Size.S.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.Size.name,
-        [Category.value]: Size.S.name,
-      }),
-      new SettingButton(
-        this,
-        585,
-        338,
-        134,
-        56,
-        Size.M.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.Size.name,
-        [Category.value]: Size.M.name,
-      }),
-      new SettingButton(
-        this,
-        585,
-        451,
-        134,
-        56,
-        Size.L.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.Size.name,
-        [Category.value]: Size.L.name,
-      }),
-
-      new SettingButton(
-        this,
-        585,
-        280,
-        160,
-        56,
-        Mode.TimeLimit.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.Mode.name,
-        [Category.value]: Mode.TimeLimit.name,
-      }),
-      new SettingButton(
-        this,
-        551,
-        424,
-        229,
-        56,
-        Mode.TimeAttack.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.Mode.name,
-        [Category.value]: Mode.TimeAttack.name,
-      }),
-      new SettingButton(
-        this,
-        430,
-        162,
-        134,
-        56,
-        SchoolYear.Grade1.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Grade1.name,
-      }),
-      new SettingButton(
-        this,
-        584,
-        162,
-        134,
-        56,
-        SchoolYear.Grade2.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Grade2.name,
-      }),
-      new SettingButton(
-        this,
-        738,
-        162,
-        134,
-        56,
-        SchoolYear.Grade3.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Grade3.name,
-      }),
-      new SettingButton(
-        this,
-        430,
-        238,
-        134,
-        56,
-        SchoolYear.Grade4.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Grade4.name,
-      }),
-      new SettingButton(
-        this,
-        584,
-        238,
-        134,
-        56,
-        SchoolYear.Grade5.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Grade5.name,
-      }),
-      new SettingButton(
-        this,
-        738,
-        238,
-        134,
-        56,
-        SchoolYear.Grade6.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Grade6.name,
-      }),
-      new SettingButton(
-        this,
-        430,
-        314,
-        134,
-        56,
-        SchoolYear.Underclassmen.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Underclassmen.name,
-      }),
-      new SettingButton(
-        this,
-        584,
-        314,
-        134,
-        56,
-        SchoolYear.Middle.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Middle.name,
-      }),
-      new SettingButton(
-        this,
-        738,
-        314,
-        134,
-        56,
-        SchoolYear.Upperclassmen.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Upperclassmen.name,
-      }),
-      new SettingButton(
-        this,
-        567,
-        390,
-        168,
-        56,
-        SchoolYear.Comprehensive.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Comprehensive.name,
-      }),
-      new SettingButton(
-        this,
-        430,
-        466,
-        192,
-        56,
-        SchoolYear.MiddleRange.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.MiddleRange.name,
-      }),
-      new SettingButton(
-        this,
-        680,
-        466,
-        192,
-        56,
-        SchoolYear.High.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.High.name,
-      }),
-      new SettingButton(
-        this,
-        430,
-        542,
-        192,
-        56,
-        SchoolYear.ElementalyAndMiddle.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.ElementalyAndMiddle.name,
-      }),
-      new SettingButton(
-        this,
-        680,
-        542,
-        192,
-        56,
-        SchoolYear.Uncommon.text,
-        24,
-        this.fontFamily
-      ).setData({
-        [Category.key]: Category.data.SchoolYear.name,
-        [Category.value]: SchoolYear.Uncommon.name,
-      }),
+    const settingButtonArgs = [
+      {
+        x: 585,
+        y: 224,
+        width: 134,
+        height: 56,
+        text: Size.S.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Size.name,
+          [Category.value]: Size.S.name,
+        },
+      },
+      {
+        x: 585,
+        y: 338,
+        width: 134,
+        height: 56,
+        text: Size.M.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Size.name,
+          [Category.value]: Size.M.name,
+        },
+      },
+      {
+        x: 585,
+        y: 451,
+        width: 134,
+        height: 56,
+        text: Size.L.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Size.name,
+          [Category.value]: Size.L.name,
+        },
+      },
+      {
+        x: 585,
+        y: 280,
+        width: 160,
+        height: 56,
+        text: Mode.TimeLimit.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Mode.name,
+          [Category.value]: Mode.TimeLimit.name,
+        },
+      },
+      {
+        x: 551,
+        y: 424,
+        width: 229,
+        height: 56,
+        text: Mode.TimeAttack.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Mode.name,
+          [Category.value]: Mode.TimeAttack.name,
+        },
+      },
+      {
+        x: 430,
+        y: 162,
+        width: 134,
+        height: 56,
+        text: SchoolYear.Grade1.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Grade1.name,
+        },
+      },
+      {
+        x: 584,
+        y: 162,
+        width: 134,
+        height: 56,
+        text: SchoolYear.Grade2.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Grade2.name,
+        },
+      },
+      {
+        x: 738,
+        y: 162,
+        width: 134,
+        height: 56,
+        text: SchoolYear.Grade3.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Grade3.name,
+        },
+      },
+      {
+        x: 430,
+        y: 238,
+        width: 134,
+        height: 56,
+        text: SchoolYear.Grade4.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Grade4.name,
+        },
+      },
+      {
+        x: 584,
+        y: 238,
+        width: 134,
+        height: 56,
+        text: SchoolYear.Grade5.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Grade5.name,
+        },
+      },
+      {
+        x: 738,
+        y: 238,
+        width: 134,
+        height: 56,
+        text: SchoolYear.Grade6.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Grade6.name,
+        },
+      },
+      {
+        x: 430,
+        y: 314,
+        width: 134,
+        height: 56,
+        text: SchoolYear.Underclassmen.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Underclassmen.name,
+        },
+      },
+      {
+        x: 584,
+        y: 314,
+        width: 134,
+        height: 56,
+        text: SchoolYear.Middle.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Middle.name,
+        },
+      },
+      {
+        x: 738,
+        y: 314,
+        width: 134,
+        height: 56,
+        text: SchoolYear.Upperclassmen.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Upperclassmen.name,
+        },
+      },
+      {
+        x: 567,
+        y: 390,
+        width: 168,
+        height: 56,
+        text: SchoolYear.Comprehensive.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Comprehensive.name,
+        },
+      },
+      {
+        x: 430,
+        y: 466,
+        width: 192,
+        height: 56,
+        text: SchoolYear.MiddleRange.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.MiddleRange.name,
+        },
+      },
+      {
+        x: 680,
+        y: 466,
+        width: 192,
+        height: 56,
+        text: SchoolYear.High.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.High.name,
+        },
+      },
+      {
+        x: 430,
+        y: 542,
+        width: 192,
+        height: 56,
+        text: SchoolYear.ElementalyAndMiddle.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.ElementalyAndMiddle.name,
+        },
+      },
+      {
+        x: 680,
+        y: 542,
+        width: 192,
+        height: 56,
+        text: SchoolYear.Uncommon.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.SchoolYear.name,
+          [Category.value]: SchoolYear.Uncommon.name,
+        },
+      },
       // new SettingButton(
       //   this,
       //   561,
@@ -523,44 +503,55 @@ export default class GameSetting extends Phaser.Scene {
       //   .setData({ [Category.key]: Category.data.Challenge.name })
       //   .setLineSpacing(12),
     ];
-    return settingElements.map((element) => {
-      if (element.constructor.name === "SettingButton") {
-        switch (element.getData(Category.key)) {
-          case Category.data.Size.name:
-            element.buttonGraphic.on(
-              "pointerdown",
-              () => {
-                this.selectedSize = element.getData(Category.value);
-                this.updateView();
-              },
-              this
-            );
-            break;
-          case Category.data.Mode.name:
-            element.buttonGraphic.on(
-              "pointerdown",
-              () => {
-                this.selectedMode = element.getData(Category.value);
-                this.updateView();
-              },
-              this
-            );
-            break;
-          case Category.data.SchoolYear.name:
-            element.buttonGraphic.on(
-              "pointerdown",
-              () => {
-                this.selectedSchoolYear = element.getData(Category.value);
-                this.updateView();
-              },
-              this
-            );
-            break;
-          case Category.data.Challenge.name:
-            break;
-        }
+    return settingButtonArgs.map((arg) => {
+      const settingButton = new SettingButton(
+        this,
+        arg.x,
+        arg.y,
+        arg.width,
+        arg.height,
+        arg.text,
+        arg.fontSize,
+        this.fontFamily
+      ).setData(arg.data);
+
+      switch (arg.data[Category.key]) {
+        case Category.data.Size.name:
+          settingButton.buttonGraphic.on(
+            "pointerdown",
+            () => {
+              this.selectedSize = arg.data[Category.value];
+              console.log(this.selectedSize);
+              this.updateView();
+            },
+            this
+          );
+          return settingButton;
+        case Category.data.Mode.name:
+          settingButton.buttonGraphic.on(
+            "pointerdown",
+            () => {
+              this.selectedMode = arg.data[Category.value];
+              console.log(this.selectedMode);
+              this.updateView();
+            },
+            this
+          );
+          return settingButton;
+        case Category.data.SchoolYear.name:
+          settingButton.buttonGraphic.on(
+            "pointerdown",
+            () => {
+              this.selectedSchoolYear = arg.data[Category.value];
+              console.log(this.selectedSchoolYear);
+              this.updateView();
+            },
+            this
+          );
+          return settingButton;
+        case Category.data.Challenge.name:
+          break;
       }
-      return element;
     });
   };
 }
