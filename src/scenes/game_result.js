@@ -5,7 +5,7 @@ import { getRank, putRanking } from "../api/rank.js";
 import CameraFadeIn from "./ui/CameraFadeIn.js";
 import KanjiContainer from "./ui/KanjiContainer.js";
 
-const debugMode = false;
+const debugMode = true;
 const dataForDebugging = {
   mode: "timeAttack",
   timer: 30,
@@ -91,8 +91,7 @@ export default class GameResult extends Phaser.Scene {
     this.createRankingPageButton();
 
     (async () => {
-      // const rankData = await getRank(60 - this.timer);
-      const rankData = await getRank(60 - 1);
+      const rankData = await getRank(60 - this.prevSceneData.timer);
       if (rankData.rank <= 100 && !this.rankingRegistered) {
         if (this.prevSceneData.modalVisible) {
           this.rankingModal(rankData.rank);

@@ -1,4 +1,7 @@
-const API_URL = "https://kanjiouapi.onrender.com";
+const API_URL =
+  process.env.NODE_ENV === "development"
+    ? ""
+    : "https://kanjiouapi.onrender.com";
 
 const getRank = async (time) => {
   try {
@@ -15,10 +18,11 @@ const putRanking = async (time, name) => {
   const fd = new FormData();
   fd.append("name", name);
   fd.append("seconds", 60 - time);
-  await fetch(`${API_URL}/api/time_limits`, {
+  const r = await fetch(`${API_URL}/api/time_limits`, {
     method: "POST",
     body: fd,
   });
+  if (!r.ok) throw "error";
 };
 
 const getRanks = async () => {
