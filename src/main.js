@@ -15,6 +15,14 @@ import SekaiGameResult from "./scenes/sekai_game_result";
 import SekaiPauseMenu from "./scenes/sekai_pause_menu";
 import SekaiGameSetting from "./scenes/sekai_game_setting";
 
+import { worker } from "./mocks/browser";
+
+if (process.env.NODE_ENV === "development") {
+  worker.start({
+    onUnhandledRequest: "bypass",
+  });
+}
+
 const config = {
   type: Phaser.AUTO,
   parent: "app",
@@ -60,7 +68,13 @@ const config = {
   ],
 };
 
-// export default new Phaser.Game(config)
+// FIXME: mswの動作確認用必要なくなったら消す
+// const test = async () => {
+//   const r = await fetch("users");
+//   console.log(await r.json());
+// };
+// test();
+
 const game = new Phaser.Game(config);
 game.registry.set(
   "fontFamily",
