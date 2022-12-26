@@ -1,5 +1,9 @@
 import { nakamalist } from "../../nakamalist";
 
+/**
+ * @callback onPointerdown
+ */
+
 export default class NakamaContainer extends Phaser.GameObjects.Container {
   static Level = {
     1: {
@@ -29,12 +33,13 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     scene.add.existing(this);
     switch (level) {
       case NakamaContainer.Level[1].name:
-        this.problems = nakamalist[NakamaContainer.Level[1].text];
+        this.quizzes = this.createRandomQuizList();
         break;
       default:
       // throw `${level} does not exist in nakamalist`;
     }
-    this.counter = 0;
+    this.group = this.createGroup(scene);
+    this.answerCounter = 0;
   }
 
   /**
@@ -42,15 +47,14 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   start = (scene) => {
     const [leftSideObjs, rightSideObjs] = this.createObjs(scene);
-    scene.add
-      .text(500, 600, "OK", {
-        fontSize: "32px",
-        color: "#000000",
-      })
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.check(scene, leftSideObjs, rightSideObjs);
+
+    const okButton = this.createOKButton(scene, () => {
+      this.check(scene, leftSideObjs, rightSideObjs);
+      this.createNextQuizButton(scene, () => {
+        this.group.setVisible(false);
+        this.start(scene);
       });
+    });
   };
 
   /**
@@ -59,34 +63,34 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createObjs = (scene) => {
     const leftSide = {
-      title: this.problems[this.counter][1],
-      chars: this.problems[this.counter][2],
+      title: this.quizzes[this.answerCounter][1],
+      chars: this.quizzes[this.answerCounter][2],
       x: 400,
       y: 700,
       width: 100,
       height: 100,
     };
     const rightSide = {
-      title: this.problems[this.counter][3],
-      chars: this.problems[this.counter][4],
+      title: this.quizzes[this.answerCounter][3],
+      chars: this.quizzes[this.answerCounter][4],
       x: 30,
       y: 30,
       width: 100,
       height: 100,
     };
-    console.log(leftSide.chars);
-    console.log(rightSide.chars);
 
-    scene.add.text(150, 30, leftSide.title, {
+    const leftTitle = scene.add.text(150, 30, leftSide.title, {
       color: "#333333",
       fontSize: "40px",
       fontFamily: scene.registry.get("fontFamily"),
     });
-    scene.add.text(670, 30, rightSide.title, {
+    this.group.add(leftTitle);
+    const rightTitle = scene.add.text(670, 30, rightSide.title, {
       color: "#333333",
       fontSize: "40px",
       fontFamily: scene.registry.get("fontFamily"),
     });
+    this.group.add(rightTitle);
 
     const leftSideObjs = leftSide.chars.map((e) => {
       const x = Math.floor(Math.random() * (924 - 100)) + 100;
@@ -96,14 +100,12 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         fontSize: "50px",
         fontFamily: scene.registry.get("fontFamily"),
       });
+      this.group.add(obj);
       return obj
         .setInteractive({ draggable: true })
-        .on("dragstart", (pointer, dragX, dragY) => { })
         .on("drag", (pointer, dragX, dragY) => {
-          console.log(dragX, dragY);
           obj.setPosition(dragX, dragY);
-        })
-        .on("dragend", (pointer, dragX, dragY, dropped) => { });
+        });
     });
     const rightSideObjs = rightSide.chars.map((e) => {
       const x = Math.floor(Math.random() * (924 - 100)) + 100;
@@ -113,14 +115,12 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         fontSize: "50px",
         fontFamily: scene.registry.get("fontFamily"),
       });
+      this.group.add(obj);
       return obj
         .setInteractive({ draggable: true })
-        .on("dragstart", (pointer, dragX, dragY) => { })
         .on("drag", (pointer, dragX, dragY) => {
-          console.log(dragX, dragY);
           obj.setPosition(dragX, dragY);
-        })
-        .on("dragend", (pointer, dragX, dragY, dropped) => { });
+        });
     });
 
     return [leftSideObjs, rightSideObjs];
@@ -132,27 +132,90 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {Phaser.GameObjects.Text[]} leftSideObjs
    */
   check = (scene, rightSideObjs, leftSideObjs) => {
+    console.log(this.answerCounter);
+    if (9 <= this.answerCounter) {
+      // FIXME: リザルトへ
+      scene.scene.start("game_menu");
+    }
     const threshouldX = 497;
-    console.log("ok");
     leftSideObjs.forEach((e) => {
-      console.log(e.x, e.y);
       if (e.x < threshouldX) {
         const batu = scene.add.sprite(e.x, e.y, "batu");
         batu.setScale(0.1);
+        this.group.add(batu);
       } else {
         const maru = scene.add.sprite(e.x, e.y, "maru");
         maru.setScale(0.1);
+        this.group.add(maru);
       }
     });
     rightSideObjs.forEach((e) => {
-      console.log(e.x, e.y);
       if (threshouldX < e.x) {
         const batu = scene.add.sprite(e.x, e.y, "batu");
         batu.setScale(0.1);
+        this.group.add(batu);
       } else {
         const maru = scene.add.sprite(e.x, e.y, "maru");
         maru.setScale(0.1);
+        this.group.add(maru);
       }
     });
+    this.answerCounter += 1;
+  };
+
+  createRandomQuizList = () => {
+    const quizzes = nakamalist[NakamaContainer.Level[1].text];
+    for (let i = 0; i < quizzes.length; i++) {
+      const a = Math.floor(Math.random() * quizzes.length);
+      const b = Math.floor(Math.random() * quizzes.length);
+      [quizzes[a], quizzes[b]] = [quizzes[b], quizzes[a]];
+    }
+    return quizzes;
+  };
+
+  /**
+   * @param {Phaser.Scene} scene
+   * @callback {onPointerdown} callback
+   */
+  createOKButton = (scene, callback) => {
+    const okButton = scene.add
+      .text(490, 650, "OK", {
+        fontSize: "32px",
+        color: "#000000",
+        backgroundColor: "#ffffff",
+      })
+      .setInteractive()
+      .on("pointerdown", () => {
+        callback();
+        okButton.destroy();
+      });
+    okButton.setDepth(2);
+    return okButton;
+  };
+
+  /**
+   * @param {Phaser.Scene} scene
+   * @callback {onPointerdown} callback
+   */
+  createNextQuizButton = (scene, callback) => {
+    const nextButton = scene.add
+      .text(490, 650, "次へ", {
+        fontSize: "32px",
+        color: "#000000",
+        backgroundColor: "#ffffff",
+      })
+      .setInteractive()
+      .on("pointerdown", () => {
+        callback();
+        nextButton.destroy();
+      });
+    return nextButton;
+  };
+
+  /**
+   * @param {Phaser.Scene} scene
+   */
+  createGroup = (scene) => {
+    return scene.add.group();
   };
 }
