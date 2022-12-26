@@ -3,7 +3,7 @@ import SettingButton from "../components/setting_button";
 
 export default class NakamaGameSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "nakama_game_setting", active: true });
+    super({ key: "nakama_game_setting", active: false });
     this.prevSceneData = undefined;
     this.selectedLevel = undefined;
   }
@@ -133,16 +133,12 @@ export default class NakamaGameSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          // FIXME: ゲーム実装時に修正
-          // this.sound.stopAll();
-          // this.sound.removeByKey("top_bgm");
-          // gameStartSe.play();
-          // this.scene.start("hitsuji_game", {
-          //   size: this.selectedSize,
-          //   mode: this.selectedMode,
-          //   schoolYear: this.selectedSchoolYear,
-          //   isChallenge: Boolean(this.challenge),
-          // });
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
+          gameStartSe.play();
+          this.scene.start("nakama_game", {
+            level: this.selectedLevel,
+          });
         },
         this
       );

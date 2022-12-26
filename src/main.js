@@ -15,6 +15,7 @@ import SekaiGameResult from "./scenes/sekai_game_result";
 import SekaiPauseMenu from "./scenes/sekai_pause_menu";
 import SekaiGameSetting from "./scenes/sekai_game_setting";
 import NakamaGameSetting from "./scenes/nakama_game_setting";
+import NakamaGame from "./scenes/nakama_game";
 
 import { worker } from "./mocks/browser";
 
@@ -67,6 +68,7 @@ const config = {
     SekaiPauseMenu,
     SekaiGameSetting,
     NakamaGameSetting,
+    NakamaGame,
   ],
 };
 
