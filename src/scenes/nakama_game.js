@@ -14,7 +14,7 @@ const images = [
   ["mistakemogura", "assets/img/sad_mogura.png"],
 ];
 
-const debugMode =true;
+const debugMode = false;
 const Level = NakamaContainer.Level;
 
 export default class NakamaGame extends Phaser.Scene {
@@ -55,7 +55,7 @@ export default class NakamaGame extends Phaser.Scene {
   };
 
   createBackGround = () => {
-    new BackGround(this, { color: 0xaeaeae, alpha: 1 });
+    new BackGround(this, { color: 0xeaeaea, alpha: 1 });
   };
 
   createSoundButton = () => {
