@@ -247,7 +247,7 @@ export default class GameMenu extends Phaser.Scene {
       this.scene.start("nakama_game_setting");
     });
 
-    this.add.text(150, 520, "仲間で集まれ", {
+    this.add.text(110, 520, "仲間で集まれ", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
       color: "#ffffff",

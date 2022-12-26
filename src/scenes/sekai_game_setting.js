@@ -46,7 +46,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
       country: data.country,
     };
     this.selectedSize = this.prevSceneData.size || Size.M.name;
-    this.selectedMode = this.prevSceneData.mode || Mode.TimeLimit.name;
+    this.selectedMode = this.prevSceneData.mode || Mode.TimeAttack.name;
     this.selectedCountry = this.prevSceneData.country || Country.Thai.name;
 
     // 設定の選択肢の初期値
@@ -314,23 +314,23 @@ export default class SekaiGameSetting extends Phaser.Scene {
           [Category.value]: Size.L.name,
         },
       },
-      {
-        type: "button",
-        x: 585,
-        y: 250,
-        width: 160,
-        height: 56,
-        text: Mode.TimeLimit.text,
-        fontSize: 24,
-        data: {
-          [Category.key]: Category.data.Mode.name,
-          [Category.value]: Mode.TimeLimit.name,
-        },
-      },
+      // {
+      //   type: "button",
+      //   x: 585,
+      //   y: 250,
+      //   width: 160,
+      //   height: 56,
+      //   text: Mode.TimeLimit.text,
+      //   fontSize: 24,
+      //   data: {
+      //     [Category.key]: Category.data.Mode.name,
+      //     [Category.value]: Mode.TimeLimit.name,
+      //   },
+      // },
       {
         type: "button",
         x: 551,
-        y: 350,
+        y: 300,
         width: 229,
         height: 56,
         text: Mode.TimeAttack.text,
@@ -343,7 +343,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
       {
         type: "button",
         x: 551,
-        y: 463,
+        y: 413,
         width: 229,
         height: 56,
         text: Mode.Learn.text,
