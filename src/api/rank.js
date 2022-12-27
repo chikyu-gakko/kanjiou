@@ -3,10 +3,10 @@ const API_URL =
     ? ""
     : "https://kanjiouapi.onrender.com";
 
-const getRank = async (time) => {
+const getRank = async (time, gameMode) => {
   try {
     const response = await fetch(
-      `${API_URL}/api/time_limits/time_limit?seconds=${time}`
+      `${API_URL}/api/ranks/${time}?gameMode=${gameMode}`,
     );
     return response.json();
   } catch (error) {
@@ -14,11 +14,12 @@ const getRank = async (time) => {
   }
 };
 
-const putRanking = async (time, name) => {
+const putRanking = async (time, name, gameMode) => {
   const fd = new FormData();
+  fd.append("gameMode", gameMode);
   fd.append("name", name);
-  fd.append("seconds", 60 - time);
-  const r = await fetch(`${API_URL}/api/time_limits`, {
+  fd.append("secondsLeft", 60 - time);
+  const r = await fetch(`${API_URL}/api/records`, {
     method: "POST",
     body: fd,
   });
@@ -26,15 +27,15 @@ const putRanking = async (time, name) => {
 };
 
 const getRanks = async () => {
-  const response = await fetch(`${API_URL}/api/time_limits`);
+  const response = await fetch(`${API_URL}/api/ranks`);
   const data = await response.json();
   const ranks = [];
   let rank = 0;
-  let seconds = -1;
+  let secondsLeft = -1;
   for (let i = 0; i < data.length; i += 1) {
-    if (data[i].seconds !== seconds) {
+    if (data[i].secondsLeft !== secondsLeft) {
       rank = i + 1;
-      seconds = data[i].seconds;
+      secondsLeft = data[i].secondsLeft;
     }
     ranks.push({
       ...data[i],

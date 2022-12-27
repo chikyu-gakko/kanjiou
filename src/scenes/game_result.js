@@ -91,10 +91,10 @@ export default class GameResult extends Phaser.Scene {
     this.createRankingPageButton();
 
     (async () => {
-      const rankData = await getRank(60 - this.prevSceneData.timer);
-      if (rankData.rank <= 100 && !this.rankingRegistered) {
+      const rankData = await getRank(60 - this.prevSceneData.timer, '羊の中に犬が一匹');
+      if (rankData.isRankedIn && !this.rankingRegistered) {
         if (this.prevSceneData.modalVisible) {
-          this.rankingModal(rankData.rank);
+          this.rankingModal(rankData.rankOrder);
         }
         // ランキング登録ボタン
         const rankingButton = new SettingButton(
@@ -112,7 +112,7 @@ export default class GameResult extends Phaser.Scene {
         rankingButton.buttonGraphic.on(
           "pointerdown",
           () => {
-            this.rankingModal(rankData.rank);
+            this.rankingModal(rankData.rankOrder);
           },
           this
         );
@@ -458,7 +458,7 @@ export default class GameResult extends Phaser.Scene {
           validationMessageText.setVisible(true);
           return;
         }
-        putRanking(this.prevSceneData.timer, text)
+        putRanking(this.prevSceneData.timer, text, '羊の中に犬が一匹')
           .then(() => {
             this.rankingRegistered = true;
             const status = "登録に成功しました";

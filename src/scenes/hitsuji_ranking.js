@@ -35,7 +35,7 @@ export default class HitsujiRanking extends Phaser.Scene {
         td1.innerText = data[i].name;
         tr.appendChild(td1);
         const td2 = document.createElement("td");
-        td2.innerText = data[i].seconds;
+        td2.innerText = data[i].secondsLeft;
         tr.appendChild(td2);
         const td3 = document.createElement("td");
         const formatDate = (date) => {
@@ -44,7 +44,7 @@ export default class HitsujiRanking extends Phaser.Scene {
           const dd = `00${date.getDate()}`.slice(-2);
           return `${yyyy}/${mm}/${dd}`;
         };
-        td3.innerText = formatDate(new Date(data[i].created_at));
+        td3.innerText = formatDate(new Date(data[i].recordedAt));
         tr.appendChild(td3);
         tbody.appendChild(tr);
       }
