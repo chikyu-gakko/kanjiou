@@ -1,23 +1,23 @@
 import { rest, setupWorker } from "msw";
-import time_limits from "./time_limits.json";
+import ranks from "./ranks.json";
 
 const handlers = [
-  rest.get("/api/time_limits/time_limit", (req, res, ctx) => {
-    const seconds = req.url.searchParams.get("seconds");
-    console.log(`seconds: ${seconds}`);
+  rest.get("/api/ranks/:secondsLeft", (req, res, ctx) => {
+    const secondsLeft = req.url.searchParams.get("secondsLeft");
+    console.log(`secondsLeft: ${secondsLeft}`);
     return res(
       ctx.status(200),
       ctx.json({
-        rank: 1,
+        rankOrder: 1,
       })
     );
   }),
 
-  rest.get("/api/time_limits", (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(time_limits));
+  rest.get("/api/ranks", (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(ranks));
   }),
 
-  rest.post("/api/time_limits", (req, res, ctx) => {
+  rest.post("/api/records", (req, res, ctx) => {
     const body = req.body;
     console.log(`body: ${JSON.stringify(body)}`);
     return res(ctx.status(200));
