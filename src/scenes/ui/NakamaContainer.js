@@ -101,6 +101,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       const y = Math.floor(Math.random() * (568 - 100)) + 100;
 
       let overlapped = false;
+      // FIXME: 文字や線に重ならないように位置を決めているがまだ重なるときがある
       for (let pos of randomPoss) {
         if (
           pos.x - 50 < x &&
@@ -255,11 +256,16 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createAnswerComponent = (scene) => {
     if (this.answerComponent) this.answerComponent.destroy();
-    const text = scene.add.text(155, 671, `解いた数 : ${this.answerCounter}`, {
-      color: "#333333",
-      fontSize: "50px",
-      fontFamily: scene.registry.get("fontFamily"),
-    });
+    const text = scene.add.text(
+      155,
+      671,
+      `残り : ${10 - this.answerCounter}問`,
+      {
+        color: "#333333",
+        fontSize: "50px",
+        fontFamily: scene.registry.get("fontFamily"),
+      }
+    );
     return text;
   };
 }
