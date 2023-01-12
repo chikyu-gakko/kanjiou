@@ -40,6 +40,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     }
     this.group = this.createGroup(scene);
     this.answerCounter = 0;
+    this.answerComponent = this.createAnswerComponent(scene);
   }
 
   /**
@@ -54,6 +55,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         this.group.setVisible(false);
         this.start(scene);
       });
+      this.answerComponent = this.createAnswerComponent(scene);
     });
   };
 
@@ -161,7 +163,6 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {Phaser.GameObjects.Text[]} leftSideObjs
    */
   check = (scene, rightSideObjs, leftSideObjs) => {
-    console.log(this.answerCounter);
     if (9 <= this.answerCounter) {
       // FIXME: リザルトへ
       scene.scene.start("game_menu");
@@ -247,5 +248,18 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createGroup = (scene) => {
     return scene.add.group();
+  };
+
+  /**
+   * @param {Phaser.Scene} scene Phaser.Scene
+   */
+  createAnswerComponent = (scene) => {
+    if (this.answerComponent) this.answerComponent.destroy();
+    const text = scene.add.text(155, 671, `解いた数 : ${this.answerCounter}`, {
+      color: "#333333",
+      fontSize: "50px",
+      fontFamily: scene.registry.get("fontFamily"),
+    });
+    return text;
   };
 }
