@@ -94,7 +94,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
 
     const leftSideObjs = leftSide.chars.map((e) => {
       const x = Math.floor(Math.random() * (924 - 100)) + 100;
-      const y = Math.floor(Math.random() * (668 - 100)) + 100;
+      const y = Math.floor(Math.random() * (568 - 100)) + 100;
       const obj = scene.add.text(x, y, e[0], {
         color: "#333333",
         fontSize: "50px",
@@ -109,7 +109,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     });
     const rightSideObjs = rightSide.chars.map((e) => {
       const x = Math.floor(Math.random() * (924 - 100)) + 100;
-      const y = Math.floor(Math.random() * (668 - 100)) + 100;
+      const y = Math.floor(Math.random() * (568 - 100)) + 100;
       const obj = scene.add.text(x, y, e[0], {
         color: "#333333",
         fontSize: "50px",
