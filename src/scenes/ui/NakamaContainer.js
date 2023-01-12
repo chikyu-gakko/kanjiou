@@ -194,11 +194,12 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
 
   createRandomQuizList = () => {
     const quizzes = nakamalist[NakamaContainer.Level[1].text];
-    for (let i = 0; i < quizzes.length; i++) {
-      const a = Math.floor(Math.random() * quizzes.length);
-      const b = Math.floor(Math.random() * quizzes.length);
-      [quizzes[a], quizzes[b]] = [quizzes[b], quizzes[a]];
-    }
+    // NOTE: ランダムではなく難易度順に出題することにした
+    // for (let i = 0; i < quizzes.length; i++) {
+    //   const a = Math.floor(Math.random() * quizzes.length);
+    //   const b = Math.floor(Math.random() * quizzes.length);
+    //   [quizzes[a], quizzes[b]] = [quizzes[b], quizzes[a]];
+    // }
     return quizzes;
   };
 
