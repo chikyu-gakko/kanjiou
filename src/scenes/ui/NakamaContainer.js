@@ -199,7 +199,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createNextQuizButton = (scene, callback) => {
     const nextButton = scene.add
-      .text(490, 650, "次へ", {
+      .text(490, 650, "つぎへ", {
         fontSize: "32px",
         color: "#000000",
         backgroundColor: "#ffffff",
