@@ -92,10 +92,36 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     });
     this.group.add(rightTitle);
 
-    const leftSideObjs = leftSide.chars.map((e) => {
+    /** @type {{x: number, y:number}[]} */
+    const randomPoss = [];
+    for (let i = 0; i < 1000; i++) {
       const x = Math.floor(Math.random() * (924 - 100)) + 100;
       const y = Math.floor(Math.random() * (568 - 100)) + 100;
-      const obj = scene.add.text(x, y, e[0], {
+
+      let overlapped = false;
+      for (let pos of randomPoss) {
+        if (
+          pos.x - 50 < x &&
+          x < pos.x + 50 &&
+          pos.y - 50 < y &&
+          y < pos.y + 50
+        ) {
+          overlapped = true;
+          break;
+        }
+        if (462 < x && x < 562) {
+          // line
+          overlapped = true;
+          break;
+        }
+      }
+      if (overlapped) continue;
+      randomPoss.push({ x, y });
+      if (leftSide.chars.length + rightSide.chars.length <= randomPoss.length)
+        break;
+    }
+    const leftSideObjs = leftSide.chars.map((e, i) => {
+      const obj = scene.add.text(randomPoss[i].x, randomPoss[i].y, e[0], {
         color: "#333333",
         fontSize: "50px",
         fontFamily: scene.registry.get("fontFamily"),
@@ -107,14 +133,17 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
           obj.setPosition(dragX, dragY);
         });
     });
-    const rightSideObjs = rightSide.chars.map((e) => {
-      const x = Math.floor(Math.random() * (924 - 100)) + 100;
-      const y = Math.floor(Math.random() * (568 - 100)) + 100;
-      const obj = scene.add.text(x, y, e[0], {
-        color: "#333333",
-        fontSize: "50px",
-        fontFamily: scene.registry.get("fontFamily"),
-      });
+    const rightSideObjs = rightSide.chars.map((e, i) => {
+      const obj = scene.add.text(
+        randomPoss[i + leftSide.chars.length].x,
+        randomPoss[i + leftSide.chars.length].y,
+        e[0],
+        {
+          color: "#333333",
+          fontSize: "50px",
+          fontFamily: scene.registry.get("fontFamily"),
+        }
+      );
       this.group.add(obj);
       return obj
         .setInteractive({ draggable: true })
