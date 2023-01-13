@@ -46,7 +46,7 @@ export default class NakamaGame extends Phaser.Scene {
     this.createSoundButton();
     this.startMusic();
     this.nakamaContainer = this.createNakamaContainer();
-    this.nakamaContainer.start(this);
+    this.nakamaContainer.start(this, this.transitionToResult);
     this.add.line(0, 0, 512, 384, 512, 1100, 0x000000);
   }
 
@@ -64,5 +64,14 @@ export default class NakamaGame extends Phaser.Scene {
 
   startMusic = () => {
     this.sound.play("game_bgm", { loop: true });
+  };
+
+  transitionToResult = () => {
+    this.sound.stopAll();
+    this.scene.start("nakama_game_result", {
+      level: this.prevSceneData.level,
+      questions: this.nakamaContainer.questionsCounter,
+      numberOfCorrected: this.nakamaContainer.correctedCounter,
+    });
   };
 }

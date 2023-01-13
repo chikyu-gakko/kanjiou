@@ -2,6 +2,8 @@ import { nakamalist } from "../../nakamalist";
 
 /**
  * @callback onPointerdown
+ *
+ * @callback afterConfirmationCallback
  */
 
 export default class NakamaContainer extends Phaser.GameObjects.Container {
@@ -40,20 +42,25 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     }
     this.group = this.createGroup(scene);
     this.answerCounter = 0;
+    this.questionsCounter = 0;
+    this.correctedCounter = 0;
     this.answerComponent = this.createAnswerComponent(scene);
   }
 
   /**
    * @param {Phaser.Scene} scene
+   * @param {afterConfirmationCallback} whenCleard callback
    */
-  start = (scene) => {
+  start = (scene, whenCleard) => {
     const [leftSideObjs, rightSideObjs] = this.createObjs(scene);
+    this.questionsCounter += leftSideObjs.length;
+    this.questionsCounter += rightSideObjs.length;
 
     const okButton = this.createOKButton(scene, () => {
-      this.check(scene, leftSideObjs, rightSideObjs);
+      this.check(scene, leftSideObjs, rightSideObjs, whenCleard);
       this.createNextQuizButton(scene, () => {
         this.group.setVisible(false);
-        this.start(scene);
+        this.start(scene, whenCleard);
       });
       this.answerComponent = this.createAnswerComponent(scene);
     });
@@ -162,12 +169,9 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {Phaser.Scene} scene
    * @param {Phaser.GameObjects.Text[]} rightSideObjs
    * @param {Phaser.GameObjects.Text[]} leftSideObjs
+   * @param {afterConfirmationCallback} whenCleard callback
    */
-  check = (scene, rightSideObjs, leftSideObjs) => {
-    if (9 <= this.answerCounter) {
-      // FIXME: リザルトへ
-      scene.scene.start("game_menu");
-    }
+  check = (scene, rightSideObjs, leftSideObjs, whenCleard) => {
     const threshouldX = 497;
     leftSideObjs.forEach((e) => {
       if (e.x < threshouldX) {
@@ -178,6 +182,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         const maru = scene.add.sprite(e.x, e.y, "maru");
         maru.setScale(0.1);
         this.group.add(maru);
+        this.correctedCounter += 1;
       }
     });
     rightSideObjs.forEach((e) => {
@@ -189,9 +194,13 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         const maru = scene.add.sprite(e.x, e.y, "maru");
         maru.setScale(0.1);
         this.group.add(maru);
+        this.correctedCounter += 1;
       }
     });
     this.answerCounter += 1;
+    if (9 <= this.answerCounter) {
+      whenCleard();
+    }
   };
 
   createRandomQuizList = () => {
