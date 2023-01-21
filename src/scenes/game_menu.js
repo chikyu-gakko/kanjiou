@@ -242,7 +242,12 @@ export default class GameMenu extends Phaser.Scene {
       )
       .strokePath();
 
-    this.add.text(150, 520, "作成中", {
+    tgtherFriendButton.on("pointerdown", () => {
+      modeDecideSe.play();
+      this.scene.start("nakama_game_setting");
+    });
+
+    this.add.text(110, 520, "仲間で集まれ", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
       color: "#ffffff",
@@ -250,7 +255,7 @@ export default class GameMenu extends Phaser.Scene {
 
     // 作成中の横モグラ
     this.add.image(95, 400, "top_mogura");
-    this.add.image(95, 531, "top_mogura");
+    // this.add.image(95, 531, "top_mogura");
   }
 
   createBackGround = () => {
