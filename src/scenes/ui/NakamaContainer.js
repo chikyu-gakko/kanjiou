@@ -137,7 +137,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         fontFamily: scene.registry.get("fontFamily"),
       });
       obj.setOrigin(0.5, 0.5);
-      // obj.setDepth(2);
+      obj.setDepth(2);
       this.group.add(obj);
       return obj
         .setInteractive({ draggable: true })
@@ -157,7 +157,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         }
       );
       obj.setOrigin(0.5, 0.5);
-      // obj.setDepth(2);
+      obj.setDepth(2);
       this.group.add(obj);
       return obj
         .setInteractive({ draggable: true })
