@@ -1,5 +1,4 @@
 import { rest, setupWorker } from "msw";
-<<<<<<< HEAD
 import ranks from "./ranks.json";
 
 const handlers = [
@@ -23,18 +22,6 @@ const handlers = [
     console.log(`body: ${JSON.stringify(body)}`);
     return res(ctx.status(200));
   }),
-=======
-
-const handlers = [
-  rest.get("/users", (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        username: "admin",
-      })
-    );
-  }),
->>>>>>> ca18a23 (:wrench: Add configuration msw)
 ];
 // This configures a Service Worker with the given request handlers.
 export const worker = setupWorker(...handlers);
