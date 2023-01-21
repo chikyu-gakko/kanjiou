@@ -136,6 +136,8 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         fontSize: "50px",
         fontFamily: scene.registry.get("fontFamily"),
       });
+      obj.setOrigin(0.5, 0.5);
+      // obj.setDepth(2);
       this.group.add(obj);
       return obj
         .setInteractive({ draggable: true })
@@ -154,6 +156,8 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
           fontFamily: scene.registry.get("fontFamily"),
         }
       );
+      obj.setOrigin(0.5, 0.5);
+      // obj.setDepth(2);
       this.group.add(obj);
       return obj
         .setInteractive({ draggable: true })
@@ -176,11 +180,13 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     leftSideObjs.forEach((e) => {
       if (e.x < threshouldX) {
         const batu = scene.add.sprite(e.x, e.y, "batu");
-        batu.setScale(0.1);
+        batu.setScale(0.2);
+        batu.setOrigin(0.5, 0.5);
         this.group.add(batu);
       } else {
         const maru = scene.add.sprite(e.x, e.y, "maru");
-        maru.setScale(0.1);
+        maru.setScale(0.2);
+        maru.setOrigin(0.5, 0.5);
         this.group.add(maru);
         this.correctedCounter += 1;
       }
@@ -188,11 +194,13 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     rightSideObjs.forEach((e) => {
       if (threshouldX < e.x) {
         const batu = scene.add.sprite(e.x, e.y, "batu");
-        batu.setScale(0.1);
+        batu.setScale(0.2);
+        batu.setOrigin(0.5, 0.5);
         this.group.add(batu);
       } else {
         const maru = scene.add.sprite(e.x, e.y, "maru");
-        maru.setScale(0.1);
+        maru.setScale(0.2);
+        maru.setOrigin(0.5, 0.5);
         this.group.add(maru);
         this.correctedCounter += 1;
       }
