@@ -48,6 +48,7 @@ export default class NakamaGame extends Phaser.Scene {
     this.nakamaContainer = this.createNakamaContainer();
     this.nakamaContainer.start(this, this.transitionToResult);
     this.add.line(0, 0, 512, 384, 512, 1100, 0x000000);
+    this.createDraggableAreaBg();
   }
 
   createNakamaContainer = () => {
@@ -73,5 +74,10 @@ export default class NakamaGame extends Phaser.Scene {
       questions: this.nakamaContainer.questionsCounter,
       numberOfCorrected: this.nakamaContainer.correctedCounter,
     });
+  };
+
+  createDraggableAreaBg = () => {
+    const areaBg = this.add.graphics();
+    areaBg.fillStyle(0xffffff, 0.5).fillRect(0, 200, 1024, 400);
   };
 }

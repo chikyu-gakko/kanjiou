@@ -72,40 +72,44 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createObjs = (scene) => {
     const leftSide = {
-      title: this.quizzes[this.answerCounter][1],
+      radicalName: this.quizzes[this.answerCounter][1],
       chars: this.quizzes[this.answerCounter][2],
+      radical: this.quizzes[this.answerCounter][5],
       x: 400,
       y: 700,
       width: 100,
       height: 100,
     };
     const rightSide = {
-      title: this.quizzes[this.answerCounter][3],
+      radicalName: this.quizzes[this.answerCounter][3],
       chars: this.quizzes[this.answerCounter][4],
+      radical: this.quizzes[this.answerCounter][6],
       x: 30,
       y: 30,
       width: 100,
       height: 100,
     };
 
-    const leftTitle = scene.add.text(150, 30, leftSide.title, {
+    const leftTitle = scene.add.text(256, 80, leftSide.radical, {
       color: "#333333",
-      fontSize: "40px",
+      fontSize: "60px",
       fontFamily: scene.registry.get("fontFamily"),
     });
+    leftTitle.setOrigin(0.5, 0.5);
     this.group.add(leftTitle);
-    const rightTitle = scene.add.text(670, 30, rightSide.title, {
+    const rightTitle = scene.add.text(768, 80, rightSide.radical, {
       color: "#333333",
-      fontSize: "40px",
+      fontSize: "60px",
       fontFamily: scene.registry.get("fontFamily"),
     });
+    rightTitle.setOrigin(0.5, 0.5);
     this.group.add(rightTitle);
 
     /** @type {{x: number, y:number}[]} */
     const randomPoss = [];
     for (let i = 0; i < 1000; i++) {
       const x = Math.floor(Math.random() * (924 - 100)) + 100;
-      const y = Math.floor(Math.random() * (568 - 100)) + 100;
+      const y = Math.floor(Math.random() * (570 - 230)) + 230;
 
       let overlapped = false;
       // FIXME: 文字や線に重ならないように位置を決めているがまだ重なるときがある
@@ -142,7 +146,10 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       return obj
         .setInteractive({ draggable: true })
         .on("drag", (pointer, dragX, dragY) => {
-          obj.setPosition(dragX, dragY);
+          if (200 <= dragY && dragY <= 600 && (dragX <= 502 || 522 <= dragX)) {
+            obj.setPosition(dragX, dragY);
+          }
+          console.log(dragX, dragY);
         });
     });
     const rightSideObjs = rightSide.chars.map((e, i) => {
@@ -162,7 +169,10 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       return obj
         .setInteractive({ draggable: true })
         .on("drag", (pointer, dragX, dragY) => {
-          obj.setPosition(dragX, dragY);
+          if (200 <= dragY && dragY <= 600 && (dragX <= 502 || 522 <= dragX)) {
+            obj.setPosition(dragX, dragY);
+          }
+          console.log(dragX, dragY);
         });
     });
 
@@ -176,8 +186,33 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {afterConfirmationCallback} whenCleard callback
    */
   check = (scene, rightSideObjs, leftSideObjs, whenCleard) => {
-    const threshouldX = 497;
+    const leftRadicalName = scene.add.text(
+      256,
+      150,
+      this.quizzes[this.answerCounter][1],
+      {
+        color: "#333333",
+        fontSize: "40px",
+        fontFamily: scene.registry.get("fontFamily"),
+      }
+    );
+    leftRadicalName.setOrigin(0.5, 0.5);
+    this.group.add(leftRadicalName);
+    const rightRadicalName = scene.add.text(
+      768,
+      150,
+      this.quizzes[this.answerCounter][3],
+      {
+        color: "#333333",
+        fontSize: "40px",
+        fontFamily: scene.registry.get("fontFamily"),
+      }
+    );
+    rightRadicalName.setOrigin(0.5, 0.5);
+    this.group.add(rightRadicalName);
+    const threshouldX = 512;
     leftSideObjs.forEach((e) => {
+      e.removeListener("drag");
       if (e.x < threshouldX) {
         const batu = scene.add.sprite(e.x, e.y, "batu");
         batu.setScale(0.2);
@@ -192,6 +227,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       }
     });
     rightSideObjs.forEach((e) => {
+      e.removeListener("drag");
       if (threshouldX < e.x) {
         const batu = scene.add.sprite(e.x, e.y, "batu");
         batu.setScale(0.2);
