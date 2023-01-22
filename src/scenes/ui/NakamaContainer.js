@@ -109,7 +109,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     const randomPoss = [];
     for (let i = 0; i < 1000; i++) {
       const x = Math.floor(Math.random() * (924 - 100)) + 100;
-      const y = Math.floor(Math.random() * (568 - 100)) + 100;
+      const y = Math.floor(Math.random() * (570 - 230)) + 230;
 
       let overlapped = false;
       // FIXME: 文字や線に重ならないように位置を決めているがまだ重なるときがある
