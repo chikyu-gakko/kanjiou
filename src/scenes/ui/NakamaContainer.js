@@ -182,6 +182,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
   check = (scene, rightSideObjs, leftSideObjs, whenCleard) => {
     const threshouldX = 497;
     leftSideObjs.forEach((e) => {
+      e.removeListener("drag");
       if (e.x < threshouldX) {
         const batu = scene.add.sprite(e.x, e.y, "batu");
         batu.setScale(0.2);
@@ -196,6 +197,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       }
     });
     rightSideObjs.forEach((e) => {
+      e.removeListener("drag");
       if (threshouldX < e.x) {
         const batu = scene.add.sprite(e.x, e.y, "batu");
         batu.setScale(0.2);
