@@ -186,7 +186,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {afterConfirmationCallback} whenCleard callback
    */
   check = (scene, rightSideObjs, leftSideObjs, whenCleard) => {
-    const threshouldX = 497;
+    const threshouldX = 512;
     leftSideObjs.forEach((e) => {
       e.removeListener("drag");
       if (e.x < threshouldX) {
