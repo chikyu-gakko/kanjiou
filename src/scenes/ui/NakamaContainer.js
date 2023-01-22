@@ -72,33 +72,37 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createObjs = (scene) => {
     const leftSide = {
-      title: this.quizzes[this.answerCounter][1],
+      radicalName: this.quizzes[this.answerCounter][1],
       chars: this.quizzes[this.answerCounter][2],
+      radical: this.quizzes[this.answerCounter][5],
       x: 400,
       y: 700,
       width: 100,
       height: 100,
     };
     const rightSide = {
-      title: this.quizzes[this.answerCounter][3],
+      radicalName: this.quizzes[this.answerCounter][3],
       chars: this.quizzes[this.answerCounter][4],
+      radical: this.quizzes[this.answerCounter][6],
       x: 30,
       y: 30,
       width: 100,
       height: 100,
     };
 
-    const leftTitle = scene.add.text(150, 30, leftSide.title, {
+    const leftTitle = scene.add.text(150, 30, leftSide.radical, {
       color: "#333333",
-      fontSize: "40px",
+      fontSize: "60px",
       fontFamily: scene.registry.get("fontFamily"),
     });
+    leftTitle.setOrigin(0.5, 0.5);
     this.group.add(leftTitle);
-    const rightTitle = scene.add.text(670, 30, rightSide.title, {
+    const rightTitle = scene.add.text(670, 30, rightSide.radical, {
       color: "#333333",
-      fontSize: "40px",
+      fontSize: "60px",
       fontFamily: scene.registry.get("fontFamily"),
     });
+    rightTitle.setOrigin(0.5, 0.5);
     this.group.add(rightTitle);
 
     /** @type {{x: number, y:number}[]} */
