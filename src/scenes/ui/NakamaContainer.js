@@ -146,7 +146,10 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       return obj
         .setInteractive({ draggable: true })
         .on("drag", (pointer, dragX, dragY) => {
-          obj.setPosition(dragX, dragY);
+          if (200 <= dragY && dragY <= 600 && (dragX <= 502 || 522 <= dragX)) {
+            obj.setPosition(dragX, dragY);
+          }
+          console.log(dragX, dragY);
         });
     });
     const rightSideObjs = rightSide.chars.map((e, i) => {
@@ -166,7 +169,10 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       return obj
         .setInteractive({ draggable: true })
         .on("drag", (pointer, dragX, dragY) => {
-          obj.setPosition(dragX, dragY);
+          if (200 <= dragY && dragY <= 600 && (dragX <= 502 || 522 <= dragX)) {
+            obj.setPosition(dragX, dragY);
+          }
+          console.log(dragX, dragY);
         });
     });
 
