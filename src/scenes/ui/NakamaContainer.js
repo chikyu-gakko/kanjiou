@@ -90,14 +90,14 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       height: 100,
     };
 
-    const leftTitle = scene.add.text(150, 30, leftSide.radical, {
+    const leftTitle = scene.add.text(256, 80, leftSide.radical, {
       color: "#333333",
       fontSize: "60px",
       fontFamily: scene.registry.get("fontFamily"),
     });
     leftTitle.setOrigin(0.5, 0.5);
     this.group.add(leftTitle);
-    const rightTitle = scene.add.text(670, 30, rightSide.radical, {
+    const rightTitle = scene.add.text(768, 80, rightSide.radical, {
       color: "#333333",
       fontSize: "60px",
       fontFamily: scene.registry.get("fontFamily"),
@@ -186,6 +186,30 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {afterConfirmationCallback} whenCleard callback
    */
   check = (scene, rightSideObjs, leftSideObjs, whenCleard) => {
+    const leftRadicalName = scene.add.text(
+      256,
+      150,
+      this.quizzes[this.answerCounter][1],
+      {
+        color: "#333333",
+        fontSize: "40px",
+        fontFamily: scene.registry.get("fontFamily"),
+      }
+    );
+    leftRadicalName.setOrigin(0.5, 0.5);
+    this.group.add(leftRadicalName);
+    const rightRadicalName = scene.add.text(
+      768,
+      150,
+      this.quizzes[this.answerCounter][3],
+      {
+        color: "#333333",
+        fontSize: "40px",
+        fontFamily: scene.registry.get("fontFamily"),
+      }
+    );
+    rightRadicalName.setOrigin(0.5, 0.5);
+    this.group.add(rightRadicalName);
     const threshouldX = 512;
     leftSideObjs.forEach((e) => {
       e.removeListener("drag");
