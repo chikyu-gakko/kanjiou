@@ -64,6 +64,9 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         this.createObjs(scene, true);
 
         this.createNextQuizButton(scene, () => {
+          if (9 <= this.answerCounter) {
+            whenCleard();
+          }
           this.answerCounter += 1;
           this.group.setVisible(false);
           this.start(scene, whenCleard);
@@ -215,9 +218,8 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {Phaser.Scene} scene
    * @param {Phaser.GameObjects.Text[]} rightSideObjs
    * @param {Phaser.GameObjects.Text[]} leftSideObjs
-   * @param {afterConfirmationCallback} whenCleard callback
    */
-  check = (scene, rightSideObjs, leftSideObjs, whenCleard) => {
+  check = (scene, rightSideObjs, leftSideObjs) => {
     const leftRadicalName = scene.add.text(
       256,
       150,
@@ -273,9 +275,6 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         this.correctedCounter += 1;
       }
     });
-    if (9 <= this.answerCounter) {
-      whenCleard();
-    }
   };
 
   createRandomQuizList = () => {
