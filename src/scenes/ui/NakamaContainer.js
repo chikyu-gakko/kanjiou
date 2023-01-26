@@ -264,11 +264,12 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createOKButton = (scene, callback) => {
     const okButton = scene.add
-      .text(490, 650, "OK", {
+      .text(512, 650, "OK", {
         fontSize: "32px",
         color: "#000000",
         backgroundColor: "#ffffff",
       })
+      .setOrigin(0.5, 0.5)
       .setInteractive()
       .on("pointerdown", () => {
         callback();
@@ -284,12 +285,13 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createNextQuizButton = (scene, callback) => {
     const nextButton = scene.add
-      .text(490, 650, "つぎへ", {
+      .text(512, 650, "つぎへ", {
         fontSize: "32px",
         color: "#000000",
         backgroundColor: "#ffffff",
       })
       .setInteractive()
+      .setOrigin(0.5, 0.5)
       .on("pointerdown", () => {
         callback();
         nextButton.destroy();
