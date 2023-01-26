@@ -312,7 +312,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     const text = scene.add.text(
       155,
       671,
-      `残り : ${10 - this.answerCounter}問`,
+      `のこり : ${10 - this.answerCounter}問`,
       {
         color: "#333333",
         fontSize: "50px",
