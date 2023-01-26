@@ -52,25 +52,36 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {afterConfirmationCallback} whenCleard callback
    */
   start = (scene, whenCleard) => {
-    const [leftSideObjs, rightSideObjs] = this.createObjs(scene);
+    const [leftSideObjs, rightSideObjs] = this.createObjs(scene, false);
     this.questionsCounter += leftSideObjs.length;
     this.questionsCounter += rightSideObjs.length;
 
     const okButton = this.createOKButton(scene, () => {
       this.check(scene, leftSideObjs, rightSideObjs, whenCleard);
-      this.createNextQuizButton(scene, () => {
+      this.createExampleAnswerButton(scene, () => {
         this.group.setVisible(false);
-        this.start(scene, whenCleard);
+        // FIXME: 部首名も見えなくなってしまうのを後で修正したい
+        this.createObjs(scene, true);
+
+        this.createNextQuizButton(scene, () => {
+          if (9 <= this.answerCounter) {
+            whenCleard();
+          }
+          this.answerCounter += 1;
+          this.group.setVisible(false);
+          this.start(scene, whenCleard);
+          this.answerComponent = this.createAnswerComponent(scene);
+        });
       });
-      this.answerComponent = this.createAnswerComponent(scene);
     });
   };
 
   /**
    * @param {Phaser.Scene} scene
+   * @param {boolean} isExampleAnswer
    * @returns {[Phaser.GameObjects.Text[], Phaser.GameObjects.Text[]]}
    */
-  createObjs = (scene) => {
+  createObjs = (scene, isExampleAnswer) => {
     const leftSide = {
       radicalName: this.quizzes[this.answerCounter][1],
       chars: this.quizzes[this.answerCounter][2],
@@ -105,37 +116,61 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     rightTitle.setOrigin(0.5, 0.5);
     this.group.add(rightTitle);
 
-    /** @type {{x: number, y:number}[]} */
-    const randomPoss = [];
-    for (let i = 0; i < 1000; i++) {
-      const x = Math.floor(Math.random() * (924 - 100)) + 100;
-      const y = Math.floor(Math.random() * (570 - 230)) + 230;
+    const generatePoss = () => {
+      if (isExampleAnswer) {
+        /** @type {{x: number, y:number}[]} */
+        const sequentialPoss = [];
+        for (let i = 0; i < leftSide.chars.length; i++) {
+          const x = ((i / 3) | 0) * 70 + 100;
+          const y = (i % 3) * 70 + 300;
+          sequentialPoss.push({ x, y });
+        }
+        for (let i = 0; i < rightSide.chars.length; i++) {
+          const x = ((i / 3) | 0) * 70 + 512 + 100;
+          const y = (i % 3) * 70 + 300;
+          sequentialPoss.push({ x, y });
+        }
+        return sequentialPoss;
+      } else {
+        /** @type {{x: number, y:number}[]} */
+        const randomPoss = [];
+        for (let i = 0; i < 1000; i++) {
+          const x = Math.floor(Math.random() * (924 - 100)) + 100;
+          const y = Math.floor(Math.random() * (570 - 230)) + 230;
 
-      let overlapped = false;
-      // FIXME: 文字や線に重ならないように位置を決めているがまだ重なるときがある
-      for (let pos of randomPoss) {
-        if (
-          pos.x - 50 < x &&
-          x < pos.x + 50 &&
-          pos.y - 50 < y &&
-          y < pos.y + 50
-        ) {
-          overlapped = true;
-          break;
+          let overlapped = false;
+          // FIXME: 文字や線に重ならないように位置を決めているがまだ重なるときがある
+          for (let pos of randomPoss) {
+            if (
+              pos.x - 50 < x &&
+              x < pos.x + 50 &&
+              pos.y - 50 < y &&
+              y < pos.y + 50
+            ) {
+              overlapped = true;
+              break;
+            }
+            if (462 < x && x < 562) {
+              // line
+              overlapped = true;
+              break;
+            }
+          }
+          if (overlapped) continue;
+          randomPoss.push({ x, y });
+          if (
+            leftSide.chars.length + rightSide.chars.length <=
+            randomPoss.length
+          )
+            break;
         }
-        if (462 < x && x < 562) {
-          // line
-          overlapped = true;
-          break;
-        }
+        return randomPoss;
       }
-      if (overlapped) continue;
-      randomPoss.push({ x, y });
-      if (leftSide.chars.length + rightSide.chars.length <= randomPoss.length)
-        break;
-    }
+    };
+    const poss = generatePoss();
+
     const leftSideObjs = leftSide.chars.map((e, i) => {
-      const obj = scene.add.text(randomPoss[i].x, randomPoss[i].y, e[0], {
+      const obj = scene.add.text(poss[i].x, poss[i].y, e[0], {
         color: "#333333",
         fontSize: "50px",
         fontFamily: scene.registry.get("fontFamily"),
@@ -154,8 +189,8 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     });
     const rightSideObjs = rightSide.chars.map((e, i) => {
       const obj = scene.add.text(
-        randomPoss[i + leftSide.chars.length].x,
-        randomPoss[i + leftSide.chars.length].y,
+        poss[i + leftSide.chars.length].x,
+        poss[i + leftSide.chars.length].y,
         e[0],
         {
           color: "#333333",
@@ -183,9 +218,8 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {Phaser.Scene} scene
    * @param {Phaser.GameObjects.Text[]} rightSideObjs
    * @param {Phaser.GameObjects.Text[]} leftSideObjs
-   * @param {afterConfirmationCallback} whenCleard callback
    */
-  check = (scene, rightSideObjs, leftSideObjs, whenCleard) => {
+  check = (scene, rightSideObjs, leftSideObjs) => {
     const leftRadicalName = scene.add.text(
       256,
       150,
@@ -241,10 +275,6 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         this.correctedCounter += 1;
       }
     });
-    this.answerCounter += 1;
-    if (9 <= this.answerCounter) {
-      whenCleard();
-    }
   };
 
   createRandomQuizList = () => {
@@ -264,11 +294,12 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createOKButton = (scene, callback) => {
     const okButton = scene.add
-      .text(490, 650, "OK", {
+      .text(512, 650, "OK", {
         fontSize: "32px",
         color: "#000000",
         backgroundColor: "#ffffff",
       })
+      .setOrigin(0.5, 0.5)
       .setInteractive()
       .on("pointerdown", () => {
         callback();
@@ -282,14 +313,35 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {Phaser.Scene} scene
    * @callback {onPointerdown} callback
    */
-  createNextQuizButton = (scene, callback) => {
-    const nextButton = scene.add
-      .text(490, 650, "つぎへ", {
+  createExampleAnswerButton = (scene, callback) => {
+    const exampleAnswerButton = scene.add
+      .text(512, 650, "見本をみる", {
         fontSize: "32px",
         color: "#000000",
         backgroundColor: "#ffffff",
       })
       .setInteractive()
+      .setOrigin(0.5, 0.5)
+      .on("pointerdown", () => {
+        callback();
+        exampleAnswerButton.destroy();
+      });
+    return exampleAnswerButton;
+  };
+
+  /**
+   * @param {Phaser.Scene} scene
+   * @callback {onPointerdown} callback
+   */
+  createNextQuizButton = (scene, callback) => {
+    const nextButton = scene.add
+      .text(512, 650, "つぎへ", {
+        fontSize: "32px",
+        color: "#000000",
+        backgroundColor: "#ffffff",
+      })
+      .setInteractive()
+      .setOrigin(0.5, 0.5)
       .on("pointerdown", () => {
         callback();
         nextButton.destroy();
@@ -312,7 +364,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     const text = scene.add.text(
       155,
       671,
-      `残り : ${10 - this.answerCounter}問`,
+      `のこり : ${10 - this.answerCounter}問`,
       {
         color: "#333333",
         fontSize: "50px",
