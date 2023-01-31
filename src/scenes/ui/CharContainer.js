@@ -128,7 +128,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
         this.sizeY = CharContainer.Size.S.y;
     }
     this.country = country;
-    this.charFontSize = 40;
+    this.charFontSize = 60;
     this.charSpace = 70;
     this.mode = mode;
     this.setY(200);
@@ -152,19 +152,19 @@ export default class CharContainer extends Phaser.GameObjects.Container {
    */
   changeDifficulty = (scene) => {
     switch (this.sizeX) {
-      case 6:
+      case CharContainer.Size.S.x:
         this.setY(250);
-        this.charFontSize = 50;
+        this.charFontSize = 70;
         this.charSpace = 100;
         break;
-      case 8:
+      case CharContainer.Size.M.x:
         this.setY(200);
-        this.charFontSize = 50;
+        this.charFontSize = 70;
         this.charSpace = 100;
         break;
       default:
         this.setY(190);
-        this.charFontSize = 40;
+        this.charFontSize = 50;
         this.charSpace = 70;
     }
     this.setSize(
