@@ -1,5 +1,8 @@
 # 漢字王プロジェクト
 
+## デザインカンプ
+[figma link](https://www.figma.com/file/2urehqJ5vcqzZCPGSCePlH/Untitled?node-id=0%3A1&t=Bdpxw1ACTmU6b1oN-1)
+
 ## Getting Started
 
 依存関係のインストール:
