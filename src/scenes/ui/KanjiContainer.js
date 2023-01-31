@@ -179,12 +179,12 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
    */
   changeDifficulty = (scene) => {
     switch (this.sizeX) {
-      case 6:
+      case KanjiContainer.Size.S.x:
         this.setY(250);
         this.kanjiFontSize = 50;
         this.kanjiSpace = 100;
         break;
-      case 8:
+      case KanjiContainer.Size.M.x:
         this.setY(200);
         this.kanjiFontSize = 50;
         this.kanjiSpace = 100;
