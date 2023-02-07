@@ -316,7 +316,7 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
             .text(x * this.kanjiSpace, y * this.kanjiSpace, kanji, {
               fill: 0x333333,
               fontSize: this.kanjiFontSize,
-              fontFamily: scene.registry.get("fontFamily"),
+              fontFamily: scene.registry.get("kanjiFontFamily"),
             })
             .setInteractive()
         );

@@ -83,8 +83,12 @@ const config = {
 
 const game = new Phaser.Game(config);
 game.registry.set(
+  "kanjiFontFamily",
+  "'Klee One', cursive"
+);
+game.registry.set(
   "fontFamily",
-  "'UD デジタル 教科書体 NP-R', KleeOne, Arial, Sarabun"
+  "'sans-serif', KleeOne, Arial, Sarabun"
 );
 
 export default game;
