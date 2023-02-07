@@ -1,6 +1,6 @@
 @font-face {
-  font-family: KleeOne;
-  src: url("assets/font/KleeOne-SemiBold.ttf");
+  src: url("assets/font/KleeOne-SemiBold.ttf") format("truetype");
+  font-family: "KleeOne";
 }
 
 * {
