@@ -64,7 +64,7 @@ const config = {
 const game = new Phaser.Game(config);
 game.registry.set(
   "kanjiFontFamily",
-  "'Klee One', cursive"
+  "KleeOne"
 );
 game.registry.set(
   "fontFamily",

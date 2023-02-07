@@ -10,15 +10,12 @@
       if (location.search != "") location.href = "/";
     };
   </script>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="style.css"/>
+  <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'" />
 </head>
 
 <body>
-  <!--  style="font-family: 'UD デジタル 教科書体 NP-R', 'KleeOne'" -->
-	<div id="app"></div>
+	<div id="app" style="font-family: KleeOne;"></div>
   <div id="game"></div>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-68PVBL7TST"></script>
