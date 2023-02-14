@@ -22,7 +22,7 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
       name: "s",
       text: "少ない",
       y: 3,
-      x: 4,
+      x: 6,
     },
     M: {
       name: "m",
