@@ -22,7 +22,7 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
       name: "s",
       text: "少ない",
       y: 3,
-      x: 4,
+      x: 6,
     },
     M: {
       name: "m",
@@ -181,7 +181,7 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
     switch (this.sizeX) {
       case KanjiContainer.Size.S.x:
         this.setY(250);
-        this.kanjiFontSize = 50;
+        this.kanjiFontSize = 60;
         this.kanjiSpace = 100;
         break;
       case KanjiContainer.Size.M.x:

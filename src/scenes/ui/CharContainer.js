@@ -28,7 +28,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
       name: "s",
       text: "少ない",
       y: 3,
-      x: 4,
+      x: 6,
     },
     M: {
       name: "m",
@@ -159,7 +159,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
         break;
       case CharContainer.Size.M.x:
         this.setY(200);
-        this.charFontSize = 70;
+        this.charFontSize = 60;
         this.charSpace = 100;
         break;
       default:
