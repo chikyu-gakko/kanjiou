@@ -66,7 +66,6 @@ export default class SekaiGame extends Phaser.Scene {
           this.charContainer.correctCharacter,
           this.charContainer.mistakeAnsExample,
           this.charContainer.correctAnsExample,
-          this.charContainer.tips
         )
     );
     this.createTimeStopLabel();
@@ -179,14 +178,12 @@ export default class SekaiGame extends Phaser.Scene {
    * @param {string} correctCharacter
    * @param {string} mistakeAnsExample
    * @param {string} correctAnsExample
-   * @param {string} tips
    */
   commentAnim = (
     mistakeCharacter,
     correctCharacter,
     mistakeAnsExample,
     correctAnsExample,
-    tips
   ) => {
     const commentBg = this.add.graphics();
     commentBg
@@ -260,13 +257,6 @@ export default class SekaiGame extends Phaser.Scene {
     });
     wrongExample.depth = 4;
 
-    const tipsText = this.add.text(160, 120, tips, {
-      color: "#ffffff",
-      fontSize: "32px",
-      fontFamily: this.fontFamily,
-    });
-    tipsText.depth = 4;
-
     const commentGroup = this.add.group();
 
     const resumeButton = this.add
@@ -294,7 +284,6 @@ export default class SekaiGame extends Phaser.Scene {
       wrongAnsChar,
       wrongExample,
       resumeButton,
-      tipsText,
     ]);
     commentGroup.toggleVisible();
     commentGroup.toggleVisible();
