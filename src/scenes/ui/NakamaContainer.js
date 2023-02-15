@@ -57,7 +57,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     this.questionsCounter += rightSideObjs.length;
 
     const okButton = this.createOKButton(scene, () => {
-      this.check(scene, leftSideObjs, rightSideObjs, whenCleard);
+      this.check(scene, leftSideObjs, rightSideObjs);
       this.createExampleAnswerButton(scene, () => {
         this.group.setVisible(false);
         this.createObjs(scene, true);
