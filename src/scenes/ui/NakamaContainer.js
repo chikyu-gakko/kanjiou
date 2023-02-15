@@ -60,8 +60,9 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       this.check(scene, leftSideObjs, rightSideObjs, whenCleard);
       this.createExampleAnswerButton(scene, () => {
         this.group.setVisible(false);
-        // FIXME: 部首名も見えなくなってしまうのを後で修正したい
         this.createObjs(scene, true);
+        this.showLeftRadicalName(scene);
+        this.showRightRadicalName(scene);
 
         this.createNextQuizButton(scene, () => {
           if (9 <= this.answerCounter) {
@@ -83,7 +84,6 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createObjs = (scene, isExampleAnswer) => {
     const leftSide = {
-      radicalName: this.quizzes[this.answerCounter][1],
       chars: this.quizzes[this.answerCounter][2],
       radical: this.quizzes[this.answerCounter][5],
       x: 400,
@@ -92,7 +92,6 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       height: 100,
     };
     const rightSide = {
-      radicalName: this.quizzes[this.answerCounter][3],
       chars: this.quizzes[this.answerCounter][4],
       radical: this.quizzes[this.answerCounter][6],
       x: 30,
@@ -220,30 +219,8 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {Phaser.GameObjects.Text[]} leftSideObjs
    */
   check = (scene, rightSideObjs, leftSideObjs) => {
-    const leftRadicalName = scene.add.text(
-      306,
-      150,
-      this.quizzes[this.answerCounter][1],
-      {
-        color: "#333333",
-        fontSize: "40px",
-        fontFamily: scene.registry.get("fontFamily"),
-      }
-    );
-    leftRadicalName.setOrigin(0.5, 0.5);
-    this.group.add(leftRadicalName);
-    const rightRadicalName = scene.add.text(
-      718,
-      150,
-      this.quizzes[this.answerCounter][3],
-      {
-        color: "#333333",
-        fontSize: "40px",
-        fontFamily: scene.registry.get("fontFamily"),
-      }
-    );
-    rightRadicalName.setOrigin(0.5, 0.5);
-    this.group.add(rightRadicalName);
+    this.showLeftRadicalName(scene);
+    this.showRightRadicalName(scene);
     const threshouldX = 512;
     leftSideObjs.forEach((e) => {
       e.removeListener("drag");
@@ -374,5 +351,41 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       }
     );
     return text;
+  };
+
+  /**
+   * @param {Phaser.Scene} scene Phaser.Scene
+   */
+  showLeftRadicalName = (scene) => {
+    const leftRadicalName = scene.add.text(
+      306,
+      150,
+      this.quizzes[this.answerCounter][1],
+      {
+        color: "#333333",
+        fontSize: "40px",
+        fontFamily: scene.registry.get("fontFamily"),
+      }
+    );
+    leftRadicalName.setOrigin(0.5, 0.5);
+    this.group.add(leftRadicalName);
+  };
+
+  /**
+   * @param {Phaser.Scene} scene Phaser.Scene
+   */
+  showRightRadicalName = (scene) => {
+    const rightRadicalName = scene.add.text(
+      718,
+      150,
+      this.quizzes[this.answerCounter][3],
+      {
+        color: "#333333",
+        fontSize: "40px",
+        fontFamily: scene.registry.get("fontFamily"),
+      }
+    );
+    rightRadicalName.setOrigin(0.5, 0.5);
+    this.group.add(rightRadicalName);
   };
 }
