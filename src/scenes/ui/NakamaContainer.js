@@ -101,14 +101,14 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       height: 100,
     };
 
-    const leftTitle = scene.add.text(256, 80, leftSide.radical, {
+    const leftTitle = scene.add.text(306, 80, leftSide.radical, {
       color: "#333333",
       fontSize: "60px",
       fontFamily: scene.registry.get("fontFamily"),
     });
     leftTitle.setOrigin(0.5, 0.5);
     this.group.add(leftTitle);
-    const rightTitle = scene.add.text(768, 80, rightSide.radical, {
+    const rightTitle = scene.add.text(718, 80, rightSide.radical, {
       color: "#333333",
       fontSize: "60px",
       fontFamily: scene.registry.get("fontFamily"),
@@ -221,7 +221,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   check = (scene, rightSideObjs, leftSideObjs) => {
     const leftRadicalName = scene.add.text(
-      256,
+      306,
       150,
       this.quizzes[this.answerCounter][1],
       {
@@ -233,7 +233,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     leftRadicalName.setOrigin(0.5, 0.5);
     this.group.add(leftRadicalName);
     const rightRadicalName = scene.add.text(
-      768,
+      718,
       150,
       this.quizzes[this.answerCounter][3],
       {
@@ -248,10 +248,11 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     leftSideObjs.forEach((e) => {
       e.removeListener("drag");
       if (e.x < threshouldX) {
-        const batu = scene.add.sprite(e.x, e.y, "batu");
-        batu.setScale(0.2);
-        batu.setOrigin(0.5, 0.5);
-        this.group.add(batu);
+        // NOTE: バツ印は表示しないことに決まりました
+        // const batu = scene.add.sprite(e.x, e.y, "batu");
+        // batu.setScale(0.2);
+        // batu.setOrigin(0.5, 0.5);
+        // this.group.add(batu);
       } else {
         const maru = scene.add.sprite(e.x, e.y, "maru");
         maru.setScale(0.2);
@@ -263,10 +264,11 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     rightSideObjs.forEach((e) => {
       e.removeListener("drag");
       if (threshouldX < e.x) {
-        const batu = scene.add.sprite(e.x, e.y, "batu");
-        batu.setScale(0.2);
-        batu.setOrigin(0.5, 0.5);
-        this.group.add(batu);
+        // NOTE: バツ印は表示しないことに決まりました
+        // const batu = scene.add.sprite(e.x, e.y, "batu");
+        // batu.setScale(0.2);
+        // batu.setOrigin(0.5, 0.5);
+        // this.group.add(batu);
       } else {
         const maru = scene.add.sprite(e.x, e.y, "maru");
         maru.setScale(0.2);
