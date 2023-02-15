@@ -26,6 +26,7 @@ export default class HitsujiGame extends Phaser.Scene {
     this.load.image("batu", "assets/img/batu.png");
     this.load.image("correctmogura", "assets/img/fun_mogura2.png");
     this.load.image("mistakemogura", "assets/img/sad_mogura.png");
+    this.load.image("kokuban", "assets/img/kokuban.png");
   }
 
   init(data) {
@@ -40,6 +41,7 @@ export default class HitsujiGame extends Phaser.Scene {
 
   create() {
     this.createBackGround();
+    this.createKokuban();
     this.createSoundButton();
     this.startMusic();
     this.kanjiContainer = this.createKanjiContainer();
@@ -192,7 +194,11 @@ export default class HitsujiGame extends Phaser.Scene {
   };
 
   createBackGround = () => {
-    new BackGround(this, { color: 0xeaeaea, alpha: 1 });
+    new BackGround(this, { color: 0xeedcb3, alpha: 1 });
+  };
+
+  createKokuban = () => {
+    this.add.sprite(512, 384, "kokuban").setScale(2.5, 2).setOrigin(0.5, 0.46);
   };
 
   createSoundButton = () => {
