@@ -121,13 +121,13 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         /** @type {{x: number, y:number}[]} */
         const sequentialPoss = [];
         for (let i = 0; i < leftSide.chars.length; i++) {
-          const x = ((i / 3) | 0) * 70 + 100;
-          const y = (i % 3) * 70 + 300;
+          const x = ((i / 5) | 0) * 70 + 300;
+          const y = (i % 5) * 70 + 250;
           sequentialPoss.push({ x, y });
         }
         for (let i = 0; i < rightSide.chars.length; i++) {
-          const x = ((i / 3) | 0) * 70 + 512 + 100;
-          const y = (i % 3) * 70 + 300;
+          const x = ((i / 5) | 0) * 70 + 512 + 150;
+          const y = (i % 5) * 70 + 250;
           sequentialPoss.push({ x, y });
         }
         return sequentialPoss;
@@ -135,7 +135,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         /** @type {{x: number, y:number}[]} */
         const randomPoss = [];
         for (let i = 0; i < 1000; i++) {
-          const x = Math.floor(Math.random() * (924 - 100)) + 100;
+          const x = Math.floor(Math.random() * (724 - 200)) + 200;
           const y = Math.floor(Math.random() * (570 - 230)) + 230;
 
           let overlapped = false;

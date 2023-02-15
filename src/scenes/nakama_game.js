@@ -12,6 +12,7 @@ const images = [
   ["batu", "assets/img/batu.png"],
   ["correctmogura", "assets/img/fun_mogura2.png"],
   ["mistakemogura", "assets/img/sad_mogura.png"],
+  ["tenniscourt", "assets/img/tennis_court.png"],
 ];
 
 const debugMode = false;
@@ -43,12 +44,14 @@ export default class NakamaGame extends Phaser.Scene {
 
   create() {
     this.createBackGround();
+    this.createTennisCourt();
     this.createSoundButton();
     this.startMusic();
     this.nakamaContainer = this.createNakamaContainer();
     this.nakamaContainer.start(this, this.transitionToResult);
-    this.add.line(0, 0, 512, 384, 512, 1100, 0x000000);
-    this.createDraggableAreaBg();
+    // NOTE: デバッグ用
+    // this.add.line(0, 0, 512, 384, 512, 1100, 0x000000);
+    // this.createDraggableAreaBg();
   }
 
   createNakamaContainer = () => {
@@ -56,7 +59,14 @@ export default class NakamaGame extends Phaser.Scene {
   };
 
   createBackGround = () => {
-    new BackGround(this, { color: 0xeaeaea, alpha: 1 });
+    new BackGround(this, { color: 0xc9dfa5, alpha: 1 });
+  };
+
+  createTennisCourt = () => {
+    this.add
+      .sprite(512, 384, "tenniscourt")
+      .setScale(1.3, 1.3)
+      .setOrigin(0.5, 0.47);
   };
 
   createSoundButton = () => {
