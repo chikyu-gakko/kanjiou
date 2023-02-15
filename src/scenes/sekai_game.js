@@ -14,6 +14,7 @@ const images = [
   ["batu", "assets/img/batu.png"],
   ["correctmogura", "assets/img/fun_mogura2.png"],
   ["mistakemogura", "assets/img/sad_mogura.png"],
+  ["whiteboard", "assets/img/whiteboard.png"],
 ];
 
 export default class SekaiGame extends Phaser.Scene {
@@ -49,6 +50,7 @@ export default class SekaiGame extends Phaser.Scene {
 
   create() {
     this.createBackGround();
+    this.createWhiteBoard();
     this.createSoundButton();
     this.startMusic();
     this.charContainer = this.createCharContainer();
@@ -331,7 +333,14 @@ export default class SekaiGame extends Phaser.Scene {
   }
 
   createBackGround = () => {
-    new BackGround(this, { color: 0xeaeaea, alpha: 1 });
+    new BackGround(this, { color: 0xeedcb3, alpha: 1 });
+  };
+
+  createWhiteBoard = () => {
+    this.add
+      .sprite(512, 384, "whiteboard")
+      .setScale(2.8, 2)
+      .setOrigin(0.49, 0.3);
   };
 
   createSoundButton = () => {
