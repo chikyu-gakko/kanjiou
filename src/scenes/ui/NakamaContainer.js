@@ -171,7 +171,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     const leftSideObjs = leftSide.chars.map((e, i) => {
       const obj = scene.add.text(poss[i].x, poss[i].y, e[0], {
         color: "#333333",
-        fontSize: "50px",
+        fontSize: "60px",
         fontFamily: scene.registry.get("fontFamily"),
       });
       obj.setOrigin(0.5, 0.5);
@@ -193,7 +193,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         e[0],
         {
           color: "#333333",
-          fontSize: "50px",
+          fontSize: "60px",
           fontFamily: scene.registry.get("fontFamily"),
         }
       );
