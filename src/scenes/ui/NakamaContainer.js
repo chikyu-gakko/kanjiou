@@ -84,16 +84,16 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    */
   createObjs = (scene, isExampleAnswer) => {
     const leftSide = {
-      chars: this.quizzes[this.answerCounter][2],
-      radical: this.quizzes[this.answerCounter][5],
+      chars: this.quizzes[this.answerCounter].left.chars,
+      radical: this.quizzes[this.answerCounter].left.radical,
       x: 400,
       y: 700,
       width: 100,
       height: 100,
     };
     const rightSide = {
-      chars: this.quizzes[this.answerCounter][4],
-      radical: this.quizzes[this.answerCounter][6],
+      chars: this.quizzes[this.answerCounter].right.chars,
+      radical: this.quizzes[this.answerCounter].right.radical,
       x: 30,
       y: 30,
       width: 100,
@@ -122,13 +122,13 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         /** @type {{x: number, y:number}[]} */
         const sequentialPoss = [];
         for (let i = 0; i < leftSide.chars.length; i++) {
-          const x = ((i / 5) | 0) * 70 + 300;
-          const y = (i % 5) * 70 + 250;
+          const x = ((i / 3) | 0) * 80 + 250;
+          const y = (i % 3) * 80 + 320;
           sequentialPoss.push({ x, y });
         }
         for (let i = 0; i < rightSide.chars.length; i++) {
-          const x = ((i / 5) | 0) * 70 + 512 + 150;
-          const y = (i % 5) * 70 + 250;
+          const x = ((i / 3) | 0) * 80 + 512 + 100;
+          const y = (i % 3) * 80 + 320;
           sequentialPoss.push({ x, y });
         }
         return sequentialPoss;
@@ -362,7 +362,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     const leftRadicalName = scene.add.text(
       306,
       150,
-      this.quizzes[this.answerCounter][1],
+      this.quizzes[this.answerCounter].left.radicalName,
       {
         color: "#333333",
         fontSize: "40px",
@@ -380,7 +380,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     const rightRadicalName = scene.add.text(
       718,
       150,
-      this.quizzes[this.answerCounter][3],
+      this.quizzes[this.answerCounter].right.radicalName,
       {
         color: "#333333",
         fontSize: "40px",
