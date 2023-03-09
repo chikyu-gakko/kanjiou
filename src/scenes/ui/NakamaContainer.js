@@ -375,7 +375,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
   createAnswerComponent = (scene) => {
     if (this.answerComponent) this.answerComponent.destroy();
     const text = scene.add
-      .text(250, 700, `${10 - this.answerCounter} / 10 問`, {
+      .text(250, 700, `${this.answerCounter + 1} / 10 問`, {
         color: "#333333",
         fontSize: "50px",
         fontFamily: scene.registry.get("fontFamily"),
