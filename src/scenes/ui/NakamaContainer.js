@@ -102,7 +102,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
 
     const leftTitle = scene.add.text(306, 80, leftSide.radical, {
       color: "#333333",
-      fontSize: "60px",
+      fontSize: "80px",
       strokeThickness: 10,
       fontFamily: scene.registry.get("fontFamily"),
     });
@@ -110,7 +110,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     this.group.add(leftTitle);
     const rightTitle = scene.add.text(718, 80, rightSide.radical, {
       color: "#333333",
-      fontSize: "60px",
+      fontSize: "80px",
       strokeThickness: 10,
       fontFamily: scene.registry.get("fontFamily"),
     });
