@@ -327,7 +327,7 @@ export default class SekaiGame extends Phaser.Scene {
 
   createWhiteBoard = () => {
     this.add
-      .sprite(512, 384, "whiteboard")
+      .sprite(512, 364, "whiteboard")
       .setScale(2.8, 2)
       .setOrigin(0.49, 0.3);
   };
