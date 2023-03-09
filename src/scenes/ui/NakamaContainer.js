@@ -63,6 +63,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         this.createObjs(scene, true);
         this.showLeftRadicalName(scene);
         this.showRightRadicalName(scene);
+        this.showMoguran(scene);
 
         this.createNextQuizButton(scene, () => {
           if (9 <= this.answerCounter) {
@@ -420,5 +421,15 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     );
     rightRadicalName.setOrigin(0.5, 0.5);
     this.group.add(rightRadicalName);
+  };
+
+  /**
+   * @param {Phaser.Scene} scene Phaser.Scene
+   */
+  showMoguran = (scene) => {
+    const moguran = scene.add
+      .sprite(850, 550, "correctmogura")
+      .setScale(0.4, 0.4);
+    this.group.add(moguran);
   };
 }
