@@ -274,18 +274,29 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @callback {onPointerdown} callback
    */
   createOKButton = (scene, callback) => {
+    // NOTE: 一時的に画像を試す
+    // const okButton = scene.add
+    //   .text(512, 650, "OK", {
+    //     fontSize: "32px",
+    //     color: "#000000",
+    //     backgroundColor: "#ffffff",
+    //   })
+    //   .setOrigin(0.5, 0.5)
+    //   .setInteractive()
+    //   .on("pointerdown", () => {
+    //     callback();
+    //     okButton.destroy();
+    //   });
     const okButton = scene.add
-      .text(512, 650, "OK", {
-        fontSize: "32px",
-        color: "#000000",
-        backgroundColor: "#ffffff",
-      })
-      .setOrigin(0.5, 0.5)
+      .sprite(850, 680, "ok")
       .setInteractive()
+      .setScale(0.6, 0.6)
+      .setOrigin(0.5, 0.5)
       .on("pointerdown", () => {
         callback();
         okButton.destroy();
       });
+
     okButton.setDepth(2);
     return okButton;
   };
@@ -295,13 +306,23 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @callback {onPointerdown} callback
    */
   createExampleAnswerButton = (scene, callback) => {
+    // NOTE: 一時的に画像を試す
+    // const exampleAnswerButton = scene.add
+    //   .text(512, 650, "見本をみる", {
+    //     fontSize: "32px",
+    //     color: "#000000",
+    //     backgroundColor: "#ffffff",
+    //   })
+    //   .setInteractive()
+    //   .setOrigin(0.5, 0.5)
+    //   .on("pointerdown", () => {
+    //     callback();
+    //     exampleAnswerButton.destroy();
+    //   });
     const exampleAnswerButton = scene.add
-      .text(512, 650, "見本をみる", {
-        fontSize: "32px",
-        color: "#000000",
-        backgroundColor: "#ffffff",
-      })
+      .sprite(850, 680, "kotae")
       .setInteractive()
+      .setScale(0.8, 0.8)
       .setOrigin(0.5, 0.5)
       .on("pointerdown", () => {
         callback();
@@ -315,13 +336,23 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @callback {onPointerdown} callback
    */
   createNextQuizButton = (scene, callback) => {
+    // NOTE: 一時的に画像を試す
+    // const nextButton = scene.add
+    //   .text(512, 650, "つぎへ", {
+    //     fontSize: "32px",
+    //     color: "#000000",
+    //     backgroundColor: "#ffffff",
+    //   })
+    //   .setInteractive()
+    //   .setOrigin(0.5, 0.5)
+    //   .on("pointerdown", () => {
+    //     callback();
+    //     nextButton.destroy();
+    //   });
     const nextButton = scene.add
-      .text(512, 650, "つぎへ", {
-        fontSize: "32px",
-        color: "#000000",
-        backgroundColor: "#ffffff",
-      })
+      .sprite(850, 680, "go")
       .setInteractive()
+      .setScale(0.8, 0.8)
       .setOrigin(0.5, 0.5)
       .on("pointerdown", () => {
         callback();

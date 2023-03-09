@@ -13,6 +13,9 @@ const images = [
   ["correctmogura", "assets/img/fun_mogura2.png"],
   ["mistakemogura", "assets/img/sad_mogura.png"],
   ["tenniscourt", "assets/img/tennis_court.png"],
+  ["go", "assets/img/navi_go.png"],
+  ["ok", "assets/img/ok.png"],
+  ["kotae", "assets/img/kotae.png"],
 ];
 
 const debugMode = false;
