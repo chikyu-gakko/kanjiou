@@ -15,6 +15,7 @@ const images = [
   ["correctmogura", "assets/img/fun_mogura2.png"],
   ["mistakemogura", "assets/img/sad_mogura.png"],
   ["whiteboard", "assets/img/whiteboard.png"],
+  ["kanban", "assets/img/kanban.png"],
 ];
 
 export default class SekaiGame extends Phaser.Scene {
@@ -65,7 +66,7 @@ export default class SekaiGame extends Phaser.Scene {
           this.charContainer.mistakeCharacter,
           this.charContainer.correctCharacter,
           this.charContainer.mistakeAnsExample,
-          this.charContainer.correctAnsExample,
+          this.charContainer.correctAnsExample
         )
     );
     this.createTimeStopLabel();
@@ -183,7 +184,7 @@ export default class SekaiGame extends Phaser.Scene {
     mistakeCharacter,
     correctCharacter,
     mistakeAnsExample,
-    correctAnsExample,
+    correctAnsExample
   ) => {
     const commentBg = this.add.graphics();
     commentBg
@@ -194,77 +195,62 @@ export default class SekaiGame extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       ).depth = 2;
 
-    const correctImg = this.add.sprite(100, 530, "maru");
-    correctImg.setScale(0.2);
-    correctImg.depth = 4;
+    const kanban = this.add
+      .sprite(512, 400, "kanban")
+      .setScale(1.2, 1.2)
+      .setOrigin(0.5, 0.5)
+      .setDepth(3);
 
-    // const correctMoguraImg = this.add.sprite(700, 550, "correctmogura");
-    // correctMoguraImg.depth = 4;
-
-    const mistakeImg = this.add.sprite(620, 530, "batu");
-    mistakeImg.setScale(0.2);
-    mistakeImg.depth = 4;
-
-    const correctAnsBox = this.add.graphics();
-    correctAnsBox
-      .fillStyle(0xffffff, 1)
-      .fillRoundedRect(30, 234, 432, 367, 14).depth = 3;
-
-    const correctAnsTitle = this.add.text(210, 250, "正解", {
-      color: "#000000",
-      fontSize: "32px",
-      fontFamily: this.fontFamily,
-    });
-    correctAnsTitle.depth = 4;
-
-    const correctAnsChar = this.add.text(60, 320, correctCharacter, {
-      color: "#000000",
-      fontSize: "64px",
-      fontFamily: this.fontFamily,
-    });
+    const correctAnsChar = this.add
+      .text(306, 270, correctCharacter, {
+        color: "#d53f3f",
+        fontSize: "100px",
+        fontFamily: this.fontFamily,
+      })
+      .setOrigin(0.5, 0.5);
     correctAnsChar.depth = 4;
 
-    const correctExample = this.add.text(60, 420, correctAnsExample, {
-      color: "#000000",
-      fontSize: "16px",
-      fontFamily: this.fontFamily,
-    });
+    const correctExample = this.add
+      .text(306, 420, correctAnsExample, {
+        color: "#000000",
+        fontSize: "32px",
+        fontFamily: this.fontFamily,
+      })
+      .setOrigin(0.5, 0.5);
     correctExample.depth = 4;
 
-    const wrongAnsBox = this.add.graphics();
-    wrongAnsBox
-      .fillStyle(0xffffff, 1)
-      .fillRoundedRect(550, 234, 432, 367, 14).depth = 3;
-
-    const wrongAnsTitle = this.add.text(710, 250, "不正解", {
-      color: "#000000",
-      fontSize: "32px",
-      fontFamily: this.fontFamily,
-    });
-    wrongAnsTitle.depth = 4;
-
-    const wrongAnsChar = this.add.text(610, 320, mistakeCharacter, {
-      color: "#000000",
-      fontSize: "64px",
-      fontFamily: this.fontFamily,
-    });
+    const wrongAnsChar = this.add
+      .text(726, 270, mistakeCharacter, {
+        color: "#000000",
+        fontSize: "100px",
+        fontFamily: this.fontFamily,
+      })
+      .setOrigin(0.5, 0.5);
     wrongAnsChar.depth = 4;
 
-    const wrongExample = this.add.text(610, 420, mistakeAnsExample, {
-      color: "#000000",
-      fontSize: "16px",
-      fontFamily: this.fontFamily,
-    });
+    const wrongExample = this.add
+      .text(726, 420, mistakeAnsExample, {
+        color: "#000000",
+        fontSize: "32px",
+        fontFamily: this.fontFamily,
+      })
+      .setOrigin(0.5, 0.5);
     wrongExample.depth = 4;
+
+    const mogura = this.add
+      .sprite(700, 650, "correctmogura")
+      .setDepth(4)
+      .setScale(0.5, 0.5);
 
     const commentGroup = this.add.group();
 
     const resumeButton = this.add
-      .text(460, 650, "閉じる", {
+      .text(512, 650, "閉じる", {
         color: "#ffffff",
-        fontSize: "32px",
+        fontSize: "48px",
         fontFamily: this.fontFamily,
       })
+      .setOrigin(0.5, 0.5)
       .setInteractive()
       .on("pointerdown", () => {
         commentGroup.toggleVisible();
@@ -273,16 +259,12 @@ export default class SekaiGame extends Phaser.Scene {
 
     commentGroup.addMultiple([
       commentBg,
-      correctImg,
-      mistakeImg,
-      correctAnsBox,
-      correctAnsTitle,
+      kanban,
       correctAnsChar,
       correctExample,
-      wrongAnsBox,
-      wrongAnsTitle,
       wrongAnsChar,
       wrongExample,
+      mogura,
       resumeButton,
     ]);
     commentGroup.toggleVisible();

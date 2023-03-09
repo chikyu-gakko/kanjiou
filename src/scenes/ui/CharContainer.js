@@ -256,17 +256,17 @@ export default class CharContainer extends Phaser.GameObjects.Container {
 
       this.removeAll(true);
 
-      this.mistakeCharacter = this.charList[i][1];
-      this.correctCharacter = this.charList[i][2];
-      this.correctAnsExample = this.charList[i][4];
-      this.mistakeAnsExample = this.charList[i][5];
+      this.mistakeCharacter = this.charList[i].incorrect.char;
+      this.correctCharacter = this.charList[i].correct.char;
+      this.correctAnsExample = this.charList[i].correct.vocabulary;
+      this.mistakeAnsExample = this.charList[i].incorrect.vocabulary;
 
       for (let y = 0; y < this.sizeY; y += 1) {
         for (let x = 0; x < this.sizeX; x += 1) {
           const character =
             y === answerY && x === answerX
-              ? this.charList[i][1]
-              : this.charList[i][2];
+              ? this.correctCharacter
+              : this.mistakeCharacter;
 
           characterArray.push(
             scene.add
