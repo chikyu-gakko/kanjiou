@@ -12,6 +12,14 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       name: "level1",
       text: "レベル1",
     },
+    2: {
+      name: "level2",
+      text: "レベル2",
+    },
+    3: {
+      name: "level3",
+      text: "レベル3",
+    },
   };
   static Category = {
     key: "category",
@@ -35,7 +43,13 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     scene.add.existing(this);
     switch (level) {
       case NakamaContainer.Level[1].name:
-        this.quizzes = this.createRandomQuizList();
+        this.quizzes = this.createRandomQuizList(1);
+        break;
+      case NakamaContainer.Level[2].name:
+        this.quizzes = this.createRandomQuizList(2);
+        break;
+      case NakamaContainer.Level[3].name:
+        this.quizzes = this.createRandomQuizList(3);
         break;
       default:
       // throw `${level} does not exist in nakamalist`;
@@ -259,8 +273,11 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     });
   };
 
-  createRandomQuizList = () => {
-    const quizzes = nakamalist[NakamaContainer.Level[1].text];
+  /**
+   * @param {Number} level
+   */
+  createRandomQuizList = (level) => {
+    const quizzes = nakamalist[NakamaContainer.Level[level].text];
     // NOTE: ランダムではなく難易度順に出題することにした
     // for (let i = 0; i < quizzes.length; i++) {
     //   const a = Math.floor(Math.random() * quizzes.length);
