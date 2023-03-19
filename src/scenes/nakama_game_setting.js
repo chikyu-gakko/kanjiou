@@ -215,6 +215,32 @@ export default class NakamaGameSetting extends Phaser.Scene {
         category: "level",
         value: "level1",
       }),
+      new SettingButton(
+        this,
+        585,
+        324,
+        134,
+        56,
+        "レベル2",
+        24,
+        this.fontFamily
+      ).setData({
+        category: "level",
+        value: "level2",
+      }),
+      new SettingButton(
+        this,
+        585,
+        424,
+        134,
+        56,
+        "レベル3",
+        24,
+        this.fontFamily
+      ).setData({
+        category: "level",
+        value: "level3",
+      }),
     ];
     return settingElements.map((element) => {
       if (element.constructor.name === "SettingButton") {
