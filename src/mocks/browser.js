@@ -8,7 +8,8 @@ const handlers = [
     return res(
       ctx.status(200),
       ctx.json({
-        rankOrder: 1,
+        isRankedIn: true,
+        rankOrder: 100,
       })
     );
   }),
