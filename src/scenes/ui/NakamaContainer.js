@@ -200,7 +200,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
           if (200 <= dragY && dragY <= 600 && (dragX <= 502 || 522 <= dragX)) {
             obj.setPosition(dragX, dragY);
           }
-          console.log(dragX, dragY);
+          // console.log(dragX, dragY);
         });
     });
     const rightSideObjs = rightSide.chars.map((e, i) => {
@@ -223,7 +223,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
           if (200 <= dragY && dragY <= 600 && (dragX <= 502 || 522 <= dragX)) {
             obj.setPosition(dragX, dragY);
           }
-          console.log(dragX, dragY);
+          // console.log(dragX, dragY);
         });
     });
 
@@ -306,7 +306,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     //     okButton.destroy();
     //   });
     const okButton = scene.add
-      .sprite(850, 680, "ok")
+      .sprite(512, 680, "ok")
       .setInteractive()
       .setScale(0.6, 0.6)
       .setOrigin(0.5, 0.5)
@@ -338,7 +338,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     //     exampleAnswerButton.destroy();
     //   });
     const exampleAnswerButton = scene.add
-      .sprite(850, 680, "kotae")
+      .sprite(512, 680, "kotae")
       .setInteractive()
       .setScale(0.8, 0.8)
       .setOrigin(0.5, 0.5)
@@ -368,7 +368,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
     //     nextButton.destroy();
     //   });
     const nextButton = scene.add
-      .sprite(850, 680, "go")
+      .sprite(512, 680, "go")
       .setInteractive()
       .setScale(0.8, 0.8)
       .setOrigin(0.5, 0.5)

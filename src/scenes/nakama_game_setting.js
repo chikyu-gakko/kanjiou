@@ -25,7 +25,7 @@ export default class NakamaGameSetting extends Phaser.Scene {
     this.prevSceneData = {
       level: data.level,
     };
-    this.selectedLevel = this.prevSceneData.level || "level1";
+    this.selectedLevel = data.level || "level1";
 
     this.selectedSettingCategory = "level";
     this.fontFamily = this.registry.get("fontFamily");

@@ -1,6 +1,7 @@
 import NakamaContainer from "./ui/NakamaContainer";
 import BackGround from "./ui/BackGround";
 import SoundButton from "../components/sound_button";
+import TimeStopLabel from "./ui/TimerStopLabel.js";
 
 const bgms = [
   ["game_bgm", "assets/audio/timer.mp3"],
@@ -55,6 +56,31 @@ export default class NakamaGame extends Phaser.Scene {
     // NOTE: デバッグ用
     // this.add.line(0, 0, 512, 384, 512, 1100, 0x000000);
     // this.createDraggableAreaBg();
+    this.createTimeStopLabel();
+    this.events.on("resume", (scene, data) => {
+      switch (data.status) {
+        case "restart":
+          this.sound.stopAll();
+          this.scene.stop();
+          this.scene.start("nakama_game", {
+            level: this.prevSceneData.level,
+          });
+          break;
+        case "return-to-top":
+          this.sound.stopAll();
+          this.scene.stop();
+          this.scene.start("game_menu");
+          break;
+        case "return-to-setting":
+          this.sound.stopAll();
+          this.scene.stop();
+          this.scene.start("nakama_game_setting", {
+            level: this.prevSceneData.level,
+          });
+          break;
+        default:
+      }
+    });
   }
 
   createNakamaContainer = () => {
@@ -92,5 +118,17 @@ export default class NakamaGame extends Phaser.Scene {
   createDraggableAreaBg = () => {
     const areaBg = this.add.graphics();
     areaBg.fillStyle(0xffffff, 0.5).fillRect(0, 200, 1024, 400);
+  };
+
+  createTimeStopLabel = () => {
+    const timeStopLabel = new TimeStopLabel(this, 775, 672, "一時停止", {
+      color: "#333333",
+      fontSize: "32px",
+      fontFamily: this.fontFamily,
+    });
+    timeStopLabel.setInteractive().on("pointerdown", () => {
+      this.scene.pause();
+      this.scene.launch("nakama_pause_menu");
+    });
   };
 }
