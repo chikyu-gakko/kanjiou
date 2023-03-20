@@ -38,6 +38,8 @@ export default class GameResult extends Phaser.Scene {
     this.load.image("mogura-upper-body", "assets/img/mogura.png");
     this.load.image("fukidashi", "assets/img/fukidashi.png");
     this.load.image("clown", "assets/img/clown.png");
+    this.load.image("fun-mogura", "assets/img/fun_mogura2.png");
+    this.load.image("sad-mogura", "assets/img/sad_mogura.png");
 
     // bgm
     this.load.audio("ending", "assets/audio/ending.mp3");
@@ -91,7 +93,10 @@ export default class GameResult extends Phaser.Scene {
     this.createRankingPageButton();
 
     (async () => {
-      const rankData = await getRank(60 - this.prevSceneData.timer, '羊の中に犬が一匹');
+      const rankData = await getRank(
+        60 - this.prevSceneData.timer,
+        "羊の中に犬が一匹"
+      );
       if (rankData.isRankedIn && !this.rankingRegistered) {
         if (this.prevSceneData.modalVisible) {
           this.rankingModal(rankData.rankOrder);
@@ -349,12 +354,13 @@ export default class GameResult extends Phaser.Scene {
 
     try {
       rankText.destroy();
-      rankText = this.add.text(540, 305, rank, {
+      rankText = this.add.text(575, 305, rank, {
         fontFamily: "sans-serif",
         fontSize: "64px",
         color: "#AA9311",
       });
-      rankText.depth = 5;
+      rankText.setDepth(5);
+      rankText.setOrigin(0.5, 0);
     } catch (e) {
       // rankText.destroy();
       // rankText = this.add.text(560, 305, e.message, {
@@ -382,10 +388,10 @@ export default class GameResult extends Phaser.Scene {
 
     // 1024 / 2 - モーダルの横幅 / 2
 
-    this.add.image(560, 280, "clown").setDepth(5);
+    const clown = this.add.image(575, 280, "clown").setDepth(5);
 
     const rankMessageText = this.add
-      .text(377, 340, "あなたの順位 　　    位", {
+      .text(360, 340, "あなたの順位　　　　　　位", {
         fontFamily: "sans-serif",
         fontSize: "24px",
         color: "#333333",
@@ -410,12 +416,13 @@ export default class GameResult extends Phaser.Scene {
 
     // 名前検証テキスト
     const validationMessageText = this.add
-      .text(296, 350, "記号なし8文字以内で入力してください", {
+      .text(512, 385, "記号なし8文字以内で入力してください", {
         fontFamily: this.fontFamily,
         fontSize: "14px",
         color: "#d53f3f",
       })
       .setDepth(5)
+      .setOrigin(0.5, 0)
       .setVisible(false);
 
     const annotationText = this.add
@@ -435,12 +442,13 @@ export default class GameResult extends Phaser.Scene {
       .setDepth(5);
 
     const httpStatusMessage = this.add
-      .text(420, 400, "登録に成功しました", {
+      .text(512, 520, "登録に成功しました", {
         fontFamily: this.fontFamily,
-        fontSize: "20px",
-        color: "#333333",
+        fontSize: "30px",
+        color: "#32b65e",
       })
       .setDepth(5)
+      .setOrigin(0.5, 0)
       .setVisible(false);
 
     submitButton.buttonGraphic.on(
@@ -458,7 +466,7 @@ export default class GameResult extends Phaser.Scene {
           validationMessageText.setVisible(true);
           return;
         }
-        putRanking(this.prevSceneData.timer, text, '羊の中に犬が一匹')
+        putRanking(this.prevSceneData.timer, text, "羊の中に犬が一匹")
           .then(() => {
             this.rankingRegistered = true;
             const status = "登録に成功しました";
@@ -471,6 +479,12 @@ export default class GameResult extends Phaser.Scene {
             celebrationText.destroy();
             nameForm.destroy();
             submitButton.destroy();
+            clown.destroy();
+            this.add
+              .sprite(512, 400, "fun-mogura")
+              .setOrigin(0.5, 0.5)
+              .setScale(0.5, 0.5)
+              .setDepth(5);
           })
           .catch(() => {
             const status = "登録に失敗しました";
@@ -484,6 +498,12 @@ export default class GameResult extends Phaser.Scene {
             celebrationText.destroy();
             nameForm.destroy();
             submitButton.destroy();
+            clown.destroy();
+            this.add
+              .sprite(542, 420, "sad-mogura")
+              .setOrigin(0.5, 0.5)
+              .setScale(0.5, 0.5)
+              .setDepth(5);
           });
       },
       this
