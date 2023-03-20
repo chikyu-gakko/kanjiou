@@ -1,21 +1,6 @@
 export const characterList = {
   タイ語: [
     {
-      number: "",
-      correct: {
-        char: "",
-        vocabulary: "語彙",
-        read: "発音記号:カタカナ",
-        mean: "意味",
-      },
-      incorrect: {
-        char: "",
-        vocabulary: "語彙",
-        read: "発音記号:カタカナ",
-        mean: "意味",
-      },
-    },
-    {
       number: 1,
       correct: {
         char: "ฟ ",
