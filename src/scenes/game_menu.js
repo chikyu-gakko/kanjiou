@@ -2,7 +2,7 @@ import SoundButton from "../components/sound_button.js";
 import BackGround from "./ui/BackGround.js";
 import CameraFadeIn from "./ui/CameraFadeIn.js";
 
-import buttonJsx from "./sample";
+// import buttonJsx from "./sample";
 
 export default class GameMenu extends Phaser.Scene {
   constructor() {
