@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import phaserReact from "phaser3-react";
+// import phaserReact from "phaser3-react";
 
 import HelloWorldScene from "./HelloWorldScene";
 import OpenLogo from "./scenes/open_logo";
@@ -41,15 +41,15 @@ const config = {
   dom: {
     createContainer: true,
   },
-  plugins: {
-    global: [
-      {
-        key: "phaser-react",
-        plugin: phaserReact,
-        start: true,
-      },
-    ],
-  },
+  // plugins: {
+  //   global: [
+  //     {
+  //       key: "phaser-react",
+  //       plugin: phaserReact,
+  //       start: true,
+  //     },
+  //   ],
+  // },
   // physics: {
   //   default: 'arcade',
   //   arcade: {
@@ -72,7 +72,7 @@ const config = {
     NakamaGameSetting,
     NakamaGame,
     NakamaGameResult,
-    NakamaPauseMenu
+    NakamaPauseMenu,
   ],
 };
 
@@ -84,13 +84,7 @@ const config = {
 // test();
 
 const game = new Phaser.Game(config);
-game.registry.set(
-  "kanjiFontFamily",
-  "KleeOne"
-);
-game.registry.set(
-  "fontFamily",
-  "'sans-serif', KleeOne, Arial, Sarabun"
-);
+game.registry.set("kanjiFontFamily", "KleeOne");
+game.registry.set("fontFamily", "'sans-serif', KleeOne, Arial, Sarabun");
 
 export default game;
