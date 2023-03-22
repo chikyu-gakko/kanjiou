@@ -242,7 +242,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
         dataValue: Category.data.Mode.name,
       },
       {
-        x: 162,
+        x: 184,
         y: 463,
         text: Category.data.Country.text,
         font: {
