@@ -66,7 +66,11 @@ export default class SekaiGame extends Phaser.Scene {
           this.charContainer.mistakeCharacter,
           this.charContainer.correctCharacter,
           this.charContainer.mistakeAnsExample,
-          this.charContainer.correctAnsExample
+          this.charContainer.correctAnsExample,
+          this.charContainer.mistakeAnsRead,
+          this.charContainer.correctAnsRead,
+          this.charContainer.mistakeAnsMean,
+          this.charContainer.correctAnsMean
         )
     );
     this.createTimeStopLabel();
@@ -179,12 +183,21 @@ export default class SekaiGame extends Phaser.Scene {
    * @param {string} correctCharacter
    * @param {string} mistakeAnsExample
    * @param {string} correctAnsExample
+   * @param {string} mistakeAnsRead
+   * @param {string} correctAnsRead
+   * @param {string} mistakeAnsMean
+   * @param {string} correctAnsMean
+   * 
    */
   commentAnim = (
     mistakeCharacter,
     correctCharacter,
     mistakeAnsExample,
-    correctAnsExample
+    correctAnsExample,
+    mistakeAnsRead,
+    correctAnsRead,
+    mistakeAnsMean,
+    correctAnsMean
   ) => {
     const commentBg = this.add.graphics();
     commentBg
@@ -195,6 +208,9 @@ export default class SekaiGame extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       ).depth = 2;
 
+    const correctX = 315;
+    const wrongX = 717;
+
     const kanban = this.add
       .sprite(512, 400, "kanban")
       .setScale(1.2, 1.2)
@@ -202,7 +218,7 @@ export default class SekaiGame extends Phaser.Scene {
       .setDepth(3);
 
     const correctAnsChar = this.add
-      .text(306, 270, correctCharacter, {
+      .text(correctX, 270, correctCharacter, {
         color: "#d53f3f",
         fontSize: "100px",
         fontFamily: this.fontFamily,
@@ -211,7 +227,7 @@ export default class SekaiGame extends Phaser.Scene {
     correctAnsChar.depth = 4;
 
     const correctExample = this.add
-      .text(306, 420, correctAnsExample, {
+      .text(correctX, 358, correctAnsExample, {
         color: "#000000",
         fontSize: "32px",
         fontFamily: this.fontFamily,
@@ -219,8 +235,26 @@ export default class SekaiGame extends Phaser.Scene {
       .setOrigin(0.5, 0.5);
     correctExample.depth = 4;
 
+    const correctRead = this.add
+      .text(correctX, 400, correctAnsRead, {
+        color: "#aaaaaa",
+        fontSize: "24px",
+        fontFamily: this.fontFamily,
+      })
+      .setOrigin(0.5, 0.5);
+    correctRead.depth = 4;
+
+    const correctMean = this.add
+      .text(correctX, 428, correctAnsMean, {
+        color: "#000000",
+        fontSize: "24px",
+        fontFamily: this.fontFamily,
+      })
+      .setOrigin(0.5, 0.5);
+    correctMean.depth = 4;
+
     const wrongAnsChar = this.add
-      .text(726, 270, mistakeCharacter, {
+      .text(wrongX, 270, mistakeCharacter, {
         color: "#000000",
         fontSize: "100px",
         fontFamily: this.fontFamily,
@@ -229,13 +263,31 @@ export default class SekaiGame extends Phaser.Scene {
     wrongAnsChar.depth = 4;
 
     const wrongExample = this.add
-      .text(726, 420, mistakeAnsExample, {
+      .text(wrongX, 358, mistakeAnsExample, {
         color: "#000000",
         fontSize: "32px",
         fontFamily: this.fontFamily,
       })
       .setOrigin(0.5, 0.5);
     wrongExample.depth = 4;
+
+    const wrongRead = this.add
+      .text(wrongX, 400, mistakeAnsRead, {
+        color: "#aaaaaa",
+        fontSize: "24px",
+        fontFamily: this.fontFamily,
+      })
+      .setOrigin(0.5, 0.5);
+    wrongRead.depth = 4;
+
+    const wrongMean = this.add
+      .text(wrongX, 428, mistakeAnsMean, {
+        color: "#000000",
+        fontSize: "24px",
+        fontFamily: this.fontFamily,
+      })
+      .setOrigin(0.5, 0.5);
+    wrongMean.depth = 4;
 
     const mogura = this.add
       .sprite(700, 650, "correctmogura")
@@ -262,8 +314,12 @@ export default class SekaiGame extends Phaser.Scene {
       kanban,
       correctAnsChar,
       correctExample,
+      correctRead,
+      correctMean,
       wrongAnsChar,
       wrongExample,
+      wrongRead,
+      wrongMean,
       mogura,
       resumeButton,
     ]);

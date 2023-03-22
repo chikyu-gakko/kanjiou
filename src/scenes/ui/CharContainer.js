@@ -142,6 +142,10 @@ export default class CharContainer extends Phaser.GameObjects.Container {
     this.correctCharacter = undefined;
     this.mistakeAnsExample = undefined;
     this.correctAnsExample = undefined;
+    this.correctAnsRead = undefined;
+    this.mistakeAnsRead = undefined;
+    this.correctAnsMean = undefined;
+    this.mistakeAnsMean = undefined;
     this.wrongFlag = undefined;
     this.createAnswerComponent(scene);
   }
@@ -260,6 +264,10 @@ export default class CharContainer extends Phaser.GameObjects.Container {
       this.correctCharacter = this.charList[i].correct.char;
       this.correctAnsExample = this.charList[i].correct.vocabulary;
       this.mistakeAnsExample = this.charList[i].incorrect.vocabulary;
+      this.correctAnsRead = this.charList[i].correct.read;
+      this.mistakeAnsRead = this.charList[i].incorrect.read;
+      this.correctAnsMean = this.charList[i].correct.mean;
+      this.mistakeAnsMean = this.charList[i].incorrect.mean;
 
       for (let y = 0; y < this.sizeY; y += 1) {
         for (let x = 0; x < this.sizeX; x += 1) {
