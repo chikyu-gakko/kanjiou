@@ -1,5 +1,9 @@
 import SoundButton from "../components/sound_button";
 import SettingButton from "../components/setting_button";
+import NakamaContainer from "./ui/NakamaContainer";
+
+const Category = NakamaContainer.Category;
+const Level = NakamaContainer.Level;
 
 export default class NakamaGameSetting extends Phaser.Scene {
   constructor() {
@@ -208,12 +212,12 @@ export default class NakamaGameSetting extends Phaser.Scene {
         224,
         134,
         56,
-        "レベル1",
+        Level[1].text,
         24,
         this.fontFamily
       ).setData({
-        category: "level",
-        value: "level1",
+        category: Category.data.Level.name,
+        value: Level[1].name,
       }),
       new SettingButton(
         this,
@@ -221,12 +225,12 @@ export default class NakamaGameSetting extends Phaser.Scene {
         324,
         134,
         56,
-        "レベル2",
+        Level[2].text,
         24,
         this.fontFamily
       ).setData({
-        category: "level",
-        value: "level2",
+        category: Category.data.Level.name,
+        value: Level[2].name,
       }),
       new SettingButton(
         this,
@@ -234,28 +238,26 @@ export default class NakamaGameSetting extends Phaser.Scene {
         424,
         134,
         56,
-        "レベル3",
+        Level[3].text,
         24,
         this.fontFamily
       ).setData({
-        category: "level",
-        value: "level3",
+        category: Category.data.Level.name,
+        value: Level[3].name,
       }),
     ];
     return settingElements.map((element) => {
-      if (element.constructor.name === "SettingButton") {
-        switch (element.getData("category")) {
-          case "level":
-            element.buttonGraphic.on(
-              "pointerdown",
-              () => {
-                this.selectedLevel = element.getData("value");
-                this.updateView();
-              },
-              this
-            );
-            break;
-        }
+      switch (element.getData("category")) {
+        case Category.data.Level.name:
+          element.buttonGraphic.on(
+            "pointerdown",
+            () => {
+              this.selectedLevel = element.getData("value");
+              this.updateView();
+            },
+            this
+          );
+          break;
       }
       return element;
     });
