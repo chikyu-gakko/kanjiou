@@ -228,7 +228,7 @@ export default class GameSetting extends Phaser.Scene {
 
       // 出てくる漢字
       this.add
-        .text(163, 463, "出てくる漢字", {
+        .text(180, 463, "漢字レベル", {
           fontSize: "32px",
           fontFamily: this.fontFamily,
         })
