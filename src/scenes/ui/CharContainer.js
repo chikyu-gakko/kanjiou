@@ -93,7 +93,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
       },
       Country: {
         name: "country",
-        text: "どこの国？",
+        text: "何語?",
       },
       Challenge: {
         name: "challenge",

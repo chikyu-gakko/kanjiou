@@ -219,7 +219,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
     const categoryButtonArgs = [
       // ゲームサイズ
       {
-        x: 194,
+        x: 260,
         y: 256,
         text: Category.data.Size.text,
         font: {
@@ -231,7 +231,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
       },
       // プレイモード
       {
-        x: 162,
+        x: 260,
         y: 350,
         text: Category.data.Mode.text,
         font: {
@@ -242,7 +242,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
         dataValue: Category.data.Mode.name,
       },
       {
-        x: 184,
+        x: 260,
         y: 463,
         text: Category.data.Country.text,
         font: {
@@ -269,7 +269,8 @@ export default class SekaiGameSetting extends Phaser.Scene {
             this.updateView();
           },
           this
-        );
+        )
+        .setOrigin(0.5, 0);
     });
   };
 
@@ -353,18 +354,6 @@ export default class SekaiGameSetting extends Phaser.Scene {
           [Category.value]: Mode.Learn.name,
         },
       },
-      // なぜかコード内だけにある？
-      // {
-      //   type: "button",
-      //   x: 561,
-      //   y: 304,
-      //   width: 184,
-      //   height: 56,
-      //   text: Mode.SuddenDeath.name,
-      //   fontSize: 24,
-      //   dataKey: "category",
-      //   dataValue: Category.Mode
-      // },
       {
         type: "button",
         x: 435,
@@ -417,19 +406,6 @@ export default class SekaiGameSetting extends Phaser.Scene {
           [Category.value]: Country.Korean.name,
         },
       },
-      // {
-      //   type: "text",
-      //   x: 456,
-      //   y: 380,
-      //   text: "すべての漢字が登場！\nどんどん難易度が上がっていくぞ！",
-      //   font: {
-      //     size: 24,
-      //     align: "center",
-      //   },
-      //   dataKey: Category.key,
-      //   dataValue: Category.data.Challenge.name,
-      //   lineSpacing: 12,
-      // },
     ];
     return settingButtonArgs.map((arg) => {
       switch (arg.type) {
