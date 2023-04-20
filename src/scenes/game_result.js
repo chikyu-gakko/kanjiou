@@ -90,7 +90,6 @@ export default class GameResult extends Phaser.Scene {
     this.backTopButton = this.createBackTopButton();
     this.backGameSetButton = this.createBackGameSetButton();
     this.retryGameButton = this.createRetryGameButton();
-    this.createRankingPageButton();
 
     (async () => {
       const rankData = await getRank(
@@ -162,6 +161,7 @@ export default class GameResult extends Phaser.Scene {
 
       this.displayResultDetails();
       this.displayGameClearGraphics();
+      this.createRankingPageButton();
     }
   }
 

@@ -374,7 +374,7 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
       this.answerComponent = scene.add.text(
         155,
         671,
-        `正解数：${this.answerCounter}問`,
+        `${this.answerCounter} / ${this.numberOfQuestions} 問`,
         {
           fill: 0x333333,
           fontSize: 50,
@@ -385,7 +385,7 @@ export default class KanjiContainer extends Phaser.GameObjects.Container {
       this.answerComponent = scene.add.text(
         155,
         671,
-        `残り：${this.numberOfQuestions - this.answerCounter}問`,
+        `${this.answerCounter} / ${this.numberOfQuestions} 問`,
         {
           fill: 0x333333,
           fontSize: 50,
