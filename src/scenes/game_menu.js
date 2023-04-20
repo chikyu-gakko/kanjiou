@@ -184,8 +184,7 @@ export default class GameMenu extends Phaser.Scene {
       color: "#333333",
     });
 
-    // 作成中にする
-    // 多言語
+    // 世界の文字
     const mnyLngButton = this.add.graphics();
     mnyLngButton
       .lineStyle(2, 0x645246)
@@ -223,7 +222,6 @@ export default class GameMenu extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath();
-
     tgtherFriendButton.on("pointerdown", () => {
       modeDecideSe.play();
       this.scene.start("nakama_game_setting");
@@ -248,7 +246,6 @@ export default class GameMenu extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath();
-
     this.add
       .text(200, 520, "作成中", {
         fontSize: "32px",
