@@ -41,7 +41,7 @@ export default class NakamaHowToPlay extends Phaser.Scene {
     this.load.image("mistakemogura", "assets/img/sad_mogura.png");
 
     // 遊び方画像
-    this.load.image("how_to_play", "assets/img/nakama_howtoplay.png");
+    this.load.image("nakama_how_to_play", "assets/img/nakama_howtoplay.png");
   }
 
   create() {
@@ -50,7 +50,7 @@ export default class NakamaHowToPlay extends Phaser.Scene {
 
     // 画面描画（大）
     this.add.graphics().fillStyle(0xeaeaea, 1).fillRect(231, 82, 561, 319);
-    this.add.sprite(511, 242, "how_to_play").setScale(0.7, 0.7);
+    this.add.sprite(511, 242, "nakama_how_to_play").setScale(0.7, 0.7);
 
     this.add
       .text(520, 468, HOW_TO_PLAY, {

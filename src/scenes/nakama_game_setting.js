@@ -170,7 +170,7 @@ export default class NakamaGameSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          this.scene.start("how_to_play");
+          this.scene.start("nakama_how_to_play");
         },
         this
       );
