@@ -202,8 +202,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          // TODO: このゲームの遊び方を追加しておく
-          this.scene.start("how_to_play");
+          this.scene.start("sekai_how_to_play");
         },
         this
       );
