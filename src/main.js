@@ -18,6 +18,7 @@ import NakamaGameSetting from "./scenes/nakama_game_setting";
 import NakamaGame from "./scenes/nakama_game";
 import NakamaGameResult from "./scenes/nakama_game_result";
 import NakamaPauseMenu from "./scenes/nakama_pause_menu";
+import SekaiHowToPlay from "./scenes/sekai_how_to_play";
 
 import { worker } from "./mocks/browser";
 
@@ -73,6 +74,7 @@ const config = {
     NakamaGame,
     NakamaGameResult,
     NakamaPauseMenu,
+    SekaiHowToPlay,
   ],
 };
 

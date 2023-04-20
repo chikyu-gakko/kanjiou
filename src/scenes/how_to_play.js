@@ -7,7 +7,7 @@ const HOW_TO_PLAY = `日本の漢字のゲームだよ。ひとつだけ違う�
 
 export default class HowToPlay extends Phaser.Scene {
   constructor() {
-    super({ key: "how_to_play", active: true });
+    super({ key: "how_to_play", active: false });
   }
 
   init() {
