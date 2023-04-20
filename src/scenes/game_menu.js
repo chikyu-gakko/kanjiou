@@ -212,9 +212,9 @@ export default class GameMenu extends Phaser.Scene {
       this
     );
 
-    // 神経衰弱
-    const memoryGmButton = this.add.graphics();
-    memoryGmButton
+    // 仲間で集まれ
+    const tgtherFriendButton = this.add.graphics();
+    tgtherFriendButton
       .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(30, 360, 350, 90, 45)
@@ -224,15 +224,22 @@ export default class GameMenu extends Phaser.Scene {
       )
       .strokePath();
 
-    this.add.text(150, 390, "作成中", {
-      fontSize: "32px",
-      fontFamily: this.fontFamily,
-      color: "#ffffff",
+    tgtherFriendButton.on("pointerdown", () => {
+      modeDecideSe.play();
+      this.scene.start("nakama_game_setting");
     });
 
-    // 仲間で集まれ
-    const tgtherFriendButton = this.add.graphics();
-    tgtherFriendButton
+    this.add
+      .text(200, 390, "仲間で集まれ", {
+        fontSize: "32px",
+        fontFamily: this.fontFamily,
+        color: "#ffffff",
+      })
+      .setOrigin(0.5, 0);
+
+    // 神経衰弱
+    const memoryGmButton = this.add.graphics();
+    memoryGmButton
       .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(30, 490, 350, 90, 45)
@@ -242,20 +249,16 @@ export default class GameMenu extends Phaser.Scene {
       )
       .strokePath();
 
-    tgtherFriendButton.on("pointerdown", () => {
-      modeDecideSe.play();
-      this.scene.start("nakama_game_setting");
-    });
-
-    this.add.text(110, 520, "仲間で集まれ", {
-      fontSize: "32px",
-      fontFamily: this.fontFamily,
-      color: "#ffffff",
-    });
+    this.add
+      .text(200, 520, "作成中", {
+        fontSize: "32px",
+        fontFamily: this.fontFamily,
+        color: "#ffffff",
+      })
+      .setOrigin(0.5, 0);
 
     // 作成中の横モグラ
-    this.add.image(95, 400, "top_mogura");
-    // this.add.image(95, 531, "top_mogura");
+    this.add.image(95, 535, "top_mogura");
   }
 
   createBackGround = () => {
