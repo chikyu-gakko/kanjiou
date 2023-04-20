@@ -186,10 +186,11 @@ export default class NakamaGameSetting extends Phaser.Scene {
     const categoryButtons = [
       // ゲームサイズ
       this.add
-        .text(194, 236, "レベル", {
+        .text(254, 236, "部首(ぶしゅ)", {
           fontSize: "32px",
           fontFamily: this.fontFamily,
         })
+        .setOrigin(0.5, 0)
         .setData("value", "level"),
     ];
     return categoryButtons.map((element) =>
