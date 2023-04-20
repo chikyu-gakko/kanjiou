@@ -1,10 +1,5 @@
 import SoundButton from "../components/sound_button.js";
 
-const HOW_TO_PLAY = `日本の漢字のゲームだよ。ひとつだけ違う漢字を選んでね！
-時間制限のモードでは60秒以内に10問正解してね。
-タイムアタックのモードでは10問を早く正解してね。
-ランキングに名前を残すことができるよ。`;
-
 export default class HowToPlay extends Phaser.Scene {
   constructor() {
     super({ key: "how_to_play", active: false });
@@ -56,15 +51,13 @@ export default class HowToPlay extends Phaser.Scene {
       .graphics()
 
       .fillStyle(0xeaeaea, 1)
-      .fillRect(231, 82, 561, 319);
+      .fillRect(231, 82, 561, 419);
 
-    this.add
-      .text(520, 468, HOW_TO_PLAY, {
-        fontSize: "24px",
-        color: "#333333",
-        fontFamily: this.fontFamily,
-      })
-      .setOrigin(0.5, 0);
+    this.add.text(270, 548, `ひとつだけ違う漢字を選んでね！`, {
+      fontSize: "32px",
+      color: "#333333",
+      fontFamily: this.fontFamily,
+    });
 
     // 「わかった」ボタン
     this.add
@@ -94,7 +87,7 @@ export default class HowToPlay extends Phaser.Scene {
     // もぐら
     this.add.sprite(400, 650, "funMoguraImg");
 
-    this.soundButton = new SoundButton(this, 180, 360, 30);
+    this.soundButton = new SoundButton(this, 300, 460, 30);
 
     this.createKanji();
   }
@@ -171,7 +164,7 @@ export default class HowToPlay extends Phaser.Scene {
             : this.kanjiList[i][0];
         this.kanjiComponents[y].push(
           this.add
-            .text(300 + x * 114, 133 + y * 128, kanji, {
+            .text(300 + x * 114, 163 + y * 128, kanji, {
               color: "#333333",
               fontSize: "80px",
               fontFamily: this.fontFamily,
