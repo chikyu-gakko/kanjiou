@@ -138,8 +138,7 @@ export default class SekaiGameResult extends Phaser.Scene {
           return "";
       }
     })();
-    const text2 =
-      this.prevSceneData.mode === "suddenDeath" || "learn" ? " 問" : " 秒";
+    const text2 = this.prevSceneData.mode === "suddenDeath" ? " 問" : " 秒";
 
     const text1Object = this.add.text(0, 22, text1, {
       color: "#333333",
