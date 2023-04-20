@@ -1,13 +1,11 @@
 import SoundButton from "../components/sound_button.js";
 
-const HOW_TO_PLAY = `世界の文字のゲームだよ。ひとつだけ違う文字を選んでね！
-タイムアタックのモードでは10問を早く正解してね。
-学習のモードでは違う文字を選んだあと、
-その文字の言葉・読み方・意味がわかるよ。`;
+const HOW_TO_PLAY = `漢字の字体のゲームだよ。同じ部首はどれかな？
+画面の上にある部首と同じ漢字を選んで、左と右に動かしてね。`;
 
-export default class SekaiHowToPlay extends Phaser.Scene {
+export default class NakamaHowToPlay extends Phaser.Scene {
   constructor() {
-    super({ key: "sekai_how_to_play", active: false });
+    super({ key: "nakama_how_to_play", active: true });
   }
 
   init() {
@@ -43,7 +41,7 @@ export default class SekaiHowToPlay extends Phaser.Scene {
     this.load.image("mistakemogura", "assets/img/sad_mogura.png");
 
     // 遊び方画像
-    this.load.image("how_to_play", "assets/img/sekai_howtoplay.png");
+    this.load.image("how_to_play", "assets/img/nakama_howtoplay.png");
   }
 
   create() {
@@ -76,7 +74,7 @@ export default class SekaiHowToPlay extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          this.scene.start("sekai_game_setting");
+          this.scene.start("nakama_game_setting");
         },
         this
       );
