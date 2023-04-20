@@ -5,7 +5,7 @@ const HOW_TO_PLAY = `漢字の字体のゲームだよ。同じ部首はどれ�
 
 export default class NakamaHowToPlay extends Phaser.Scene {
   constructor() {
-    super({ key: "nakama_how_to_play", active: true });
+    super({ key: "nakama_how_to_play", active: false });
   }
 
   init() {
