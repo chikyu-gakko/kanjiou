@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 // import phaserReact from "phaser3-react";
 
-import HelloWorldScene from "./HelloWorldScene";
 import OpenLogo from "./scenes/open_logo";
 import PauseMenu from "./scenes/pause_menu";
 import GameMenu from "./scenes/game_menu";

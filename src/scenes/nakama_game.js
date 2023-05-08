@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import NakamaContainer from "./ui/NakamaContainer";
 import BackGround from "./ui/BackGround";
 import SoundButton from "../components/sound_button";

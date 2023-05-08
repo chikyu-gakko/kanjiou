@@ -1,4 +1,4 @@
-import SoundButton from "../components/sound_button.js";
+import Phaser from "phaser";
 
 const HOW_TO_PLAY = `漢字の字体のゲームだよ。同じ部首はどれかな？
 画面の上にある部首と同じ漢字を選んで、左と右に動かしてね。`;

@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import SoundButton from "../components/sound_button.js";
 import BackGround from "./ui/BackGround.js";
 import KanjiContainer from "./ui/KanjiContainer.js";

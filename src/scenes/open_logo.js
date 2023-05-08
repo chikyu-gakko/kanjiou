@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import CameraFadeIn from "./ui/CameraFadeIn";
 
 export default class OpenLogo extends Phaser.Scene {

@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import SettingButton from "../components/setting_button.js";
 import SoundButton from "../components/sound_button.js";
 import CharContainer from "./ui/CharContainer.js";
