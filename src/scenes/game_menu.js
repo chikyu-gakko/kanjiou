@@ -188,7 +188,7 @@ export default class GameMenu extends Phaser.Scene {
     const mnyLngButton = this.add.graphics();
     mnyLngButton
       .lineStyle(2, 0x645246)
-      .fillStyle(0x32b65e, 1)
+      .fillStyle(0xffffff, 1)
       .fillRoundedRect(30, 230, 350, 90, 45)
       .setInteractive(
         new Phaser.Geom.Rectangle(30, 230, 350, 90),
@@ -199,7 +199,7 @@ export default class GameMenu extends Phaser.Scene {
     this.add.text(120, 260, "世界の文字", {
       fontSize: "32px",
       fontFamily: this.fontFamily,
-      color: "#ffffff",
+      color: "#333333",
     });
 
     mnyLngButton.on(
@@ -215,7 +215,7 @@ export default class GameMenu extends Phaser.Scene {
     const tgtherFriendButton = this.add.graphics();
     tgtherFriendButton
       .lineStyle(2, 0x645246)
-      .fillStyle(0x32b65e, 1)
+      .fillStyle(0xffffff, 1)
       .fillRoundedRect(30, 360, 350, 90, 45)
       .setInteractive(
         new Phaser.Geom.Rectangle(30, 360, 350, 90),
@@ -231,7 +231,7 @@ export default class GameMenu extends Phaser.Scene {
       .text(200, 390, "仲間で集まれ", {
         fontSize: "32px",
         fontFamily: this.fontFamily,
-        color: "#ffffff",
+        color: "#333333",
       })
       .setOrigin(0.5, 0);
 
@@ -239,7 +239,7 @@ export default class GameMenu extends Phaser.Scene {
     const memoryGmButton = this.add.graphics();
     memoryGmButton
       .lineStyle(2, 0x645246)
-      .fillStyle(0x32b65e, 1)
+      .fillStyle(0xffffff, 1)
       .fillRoundedRect(30, 490, 350, 90, 45)
       .setInteractive(
         new Phaser.Geom.Rectangle(30, 490, 350, 90),
@@ -250,7 +250,7 @@ export default class GameMenu extends Phaser.Scene {
       .text(200, 520, "作成中", {
         fontSize: "32px",
         fontFamily: this.fontFamily,
-        color: "#ffffff",
+        color: "#333333",
       })
       .setOrigin(0.5, 0);
 
