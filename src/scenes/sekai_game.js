@@ -348,14 +348,14 @@ export default class SekaiGame extends Phaser.Scene {
           fontFamily: this.fontFamily,
         })
         .setOrigin(0.5, 0);
-    } else if (this.prevSceneData.mode === "learn") {
+    /*} else if (this.prevSceneData.mode === "learn") {
       this.timerComponent = this.add
         .text(this.game.canvas.width / 2, 54, `タイム：${time}秒`, {
           color: "#333333",
           fontSize: "50px",
           fontFamily: this.fontFamily,
         })
-        .setOrigin(0.5, 0);
+        .setOrigin(0.5, 0);*/
     }
   }
 
