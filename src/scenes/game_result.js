@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import SoundButton from "../components/sound_button.js";
 import SettingButton from "../components/setting_button.js";
 import { getRank, putRanking } from "../api/rank.js";

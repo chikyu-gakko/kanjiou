@@ -1,4 +1,4 @@
-import SoundButton from "../components/sound_button.js";
+import Phaser from "phaser";
 
 const HOW_TO_PLAY = `世界の文字のゲームだよ。ひとつだけ違う文字を選んでね！
 タイムアタックのモードでは10問を早く正解してね。

@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export default class BackButton extends Phaser.GameObjects.Container {
   constructor(
     scene,

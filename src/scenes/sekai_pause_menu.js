@@ -1,3 +1,5 @@
+import Phaser from "phaser";
+
 export default class SekaiPauseMenu extends Phaser.Scene {
   constructor() {
     super("sekai_pause_menu");
