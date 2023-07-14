@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import BackButton from "../components/back_button.js";
 import { getRanks } from "../api/rank.js";
 

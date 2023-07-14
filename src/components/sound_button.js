@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export default class SoundButton extends Phaser.GameObjects.Container {
   constructor(scene, x, y, radius) {
     super(scene, x, y);

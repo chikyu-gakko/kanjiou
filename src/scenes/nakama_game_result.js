@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import CameraFadeIn from "./ui/CameraFadeIn";
 import SettingButton from "../components/setting_button";
 import SoundButton from "../components/sound_button";

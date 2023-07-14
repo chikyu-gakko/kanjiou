@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import SoundButton from "../components/sound_button.js";
 
 const HOW_TO_PLAY = `日本の漢字のゲームだよ。ひとつだけ違う漢字を選んでね！
