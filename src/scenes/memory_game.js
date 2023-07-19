@@ -116,7 +116,7 @@ export default class MemoryGame extends Phaser.Scene {
           localStartPositionXForText,
           localStartPositionYForText,
           nationalFlagShortKanjiName,
-          { color: COLOR_LIGHT_BLACK.toString(), fontSize: FONT_SIZE }
+          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${FONT_SIZE}px` }
         )
         .setOrigin(0, 0)
 
@@ -317,7 +317,7 @@ export default class MemoryGame extends Phaser.Scene {
       nationalFlagComponent.on(
         'pointerdown',
         () =>  {
-          if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas) {
+          if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas || this.flippedComponents.includes(nationalFlagComponent)) {
             return;
           }
 
@@ -389,7 +389,7 @@ export default class MemoryGame extends Phaser.Scene {
       nationalFlagShortKanjiNameComponent.on(
         'pointerdown',
         () =>  {
-          if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas) {
+          if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas || this.flippedComponents.includes(nationalFlagShortKanjiNameComponent)) {
             return;
           }
 
@@ -480,7 +480,7 @@ export default class MemoryGame extends Phaser.Scene {
         this.leftTryCount(),
         {
           color: COLOR_LIGHT_BLACK.toString(),
-          fontSize: 64,
+          fontSize: '64px',
         }
       )
       .setOrigin(.5, 0)
@@ -497,7 +497,7 @@ export default class MemoryGame extends Phaser.Scene {
         this.currentTryCount(),
         {
           color: COLOR_LIGHT_BLACK.toString(),
-          fontSize: 32,
+          fontSize: '32px',
         }
       )
       .setOrigin(0, 0)
