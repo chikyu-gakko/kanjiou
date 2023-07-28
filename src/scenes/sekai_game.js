@@ -224,7 +224,7 @@ export default class SekaiGame extends Phaser.Scene {
         fontSize: "100px",
         fontFamily: this.fontFamily,
       })
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5).setPadding(0, 4, 0, 0);
     correctAnsChar.depth = 4;
 
     const correctExample = this.add
@@ -233,7 +233,7 @@ export default class SekaiGame extends Phaser.Scene {
         fontSize: "32px",
         fontFamily: this.fontFamily,
       })
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5).setPadding(0, 4, 0, 0);
     correctExample.depth = 4;
 
     const correctRead = this.add
@@ -242,7 +242,7 @@ export default class SekaiGame extends Phaser.Scene {
         fontSize: "24px",
         fontFamily: this.fontFamily,
       })
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5).setPadding(0, 4, 0, 0);
     correctRead.depth = 4;
 
     const correctMean = this.add
@@ -251,7 +251,7 @@ export default class SekaiGame extends Phaser.Scene {
         fontSize: "24px",
         fontFamily: this.fontFamily,
       })
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5).setPadding(0, 4, 0, 0);
     correctMean.depth = 4;
 
     const wrongAnsChar = this.add
@@ -260,7 +260,7 @@ export default class SekaiGame extends Phaser.Scene {
         fontSize: "100px",
         fontFamily: this.fontFamily,
       })
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5).setPadding(0, 4, 0, 0);
     wrongAnsChar.depth = 4;
 
     const wrongExample = this.add
@@ -269,7 +269,7 @@ export default class SekaiGame extends Phaser.Scene {
         fontSize: "32px",
         fontFamily: this.fontFamily,
       })
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5).setPadding(0, 4, 0, 0);
     wrongExample.depth = 4;
 
     const wrongRead = this.add
@@ -278,7 +278,7 @@ export default class SekaiGame extends Phaser.Scene {
         fontSize: "24px",
         fontFamily: this.fontFamily,
       })
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5).setPadding(0, 4, 0, 0);
     wrongRead.depth = 4;
 
     const wrongMean = this.add
@@ -287,7 +287,7 @@ export default class SekaiGame extends Phaser.Scene {
         fontSize: "24px",
         fontFamily: this.fontFamily,
       })
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5).setPadding(0, 4, 0, 0);
     wrongMean.depth = 4;
 
     const mogura = this.add

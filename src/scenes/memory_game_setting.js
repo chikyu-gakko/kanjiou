@@ -379,19 +379,8 @@ export default class MemoryGameSetting extends Phaser.Scene {
                 this
               );
               return settingButton;
-            case Category.data.Challenge.name:
-              break;
           }
           break;
-        // case "text":
-        //   return this.add
-        //     .text(arg.x, arg.y, arg.text, {
-        //       fontSize: arg.font.size,
-        //       fontFamily: this.fontFamily,
-        //       align: arg.font.align,
-        //     })
-        //     .setData(arg.dataKey, arg.dataValue)
-        //     .setLineSpacing(arg.lineSpacing);
       }
     });
   };
