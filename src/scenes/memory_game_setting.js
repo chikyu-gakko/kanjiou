@@ -163,7 +163,7 @@ export default class MemoryGameSetting extends Phaser.Scene {
            this.sound.stopAll();
            this.sound.removeByKey("top_bgm");
            gameStartSe.play();
-           this.scene.start("memory_game");
+           this.scene.start("memory_game",{level: this.selectedLevel});
         },
         this
       );
