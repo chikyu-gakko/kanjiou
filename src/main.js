@@ -19,6 +19,9 @@ import NakamaGameResult from "./scenes/nakama_game_result";
 import NakamaPauseMenu from "./scenes/nakama_pause_menu";
 import SekaiHowToPlay from "./scenes/sekai_how_to_play";
 import NakamaHowToPlay from "./scenes/nakama_how_to_play";
+
+import MemoryGameSetting from "./scenes/memory_game_setting";
+import MemoryRuselt from "./scenes/memory_game_result";
 import MemoryGame from "./scenes/memory_game";
 
 import { worker } from "./mocks/browser";
@@ -81,7 +84,7 @@ const config = {
     NakamaHowToPlay,
     MemoryGameSetting,
     MemoryGame,
-    MemoryGameResult,
+    MemoryRuselt
   ],
 };
 

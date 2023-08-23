@@ -245,6 +245,10 @@ export default class GameMenu extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath();
+      memoryGmButton.on("pointerdown", () => {
+        modeDecideSe.play();
+        this.scene.start("memory_game_setting");
+      });
     this.add
       .text(200, 520, "神経衰弱", {
         fontSize: "32px",
@@ -252,6 +256,7 @@ export default class GameMenu extends Phaser.Scene {
         color: "#333333",
       })
       .setOrigin(0.5, 0);
+
     memoryGmButton.on("pointerdown", () => {
       modeDecideSe.play();
       this.scene.start("memory_game_setting");
@@ -266,6 +271,7 @@ export default class GameMenu extends Phaser.Scene {
 
     // // 作成中の横モグラ
     // this.add.image(95, 535, "top_mogura");
+
   }
 
   createBackGround = () => {
