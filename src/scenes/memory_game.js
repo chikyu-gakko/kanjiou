@@ -52,6 +52,7 @@ export default class MemoryGame extends Phaser.Scene {
     });
     this.load.image(CARD_BACK_SIDE_IMAGE_KEY, 'assets/img/card/3_2_mogran.png');
   }
+  
 
   /**
    * @typedef {Object} MemoryGameConfig
@@ -70,6 +71,7 @@ export default class MemoryGame extends Phaser.Scene {
       level: data.level
     };
     
+    this.triedCount  = 0;
     this.maxTryCount                 = this.levelToMaxTryCount(this.gameConfig.level)
     
     this.nationalFlagsCount          = this.levelToNationalFlagsCount(this.gameConfig.level);
@@ -119,7 +121,7 @@ export default class MemoryGame extends Phaser.Scene {
           nationalFlagShortKanjiName,
           { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${FONT_SIZE}px` }
         )
-        .setOrigin(0, 0)
+        .setOrigin(0, 0).setPadding(0, 4, 0, 0)
 
       const renderTexture = this.add.renderTexture(
         GLOBAL_START_POSITION_X,
@@ -141,6 +143,7 @@ export default class MemoryGame extends Phaser.Scene {
    * @param {number} level
    */
   levelToNationalFlagsCount = (level) => {
+    
     const LEVEL1_NATIONAL_FLAGS_COUNT = 6;
     const LEVEL2_NATIONAL_FLAGS_COUNT = 9;
     const LEVEL3_NATIONAL_FLAGS_COUNT = 12;
@@ -484,7 +487,7 @@ export default class MemoryGame extends Phaser.Scene {
           fontSize: '64px',
         }
       )
-      .setOrigin(.5, 0)
+      .setOrigin(.5, 0).setPadding(0, 4, 0, 0)
   }
   
   createTriedCountText = () => {
@@ -501,7 +504,7 @@ export default class MemoryGame extends Phaser.Scene {
           fontSize: '32px',
         }
       )
-      .setOrigin(0, 0)
+      .setOrigin(0, 0).setPadding(0, 4, 0, 0)
   }
 
   /**
@@ -511,7 +514,13 @@ export default class MemoryGame extends Phaser.Scene {
    * @param {InitResultSceneData} data 
    */
   goToResultScene = (data) => {
-    this.scene.start('memory_game_result', data);
+    this.scene.start('MemoryRuselt',{
+        isWon:data.isWon,
+        level:this.gameConfig.level,
+        MaxCount:this.maxTryCount,
+        TriedCount:this.triedCount
+      }
+    );
   }
   
   validateNeurastheniaMatch = () => {
