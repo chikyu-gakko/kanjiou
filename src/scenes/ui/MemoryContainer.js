@@ -45,15 +45,15 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
 
   static Level = {
     Level1: {
-      name: "level1",
+      name: 1,
       text: "レベル1",
     },
     Level2: {
-      name: "level2",
+      name: 2,
       text: "レベル2",
     },
     Level3: {
-      name: "level3",
+      name: 3,
       text: "レベル3",
     },
   };

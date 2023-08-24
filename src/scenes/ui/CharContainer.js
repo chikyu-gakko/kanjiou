@@ -283,7 +283,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
                 fontSize: this.charFontSize,
                 fontFamily: scene.registry.get("fontFamily"),
               })
-              .setInteractive()
+              .setInteractive().setPadding(0, 4, 0, 0)
           );
 
           if (y === answerY && x === answerX) {
