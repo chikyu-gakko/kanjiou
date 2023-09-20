@@ -42,6 +42,10 @@ export default class MemoryGame extends Phaser.Scene {
     this.triedCountComponent = undefined;
     this.tryCountComponent   = undefined;
 
+    this.Now_PlayerComponent = undefined;
+    this.Player1PointComponent = undefined;
+    this.Player2PointComponent = undefined;
+
     this.flippedAreas      = {};
     this.flippedComponents = [];
   }
@@ -57,18 +61,26 @@ export default class MemoryGame extends Phaser.Scene {
   /**
    * @typedef {Object} MemoryGameConfig
    * @property {number} level
-   * 
+    * @property {string} level
+    * @property {string} mode
    * @param {MemoryGameConfig} data 
    */
   init = (data) => {
     if (DEBUG_MODE) {
       data = {
         level: LEVEL1,
+        mode:""
       }
     }
 
+    this.prevSceneData = {
+        level: data.level,
+        mode:data.mode
+      };
+    
     this.gameConfig = {
-      level: data.level
+      level: data.level,
+      mode:data.mode
     };
     
     this.triedCount  = 0;
@@ -78,6 +90,10 @@ export default class MemoryGame extends Phaser.Scene {
     this.nationalFlags               = this.randomlySelectNationalFlags(this.nationalFlagsCount);
     this.nationalFlagShortKanjiNames = this.mixedUpArray(this.nationalFlags.map(({ shortKanjiName }) => shortKanjiName));
     this.createShortKanjiNameTextures();
+
+    this.Now_PlayerName = "Player1の番";
+    this.Player1PointCounter = 0;
+    this.Player2PointCounter = 0;
   }
 
   create = () => {
@@ -86,8 +102,15 @@ export default class MemoryGame extends Phaser.Scene {
     this.createBoundaryLine();
     this.createNationalFlagImages();
     this.createNationalFlagShortKanjiNames();
-    this.createTryCountText();
-    this.createTriedCountText();
+    if(this.prevSceneData.mode == "flag"){
+      this.createTryCountText();
+      this.createTriedCountText();
+    }
+    if(this.prevSceneData.mode == "versus"){
+      this.createNowPlayerNameText();
+      this.Player1PointCountText();
+      this.Player2PointCountText();
+    }
   }
 
   initFlippedArea = () => {
@@ -472,39 +495,103 @@ export default class MemoryGame extends Phaser.Scene {
   currentTryCount = () => {
     return `${this.triedCount + 1}回目`;
   }
+
+  NowPlayer_Text = () => {
+    return this.Now_PlayerName = this.triedCount % 2 == 0 ? "Player1の番" : "Player2の番";
+  }
+
+  Player1NowPoint = () => {
+    return "Player1:"+this.Player1PointCounter + "Point";
+  }
+
+  Player2NowPoint = () => {
+    return "Player2:"+this.Player2PointCounter + "Point";
+  }
   
   createTryCountText = () => {
-    const GLOBAL_START_POSITION_X = this.sys.game.canvas.width / 2;
-    const GLOBAL_START_POSITION_Y = 64;
+      const GLOBAL_START_POSITION_X = this.sys.game.canvas.width / 2;
+      const GLOBAL_START_POSITION_Y = 64;
 
-    this.tryCountComponent = this.add
-      .text(
-        GLOBAL_START_POSITION_X,
-        GLOBAL_START_POSITION_Y,
-        this.leftTryCount(),
-        {
-          color: COLOR_LIGHT_BLACK.toString(),
-          fontSize: '64px',
-        }
-      )
-      .setOrigin(.5, 0).setPadding(0, 4, 0, 0)
+      this.tryCountComponent = this.add
+        .text(
+          GLOBAL_START_POSITION_X,
+          GLOBAL_START_POSITION_Y,
+          this.leftTryCount(),
+          {
+            color: COLOR_LIGHT_BLACK.toString(),
+            fontSize: '64px',
+          }
+        )
+        .setOrigin(.5, 0).setPadding(0, 4, 0, 0)
   }
   
   createTriedCountText = () => {
-    const GLOBAL_START_POSITION_X = 32;
-    const GLOBAL_START_POSITION_Y = 32;
+      const GLOBAL_START_POSITION_X = 32;
+      const GLOBAL_START_POSITION_Y = 32;
 
-    this.triedCountComponent = this.add
-      .text(
-        GLOBAL_START_POSITION_X,
-        GLOBAL_START_POSITION_Y,
-        this.currentTryCount(),
-        {
-          color: COLOR_LIGHT_BLACK.toString(),
-          fontSize: '32px',
-        }
-      )
-      .setOrigin(0, 0).setPadding(0, 4, 0, 0)
+      this.triedCountComponent = this.add
+        .text(
+          GLOBAL_START_POSITION_X,
+          GLOBAL_START_POSITION_Y,
+          this.currentTryCount(),
+          {
+            color: COLOR_LIGHT_BLACK.toString(),
+            fontSize: '32px',
+          }
+        )
+        .setOrigin(0, 0).setPadding(0, 4, 0, 0)
+  }
+
+  createNowPlayerNameText = () => {
+      this.Now_PlayerComponent = this.add
+          .text(
+            this.game.canvas.width / 2 - 100,
+            32,
+            this.Now_PlayerName,
+            {
+              color: COLOR_LIGHT_BLACK.toString(),
+              fontSize: '34px',
+            }
+          )
+          .setOrigin(0, 0).setPadding(0, 4, 0, 0)
+  }
+
+  Player1PointCountText = () => {
+    this.Player1PointComponent =
+    this.add
+    .text(
+      64,
+      32,
+      "Player1:"+this.Player1PointCounter + "Point",
+      {
+        color: COLOR_LIGHT_BLACK.toString(),
+        fontSize: '20px',
+      }
+    )
+    .setOrigin(0, 0).setPadding(0, 4, 0, 0)
+  }
+
+  Player2PointCountText = () => {
+    this.Player2PointComponent = 
+    this.add
+          .text(
+            800,
+            32,
+            "Player2:"+this.Player2PointCounter + "Point",
+            {
+              color: COLOR_LIGHT_BLACK.toString(),
+              fontSize: '20px',
+            }
+          )
+          .setOrigin(0, 0).setPadding(0, 4, 0, 0)
+  }
+
+  PlayerPointAdd = () => {
+    if(this.triedCount % 2 == 0){
+      this.Player1PointCounter++;
+    }else{
+      this.Player2PointCounter++;
+    }
   }
 
   /**
@@ -518,7 +605,10 @@ export default class MemoryGame extends Phaser.Scene {
         isWon:data.isWon,
         level:this.gameConfig.level,
         MaxCount:this.maxTryCount,
-        TriedCount:this.triedCount
+        TriedCount:this.triedCount,
+        mode:this.prevSceneData.mode,
+        p1point:this.Player1PointCounter,
+        p2point:this.Player2PointCounter
       }
     );
   }
@@ -531,6 +621,10 @@ export default class MemoryGame extends Phaser.Scene {
 
     if (nationalFlag.shortKanjiName === nationalFlagShortKanjiName) {
       setTimeout(() => {
+        if(this.prevSceneData.mode == "versus"){
+          this.PlayerPointAdd();
+        }
+
         if (this.isFlippedAll()) {
           this.goToResultScene({isWon: true});
         }
@@ -558,22 +652,30 @@ export default class MemoryGame extends Phaser.Scene {
       }, ANIMATION_DURATION_FLIP);
     });
 
-    setTimeout(() => {
-      this.triedCount++;
-      if (this.isGameOver()) {
-        this.goToResultScene({isWon: false});
-      }
-
-      this.initFlippedArea();
-      this.refreshCounter();
-    }, ANIMATION_DURATION_FLIP * 2);
+    
+      setTimeout(() => {
+        this.triedCount++;
+        if(this.prevSceneData.mode === "flag"){
+          if (this.isGameOver()) {
+            this.goToResultScene({isWon: false});
+          }
+        }
+        this.initFlippedArea();
+        this.refreshCounter();
+      }, ANIMATION_DURATION_FLIP * 2);
 
     this.flippedComponents = this.flippedComponents.slice(0, this.flippedComponents.length - 2)
   }
 
   refreshCounter = () => {
-    this.tryCountComponent.setText(this.leftTryCount());
-    this.triedCountComponent.setText(this.currentTryCount());
+    if(this.prevSceneData.mode == "flag"){
+      this.tryCountComponent.setText(this.leftTryCount());
+      this.triedCountComponent.setText(this.currentTryCount());
+    }else if(this.prevSceneData.mode == "versus"){
+      this.Now_PlayerComponent.setText(this.NowPlayer_Text());
+      this.Player1PointComponent.setText(this.Player1NowPoint());
+      this.Player2PointComponent.setText(this.Player2NowPoint());
+    }
   }
 
   consoleLogForDebug = (...contents) => {

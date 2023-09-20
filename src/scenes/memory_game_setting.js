@@ -146,7 +146,6 @@ export default class MemoryGameSetting extends Phaser.Scene {
 
   createGameStartButton = () => {
     const gameStartSe = this.sound.add("game_start_se");
-
     this.add
       .graphics()
       .lineStyle(2, 0x645246)
@@ -163,7 +162,12 @@ export default class MemoryGameSetting extends Phaser.Scene {
            this.sound.stopAll();
            this.sound.removeByKey("top_bgm");
            gameStartSe.play();
-           this.scene.start("memory_game",{level: this.selectedLevel});
+           this.scene.start("memory_game",
+            {
+              level: this.selectedLevel,
+              mode:this.selectedMode,
+            }
+          );
         },
         this
       );
@@ -255,7 +259,7 @@ export default class MemoryGameSetting extends Phaser.Scene {
       {
         type: "button",
         x: 551,
-        y: 213,
+        y: 163,
         width: 229,
         height: 56,
         text: Mode.Flag.text,
@@ -268,7 +272,7 @@ export default class MemoryGameSetting extends Phaser.Scene {
       {
         type: "button",
         x: 551,
-        y: 313,
+        y: 253,
         width: 229,
         height: 56,
         text: Mode.Color.text,
@@ -282,7 +286,7 @@ export default class MemoryGameSetting extends Phaser.Scene {
       {
         type: "button",
         x: 551,
-        y: 413,
+        y: 353,
         width: 229,
         height: 56,
         text: Mode.Job.text,
@@ -296,7 +300,7 @@ export default class MemoryGameSetting extends Phaser.Scene {
       {
         type: "button",
         x: 551,
-        y: 513,
+        y: 450,
         width: 229,
         height: 56,
         text: Mode.Prefecture.text,
@@ -306,6 +310,30 @@ export default class MemoryGameSetting extends Phaser.Scene {
           [Category.value]: Mode.Prefecture.name,
         }
         },{
+          type: "button",
+          x: 551,
+          y: 543,
+          width: 229,
+          height: 56,
+          text: Mode.versus.text,
+          fontSize: 24,
+          data: {
+            [Category.key]: Category.data.Mode.name,
+            [Category.value]: Mode.versus.name,
+          }
+          },{
+          type: "button",
+          x: 551,
+          y: 213,
+          width: 229,
+          height: 56,
+          text: Level.Level1.text,
+          fontSize: 24,
+          data: {
+            [Category.key]: Category.data.Level.name,
+            [Category.value]: Level.Level1.name,
+      }
+    },{
           type: "button",
           x: 551,
           y: 213,
