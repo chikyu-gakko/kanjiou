@@ -52,7 +52,10 @@ export default class MemoryGameResult extends Phaser.Scene {
       level: data.level,
       isWon:data.isWon,
       MaxCount:data.MaxCount,
-      TriedCount:data.TriedCount
+      TriedCount:data.TriedCount,
+      mode:data.mode,
+      p1point:data.p1point,
+      p2point:data.p2point
     };
     if (debugMode) this.prevSceneData = dataForDebugging;
     this.fontFamily = this.registry.get("fontFamily");
@@ -74,31 +77,50 @@ export default class MemoryGameResult extends Phaser.Scene {
     this.backTopButton = this.createBackTopButton();
     this.backGameSetButton = this.createBackGameSetButton();
     this.retryGameButton = this.createRetryGameButton();
-
-    if(this.prevSceneData.isWon){
-    // ゲームクリア
-    this.add
-      .text(
-        this.game.canvas.width / 2,
-        150,
-        `GAME CLEAR !!!`,
-        gameResultFontStyle
-      )
-      .setOrigin(0.5, 0);
-      this.displayResultDetails();
-    }else{
-      // ゲームオーバー
+    
+    if(this.prevSceneData.mode == "flag"){
+      if(this.prevSceneData.isWon){
+        // ゲームクリア
+        this.add
+          .text(
+            this.game.canvas.width / 2,
+            150,
+            `GAME CLEAR !!!`,
+            gameResultFontStyle
+          )
+          .setOrigin(0.5, 0);
+          this.displayResultDetails();
+        }else{
+          // ゲームオーバー
+          this.add
+          .text(
+            this.game.canvas.width / 2,
+            200,
+            `GAME OVER !!!`,
+            gameResultFontStyle
+          )
+          .setOrigin(0.5, 0);
+        }
+        this.displayGameClearGraphics();
+    }else if(this.prevSceneData.mode == "versus"){
+      let VSresult = "";
+      if(this.prevSceneData.p1point > this.prevSceneData.p2point){
+        VSresult = "Player1の勝ち!"
+      }else if(this.prevSceneData.p1point < this.prevSceneData.p2point){
+        VSresult = "Player2の勝ち!"
+      }else{
+        VSresult = "引き分け!"
+      }
       this.add
-      .text(
-        this.game.canvas.width / 2,
-        200,
-        `GAME OVER !!!`,
-        gameResultFontStyle
-      )
-      .setOrigin(0.5, 0);
-    }
-
-    this.displayGameClearGraphics();
+        .text(
+          this.game.canvas.width / 2,
+          150,
+          VSresult,
+          gameResultFontStyle
+        )
+        .setOrigin(0.5, 0);
+        this.displayGameClearGraphics();
+      }
   }
 
   startCameraFadeIn = () => {
@@ -161,7 +183,12 @@ export default class MemoryGameResult extends Phaser.Scene {
     retryGameButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        this.scene.start("memory_game",{level:this.prevSceneData.level});
+        this.scene.start("memory_game",
+          {
+            level:this.prevSceneData.level,
+            mode:this.prevSceneData.mode
+          }
+        );
       },
       this
     );

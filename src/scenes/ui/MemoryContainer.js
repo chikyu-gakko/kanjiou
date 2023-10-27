@@ -41,6 +41,10 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       name: "prefecture",
       text: "都道府県",
     },
+    versus: {
+      name: "versus",
+      text: "対戦モード",
+    },
   };
 
   static Level = {
