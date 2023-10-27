@@ -507,7 +507,7 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   Player2NowPoint = () => {
-    return "Player2:"+this.Player2PointCounter + "ポイント";
+    return "プレイヤー2:"+this.Player2PointCounter + "ポイント";
   }
   
   createTryCountText = () => {
