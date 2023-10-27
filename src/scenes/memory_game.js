@@ -93,7 +93,7 @@ export default class MemoryGame extends Phaser.Scene {
     this.nationalFlagShortKanjiNames = this.mixedUpArray(this.nationalFlags.map(({ shortKanjiName }) => shortKanjiName));
     this.createShortKanjiNameTextures();
 
-    this.Now_PlayerName = "player1の番";
+    this.Now_PlayerName = "プレイヤー1の番";
     this.Player1PointCounter = 0;
     this.Player2PointCounter = 0;
   }
@@ -499,15 +499,15 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   NowPlayer_Text = () => {
-    return this.Now_PlayerName = this.triedCount % 2 == 0 ? "Player1の番" : "Player2の番";
+    return this.Now_PlayerName = this.triedCount % 2 == 0 ? "プレイヤー1の番" : "プレイヤー2の番";
   }
 
   Player1NowPoint = () => {
-    return "Player1:"+this.Player1PointCounter + "Point";
+    return "プレイヤー1:"+this.Player1PointCounter + "ポイント";
   }
 
   Player2NowPoint = () => {
-    return "Player2:"+this.Player2PointCounter + "Point";
+    return "Player2:"+this.Player2PointCounter + "ポイント";
   }
   
   createTryCountText = () => {
@@ -547,8 +547,8 @@ export default class MemoryGame extends Phaser.Scene {
   createNowPlayerNameText = () => {
       this.Now_PlayerComponent = this.add
           .text(
-            this.game.canvas.width / 2 - 125,
-            32,
+            this.game.canvas.width / 2 - 160,
+            50,
             this.Now_PlayerName,
             {
               color: COLOR_LIGHT_BLACK.toString(),
@@ -556,22 +556,22 @@ export default class MemoryGame extends Phaser.Scene {
              
             }
           )
-          .setOrigin(0, 0).setPadding(0, 4, 0, 0).setStroke("black",0.5);
+          .setOrigin(0, 0).setPadding(4, 4, 4, 4).setStroke("black",1);
   }
 
   Player1PointCountText = () => {
     this.Player1PointComponent =
     this.add
     .text(
-      30,
-      32,
-      "Player1:"+this.Player1PointCounter + "Point",
+      40,
+      65,
+      "プレイヤー1:"+this.Player1PointCounter + "ポイント",
       {
         color: COLOR_LIGHT_BLACK.toString(),
-        fontSize: '30px',
+        fontSize: '25px',
       }
     )
-    .setOrigin(0, 0).setPadding(0, 4, 0, 0).setStroke("black",0.5);
+    .setOrigin(0, 0).setPadding(0, 4, 0, 0).setStroke("black",1.3);
     
   }
 
@@ -579,16 +579,16 @@ export default class MemoryGame extends Phaser.Scene {
     this.Player2PointComponent = 
     this.add
           .text(
-            750,
-            32,
-            "Player2:"+this.Player2PointCounter + "Point",
+            700,
+            65,
+            "プレイヤー2:"+this.Player2PointCounter + "ポイント",
             {
               color: COLOR_LIGHT_BLACK.toString(),
-              fontSize: '30px',
+              fontSize: '25px',
               
             }
           )
-          .setOrigin(0, 0).setPadding(0, 4, 0, 0).setStroke("black",0.5);
+          .setOrigin(0, 0).setPadding(0, 4, 0, 0).setStroke("black",1);
   }
 
   PlayerPointAdd = () => {
