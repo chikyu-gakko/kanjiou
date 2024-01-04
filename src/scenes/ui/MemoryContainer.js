@@ -25,21 +25,9 @@ import { characterList } from "../../characterlist.js";
 export default class MemoryContainer extends Phaser.GameObjects.Container {
 
   static Mode = {
-    Flag: {
-      name: "flag",
-      text: "国旗",
-    },
-    Color: {
-      name: "color",
-      text: "色(漢字)",
-    },
-    Job: {
-      name: "job",
-      text: "職業",
-    },
-    Prefecture: {
-      name: "prefecture",
-      text: "都道府県",
+    Practice:{
+      name:"practice",
+      text:"練習モード"
     },
     versus: {
       name: "versus",
@@ -62,6 +50,25 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
     },
   };
 
+  static Genre = {
+    Flag: {
+      name: "flag",
+      text: "国旗",
+    },
+    Color: {
+      name: "color",
+      text: "色(漢字)",
+    },
+    Job: {
+      name: "job",
+      text: "職業",
+    },
+    Prefecture: {
+      name: "prefecture",
+      text: "都道府県",
+    },
+  };
+
   static Category = {
     key: "category",
     value: "value",
@@ -73,7 +80,13 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       Level: {
         name: "level",
         text: "漢字レベル",
+      },
+      Genre: {
+        name: "genre",
+        text: "ジャンル",
       }
     },
+  
   };  
-}
+  
+};

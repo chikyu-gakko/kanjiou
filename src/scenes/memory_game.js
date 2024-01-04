@@ -65,6 +65,7 @@ export default class MemoryGame extends Phaser.Scene {
    * @property {number} level
     * @property {string} level
     * @property {string} mode
+    * @property {string} genre
    * @param {MemoryGameConfig} data 
    */
   init = (data) => {
@@ -77,8 +78,12 @@ export default class MemoryGame extends Phaser.Scene {
 
     this.prevSceneData = {
         level: data.level,
-        mode:data.mode
+        mode:data.mode,
+        genre:data.genre
       };
+      console.log(this.prevSceneData.level);
+      console.log(this.prevSceneData.mode);
+      console.log(this.prevSceneData.genre);
     
     this.gameConfig = {
       level: data.level,
@@ -104,7 +109,8 @@ export default class MemoryGame extends Phaser.Scene {
     this.createSoundButton();
     this.createBoundaryLine();
 
-    if(this.prevSceneData.mode == "flag"){
+
+    if(this.prevSceneData.mode == "practice"){
       this.createTryCountText();
       this.createTriedCountText();
     }
@@ -749,7 +755,7 @@ export default class MemoryGame extends Phaser.Scene {
 
       setTimeout(() => {
         this.triedCount++;
-        if(this.prevSceneData.mode === "flag"){
+        if(this.prevSceneData.mode === "practice"){
           if (this.isGameOver()) {
             this.goToResultScene({isWon: false});
           }
@@ -764,7 +770,7 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   refreshCounter = () => {
-    if(this.prevSceneData.mode == "flag"){
+    if(this.prevSceneData.mode == "practice"){
       this.tryCountComponent.setText(this.leftTryCount());
       this.triedCountComponent.setText(this.currentTryCount());
     }else if(this.prevSceneData.mode == "versus"){

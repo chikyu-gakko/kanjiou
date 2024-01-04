@@ -22,9 +22,11 @@ import NakamaHowToPlay from "./scenes/nakama_how_to_play";
 
 import MemoryRuselt from "./scenes/memory_game_result";
 import MemoryGame from "./scenes/memory_game";
+import MemoryModeSetting from "./scenes/memory_mode_setting";
+import MemoryGenreSetting from "./scenes/memory_genre_setting";
+import MemoryLevelSetting from "./scenes/memory_level_setting";
 
 import { worker } from "./mocks/browser";
-import MemoryGameSetting from "./scenes/memory_game_setting";
 
 if (process.env.NODE_ENV === "development") {
   worker.start({
@@ -80,9 +82,11 @@ const config = {
     NakamaPauseMenu,
     SekaiHowToPlay,
     NakamaHowToPlay,
-    MemoryGameSetting,
+    MemoryModeSetting,
+    MemoryGenreSetting,
     MemoryGame,
-    MemoryRuselt
+    MemoryRuselt,
+    MemoryLevelSetting
   ],
 };
 

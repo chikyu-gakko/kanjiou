@@ -78,7 +78,7 @@ export default class MemoryGameResult extends Phaser.Scene {
     this.backGameSetButton = this.createBackGameSetButton();
     this.retryGameButton = this.createRetryGameButton();
     
-    if(this.prevSceneData.mode == "flag"){
+    if(this.prevSceneData.mode == "practice"){
       if(this.prevSceneData.isWon){
         // ゲームクリア
         this.add
@@ -171,7 +171,7 @@ export default class MemoryGameResult extends Phaser.Scene {
     backGameSetButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        this.scene.start("memory_game_setting");
+        this.scene.start("MemoryModeSetting");
       },
       this
     );
