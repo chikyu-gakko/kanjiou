@@ -103,17 +103,23 @@ export default class MemoryGame extends Phaser.Scene {
     this.createCarpet();
     this.createSoundButton();
     this.createBoundaryLine();
-    this.createNationalFlagImages();
-    this.createNationalFlagShortKanjiNames();
+
     if(this.prevSceneData.mode == "flag"){
       this.createTryCountText();
       this.createTriedCountText();
     }
     if(this.prevSceneData.mode == "versus"){
+      this.createNowPlayerNameBack();
+      this.createNowPlayAreaBack();
+      this.createPlayer1PointBack();
+      this.createPlayer2PointBack();
       this.createNowPlayerNameText();
       this.Player1PointCountText();
       this.Player2PointCountText();
     }
+
+    this.createNationalFlagImages();
+    this.createNationalFlagShortKanjiNames();
   }
 
   initFlippedArea = () => {
@@ -316,6 +322,7 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   createNationalFlagImages = () => {
+
     const GLOBAL_START_POSITION_X = 40;
     const GLOBAL_START_POSITION_Y = 250;
     const GAP = 16;
@@ -342,7 +349,7 @@ export default class MemoryGame extends Phaser.Scene {
         .setInteractive({
           cursor: 'pointer'
         });
-
+      nationalFlagComponent.depth = 2;
       let isFinishedFlipAnimation = true;
       nationalFlagComponent.on(
         'pointerdown',
@@ -414,6 +421,7 @@ export default class MemoryGame extends Phaser.Scene {
         .setInteractive({
           cursor: 'pointer'
         });
+        nationalFlagShortKanjiNameComponent.depth = 2;
 
       let isFinishedFlipAnimation = true;
       nationalFlagShortKanjiNameComponent.on(
@@ -503,11 +511,11 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   Player1NowPoint = () => {
-    return "プレイヤー1:"+this.Player1PointCounter + "ポイント";
+    return this.Player1PointCounter;
   }
 
   Player2NowPoint = () => {
-    return "プレイヤー2:"+this.Player2PointCounter + "ポイント";
+    return this.Player2PointCounter;
   }
   
   createTryCountText = () => {
@@ -544,6 +552,55 @@ export default class MemoryGame extends Phaser.Scene {
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
   }
 
+  createNowPlayerNameBack = () => {
+        let graphics = this.add.graphics();
+        graphics.fillStyle(0XD3D3D3, 1).fillRect(this.game.canvas.width / 2 - 200, 30,400, 80);
+        graphics.depth = 0;
+  }
+   
+  createNowPlayAreaBack = () => {
+    let graphics = this.add.graphics(); 
+    const BACKL_X = this.game.canvas.width / 8 - 110;
+    const BACKR_X = this.game.canvas.width * 0.76 - 240;
+
+    graphics.fillStyle(0xebf2ee,1).fillRect(BACKL_X, 240,470, 410);
+    graphics.fillStyle(0xebf2ee,1).fillRect(BACKR_X, 240,470, 410);
+    
+    if(this.Now_PlayerName =="プレイヤー1の番"){
+      graphics.fillStyle(0x98fb98,1).fillRect(BACKL_X, 240,470, 410);
+    }else if(this.Now_PlayerName =="プレイヤー2の番"){
+      graphics.fillStyle(0x98fb98,1).fillRect(BACKR_X, 240,470, 410);
+    }
+    graphics.depth = 0;
+}
+
+  createPlayer1PointBack = () => {
+    const BLACK_POS_X = this.game.canvas.width / 8 - 50;
+    const GRAYL_POS_X = this.game.canvas.width / 8 - 45;
+    const GRAYR_POS_X = this.game.canvas.width / 8 + 50;
+    const NAME_BACK_X = this.game.canvas.width / 8 - 45;
+
+    let graphics = this.add.graphics();
+
+    graphics.fillStyle(0X000000, 1).fillRect(BLACK_POS_X , 25,195, 190);
+    graphics.fillStyle(0XD3D3D3, 1).fillRect(NAME_BACK_X, 30, 185, 45);
+    graphics.fillStyle(0XD3D3D3, 1).fillRect(GRAYL_POS_X, 80,90, 130);
+    graphics.fillStyle(0XD3D3D3, 1).fillRect(GRAYR_POS_X, 80,90, 130);
+  }
+
+  createPlayer2PointBack = () => {
+    const BLACK_POS_X = this.game.canvas.width * 0.76 - 30;
+    const NAME_BACK_X = this.game.canvas.width * 0.76 - 25;
+    const GRAYL_POS_X = this.game.canvas.width * 0.76 - 25;
+    const GRAYR_POS_X = this.game.canvas.width * 0.78 + 50;
+
+    let graphics = this.add.graphics();
+    graphics.fillStyle(0X000000, 1).fillRect(BLACK_POS_X, 25, 195, 190);
+    graphics.fillStyle(0XD3D3D3, 1).fillRect(NAME_BACK_X, 30, 185, 45);
+    graphics.fillStyle(0XD3D3D3, 1).fillRect(GRAYL_POS_X, 80, 90, 130);
+    graphics.fillStyle(0XD3D3D3, 1).fillRect(GRAYR_POS_X, 80, 90, 130);
+  }
+
   createNowPlayerNameText = () => {
       this.Now_PlayerComponent = this.add
           .text(
@@ -557,18 +614,45 @@ export default class MemoryGame extends Phaser.Scene {
             }
           )
           .setOrigin(0, 0).setPadding(4, 4, 4, 4).setStroke("black",1);
+
+          this.add
+          .text(
+            this.game.canvas.width / 8 - 45,
+            40,
+            "プレイヤー1",
+            {
+              color: COLOR_LIGHT_BLACK.toString(),
+              fontSize: '30px',
+             
+            }
+          )
+          .setOrigin(0, 0).setPadding(4, 4, 4, 4).setStroke("black",1);
+
+          this.add
+          .text(
+            this.game.canvas.width * 0.76 - 25,
+            40,
+            "プレイヤー2",
+            {
+              color: COLOR_LIGHT_BLACK.toString(),
+              fontSize: '30px',
+             
+            }
+          )
+          .setOrigin(0, 0).setPadding(4, 4, 4, 4).setStroke("black",1);
   }
 
   Player1PointCountText = () => {
+    
     this.Player1PointComponent =
     this.add
     .text(
-      40,
-      65,
-      "プレイヤー1:"+this.Player1PointCounter + "ポイント",
+      80,
+      75,
+      ('0' + this.Player1PointCounter.toString()).slice(-2),
       {
         color: COLOR_LIGHT_BLACK.toString(),
-        fontSize: '25px',
+        fontSize: '155px',
       }
     )
     .setOrigin(0, 0).setPadding(0, 4, 0, 0).setStroke("black",1.3);
@@ -579,13 +663,12 @@ export default class MemoryGame extends Phaser.Scene {
     this.Player2PointComponent = 
     this.add
           .text(
-            700,
-            65,
-            "プレイヤー2:"+this.Player2PointCounter + "ポイント",
+            750,
+            75,
+            ('0' + this.Player2PointCounter.toString()).slice(-2),
             {
               color: COLOR_LIGHT_BLACK.toString(),
-              fontSize: '25px',
-              
+              fontSize: '155px',          
             }
           )
           .setOrigin(0, 0).setPadding(0, 4, 0, 0).setStroke("black",1);
@@ -630,7 +713,6 @@ export default class MemoryGame extends Phaser.Scene {
     const nationalFlagShortKanjiName = this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI];
     this.consoleLogForDebug(this.flippedAreas);
     this.consoleLogForDebug(this.flippedComponents);
-
     if (nationalFlag.shortKanjiName === nationalFlagShortKanjiName) {
       setTimeout(() => {
         if(this.prevSceneData.mode == "versus"){
@@ -645,6 +727,7 @@ export default class MemoryGame extends Phaser.Scene {
 
         this.initFlippedArea();
         this.refreshCounter();
+        
       }, ANIMATION_DURATION_FLIP * 2);
       return;
     }
@@ -664,7 +747,6 @@ export default class MemoryGame extends Phaser.Scene {
       }, ANIMATION_DURATION_FLIP);
     });
 
-    
       setTimeout(() => {
         this.triedCount++;
         if(this.prevSceneData.mode === "flag"){
@@ -672,8 +754,10 @@ export default class MemoryGame extends Phaser.Scene {
             this.goToResultScene({isWon: false});
           }
         }
+
         this.initFlippedArea();
         this.refreshCounter();
+        
       }, ANIMATION_DURATION_FLIP * 2);
 
     this.flippedComponents = this.flippedComponents.slice(0, this.flippedComponents.length - 2)
@@ -685,8 +769,9 @@ export default class MemoryGame extends Phaser.Scene {
       this.triedCountComponent.setText(this.currentTryCount());
     }else if(this.prevSceneData.mode == "versus"){
       this.Now_PlayerComponent.setText(this.NowPlayer_Text());
-      this.Player1PointComponent.setText(this.Player1NowPoint());
-      this.Player2PointComponent.setText(this.Player2NowPoint());
+      this.Player1PointComponent.setText(('0'+this.Player1NowPoint().toString()).slice(-2));
+      this.Player2PointComponent.setText(('0'+this.Player2NowPoint().toString()).slice(-2));
+      this.createNowPlayAreaBack();
     }
   }
 

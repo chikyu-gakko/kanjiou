@@ -119,6 +119,15 @@ export default class MemoryGameResult extends Phaser.Scene {
           gameResultFontStyle
         )
         .setOrigin(0.5, 0);
+
+        this.add
+        .text(
+          this.game.canvas.width / 2,
+          250,
+          this.prevSceneData.p1point+" - "+this.prevSceneData.p2point,
+          gameResultFontStyle
+        )
+        .setOrigin(0.5, 0);
         this.displayGameClearGraphics();
       }
   }
@@ -131,7 +140,7 @@ export default class MemoryGameResult extends Phaser.Scene {
     const backTopButton = new SettingButton(
       this,
       57,
-      332,
+      362,
       265,
       72,
       "トップへ戻る",
@@ -152,7 +161,7 @@ export default class MemoryGameResult extends Phaser.Scene {
     const backGameSetButton = new SettingButton(
       this,
       377,
-      332,
+      362,
       265,
       72,
       "ゲーム設定に戻る",
@@ -173,7 +182,7 @@ export default class MemoryGameResult extends Phaser.Scene {
     const retryGameButton = new SettingButton(
       this,
       697,
-      332,
+      362,
       265,
       72,
       "もう一度プレイする",
