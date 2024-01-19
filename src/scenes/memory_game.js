@@ -116,9 +116,9 @@ export default class MemoryGame extends Phaser.Scene {
     }
     if(this.prevSceneData.mode == "versus"){
       this.createNowPlayerNameBack();
-      this.createNowPlayAreaBack();
       this.createPlayer1PointBack();
       this.createPlayer2PointBack();
+      this.createPleyerNameText();
       this.createNowPlayerNameText();
       this.Player1PointCountText();
       this.Player2PointCountText();
@@ -564,21 +564,6 @@ export default class MemoryGame extends Phaser.Scene {
         graphics.depth = 0;
   }
    
-  createNowPlayAreaBack = () => {
-    let graphics = this.add.graphics(); 
-    const BACKL_X = this.game.canvas.width / 8 - 110;
-    const BACKR_X = this.game.canvas.width * 0.76 - 240;
-
-    graphics.fillStyle(0xebf2ee,1).fillRect(BACKL_X, 240,470, 410);
-    graphics.fillStyle(0xebf2ee,1).fillRect(BACKR_X, 240,470, 410);
-    
-    if(this.Now_PlayerName =="プレイヤー1の番"){
-      graphics.fillStyle(0x98fb98,1).fillRect(BACKL_X, 240,470, 410);
-    }else if(this.Now_PlayerName =="プレイヤー2の番"){
-      graphics.fillStyle(0x98fb98,1).fillRect(BACKR_X, 240,470, 410);
-    }
-    graphics.depth = 0;
-}
 
   createPlayer1PointBack = () => {
     const BLACK_POS_X = this.game.canvas.width / 8 - 50;
@@ -589,9 +574,16 @@ export default class MemoryGame extends Phaser.Scene {
     let graphics = this.add.graphics();
 
     graphics.fillStyle(0X000000, 1).fillRect(BLACK_POS_X , 25,195, 190);
-    graphics.fillStyle(0XD3D3D3, 1).fillRect(NAME_BACK_X, 30, 185, 45);
-    graphics.fillStyle(0XD3D3D3, 1).fillRect(GRAYL_POS_X, 80,90, 130);
-    graphics.fillStyle(0XD3D3D3, 1).fillRect(GRAYR_POS_X, 80,90, 130);
+
+    if(this.Now_PlayerName =="プレイヤー1の番"){
+      graphics.fillStyle(0XD3D3D3, 1).fillRect(NAME_BACK_X, 30, 185, 45);
+      graphics.fillStyle(0X00FF7F, 1).fillRect(GRAYL_POS_X, 80,90, 130);
+      graphics.fillStyle(0X00FF7F, 1).fillRect(GRAYR_POS_X, 80,90, 130);
+    }else{
+      graphics.fillStyle(0X696969, 1).fillRect(NAME_BACK_X, 30, 185, 45);
+      graphics.fillStyle(0X696969, 1).fillRect(GRAYL_POS_X, 80,90, 130);
+      graphics.fillStyle(0X696969, 1).fillRect(GRAYR_POS_X, 80,90, 130);
+    }
   }
 
   createPlayer2PointBack = () => {
@@ -602,13 +594,20 @@ export default class MemoryGame extends Phaser.Scene {
 
     let graphics = this.add.graphics();
     graphics.fillStyle(0X000000, 1).fillRect(BLACK_POS_X, 25, 195, 190);
-    graphics.fillStyle(0XD3D3D3, 1).fillRect(NAME_BACK_X, 30, 185, 45);
-    graphics.fillStyle(0XD3D3D3, 1).fillRect(GRAYL_POS_X, 80, 90, 130);
-    graphics.fillStyle(0XD3D3D3, 1).fillRect(GRAYR_POS_X, 80, 90, 130);
+
+    if(this.Now_PlayerName =="プレイヤー2の番"){
+      graphics.fillStyle(0XD3D3D3, 1).fillRect(NAME_BACK_X, 30, 185, 45);
+      graphics.fillStyle(0X00FF7F, 1).fillRect(GRAYL_POS_X, 80, 90, 130);
+      graphics.fillStyle(0X00FF7F, 1).fillRect(GRAYR_POS_X, 80, 90, 130);
+    }else{
+      graphics.fillStyle(0X696969, 1).fillRect(NAME_BACK_X, 30, 185, 45);
+      graphics.fillStyle(0X696969, 1).fillRect(GRAYL_POS_X, 80, 90, 130);
+      graphics.fillStyle(0X696969, 1).fillRect(GRAYR_POS_X, 80, 90, 130);
+    }
   }
 
-  createNowPlayerNameText = () => {
-      this.Now_PlayerComponent = this.add
+  createNowPlayerNameText = () =>{
+    this.Now_PlayerComponent = this.add
           .text(
             this.game.canvas.width / 2 - 160,
             50,
@@ -620,6 +619,9 @@ export default class MemoryGame extends Phaser.Scene {
             }
           )
           .setOrigin(0, 0).setPadding(4, 4, 4, 4).setStroke("black",1);
+  }
+
+  createPleyerNameText = () => {
 
           this.add
           .text(
@@ -774,10 +776,18 @@ export default class MemoryGame extends Phaser.Scene {
       this.tryCountComponent.setText(this.leftTryCount());
       this.triedCountComponent.setText(this.currentTryCount());
     }else if(this.prevSceneData.mode == "versus"){
+
       this.Now_PlayerComponent.setText(this.NowPlayer_Text());
+      
       this.Player1PointComponent.setText(('0'+this.Player1NowPoint().toString()).slice(-2));
       this.Player2PointComponent.setText(('0'+this.Player2NowPoint().toString()).slice(-2));
-      this.createNowPlayAreaBack();
+
+      this.createPlayer1PointBack();
+      this.Player1PointCountText();
+
+      this.createPlayer2PointBack();
+      this.Player2PointCountText();
+      this.createPleyerNameText();
     }
   }
 
