@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser from "phaser";``
 // import phaserReact from "phaser3-react";
 
 import OpenLogo from "./scenes/open_logo";
@@ -22,9 +22,12 @@ import NakamaHowToPlay from "./scenes/nakama_how_to_play";
 
 import MemoryRuselt from "./scenes/memory_game_result";
 import MemoryGame from "./scenes/memory_game";
+import MemoryModeSetting from "./scenes/memory_mode_setting";
+import MemoryGenre1Setting from "./scenes/memory_genre1_setting";
+import MemoryGenre2Setting from "./scenes/memory_genre2_setting";
+import MemoryLevelSetting from "./scenes/memory_level_setting";
 
 import { worker } from "./mocks/browser";
-import MemoryGameSetting from "./scenes/memory_game_setting";
 
 if (process.env.NODE_ENV === "development") {
   worker.start({
@@ -80,9 +83,12 @@ const config = {
     NakamaPauseMenu,
     SekaiHowToPlay,
     NakamaHowToPlay,
-    MemoryGameSetting,
+    MemoryModeSetting,
+    MemoryGenre1Setting,
+    MemoryGenre2Setting,
     MemoryGame,
-    MemoryRuselt
+    MemoryRuselt,
+    MemoryLevelSetting
   ],
 };
 

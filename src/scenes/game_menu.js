@@ -247,7 +247,7 @@ export default class GameMenu extends Phaser.Scene {
       .strokePath();
       memoryGmButton.on("pointerdown", () => {
         modeDecideSe.play();
-        this.scene.start("memory_game_setting");
+        this.scene.start("MemoryGameSetting");
       });
     this.add
       .text(200, 520, "神経衰弱", {
@@ -259,7 +259,7 @@ export default class GameMenu extends Phaser.Scene {
 
     memoryGmButton.on("pointerdown", () => {
       modeDecideSe.play();
-      this.scene.start("memory_game_setting");
+      this.scene.start("MemoryModeSetting");
     });
     // this.add
     //   .text(200, 520, "作成中", {

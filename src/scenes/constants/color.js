@@ -14,3 +14,8 @@ export const COLOR_BLACK = {
     toNumber: () => 0x000000,
     toString: () => "#000000",
 };
+
+export const COLOR_WHITE = {
+    toNumber: () => 0xFFFFFF,
+    toString: () => "#FFFFFF",
+};
