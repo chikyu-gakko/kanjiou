@@ -284,6 +284,13 @@ export default class GameMenu extends Phaser.Scene {
      */
     const callback = (scene) => {
       scene.cameras.main.once("camerafadeincomplete", () => {
+        let isFadedGameMenu = false;
+
+        window.addEventListener('click', () => {
+          isFadedGameMenu = true;
+          this.gameMenuFade();
+        });
+
         setTimeout(() => {
           this.groundAnim();
         }, 2000);
@@ -297,6 +304,8 @@ export default class GameMenu extends Phaser.Scene {
           this.moguraAnim();
         }, 5000);
         setTimeout(() => {
+          if (isFadedGameMenu) return;
+          
           this.gameMenuFade();
         }, 8000);
       });
