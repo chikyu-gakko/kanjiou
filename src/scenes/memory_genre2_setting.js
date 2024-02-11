@@ -12,17 +12,14 @@ const bgms = [
   ["top_bgm", "assets/audio/top.mp3"],
   ["game_start_se", "assets/audio/game_start.mp3"],
 ];
-
-const Genre = MemoryContainer.Genre;
+const Genre2 = MemoryContainer.Genre2;
 const Category = MemoryContainer.Category;
-const Level = MemoryContainer.Level;
 
-export default class MemoryLevelSetting extends Phaser.Scene {
+export default class MemoryGenreSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "MemoryLevelSetting", active: false });
+    super({ key: "MemoryGenre2Setting", active: false });
     this.prevSceneData = undefined;
     this.settingElements = undefined;
-    this.selectedCategory = undefined;
     this.selectedMode = undefined;
   }
 
@@ -40,17 +37,16 @@ export default class MemoryLevelSetting extends Phaser.Scene {
   init(data) {
     this.prevSceneData = {
       mode: data.mode,
-      genre:data.genre
+      genre: data.genre
     };
-    console.log(this.prevSceneData.mode);
-    console.log(this.prevSceneData.genre);
 
-    this.selectedLevel = Level.Level1.name;
-    this.selectedGenre = this.prevSceneData.genre;
     this.selectedMode = this.prevSceneData.mode;
+    this.selectedGenre = this.prevSceneData.genre;
+
+    console.log(this.selectedMode);
 
     // 設定の選択肢の初期値
-    this.selectedSettingCategory = Category.data.Level.name;
+    this.selectedSettingCategory = Category.data.Genre2.name;
     this.challenge = false;
     this.fontFamily = this.registry.get("fontFamily");
   }
@@ -61,20 +57,21 @@ export default class MemoryLevelSetting extends Phaser.Scene {
     this.createTitle();
     this.createGameMenu();
     this.createSubTitle();
+    this.createGameNextButton();
     this.createGamePreveButton();
-    this.createGameStartButton();
     this.createHowToPlayButton();
     this.settingElements = this.createSettingButtons();
     this.updateView();
   }
 
   updateView() {
+
     this.settingElements.forEach((element) => {
       switch (element.getData(Category.key)) {
         case this.selectedSettingCategory:
             element.setVisible(true);
           switch (element.getData(Category.value)) {
-            case this.selectedLevel:
+            case this.selectedGenre:
               element.changeSelected();
               break;
             default:
@@ -100,7 +97,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
 
   createTitle = () => {
     this.add
-      .text(390, 64, "神経衰弱", {
+      .text(380, 64, "神経衰弱", {
         fontSize: "65px",
         fontFamily: this.fontFamily,
       })
@@ -109,7 +106,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
 
   createSubTitle = () => {
     this.add
-    .text(465, 150, "レベル", {
+    .text(430, 150, "ジャンル２", {
       fontSize: "35px",
       fontFamily: this.fontFamily,
     })
@@ -119,17 +116,19 @@ export default class MemoryLevelSetting extends Phaser.Scene {
   createGameMenu = () => {
     const gameMenuBox = this.add.graphics();
     gameMenuBox.fillStyle(0x333333, 1).fillRect(120, 138, 787, 478);
+
   };
 
-  createGameStartButton = () => {
+  createGameNextButton = () => {
     const gameStartSe = this.sound.add("game_start_se");
     this.add
       .graphics()
       .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
-      .fillRoundedRect(340, 642, 368, 80, 40)
+      .fillRoundedRect(680, 520, 200, 60, 30)
+      .lineStyle(2, 0xFFFFFF).strokeRoundedRect(680, 520, 200, 60, 30)
       .setInteractive(
-        new Phaser.Geom.Rectangle(340, 642, 368, 80),
+        new Phaser.Geom.Rectangle(680, 520, 200, 60),
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath()
@@ -138,26 +137,21 @@ export default class MemoryLevelSetting extends Phaser.Scene {
         () => {
            this.sound.stopAll();
            this.sound.removeByKey("top_bgm");
-           gameStartSe.play();
-           this.scene.start("memory_game",
+           this.scene.start("MemoryLevelSetting",
             {
-              level: this.selectedLevel,
-              mode:this.prevSceneData.mode,
-              genre:this.prevSceneData.genre
+              genre: this.selectedGenre,
+              mode:this.selectedMode
             }
           );
         },
         this
       );
 
-    this.add.text(417, 666, "ゲームスタート", {
+    this.add.text(740, 530, "次へ▶", {
       fontSize: "32px",
       color: "#ffffff",
       fontFamily: this.fontFamily,
     });
-
-    // mogura画像
-    this.add.image(410, 680, "mogura");
   };
 
   createGamePreveButton = () => {
@@ -167,20 +161,18 @@ export default class MemoryLevelSetting extends Phaser.Scene {
       .lineStyle(2, 0x645246)
       .fillStyle(0xffffff, 1)
       .fillRoundedRect(150, 520, 200, 60, 30)
-      .lineStyle(3, 0x00000).strokeRoundedRect(150, 520, 200, 60, 30)
       .setInteractive(
-        new Phaser.Geom.Rectangle(150, 520, 200, 60),
+        new Phaser.Geom.Rectangle(150, 510, 200, 60),
         Phaser.Geom.Rectangle.Contains
       )
-      .strokePath()
+      .lineStyle(3, 0x00000).strokeRoundedRect(150, 520, 200, 60, 30)
       .on(
         "pointerdown",
         () => {
            this.sound.stopAll();
            this.sound.removeByKey("top_bgm");
-           this.scene.start("MemoryGenre2Setting",
+           this.scene.start("MemoryGenre1Setting",
             {
-              genre:this.selectedGenre,
               mode:this.selectedMode,
             }
           );
@@ -226,47 +218,163 @@ export default class MemoryLevelSetting extends Phaser.Scene {
     const settingButtonArgs = [     
       {
         type: "button",
-        x: 415,
-        y: 233,
-        width: 229,
+        x: 155,
+        y: 225,
+        width: 220,
         height: 56,
-        text: Level.Level1.text,
+        text: Genre2.Sweets.text,
         fontSize: 24,
         data: {
-          [Category.key]: Category.data.Level.name,
-          [Category.value]: Level.Level1.name,
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.Sweets.name,
         },
-        
+      },
+      {
+        type: "button",
+        x: 405,
+        y: 225,
+        width: 220,
+        height: 56,
+        text: Genre2.Vegetables.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.Vegetables.name,
+        },
       },{
         type: "button",
-        x: 415,
-        y: 333,
-        width: 229,
+        x: 655,
+        y: 225,
+        width: 220,
         height: 56,
-        text: Level.Level2.text,
+        text: Genre2.Fruit.text,
         fontSize: 24,
         data: {
-          [Category.key]: Category.data.Level.name,
-          [Category.value]: Level.Level2.name,
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.Fruit.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 155,
+        y: 290,
+        width: 220,
+        height: 56,
+        text: Genre2.Menu.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.Menu.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 405,
+        y: 290,
+        width: 220,
+        height: 56,
+        text: Genre2.AnimalKanji.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.AnimalKanji.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 655,
+        y: 290,
+        width: 220,
+        height: 56,
+        text: Genre2.AnimalKatakana.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.AnimalKatakana.name,
         },
       },{
         type: "button",
-        x: 415,
-        y: 433,
-        width: 229,
+        x: 155,
+        y: 355,
+        width: 220,
         height: 56,
-        text: Level.Level3.text,
+        text: Genre2.Tree.text,
         fontSize: 24,
         data: {
-          [Category.key]: Category.data.Level.name,
-          [Category.value]: Level.Level3.name,
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.Tree.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 405,
+        y: 355,
+        width: 220,
+        height: 56,
+        text: Genre2.FlowerKanji.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.FlowerKanji.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 655,
+        y: 355,
+        width: 220,
+        height: 56,
+        text: Genre2.FlowerKatakana.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.FlowerKatakana.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 155,
+        y: 420,
+        width: 220,
+        height: 56,
+        text: Genre2.Zodiac.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.Zodiac.name,
+        },
+      },{
+        type: "button",
+        x: 405,
+        y: 420,
+        width: 220,
+        height: 56,
+        text: Genre2.LunarCalendar.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.LunarCalendar.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 655,
+        y: 420,
+        width: 220,
+        height: 56,
+        text: Genre2.Constellation.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.Constellation.name,
         },
       }
     ];
 
     return settingButtonArgs.map((arg) => {
+      
       switch (arg.type) {
-        case "button": //ボタン表示処理
+        case "button": //ボタン表示処理        
           const settingButton = new SettingButton(
             this,
             arg.x,
@@ -279,11 +387,11 @@ export default class MemoryLevelSetting extends Phaser.Scene {
           ).setData(arg.data);
 
           switch (arg.data[Category.key]) {
-            case Category.data.Level.name:
+            case Category.data.Genre2.name:
               settingButton.buttonGraphic.on(
                 "pointerdown",
                 () => {
-                  this.selectedLevel = arg.data[Category.value];
+                  this.selectedGenre = arg.data[Category.value];
                   this.updateView();
                 },
                 this
@@ -292,6 +400,9 @@ export default class MemoryLevelSetting extends Phaser.Scene {
           }
          break;
       }
+    
+    
     });
+  
   };
 }

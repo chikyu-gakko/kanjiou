@@ -39,9 +39,7 @@ export default class MemoryGame extends Phaser.Scene {
     
     this.maxTryCount = 0;
     this.triedCount  = 0;
-    // this.triedCountComponent = undefined;
-    // this.tryCountComponent   = undefined;
-
+    
     this.TryLimitComponent = undefined;
 
     this.Now_PlayerComponent = undefined;
@@ -77,7 +75,8 @@ export default class MemoryGame extends Phaser.Scene {
     if (DEBUG_MODE) {
       data = {
         level: LEVEL1,
-        mode:""
+        mode:"",
+        genre:""
       }
     }
 
@@ -113,18 +112,15 @@ export default class MemoryGame extends Phaser.Scene {
     this.createBackGround();
     this.createCarpet();
     this.createSoundButton();
-    this.createBoundaryLine();
+    // this.createBoundaryLine();
 
     if(this.prevSceneData.mode == "practice"){
       this.createTryCountText();
-      // this.createTriedCountText();
     }
     if(this.prevSceneData.mode == "versus"){
-      this.createNowPlayerNameBack();
       this.createPlayer1PointBack();
       this.createPlayer2PointBack();
       this.createPleyerNameText();
-      this.createNowPlayerNameText();
       this.Player1PointCountText();
       this.Player2PointCountText();
     }
@@ -268,22 +264,22 @@ export default class MemoryGame extends Phaser.Scene {
     new BackGround(this, { color: COLOR_PALE_GREEN.toNumber(), alpha: 1 });
   }
 
-  createBoundaryLine = () => {
-    const PADDING_HEIGHT = 64;
-    const GLOBAL_START_POSITION_X = this.sys.game.canvas.width / 2;
-    const GLOBAL_START_POSITION_Y = 250;
+  // createBoundaryLine = () => {
+  //   const PADDING_HEIGHT = 64;
+  //   const GLOBAL_START_POSITION_X = this.sys.game.canvas.width / 2;
+  //   const GLOBAL_START_POSITION_Y = 250;
     
-    this.add
-      .line(
-        0,
-        GLOBAL_START_POSITION_Y - PADDING_HEIGHT,
-        GLOBAL_START_POSITION_X,
-        GLOBAL_START_POSITION_Y,
-        GLOBAL_START_POSITION_X,
-        this.sys.game.canvas.height - PADDING_HEIGHT,
-        COLOR_LIGHT_BLACK.toNumber(),
-      )
-  }
+  //   this.add
+  //     .line(
+  //       0,
+  //       GLOBAL_START_POSITION_Y - PADDING_HEIGHT,
+  //       GLOBAL_START_POSITION_X,
+  //       GLOBAL_START_POSITION_Y,
+  //       GLOBAL_START_POSITION_X,
+  //       this.sys.game.canvas.height - PADDING_HEIGHT,
+  //       COLOR_LIGHT_BLACK.toNumber(),
+  //     )
+  // }
 
   /**
    * @param {number} count 
@@ -509,8 +505,7 @@ export default class MemoryGame extends Phaser.Scene {
     new SoundButton(this, 70, 700, 40);
   }
 
-  leftTryCount = () => {
-    // return `あと${this.maxTryCount - this.triedCount}回`;
+  TryCount = () => {
     return `${this.maxTryCount - this.triedCount}`;
   }
 
@@ -544,16 +539,16 @@ export default class MemoryGame extends Phaser.Scene {
       });
       
       this.TryLimitComponent = this.add.text(number1Object.width
-        , 0, this.leftTryCount(), {
+        , 0, this.TryCount(), {
         color: "#D53F3F",
         fontSize: "100px",
       });
   
       const text2Object = this.add.text(number1Object.width + this.TryLimitComponent.width + 10
-        , 10, "回", {
+        , 0, "回", {
         color: COLOR_WHITE.toString(),
-        fontSize: "90px",
-      });
+        fontSize: "100px",
+      }).setPadding(4, 4, 4, 4)
   
       const container = this.add.container(0, 70, [
         number1Object,
@@ -575,52 +570,39 @@ export default class MemoryGame extends Phaser.Scene {
     .setOrigin(0.5, 0.5).setAngle(180);
   
   }
-
-  createNowPlayerNameBack = () => {
-        let graphics = this.add.graphics();
-        graphics.fillStyle(0XD3D3D3, 1).fillRect(this.game.canvas.width / 2 - 200, 30,400, 80);
-        graphics.depth = 0;
-  }
    
 
   createPlayer1PointBack = () => {
     const BLACK_POS_X = this.game.canvas.width / 8 - 50;
-    const GRAYL_POS_X = this.game.canvas.width / 8 - 45;
-    const GRAYR_POS_X = this.game.canvas.width / 8 + 50;
+    const GRAY_POS_X = this.game.canvas.width / 8 - 45;
     const NAME_BACK_X = this.game.canvas.width / 8 - 45;
 
     let graphics = this.add.graphics();
-
-    graphics.fillStyle(0X000000, 1).fillRect(BLACK_POS_X , 25,195, 190);
+    graphics.fillStyle(0X000000, 1).fillRect(BLACK_POS_X + 50, 25,260, 190);
 
     if(this.Now_PlayerName =="プレイヤー1の番"){
-      graphics.fillStyle(0XD3D3D3, 1).fillRect(NAME_BACK_X, 30, 185, 45);
-      graphics.fillStyle(0X00FF7F, 1).fillRect(GRAYL_POS_X, 80,90, 130);
-      graphics.fillStyle(0X00FF7F, 1).fillRect(GRAYR_POS_X, 80,90, 130);
+      graphics.fillStyle(0X00FF7F, 1).fillRect(NAME_BACK_X + 50, 30, 250, 45);
+      graphics.fillStyle(0X00FF7F, 1).fillRect(GRAY_POS_X + 50, 80,250, 130);
     }else{
-      graphics.fillStyle(0X696969, 1).fillRect(NAME_BACK_X, 30, 185, 45);
-      graphics.fillStyle(0X696969, 1).fillRect(GRAYL_POS_X, 80,90, 130);
-      graphics.fillStyle(0X696969, 1).fillRect(GRAYR_POS_X, 80,90, 130);
+      graphics.fillStyle(0X696969, 1).fillRect(NAME_BACK_X + 50, 30, 250, 45);
+      graphics.fillStyle(0X696969, 1).fillRect(GRAY_POS_X + 50, 80,250, 130);
     }
   }
 
   createPlayer2PointBack = () => {
     const BLACK_POS_X = this.game.canvas.width * 0.76 - 30;
     const NAME_BACK_X = this.game.canvas.width * 0.76 - 25;
-    const GRAYL_POS_X = this.game.canvas.width * 0.76 - 25;
-    const GRAYR_POS_X = this.game.canvas.width * 0.78 + 50;
+    const GRAY_POS_X = this.game.canvas.width * 0.76 - 25;
 
     let graphics = this.add.graphics();
-    graphics.fillStyle(0X000000, 1).fillRect(BLACK_POS_X, 25, 195, 190);
+    graphics.fillStyle(0X000000, 1).fillRect(BLACK_POS_X - 110, 25, 260, 190);
 
     if(this.Now_PlayerName =="プレイヤー2の番"){
-      graphics.fillStyle(0XD3D3D3, 1).fillRect(NAME_BACK_X, 30, 185, 45);
-      graphics.fillStyle(0X00FF7F, 1).fillRect(GRAYL_POS_X, 80, 90, 130);
-      graphics.fillStyle(0X00FF7F, 1).fillRect(GRAYR_POS_X, 80, 90, 130);
+      graphics.fillStyle(0X00FF7F, 1).fillRect(NAME_BACK_X - 110, 30, 250, 45);
+      graphics.fillStyle(0X00FF7F, 1).fillRect(GRAY_POS_X - 110, 80, 250, 130);
     }else{
-      graphics.fillStyle(0X696969, 1).fillRect(NAME_BACK_X, 30, 185, 45);
-      graphics.fillStyle(0X696969, 1).fillRect(GRAYL_POS_X, 80, 90, 130);
-      graphics.fillStyle(0X696969, 1).fillRect(GRAYR_POS_X, 80, 90, 130);
+      graphics.fillStyle(0X696969, 1).fillRect(NAME_BACK_X - 110, 30, 250, 45);
+      graphics.fillStyle(0X696969, 1).fillRect(GRAY_POS_X - 110, 80, 250, 130);
     }
   }
 
@@ -643,9 +625,9 @@ export default class MemoryGame extends Phaser.Scene {
 
           this.add
           .text(
-            this.game.canvas.width / 8 - 45,
+            this.game.canvas.width / 8 - 45 + 75,
             40,
-            "プレイヤー1",
+            "プレイヤー１",
             {
               color: COLOR_LIGHT_BLACK.toString(),
               fontSize: '30px',
@@ -656,9 +638,9 @@ export default class MemoryGame extends Phaser.Scene {
 
           this.add
           .text(
-            this.game.canvas.width * 0.76 - 25,
+            this.game.canvas.width * 0.76 - 100,
             40,
-            "プレイヤー2",
+            "プレイヤー２",
             {
               color: COLOR_LIGHT_BLACK.toString(),
               fontSize: '30px',
@@ -673,9 +655,9 @@ export default class MemoryGame extends Phaser.Scene {
     this.Player1PointComponent =
     this.add
     .text(
-      80,
+      130 + 75,
       75,
-      ('0' + this.Player1PointCounter.toString()).slice(-2),
+      (this.Player1PointCounter.toString()),
       {
         color: COLOR_LIGHT_BLACK.toString(),
         fontSize: '155px',
@@ -689,9 +671,9 @@ export default class MemoryGame extends Phaser.Scene {
     this.Player2PointComponent = 
     this.add
           .text(
-            750,
+            800 - 75,
             75,
-            ('0' + this.Player2PointCounter.toString()).slice(-2),
+            (this.Player2PointCounter.toString()),
             {
               color: COLOR_LIGHT_BLACK.toString(),
               fontSize: '155px',          
@@ -793,13 +775,12 @@ export default class MemoryGame extends Phaser.Scene {
 
   refreshCounter = () => {
     if(this.prevSceneData.mode == "practice"){
-      this.TryLimitComponent.setText(this.leftTryCount());
+      this.TryLimitComponent.setText(this.TryCount());
     }else if(this.prevSceneData.mode == "versus"){
-
-      this.Now_PlayerComponent.setText(this.NowPlayer_Text());
+        this.NowPlayer_Text();
       
-      this.Player1PointComponent.setText(('0'+this.Player1NowPoint().toString()).slice(-2));
-      this.Player2PointComponent.setText(('0'+this.Player2NowPoint().toString()).slice(-2));
+      this.Player1PointComponent.setText((this.Player1NowPoint().toString()));
+      this.Player2PointComponent.setText((this.Player2NowPoint().toString()));
 
       this.createPlayer1PointBack();
       this.Player1PointCountText();

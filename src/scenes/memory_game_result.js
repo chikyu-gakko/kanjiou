@@ -105,9 +105,9 @@ export default class MemoryGameResult extends Phaser.Scene {
     }else if(this.prevSceneData.mode == "versus"){
       let VSresult = "";
       if(this.prevSceneData.p1point > this.prevSceneData.p2point){
-        VSresult = "Player1の勝ち!"
+        VSresult = "プレイヤー1の勝ち!"
       }else if(this.prevSceneData.p1point < this.prevSceneData.p2point){
-        VSresult = "Player2の勝ち!"
+        VSresult = "プレイヤー2の勝ち!"
       }else{
         VSresult = "引き分け!"
       }

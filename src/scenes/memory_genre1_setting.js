@@ -17,7 +17,7 @@ const Category = MemoryContainer.Category;
 
 export default class MemoryGenreSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "MemoryGenreSetting", active: false });
+    super({ key: "MemoryGenre1Setting", active: false });
     this.prevSceneData = undefined;
     this.settingElements = undefined;
     this.selectedMode = undefined;
@@ -97,7 +97,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
 
   createTitle = () => {
     this.add
-      .text(390, 64, "神経衰弱", {
+      .text(380, 64, "神経衰弱", {
         fontSize: "65px",
         fontFamily: this.fontFamily,
       })
@@ -106,7 +106,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
 
   createSubTitle = () => {
     this.add
-    .text(450, 150, "ジャンル", {
+    .text(430, 150, "ジャンル１", {
       fontSize: "35px",
       fontFamily: this.fontFamily,
     })
@@ -126,6 +126,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
       .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(680, 520, 200, 60, 30)
+      .lineStyle(2, 0xFFFFFF).strokeRoundedRect(680, 520, 200, 60, 30)
       .setInteractive(
         new Phaser.Geom.Rectangle(680, 520, 200, 60),
         Phaser.Geom.Rectangle.Contains
@@ -136,7 +137,12 @@ export default class MemoryGenreSetting extends Phaser.Scene {
         () => {
            this.sound.stopAll();
            this.sound.removeByKey("top_bgm");
-           this.scene.start("MemoryLevelSetting",
+          //  this.scene.start("MemoryLevelSetting",
+          //   {
+          //     genre: this.selectedGenre,
+          //     mode:this.selectedMode
+          //   }
+          this.scene.start("MemoryGenre2Setting",
             {
               genre: this.selectedGenre,
               mode:this.selectedMode
@@ -164,7 +170,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
         new Phaser.Geom.Rectangle(150, 510, 200, 60),
         Phaser.Geom.Rectangle.Contains
       )
-      .strokePath()
+      .lineStyle(3, 0x00000).strokeRoundedRect(150, 520, 200, 60, 30)
       .on(
         "pointerdown",
         () => {
@@ -217,9 +223,9 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     const settingButtonArgs = [     
       {
         type: "button",
-        x: 551,
+        x: 155,
         y: 225,
-        width: 229,
+        width: 220,
         height: 56,
         text: Genre.Flag.text,
         fontSize: 24,
@@ -227,23 +233,50 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.Flag.name,
         },
-      },{
+      },
+      {
         type: "button",
-        x: 251,
+        x: 405,
         y: 225,
-        width: 229,
+        width: 220,
         height: 56,
-        text: Genre.Color.text,
+        text: Genre.Prefecture.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre.name,
-          [Category.value]: Genre.Color.name,
+          [Category.value]: Genre.Prefecture.name,
         },
       },{
         type: "button",
-        x: 251,
-        y: 300,
-        width: 229,
+        x: 655,
+        y: 225,
+        width: 220,
+        height: 56,
+        text: Genre.PrefecturalCapital.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre.name,
+          [Category.value]: Genre.PrefecturalCapital.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 155,
+        y: 290,
+        width: 220,
+        height: 56,
+        text: Genre.MapSymbol.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre.name,
+          [Category.value]: Genre.MapSymbol.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 405,
+        y: 290,
+        width: 220,
         height: 56,
         text: Genre.Job.text,
         fontSize: 24,
@@ -252,11 +285,101 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.value]: Genre.Job.name,
         },
       }
+      ,{
+        type: "button",
+        x: 655,
+        y: 290,
+        width: 220,
+        height: 56,
+        text: Genre.Subject.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre.name,
+          [Category.value]: Genre.Subject.name,
+        },
+      },{
+        type: "button",
+        x: 155,
+        y: 355,
+        width: 220,
+        height: 56,
+        text: Genre.Color.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre.name,
+          [Category.value]: Genre.Color.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 405,
+        y: 355,
+        width: 220,
+        height: 56,
+        text: Genre.Vehicle.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre.name,
+          [Category.value]: Genre.Vehicle.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 655,
+        y: 355,
+        width: 220,
+        height: 56,
+        text: Genre.MusicalInstrument.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre.name,
+          [Category.value]: Genre.MusicalInstrument.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 155,
+        y: 420,
+        width: 220,
+        height: 56,
+        text: Genre.date.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre.name,
+          [Category.value]: Genre.date.name,
+        },
+      },{
+        type: "button",
+        x: 405,
+        y: 420,
+        width: 220,
+        height: 56,
+        text: Genre.CountPeople.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre.name,
+          [Category.value]: Genre.CountPeople.name,
+        },
+      }
+      ,{
+        type: "button",
+        x: 655,
+        y: 420,
+        width: 220,
+        height: 56,
+        text: Genre.CountThings.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre.name,
+          [Category.value]: Genre.CountThings.name,
+        },
+      }
     ];
 
     return settingButtonArgs.map((arg) => {
+      
       switch (arg.type) {
-        case "button": //ボタン表示処理
+        case "button": //ボタン表示処理        
           const settingButton = new SettingButton(
             this,
             arg.x,
@@ -282,6 +405,8 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           }
          break;
       }
+    
+    
     });
   };
 }

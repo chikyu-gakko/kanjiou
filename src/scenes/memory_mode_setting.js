@@ -121,6 +121,7 @@ export default class MemoryModeSetting extends Phaser.Scene {
       .lineStyle(2, 0x645246)
       .fillStyle(0x32b65e, 1)
       .fillRoundedRect(680, 520, 200, 60, 30)
+      .lineStyle(2, 0xFFFFFF).strokeRoundedRect(680, 520, 200, 60, 30)
       .setInteractive(
         new Phaser.Geom.Rectangle(680, 520, 200, 60),
         Phaser.Geom.Rectangle.Contains
@@ -131,7 +132,7 @@ export default class MemoryModeSetting extends Phaser.Scene {
         () => {
            this.sound.stopAll();
            this.sound.removeByKey("top_bgm");
-           this.scene.start("MemoryGenreSetting",
+           this.scene.start("MemoryGenre1Setting",
             {
               mode:this.selectedMode,
             }
