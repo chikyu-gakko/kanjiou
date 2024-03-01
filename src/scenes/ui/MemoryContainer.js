@@ -53,7 +53,7 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
   static Genre = {
     Flag: {
       name: "flag",
-      text: "国旗",
+      text: "国・地域",
     },
     Prefecture: {
       name: "prefecture",
@@ -75,6 +75,7 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       name: "Subject",
       text: "教科",
     },
+    
     Color: {
       name: "color",
       text: "色",

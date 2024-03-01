@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 
-import { nationalFlags } from "../data/nationalFlags"; //カードのデータ収納場所
+import { countries } from "../data/countries"; //カードのデータ収納場所
+import { jobs } from "../data/jobs"; //カードのデータ収納場所
+import { constellations } from "../data/constellations";
 import SoundButton from "../components/sound_button";
 import BackGround from "./ui/BackGround";
 import { LEVEL1, LEVEL2, LEVEL3 } from "./constants/level";
@@ -30,6 +32,7 @@ export default class MemoryGame extends Phaser.Scene {
     super({ key: "memory_game", active: false });
 
     this.nationalFlags               = []; //カードのデータ用配列
+    
     this.nationalFlagShortKanjiNames = [];
     this.nationalFlagsCount          = 0;
 
@@ -51,9 +54,14 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   preload = () => {
-    nationalFlags.forEach((nationalFlag) => {
+    this.nationalFlags.forEach((nationalFlag) => {
       this.load.image(nationalFlag.englishName, nationalFlag.imagePath);
     });
+
+    this.nationalFlags.forEach((nationalFlag) => {
+      this.load.image(nationalFlag.kanaName, nationalFlag.shortKanjiName);
+    });
+
     this.load.image(CARD_BACK_SIDE_IMAGE_KEY, 'assets/img/card/card_back.png');
     this.load.image("BackCarpet", 'assets/img/carpet.png');
 
@@ -85,6 +93,20 @@ export default class MemoryGame extends Phaser.Scene {
         mode:data.mode,
         genre:data.genre
       };
+
+      switch(this.prevSceneData.genre){
+        case "flag":
+          this.nationalFlags = countries;
+        break
+        case "job":
+          this.nationalFlags = jobs;
+        break
+        case "constellation":
+        this.nationalFlags = constellations;
+        // default:
+        //   this.nationalFlags = countries;
+      }
+      
       console.log(this.prevSceneData.level);
       console.log(this.prevSceneData.mode);
       console.log(this.prevSceneData.genre);
@@ -112,7 +134,6 @@ export default class MemoryGame extends Phaser.Scene {
     this.createBackGround();
     this.createCarpet();
     this.createSoundButton();
-    // this.createBoundaryLine();
 
     if(this.prevSceneData.mode == "practice"){
       this.createTryCountText();
@@ -153,14 +174,22 @@ export default class MemoryGame extends Phaser.Scene {
       const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE / 2;
       const localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - FONT_SIZE / 2;
 
-      const shortKanjiName = this.add
-        .text(
+
+      //右 カード内容 表示
+      const shortKanjiName = 
+      //this.add.sprite(localStartPositionXForText,localStartPositionYForText,"RImgCotent");
+      //nationalFlagShortKanjiName
+      //console.log(nationalFlagShortKanjiName);
+      this.add     
+      .text(
           localStartPositionXForText,
           localStartPositionYForText,
           nationalFlagShortKanjiName,
           { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${FONT_SIZE}px` }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
+
+
 
       const renderTexture = this.add.renderTexture(
         GLOBAL_START_POSITION_X,
@@ -264,37 +293,21 @@ export default class MemoryGame extends Phaser.Scene {
     new BackGround(this, { color: COLOR_PALE_GREEN.toNumber(), alpha: 1 });
   }
 
-  // createBoundaryLine = () => {
-  //   const PADDING_HEIGHT = 64;
-  //   const GLOBAL_START_POSITION_X = this.sys.game.canvas.width / 2;
-  //   const GLOBAL_START_POSITION_Y = 250;
-    
-  //   this.add
-  //     .line(
-  //       0,
-  //       GLOBAL_START_POSITION_Y - PADDING_HEIGHT,
-  //       GLOBAL_START_POSITION_X,
-  //       GLOBAL_START_POSITION_Y,
-  //       GLOBAL_START_POSITION_X,
-  //       this.sys.game.canvas.height - PADDING_HEIGHT,
-  //       COLOR_LIGHT_BLACK.toNumber(),
-  //     )
-  // }
 
   /**
    * @param {number} count 
    * @returns {NationalFlag[]}
    */
   randomlySelectNationalFlags = (count) => {
-    if (count > nationalFlags.length) {
+    if (count > this.nationalFlags.length) {
       throw new Error(ERROR_MESSAGE_FOR_NATIONAL_FLAGS_COUNT);
     }
 
     const result = [];
 
     while (result.length < count) {
-      const randomIndex = Math.floor(Math.random() * nationalFlags.length);
-      const randomElement = nationalFlags[randomIndex];
+      const randomIndex = Math.floor(Math.random() * this.nationalFlags.length);
+      const randomElement = this.nationalFlags[randomIndex];
       
       if (!result.includes(randomElement)) {
         result.push(randomElement);
@@ -367,6 +380,7 @@ export default class MemoryGame extends Phaser.Scene {
 
           isFinishedFlipAnimation = false;
 
+          //第二引数 nationalFlag.englishName = imageの名前
           this.flipAnimation(
             nationalFlagComponent,
             nationalFlag.englishName,
@@ -411,7 +425,7 @@ export default class MemoryGame extends Phaser.Scene {
     this.consoleLogForDebug(imageSize);
     this.consoleLogForDebug(gridSize);
 
-    this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName, index) => {
+    this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName, index,nationalFlag) => {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
@@ -442,6 +456,7 @@ export default class MemoryGame extends Phaser.Scene {
           this.flipAnimation(
             nationalFlagShortKanjiNameComponent,
             nationalFlagShortKanjiName,
+           // nationalFlag.kanaName,
             nationalFlagShortKanjiNameComponent.scaleX,
             nationalFlagShortKanjiNameComponent.scaleY,
           )
@@ -475,6 +490,7 @@ export default class MemoryGame extends Phaser.Scene {
       duration: singleMotionAnimationDuration
     });
 
+    //カード裏　表示アニメーション
     this.tweens.add({
       targets: spriteObject,
       scaleX: 0,
