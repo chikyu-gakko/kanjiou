@@ -4,13 +4,13 @@ import SettingButton from "../components/setting_button";
 import NakamaContainer from "./ui/NakamaContainer";
 
 const Category = NakamaContainer.Category;
-const Level = NakamaContainer.Level;
 
 export default class NakamaGameSetting extends Phaser.Scene {
   constructor() {
     super({ key: "nakama_game_setting", active: false });
-    this.prevSceneData = undefined;
-    this.selectedLevel = undefined;
+    this.prevSceneData    = undefined;
+    this.selectedLevel    = undefined;
+    this.selectedCategory = undefined;
   }
 
   preload() {
@@ -52,6 +52,7 @@ export default class NakamaGameSetting extends Phaser.Scene {
   updateView = () => {
     this.categoryButtons.forEach((element) => {
       const data = element.getData("value");
+      this.selectedCategory = element.getData("value");
       switch (data) {
         case this.selectedSettingCategory:
           element.setStyle({ color: "#00bfff" });
@@ -141,9 +142,19 @@ export default class NakamaGameSetting extends Phaser.Scene {
           this.sound.stopAll();
           this.sound.removeByKey("top_bgm");
           gameStartSe.play();
-          this.scene.start("nakama_game", {
-            level: this.selectedLevel,
-          });
+
+          if (this.selectedCategory === Category.data.Level.value) {
+            this.scene.start("nakama_game", {
+              level: this.selectedLevel,
+            });
+            return;
+          }
+          if (this.selectedCategory === Category.data.StrokeCount.value) {
+            this.scene.start("nakama_game_stroke_count", {
+              level: this.selectedLevel,
+            });
+            return;
+          }
         },
         this
       );
@@ -193,6 +204,13 @@ export default class NakamaGameSetting extends Phaser.Scene {
         })
         .setOrigin(0.5, 0)
         .setData("value", "level"),
+      this.add
+        .text(254, 436, "画数(かくすう)", {
+          fontSize: "32px",
+          fontFamily: this.fontFamily,
+        })
+        .setOrigin(0.5, 0)
+        .setData("value", "strokeCount"),
     ];
     return categoryButtons.map((element) =>
       element.setInteractive().on(
@@ -207,61 +225,67 @@ export default class NakamaGameSetting extends Phaser.Scene {
   };
 
   createSettingButtons = () => {
-    const settingElements = [
-      new SettingButton(
-        this,
-        585,
-        224,
-        134,
-        56,
-        Level[1].text,
-        24,
-        this.fontFamily
-      ).setData({
-        category: Category.data.Level.name,
-        value: Level[1].name,
-      }),
-      new SettingButton(
-        this,
-        585,
-        324,
-        134,
-        56,
-        Level[2].text,
-        24,
-        this.fontFamily
-      ).setData({
-        category: Category.data.Level.name,
-        value: Level[2].name,
-      }),
-      new SettingButton(
-        this,
-        585,
-        424,
-        134,
-        56,
-        Level[3].text,
-        24,
-        this.fontFamily
-      ).setData({
-        category: Category.data.Level.name,
-        value: Level[3].name,
-      }),
-    ];
-    return settingElements.map((element) => {
-      switch (element.getData("category")) {
-        case Category.data.Level.name:
-          element.buttonGraphic.on(
-            "pointerdown",
-            () => {
-              this.selectedLevel = element.getData("value");
-              this.updateView();
-            },
-            this
-          );
-          break;
+    const layOutSettingButtonsCommand = (data) => {
+      const COL = 5;
+      
+      let positionX = 0, positionY = 0;
+      let currentRow = 0, currentCol = 0;
+      
+      return Object.keys(data.value).map((key) => {
+        if (currentCol === COL) {
+          currentRow++;
+          currentCol = 0;
+        }
+        
+        positionX = data.basePositionX + (currentRow * (data.marginX + data.width));
+        positionY = data.basePositionY + ((currentCol + 1) * (data.marginY + data.height))
+
+        currentCol++;
+
+        return new SettingButton(
+            this,
+            positionX,
+            positionY,
+            data.width,
+            data.height,
+            data.value[key].text,
+            data.fontSize,
+            this.fontFamily
+          ).setData({
+            category: data.name,
+            value: data.value[key].name,
+          })
+      })
+    };
+
+    const settingLevelButtons       = layOutSettingButtonsCommand(Category.data.Level);
+    const settingStrokeCountButtons = layOutSettingButtonsCommand(Category.data.StrokeCount);
+    
+    const settingElements = settingLevelButtons.concat(settingStrokeCountButtons)
+    
+    return settingElements.map((settingElement) => {
+      if (settingElement.getData("category") === Category.data.Level.name) {
+        settingElement.buttonGraphic.on(
+          "pointerdown",
+          () => {
+            this.selectedLevel = settingElement.getData("value");
+            this.updateView();
+          },
+          this
+        );
+        return settingElement;
       }
-      return element;
+      if (settingElement.getData("category") === Category.data.StrokeCount.name) {
+        settingElement.buttonGraphic.on(
+          "pointerdown",
+          () => {
+            this.selectedLevel = settingElement.getData("value");
+            this.updateView();
+          },
+          this
+        );
+        return settingElement;
+      }
     });
   };
 }

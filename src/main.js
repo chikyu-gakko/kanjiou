@@ -28,6 +28,7 @@ import MemoryGenre2Setting from "./scenes/memory_genre2_setting";
 import MemoryLevelSetting from "./scenes/memory_level_setting";
 
 import { worker } from "./mocks/browser";
+import NakamaGameStrokeCount from "./scenes/nakama_game_stroke_count";
 
 if (process.env.NODE_ENV === "development") {
   worker.start({
@@ -79,6 +80,7 @@ const config = {
     SekaiGameSetting,
     NakamaGameSetting,
     NakamaGame,
+    NakamaGameStrokeCount,
     NakamaGameResult,
     NakamaPauseMenu,
     SekaiHowToPlay,
