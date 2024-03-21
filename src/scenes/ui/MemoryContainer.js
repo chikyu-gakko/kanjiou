@@ -73,7 +73,7 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
     },
     Subject: {
       name: "Subject",
-      text: "教科",
+      text: "教科名",
     },
     
     Color: {
@@ -111,41 +111,41 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       name: "vegetables",
       text: "野菜",
     },
-    Fruit:{
-      name: "fruit",
-      text: "果物",
-    },
     Menu:{
       name: "menu",
       text: "メニュー",
     },
-    AnimalKanji:{
-      name: "AnimalKanji",
-      text: "動物(漢字)",
+    Animal:{
+      name: "Animal",
+      text: "動物",
     },
-    AnimalKatakana:{
-      name: "Animalkatakana",
-      text: "動物(カタカナ)",
+    SeaAnimals:{ 
+      name: "SeaAnimals",
+      text: "海の生き物",
     },
-    Tree:{
-      name: "tree",
-      text: "木",
+    Bard:{
+      name: "bard",
+      text: "鳥",
     },
-    FlowerKanji:{
-      name: "FlowerKanji",
-      text: "花(漢字)",
+    Fruit:{
+      name: "fruit",
+      text: "果物",
     },
-    FlowerKatakana:{
-      name: "FlowerKatakana",
-      text: "花(カタカナ)",
+    Plant:{ 
+      name: "plant",
+      text: "植物",
+    },
+    Flower:{
+      name: "Flower",
+      text: "花",
     },
     Zodiac:{
       name: "zodiac",
-      text: "干支",
+      text: "干支（えと）",
     },
     LunarCalendar:{
       name: "LunarCalendar",
-      text: "旧暦",
+      text: "暦（こよみ）",
     },
     Constellation:{
       name:"constellation",

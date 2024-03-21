@@ -241,23 +241,11 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre2.name,
           [Category.value]: Genre2.Vegetables.name,
         },
-      },{
+      },
+      {
         type: "button",
         x: 655,
         y: 225,
-        width: 220,
-        height: 56,
-        text: Genre2.Fruit.text,
-        fontSize: 24,
-        data: {
-          [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.Fruit.name,
-        },
-      }
-      ,{
-        type: "button",
-        x: 155,
-        y: 290,
         width: 220,
         height: 56,
         text: Genre2.Menu.text,
@@ -269,15 +257,28 @@ export default class MemoryGenreSetting extends Phaser.Scene {
       }
       ,{
         type: "button",
+        x: 155,
+        y: 290,
+        width: 220,
+        height: 56,
+        text: Genre2.Animal.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.Animal.name,
+        },
+      }
+      ,{
+        type: "button",
         x: 405,
         y: 290,
         width: 220,
         height: 56,
-        text: Genre2.AnimalKanji.text,
+        text: Genre2.SeaAnimals.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.AnimalKanji.name,
+          [Category.value]: Genre2.SeaAnimals.name,
         },
       }
       ,{
@@ -286,23 +287,24 @@ export default class MemoryGenreSetting extends Phaser.Scene {
         y: 290,
         width: 220,
         height: 56,
-        text: Genre2.AnimalKatakana.text,
+        text: Genre2.Bard.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.AnimalKatakana.name,
+          [Category.value]: Genre2.Bard.name,
         },
-      },{
+      },
+      {
         type: "button",
         x: 155,
         y: 355,
         width: 220,
         height: 56,
-        text: Genre2.Tree.text,
+        text: Genre2.Fruit.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.Tree.name,
+          [Category.value]:  Genre2.Fruit.name,
         },
       }
       ,{
@@ -311,11 +313,11 @@ export default class MemoryGenreSetting extends Phaser.Scene {
         y: 355,
         width: 220,
         height: 56,
-        text: Genre2.FlowerKanji.text,
+        text: Genre2.Plant.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.FlowerKanji.name,
+          [Category.value]: Genre2.Plant.name,
         },
       }
       ,{
@@ -324,11 +326,11 @@ export default class MemoryGenreSetting extends Phaser.Scene {
         y: 355,
         width: 220,
         height: 56,
-        text: Genre2.FlowerKatakana.text,
+        text: Genre2.Flower.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.FlowerKatakana.name,
+          [Category.value]: Genre2.Flower.name,
         },
       }
       ,{
