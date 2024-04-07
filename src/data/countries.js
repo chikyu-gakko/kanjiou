@@ -1,4 +1,4 @@
-export const countries = [
+export const nationalFlags = [
     {
         imagePath: 'assets/img/nationalFlag/america.png',
         englishName: 'america',

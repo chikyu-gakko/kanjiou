@@ -4,21 +4,18 @@ export const constellations = [
         englishName: 'Sagittarius',
         kanaName: 'いてざ',
         shortKanjiName: 'assets/img/constellation/constellation_right_kanjiWithruby/射手座　いてざ.png',
-        //shortKanjiName : "射手座"
     },
     {
         imagePath: 'assets/img/constellation/constellation_left_illust/うおざ.png',
         englishName: 'Pisces',
         kanaName: 'うおざ',
         shortKanjiName: 'assets/img/constellation/constellation_right_kanjiWithruby/魚座　うおざ.png',
-        //shortKanjiName:"魚座"
     },
     {
         imagePath: 'assets/img/constellation/constellation_left_illust/おうしざ.png',
         englishName: 'Taurus',
         kanaName: 'おうしざ',
         shortKanjiName: 'assets/img/constellation/constellation_right_kanjiWithruby/牡牛座　おうしざ.png',
-        //shortKanjiName: "牡牛座"
     },
     {
         imagePath: 'assets/img/constellation/constellation_left_illust/おとめざ.png',

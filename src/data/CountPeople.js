@@ -1,0 +1,123 @@
+export const CountPeople = [
+  {
+      imagePath: '一人',
+      englishName: 'hitori',
+      kanaName: 'ひとり',
+      shortKanjiName: 'ひとり',
+  },
+  {
+    imagePath: '二人',
+    englishName: 'hutari',
+    kanaName: 'ふたり',
+    shortKanjiName: 'ふたり',
+  },
+  {
+    imagePath: '三人',
+    englishName: 'sannin',
+    kanaName: 'さんにん',
+    shortKanjiName: 'さんにん',
+  },
+  {
+    imagePath: '四人',
+    englishName: 'yonin',
+    kanaName: 'よにん',
+    shortKanjiName: 'よにん',
+  },
+  {
+    imagePath: '五人',
+    englishName: 'gonin',
+    kanaName: 'ごにん',
+    shortKanjiName: 'ごにん',
+  },
+  {
+    imagePath: '六人',
+    englishName: 'rokunin',
+    kanaName: 'ろくにん',
+    shortKanjiName: 'ろくにん',
+  },
+  {
+    imagePath: '七人',
+    englishName: 'nananin',
+    kanaName: 'ななにん',
+    shortKanjiName: 'ななにん',
+  },
+  {
+    imagePath: '八人',
+    englishName: 'hatinin',
+    kanaName: 'はちにん',
+    shortKanjiName: 'はちにん',
+  },
+  {
+    imagePath: '九人',
+    englishName: 'kyuunin',
+    kanaName: 'きゅうにん',
+    shortKanjiName: 'きゅうにん',
+  },
+  {
+    imagePath: '十人',
+    englishName: 'juunin',
+    kanaName: 'じゅうにん',
+    shortKanjiName: 'じゅうにん',
+  },
+  {
+    imagePath: '十一人',
+    englishName: 'juuitinin',
+    kanaName: 'じゅういちにん',
+    shortKanjiName: 'じゅういちにん',
+  },
+  {
+    imagePath: '十二人',
+    englishName: 'juuninin',
+    kanaName: 'じゅうににん',
+    shortKanjiName: 'じゅうににん',
+  },
+  {
+    imagePath: '十三人',
+    englishName: 'juusannin',
+    kanaName: 'じゅうさんにん',
+    shortKanjiName: 'じゅうさんにん',
+  },
+  {
+    imagePath: '十四人',
+    englishName: 'juuyonin',
+    kanaName: 'じゅうよにん',
+    shortKanjiName: 'じゅうよにん',
+  },
+  {
+    imagePath: '十五人',
+    englishName: 'juugonin',
+    kanaName: 'じゅうごにん',
+    shortKanjiName: 'じゅうごにん',
+  },
+  {
+    imagePath: '十六人',
+    englishName: 'juurokunin',
+    kanaName: 'じゅうろくにん',
+    shortKanjiName: 'じゅうろくにん',
+  },
+  {
+    imagePath: '十七人',
+    englishName: 'juunananin',
+    kanaName: 'じゅうななにん',
+    shortKanjiName: 'じゅうななにん',
+  },
+  {
+    imagePath: '十八人',
+    englishName: 'juuhatinin',
+    kanaName: 'じゅうはちにん',
+    shortKanjiName: 'じゅうはちにん',
+  },
+  {
+    imagePath: '十九人',
+    englishName: 'juurokyunin',
+    kanaName: 'じゅうきゅうにん',
+    shortKanjiName: 'じゅうきゅうにん',
+  },
+  {
+    imagePath: '二十人',
+    englishName: 'nijuunin',
+    kanaName: 'にじゅうにん',
+    shortKanjiName: 'にじゅうにん',
+  },
+  
+]
