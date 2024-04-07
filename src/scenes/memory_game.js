@@ -1,7 +1,8 @@
 import Phaser from "phaser";
 
-import { countries } from "../data/countries"; //カードのデータ収納場所
+import { nationalFlags } from "../data/countries"; //カードのデータ収納場所
 import { jobs } from "../data/jobs"; //カードのデータ収納場所
+import { CountPeople } from "../data/CountPeople";
 import { constellations } from "../data/constellations";
 import SoundButton from "../components/sound_button";
 import BackGround from "./ui/BackGround";
@@ -14,6 +15,7 @@ const ERROR_MESSAGE_FOR_NATIONAL_FLAGS_COUNT = 'count out of bounds for national
 
 const CARD_BACK_SIDE_IMAGE_KEY = '3:2Mogra';
 const ANIMATION_DURATION_FLIP = 900;
+
 
 const FLIPED_AREA = {
   NATIONAL_FLAG: 'national',
@@ -51,6 +53,9 @@ export default class MemoryGame extends Phaser.Scene {
 
     this.flippedAreas      = {};
     this.flippedComponents = [];
+
+    this.LeftCardType = "";
+    this.RightCardType = "";
   }
 
   preload = () => {
@@ -60,10 +65,6 @@ export default class MemoryGame extends Phaser.Scene {
     });
 
     //右のカード用写真を登録
-    // this.nationalFlags.forEach((nationalFlag) => {
-    //   this.load.image(nationalFlag.kanaName, nationalFlag.shortKanjiName);
-    // });
-
     this.nationalFlags.forEach((nationalFlag) => {
          this.load.image(nationalFlag.englishName + "KANA", nationalFlag.shortKanjiName);
     });
@@ -102,13 +103,24 @@ export default class MemoryGame extends Phaser.Scene {
 
       switch(this.prevSceneData.genre){
         case "flag":
-          this.nationalFlags = countries;
+          this.nationalFlags = nationalFlags;
+          this.RightCardType = "char";
+          this.LeftCardType = "img";
         break
         case "job":
           this.nationalFlags = jobs;
+          this.RightCardType = "char";
+          this.LeftCardType = "img";
         break
         case "constellation":
           this.nationalFlags = constellations;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "CountPeople":
+          this.nationalFlags = CountPeople;
+          this.RightCardType = "char";
+          this.LeftCardType = "char";
         // default:
         //   this.nationalFlags = countries;
       }
@@ -127,9 +139,14 @@ export default class MemoryGame extends Phaser.Scene {
     
     this.nationalFlagsCount          = this.levelToNationalFlagsCount(this.gameConfig.level);
     this.nationalFlags               = this.randomlySelectNationalFlags(this.nationalFlagsCount);
-    console.log(this.nationalFlags);
-    this.nationalFlagShortKanjiNames = this.mixedUpArray(this.nationalFlags.map((shortKanjiName ) => shortKanjiName));
-    //this.mixedUpArray(this.nationalFlags.map(({ shortKanjiName }) => shortKanjiName));
+    this.nationalFlagShortKanjiNames = this.mixedUpArray(this.nationalFlags.map(({ shortKanjiName }) => shortKanjiName));
+
+    this.RightCardImg = this.mixedUpArray(this.nationalFlags.map(( englishName ) => englishName));
+    console.log("test:"+this.RightCardImg);
+
+    this.LeftCardChar = this.mixedUpArray(this.nationalFlags.map(({ imagePath }) => imagePath));
+    
+    
     this.createShortKanjiNameTextures();
 
     this.Now_PlayerName = "プレイヤー1の番";
@@ -153,9 +170,9 @@ export default class MemoryGame extends Phaser.Scene {
       this.Player1PointCountText();
       this.Player2PointCountText();
     }
-
     this.createNationalFlagImages(); //左カード表示
     this.createNationalFlagShortKanjiNames(); //右カード表示
+
   }
 
   initFlippedArea = () => {
@@ -171,6 +188,7 @@ export default class MemoryGame extends Phaser.Scene {
 
     const GLOBAL_START_POSITION_X = 0;
     const GLOBAL_START_POSITION_Y = 0;
+    
 
     this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName) => {
       const shortKanjiNameBackground = this.add
@@ -182,17 +200,14 @@ export default class MemoryGame extends Phaser.Scene {
       const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE / 2;
       const localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - FONT_SIZE / 2;
 
-      const shortKanjiName = 
-      this.add     
-      .text(
+      const shortKanjiName = this.add
+        .text(
           localStartPositionXForText,
           localStartPositionYForText,
           nationalFlagShortKanjiName,
           { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${FONT_SIZE}px` }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
-
-
 
       const renderTexture = this.add.renderTexture(
         GLOBAL_START_POSITION_X,
@@ -203,6 +218,43 @@ export default class MemoryGame extends Phaser.Scene {
       renderTexture.draw(shortKanjiNameBackground);
       renderTexture.draw(shortKanjiName);
       renderTexture.saveTexture(nationalFlagShortKanjiName);
+
+      shortKanjiNameBackground.destroy();
+      shortKanjiName.destroy();
+      renderTexture.destroy();
+    })
+
+    
+
+    this.LeftCardChar.forEach((LeftCardChar) => {
+  
+      const shortKanjiNameBackground = this.add
+        .rectangle(GLOBAL_START_POSITION_X, GLOBAL_START_POSITION_Y, IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, COLOR_LIGHT_GRAY.toNumber(), 1)
+        .setOrigin(0, 0)
+        .setDisplaySize(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
+
+      const FONT_SIZE = 64;
+      const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE / 2;
+      const localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - FONT_SIZE / 2;
+
+      const shortKanjiName = this.add
+        .text(
+          localStartPositionXForText,
+          localStartPositionYForText,
+          LeftCardChar,
+          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${FONT_SIZE}px` }
+        )
+        .setOrigin(0, 0).setPadding(0, 4, 0, 0)
+
+      const renderTexture = this.add.renderTexture(
+        GLOBAL_START_POSITION_X,
+        GLOBAL_START_POSITION_Y,
+        IMAGE_SIZE_WIDTH,
+        IMAGE_SIZE_HEIGHT,
+      );
+      renderTexture.draw(shortKanjiNameBackground);
+      renderTexture.draw(shortKanjiName);
+      renderTexture.saveTexture(LeftCardChar);
 
       shortKanjiNameBackground.destroy();
       shortKanjiName.destroy();
@@ -313,6 +365,7 @@ export default class MemoryGame extends Phaser.Scene {
       const randomElement = this.nationalFlags[randomIndex];
       
       if (!result.includes(randomElement)) {
+        console.log("randomElement:"+randomElement)
         result.push(randomElement);
       }
     }
@@ -327,13 +380,13 @@ export default class MemoryGame extends Phaser.Scene {
    */
   mixedUpArray = (array) => {
     const result = array;
-    console.log(result);
+    console.log("befor:"+result);
 
     for (let i = result.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [result[i], result[j]] = [result[j], result[i]];
     }
-
+    console.log("after:"+result);
     return result;
   }
 
@@ -356,11 +409,12 @@ export default class MemoryGame extends Phaser.Scene {
     this.consoleLogForDebug(imageSize);
     this.consoleLogForDebug(gridSize);
 
+  if(this.LeftCardType == "img"){
     this.nationalFlags.forEach((nationalFlag, index) => {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
-
+      console.log("nationalFlag:" + nationalFlag.englishName)
       const column = index % gridSize.maxColumn;
       const row    = Math.floor(index / gridSize.maxColumn);
 
@@ -406,9 +460,63 @@ export default class MemoryGame extends Phaser.Scene {
         this
       )
     })
+
+  }else if(this.LeftCardType == "char"){
+
+    this.nationalFlags.forEach((nationalFlag, index) => {
+      const gridGap = (gridPosition, maxGridPosition) => {
+        return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
+      }
+
+      const column = index % gridSize.maxColumn;
+      const row    = Math.floor(index / gridSize.maxColumn);
+
+      const localStartPositionX = column * imageSize.width + imageSize.width / 2 + gridGap(column, gridSize.maxColumn) + GLOBAL_START_POSITION_X;
+      const localStartPositionY = row * imageSize.height + imageSize.height / 2 + gridGap(row, gridSize.maxRow) + GLOBAL_START_POSITION_Y;
+      
+      const nationalFlagComponent = this.add
+        .sprite(localStartPositionX, localStartPositionY, CARD_BACK_SIDE_IMAGE_KEY)
+        .setDisplaySize(imageSize.width, imageSize.height)
+        .setInteractive({
+          cursor: 'pointer'
+        });
+      nationalFlagComponent.depth = 2;
+      let isFinishedFlipAnimation = true;
+      nationalFlagComponent.on(
+        'pointerdown',
+        () =>  {
+          if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas || this.flippedComponents.includes(nationalFlagComponent)) {
+            return;
+          }
+
+          isFinishedFlipAnimation = false;
+
+          //第二引数 nationalFlag.englishName = imageの名前
+          this.flipAnimation(
+            nationalFlagComponent,
+            nationalFlag.imagePath,
+            nationalFlagComponent.scaleX,
+            nationalFlagComponent.scaleY,
+          )
+
+          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG] = nationalFlag;
+          this.flippedComponents.push(nationalFlagComponent);
+
+          setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
+
+          if (!(FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
+            return;
+          }
+
+          this.validateNeurastheniaMatch();
+        },
+        this
+      )
+    })
+  }
   }
 
-  //
+  
   createNationalFlagShortKanjiNames = () => {
 
     const globalStartPositionXByLevel = (level) => {
@@ -432,8 +540,61 @@ export default class MemoryGame extends Phaser.Scene {
     this.consoleLogForDebug(imageSize);
     this.consoleLogForDebug(gridSize);
     
+    if(this.RightCardType == "img"){
+      this.RightCardImg.forEach((RightCardImg,index) => {
+      
+      const gridGap = (gridPosition, maxGridPosition) => {
+        return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
+      }
+      console.log("KANA:"+RightCardImg.englishName + "KANA")
+      const column = index % gridSize.maxColumn;
+      const row    = Math.floor(index / gridSize.maxColumn);
 
-    this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName,index) => {
+      const localStartPositionX = column * imageSize.width + imageSize.width / 2 + gridGap(column, gridSize.maxColumn) + GLOBAL_START_POSITION_X;
+      const localStartPositionY = row * imageSize.height + imageSize.height / 2 + gridGap(row, gridSize.maxRow) + GLOBAL_START_POSITION_Y;
+      
+      const nationalFlagShortKanjiNameComponent = this.add
+        .sprite(localStartPositionX, localStartPositionY, CARD_BACK_SIDE_IMAGE_KEY)
+        .setDisplaySize(imageSize.width, imageSize.height)
+        .setInteractive({
+          cursor: 'pointer'
+        });
+        nationalFlagShortKanjiNameComponent.depth = 2;
+
+      let isFinishedFlipAnimation = true;
+      nationalFlagShortKanjiNameComponent.on(
+        'pointerdown',
+        () =>  {
+          if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas || this.flippedComponents.includes(nationalFlagShortKanjiNameComponent)) {
+            return;
+          }
+          
+          isFinishedFlipAnimation = false;
+          
+          this.flipAnimation(
+            nationalFlagShortKanjiNameComponent,
+            RightCardImg.englishName + "KANA",
+            nationalFlagShortKanjiNameComponent.scaleX,
+            nationalFlagShortKanjiNameComponent.scaleY,
+          )
+
+          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = RightCardImg.shortKanjiName;
+          
+          this.flippedComponents.push(nationalFlagShortKanjiNameComponent);
+          setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
+
+          if (!(FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
+            return;
+          }
+
+          this.validateNeurastheniaMatch();
+        },
+        this
+      )
+    })
+    }else if(this.RightCardType == "char"){
+      
+        this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName, index) => {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
@@ -459,18 +620,16 @@ export default class MemoryGame extends Phaser.Scene {
           if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas || this.flippedComponents.includes(nationalFlagShortKanjiNameComponent)) {
             return;
           }
-          //this.nationalFlags[index].kanaName(右カードの登録キー)が原因の可能性あり
+
           isFinishedFlipAnimation = false;
+          console.log(nationalFlagShortKanjiName)
           this.flipAnimation(
             nationalFlagShortKanjiNameComponent,
-            nationalFlagShortKanjiName.englishName+"KANA",
+            nationalFlagShortKanjiName,
             nationalFlagShortKanjiNameComponent.scaleX,
             nationalFlagShortKanjiNameComponent.scaleY,
           )
-
-          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = nationalFlagShortKanjiName.shortKanjiName;
-          //englishName+"KANA";
-          
+          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = nationalFlagShortKanjiName;
           this.flippedComponents.push(nationalFlagShortKanjiNameComponent);
           setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
 
@@ -483,114 +642,9 @@ export default class MemoryGame extends Phaser.Scene {
         this
       )
     })
-
-
-    // this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName,index) => {
-    //   const gridGap = (gridPosition, maxGridPosition) => {
-    //     return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
-    //   }
-
-    //   const column = index % gridSize.maxColumn;
-    //   const row    = Math.floor(index / gridSize.maxColumn);
-
-    //   const localStartPositionX = column * imageSize.width + imageSize.width / 2 + gridGap(column, gridSize.maxColumn) + GLOBAL_START_POSITION_X;
-    //   const localStartPositionY = row * imageSize.height + imageSize.height / 2 + gridGap(row, gridSize.maxRow) + GLOBAL_START_POSITION_Y;
-      
-    //   const nationalFlagShortKanjiNameComponent = this.add
-    //     .sprite(localStartPositionX, localStartPositionY, CARD_BACK_SIDE_IMAGE_KEY)
-    //     .setDisplaySize(imageSize.width, imageSize.height)
-    //     .setInteractive({
-    //       cursor: 'pointer'
-    //     });
-    //     nationalFlagShortKanjiNameComponent.depth = 2;
-
-    //   let isFinishedFlipAnimation = true;
-    //   nationalFlagShortKanjiNameComponent.on(
-    //     'pointerdown',
-    //     () =>  {
-    //       if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas || this.flippedComponents.includes(nationalFlagShortKanjiNameComponent)) {
-    //         return;
-    //       }
-          
-    //       isFinishedFlipAnimation = false;
-    //       this.flipAnimation(
-    //         nationalFlagShortKanjiNameComponent,
-    //         nationalFlagShortKanjiName,
-    //         nationalFlagShortKanjiNameComponent.scaleX,
-    //         nationalFlagShortKanjiNameComponent.scaleY,
-    //       )
-
-    //       this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = nationalFlagShortKanjiName;
-    //       count
-    //       this.flippedComponents.push(nationalFlagShortKanjiNameComponent);
-    //       setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
-
-    //       if (!(FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
-    //         return;
-    //       }
-
-    //       this.validateNeurastheniaMatch();
-    //     },
-    //     this
-    //   )
-    // })
-
-    // for(let index = 0;index < this.nationalFlagShortKanjiNames.length; index++){
-    //   const gridGap = (gridPosition, maxGridPosition) => {
-    //     return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
-    //   }
-
-    //   const column = index % gridSize.maxColumn;
-    //   const row    = Math.floor(index / gridSize.maxColumn);
-
-    //   const localStartPositionX = column * imageSize.width + imageSize.width / 2 + gridGap(column, gridSize.maxColumn) + GLOBAL_START_POSITION_X;
-    //   const localStartPositionY = row * imageSize.height + imageSize.height / 2 + gridGap(row, gridSize.maxRow) + GLOBAL_START_POSITION_Y;
-      
-    //   const nationalFlagShortKanjiNameComponent = this.add
-    //     .sprite(localStartPositionX, localStartPositionY, CARD_BACK_SIDE_IMAGE_KEY)
-    //     .setDisplaySize(imageSize.width, imageSize.height)
-    //     .setInteractive({
-    //       cursor: 'pointer'
-    //     });
-    //     nationalFlagShortKanjiNameComponent.depth = 2;
-
-    //   let isFinishedFlipAnimation = true;
-    //   nationalFlagShortKanjiNameComponent.on(
-    //     'pointerdown',
-    //     () =>  {
-    //       if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas || this.flippedComponents.includes(nationalFlagShortKanjiNameComponent)) {
-    //         return;
-    //       }
-        
-    //       //this.nationalFlags[index].kanaName(右カードの登録キー)が原因の可能性あり
-
-    //       isFinishedFlipAnimation = false;
-    //       this.flipAnimation(
-    //         nationalFlagShortKanjiNameComponent,
-    //         this.nationalFlagShortKanjiNames[index].kanaName,
-    //         nationalFlagShortKanjiNameComponent.scaleX,
-    //         nationalFlagShortKanjiNameComponent.scaleY,
-    //       )   
-    //       console.log(nationalFlagShortKanjiNameComponent);
-    //      console.log("nationalFlags["+ index +"].kanaName," + this.nationalFlagShortKanjiNames[index].kanaName,);
-
-    //      //クリックしたカードの情報
-    //       this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = this.nationalFlagShortKanjiNames[index];
-          
-    //       this.flippedComponents.push(nationalFlagShortKanjiNameComponent);
-    //       setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
-
-    //       if (!(FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
-    //         return;
-    //       }
-
-    //       this.validateNeurastheniaMatch();
-    //     },
-    //     this
-    //   )
-    // }
-
   }
+  }
+
 
   /**
    * 
@@ -857,10 +911,12 @@ export default class MemoryGame extends Phaser.Scene {
 
     console.log("左カード:" + nationalFlag.shortKanjiName);
     console.log("右カード:" + nationalFlagShortKanjiName);
+    //nationalFlagShortKanjiName.shortKanjiName
 
     this.consoleLogForDebug(this.flippedAreas);
     this.consoleLogForDebug(this.flippedComponents);
 
+   //nationalFlagShortKanjiName.shortKanjiName
     if (nationalFlag.shortKanjiName === nationalFlagShortKanjiName) {
 
       console.log("左カードOK:" + nationalFlag.shortKanjiName);
