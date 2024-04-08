@@ -146,7 +146,6 @@ export default class MemoryGame extends Phaser.Scene {
 
     this.LeftCardChar = this.mixedUpArray(this.nationalFlags.map(({ imagePath }) => imagePath));
     
-    
     this.createShortKanjiNameTextures();
 
     this.Now_PlayerName = "プレイヤー1の番";
@@ -172,7 +171,6 @@ export default class MemoryGame extends Phaser.Scene {
     }
     this.createNationalFlagImages(); //左カード表示
     this.createNationalFlagShortKanjiNames(); //右カード表示
-
   }
 
   initFlippedArea = () => {
@@ -188,24 +186,51 @@ export default class MemoryGame extends Phaser.Scene {
 
     const GLOBAL_START_POSITION_X = 0;
     const GLOBAL_START_POSITION_Y = 0;
+
+    let LEFT_FONT_SIZE;
+
+    let LeftSideStartPositionXForText;
     
 
     this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName) => {
+
+      switch(this.prevSceneData.genre){
+        case "flag":
+          LEFT_FONT_SIZE = 64;
+          LeftSideStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - LEFT_FONT_SIZE / 2;        
+        break
+        case "job":
+          LEFT_FONT_SIZE = 50;
+          LeftSideStartPositionXForText = GLOBAL_START_POSITION_X + 
+          IMAGE_SIZE_WIDTH / 2 - LEFT_FONT_SIZE - (10 * nationalFlagShortKanjiName.length);
+        break
+        case "CountPeople":
+          LEFT_FONT_SIZE = 35;
+          LeftSideStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 -
+           LEFT_FONT_SIZE - (12 * nationalFlagShortKanjiName.length);  
+        break
+        // default:
+        //   this.nationalFlags = countries;
+      }
+
+      let LeftSideStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - LEFT_FONT_SIZE / 2;
+
       const shortKanjiNameBackground = this.add
         .rectangle(GLOBAL_START_POSITION_X, GLOBAL_START_POSITION_Y, IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, COLOR_LIGHT_GRAY.toNumber(), 1)
         .setOrigin(0, 0)
         .setDisplaySize(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
 
-      const FONT_SIZE = 64;
-      const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE / 2;
-      const localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - FONT_SIZE / 2;
+      
+      //64
+      //const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE / 2;
+      
 
       const shortKanjiName = this.add
         .text(
-          localStartPositionXForText,
-          localStartPositionYForText,
+          LeftSideStartPositionXForText,
+          LeftSideStartPositionYForText,
           nationalFlagShortKanjiName,
-          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${FONT_SIZE}px` }
+          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${LEFT_FONT_SIZE}px` }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
 
@@ -233,8 +258,9 @@ export default class MemoryGame extends Phaser.Scene {
         .setOrigin(0, 0)
         .setDisplaySize(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
 
-      const FONT_SIZE = 64;
-      const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE / 2;
+      const FONT_SIZE = 42;
+      // const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE / 2;
+      const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE;
       const localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - FONT_SIZE / 2;
 
       const shortKanjiName = this.add
