@@ -1,0 +1,98 @@
+export const Subject = [
+  {
+    LeftCard:'assets/img/Color/色_左_イラスト/オレンジ　おれんじ.png',
+    LeftID: 'オレンジ',
+    RightID: 'おれんじ',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/オレンジ　おれんじ.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/グレー　ぐれえ.png',
+    LeftID: 'グレー',
+    RightID: 'ぐれえ',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/グレー　ぐれえ.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/ピンク　ぴんく.png',
+    LeftID: 'ピンク',
+    RightID: 'ぴんく',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/ピンク　ぴんく.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/水色　みずいろ.png',
+    LeftID: '水色',
+    RightID: 'みずいろ',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/水色　みずいろ.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/白　しろ.png',
+    LeftID: '白',
+    RightID: 'しろ',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/白　しろ.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/紫　むらさき.png',
+    LeftID: '紫',
+    RightID: 'むらさき',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/紫　むらさき.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/紺　こん.png',
+    LeftID: '紺',
+    RightID: 'こん',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/紺　こん.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/緑　みどり.png',
+    LeftID: '緑',
+    RightID: 'みどり',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/緑　みどり.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/茶色　ちゃいろ.png',
+    LeftID: '茶色',
+    RightID: 'ちゃいろ',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/茶色　ちゃいろ.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/赤　あか.png',
+    LeftID: '赤',
+    RightID: 'あか',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/赤　あか.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/金　きん.png',
+    LeftID: '金',
+    RightID: 'きん',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/金　きん.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/銀　ぎん.png',
+    LeftID: '銀',
+    RightID: 'ぎん',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/銀　ぎん.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/青　あお.png',
+    LeftID: '青',
+    RightID: 'あお',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/青　あお.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/黄緑　きみどり.png',
+    LeftID: '黄緑',
+    RightID: 'きみどり',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/黄緑　きみどり.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/黄色　きいろ.png',
+    LeftID: '黄色',
+    RightID: 'きいろ',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/黄色　きいろ.png',
+   },
+   {
+    LeftCard:'assets/img/Color/色_左_イラスト/黒　くろ.png',
+    LeftID: '黒',
+    RightID: 'くろ',
+    RightCard:'assets/img/Color/色_右_ルビ付き漢字/黒　くろ.png',
+   },
+];

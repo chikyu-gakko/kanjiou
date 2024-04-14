@@ -1,0 +1,98 @@
+export const PrefecturalCapital = [
+  {
+      LeftCard: '札幌市',
+      LeftID: '札幌市',
+      RightID: 'さっぽろし',
+      RightCard: 'さっぽろし',
+  },
+  {
+    LeftCard: '盛岡市',
+    LeftID: '盛岡市',
+    RightID: 'もりおかし',
+    RightCard: 'もりおかし',
+  },
+  {
+    LeftCard: '仙台市',
+    LeftID: '仙台市',
+    RightID: 'せんだいし',
+    RightCard: 'せんだいし',
+  },
+  {
+    LeftCard: '水戸市',
+    LeftID: '水戸市',
+    RightID: 'みとし',
+    RightCard: 'みとし',
+  },
+  {
+    LeftCard: '宇都宮市',
+    LeftID: '宇都宮市',
+    RightID: 'うつのみやし',
+    RightCard: 'うつのみやし',
+  },
+  {
+    LeftCard: '前橋市',
+    LeftID: '前橋市',
+    RightID: 'まえばしし',
+    RightCard: 'まえばしし',
+  },
+  {
+    LeftCard: '横浜市',
+    LeftID: '横浜市',
+    RightID: 'よこはまし',
+    RightCard: 'よこはまし',
+  },
+  {
+    LeftCard: '金沢市',
+    LeftID: '金沢市',
+    RightID: 'かなざわし',
+    RightCard: 'かなざわし',
+  },
+  {
+    LeftCard: '甲府市',
+    LeftID: '甲府市',
+    RightID: 'こうふし',
+    RightCard: 'こうふし',
+  },
+  {
+    LeftCard: '津市',
+    LeftID: '津市',
+    RightID: 'つし',
+    RightCard: 'つし',
+  },
+  {
+    LeftCard: '大津市',
+    LeftID: '大津市',
+    RightID: 'おおつし',
+    RightCard: 'おおつし',
+  },
+  {
+    LeftCard: '神戸市',
+    LeftID: '神戸市',
+    RightID: 'こうべし',
+    RightCard: 'こうべし',
+  },
+  {
+    LeftCard: '松江市',
+    LeftID: '松江市',
+    RightID: 'まつえし',
+    RightCard: 'まつえし',
+  },
+  {
+    LeftCard: '高松市',
+    LeftID: '高松市',
+    RightID: 'たかまつし',
+    RightCard: 'たかまつし',
+  },
+  {
+    LeftCard: '松山市',
+    LeftID: '松山市',
+    RightID: 'まつやまし',
+    RightCard: 'まつやまし',
+  },
+  {
+    LeftCard: '那覇市',
+    LeftID: '那覇市',
+    RightID: 'なはし',
+    RightCard: 'なはし',
+  },
+]

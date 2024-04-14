@@ -1,9 +1,14 @@
 import Phaser from "phaser";
 
-import { nationalFlags } from "../data/countries"; //カードのデータ収納場所
-import { jobs } from "../data/jobs"; //カードのデータ収納場所
+import { nationalFlags } from "../data/countries"; 
+import { jobs } from "../data/jobs"; 
 import { CountPeople } from "../data/CountPeople";
 import { constellations } from "../data/constellations";
+import { Prefecture } from "../data/prefecture";
+import { PrefecturalCapital } from "../data/PrefecturalCapital";
+import { calendar } from "../data/calendar";
+import { CountThing } from "../data/CountThing";
+import { Day } from "../data/Day";
 import SoundButton from "../components/sound_button";
 import BackGround from "./ui/BackGround";
 import { LEVEL1, LEVEL2, LEVEL3 } from "./constants/level";
@@ -24,10 +29,10 @@ const FLIPED_AREA = {
 
 /**
 * @typedef {Object} NationalFlag
-* @property {string} imagePath
-* @property {string} englishName
-* @property {string} kanaName
-* @property {string} shortKanjiName
+* @property {string} LeftCard
+* @property {string} LeftID
+* @property {string} RightID
+* @property {string} RightCard
 */
 export default class MemoryGame extends Phaser.Scene {
   constructor() {
@@ -61,12 +66,12 @@ export default class MemoryGame extends Phaser.Scene {
   preload = () => {
     //左のカード用写真を登録
     this.nationalFlags.forEach((nationalFlag) => {
-      this.load.image(nationalFlag.englishName, nationalFlag.imagePath);
+      this.load.image(nationalFlag.LeftID, nationalFlag.LeftCard);
     });
 
     //右のカード用写真を登録
     this.nationalFlags.forEach((nationalFlag) => {
-         this.load.image(nationalFlag.englishName + "KANA", nationalFlag.shortKanjiName);
+         this.load.image(nationalFlag.LeftID + "KANA", nationalFlag.RightCard);
     });
 
     this.load.image(CARD_BACK_SIDE_IMAGE_KEY, 'assets/img/card/card_back.png');
@@ -109,7 +114,7 @@ export default class MemoryGame extends Phaser.Scene {
         break
         case "job":
           this.nationalFlags = jobs;
-          this.RightCardType = "char";
+          this.RightCardType = "img";
           this.LeftCardType = "img";
         break
         case "constellation":
@@ -121,6 +126,19 @@ export default class MemoryGame extends Phaser.Scene {
           this.nationalFlags = CountPeople;
           this.RightCardType = "char";
           this.LeftCardType = "char";
+        break
+        case "prefecture":
+          this.nationalFlags = Prefecture;
+          this.RightCardType = "char";
+          this.LeftCardType = "char";
+        break
+        case "PrefecturalCapital":
+          this.nationalFlags = PrefecturalCapital;
+          this.RightCardType = "char";
+          this.LeftCardType = "char";
+        break
+        
+
         // default:
         //   this.nationalFlags = countries;
       }
@@ -139,12 +157,12 @@ export default class MemoryGame extends Phaser.Scene {
     
     this.nationalFlagsCount          = this.levelToNationalFlagsCount(this.gameConfig.level);
     this.nationalFlags               = this.randomlySelectNationalFlags(this.nationalFlagsCount);
-    this.nationalFlagShortKanjiNames = this.mixedUpArray(this.nationalFlags.map(({ shortKanjiName }) => shortKanjiName));
+    this.nationalFlagShortKanjiNames = this.mixedUpArray(this.nationalFlags.map(({ RightCard }) => RightCard));
 
-    this.RightCardImg = this.mixedUpArray(this.nationalFlags.map(( englishName ) => englishName));
+    this.RightCardImg = this.mixedUpArray(this.nationalFlags.map(( LeftID ) => LeftID));
     console.log("test:"+this.RightCardImg);
 
-    this.LeftCardChar = this.mixedUpArray(this.nationalFlags.map(({ imagePath }) => imagePath));
+    this.LeftCardChar = this.mixedUpArray(this.nationalFlags.map(({ LeftCard }) => LeftCard));
     
     this.createShortKanjiNameTextures();
 
@@ -187,50 +205,38 @@ export default class MemoryGame extends Phaser.Scene {
     const GLOBAL_START_POSITION_X = 0;
     const GLOBAL_START_POSITION_Y = 0;
 
-    let LEFT_FONT_SIZE;
-
-    let LeftSideStartPositionXForText;
-    
-
     this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName) => {
+      let FONT_SIZE;
 
       switch(this.prevSceneData.genre){
         case "flag":
-          LEFT_FONT_SIZE = 64;
-          LeftSideStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - LEFT_FONT_SIZE / 2;        
-        break
-        case "job":
-          LEFT_FONT_SIZE = 50;
-          LeftSideStartPositionXForText = GLOBAL_START_POSITION_X + 
-          IMAGE_SIZE_WIDTH / 2 - LEFT_FONT_SIZE - (10 * nationalFlagShortKanjiName.length);
+          FONT_SIZE = 64;
         break
         case "CountPeople":
-          LEFT_FONT_SIZE = 35;
-          LeftSideStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 -
-           LEFT_FONT_SIZE - (12 * nationalFlagShortKanjiName.length);  
+          FONT_SIZE = 35;
         break
+        case "prefecture":
+          FONT_SIZE = 35;
+          break;
+
         // default:
         //   this.nationalFlags = countries;
       }
 
-      let LeftSideStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - LEFT_FONT_SIZE / 2;
+      let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (FONT_SIZE * nationalFlagShortKanjiName.length / 2);
+      let localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - FONT_SIZE / 2;
 
       const shortKanjiNameBackground = this.add
         .rectangle(GLOBAL_START_POSITION_X, GLOBAL_START_POSITION_Y, IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, COLOR_LIGHT_GRAY.toNumber(), 1)
         .setOrigin(0, 0)
         .setDisplaySize(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
-
       
-      //64
-      //const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE / 2;
-      
-
-      const shortKanjiName = this.add
+      const RightCard = this.add
         .text(
-          LeftSideStartPositionXForText,
-          LeftSideStartPositionYForText,
+          localStartPositionXForText,
+          localStartPositionYForText,
           nationalFlagShortKanjiName,
-          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${LEFT_FONT_SIZE}px` }
+          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${FONT_SIZE}px` }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
 
@@ -241,29 +247,42 @@ export default class MemoryGame extends Phaser.Scene {
         IMAGE_SIZE_HEIGHT,
       );
       renderTexture.draw(shortKanjiNameBackground);
-      renderTexture.draw(shortKanjiName);
+      renderTexture.draw(RightCard);
       renderTexture.saveTexture(nationalFlagShortKanjiName);
 
       shortKanjiNameBackground.destroy();
-      shortKanjiName.destroy();
+      RightCard.destroy();
       renderTexture.destroy();
     })
 
     
-
     this.LeftCardChar.forEach((LeftCardChar) => {
+
+      let FONT_SIZE;
+
+      switch(this.prevSceneData.genre){
+        case "flag":
+          FONT_SIZE = 64;
+        break
+        case "CountPeople":
+          FONT_SIZE = 35;
+        break
+        case "prefecture":
+          FONT_SIZE = 35;
+          break;
+        // default:
+        //   this.nationalFlags = countries;
+      }
+
+      let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (FONT_SIZE * LeftCardChar.length / 2);
+      let localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - FONT_SIZE / 2;
   
       const shortKanjiNameBackground = this.add
         .rectangle(GLOBAL_START_POSITION_X, GLOBAL_START_POSITION_Y, IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, COLOR_LIGHT_GRAY.toNumber(), 1)
         .setOrigin(0, 0)
         .setDisplaySize(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
 
-      const FONT_SIZE = 42;
-      // const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE / 2;
-      const localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - FONT_SIZE;
-      const localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - FONT_SIZE / 2;
-
-      const shortKanjiName = this.add
+      const RightCard = this.add
         .text(
           localStartPositionXForText,
           localStartPositionYForText,
@@ -279,11 +298,11 @@ export default class MemoryGame extends Phaser.Scene {
         IMAGE_SIZE_HEIGHT,
       );
       renderTexture.draw(shortKanjiNameBackground);
-      renderTexture.draw(shortKanjiName);
+      renderTexture.draw(RightCard);
       renderTexture.saveTexture(LeftCardChar);
 
       shortKanjiNameBackground.destroy();
-      shortKanjiName.destroy();
+      RightCard.destroy();
       renderTexture.destroy();
     })
   }
@@ -440,7 +459,7 @@ export default class MemoryGame extends Phaser.Scene {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
-      console.log("nationalFlag:" + nationalFlag.englishName)
+      console.log("nationalFlag:" + nationalFlag.LeftID)
       const column = index % gridSize.maxColumn;
       const row    = Math.floor(index / gridSize.maxColumn);
 
@@ -464,10 +483,10 @@ export default class MemoryGame extends Phaser.Scene {
 
           isFinishedFlipAnimation = false;
 
-          //第二引数 nationalFlag.englishName = imageの名前
+          //第二引数 nationalFlag.LeftID = imageの名前
           this.flipAnimation(
             nationalFlagComponent,
-            nationalFlag.englishName,
+            nationalFlag.LeftID,
             nationalFlagComponent.scaleX,
             nationalFlagComponent.scaleY,
           )
@@ -517,10 +536,10 @@ export default class MemoryGame extends Phaser.Scene {
 
           isFinishedFlipAnimation = false;
 
-          //第二引数 nationalFlag.englishName = imageの名前
+          //第二引数 nationalFlag.LeftID = imageの名前
           this.flipAnimation(
             nationalFlagComponent,
-            nationalFlag.imagePath,
+            nationalFlag.LeftCard,
             nationalFlagComponent.scaleX,
             nationalFlagComponent.scaleY,
           )
@@ -572,7 +591,7 @@ export default class MemoryGame extends Phaser.Scene {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
-      console.log("KANA:"+RightCardImg.englishName + "KANA")
+      console.log("KANA:"+RightCardImg.LeftID + "KANA")
       const column = index % gridSize.maxColumn;
       const row    = Math.floor(index / gridSize.maxColumn);
 
@@ -599,12 +618,12 @@ export default class MemoryGame extends Phaser.Scene {
           
           this.flipAnimation(
             nationalFlagShortKanjiNameComponent,
-            RightCardImg.englishName + "KANA",
+            RightCardImg.LeftID + "KANA",
             nationalFlagShortKanjiNameComponent.scaleX,
             nationalFlagShortKanjiNameComponent.scaleY,
           )
 
-          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = RightCardImg.shortKanjiName;
+          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = RightCardImg.RightCard;
           
           this.flippedComponents.push(nationalFlagShortKanjiNameComponent);
           setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
@@ -935,17 +954,17 @@ export default class MemoryGame extends Phaser.Scene {
     const nationalFlag = this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG];
     const nationalFlagShortKanjiName = this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI];
 
-    console.log("左カード:" + nationalFlag.shortKanjiName);
+    console.log("左カード:" + nationalFlag.RightCard);
     console.log("右カード:" + nationalFlagShortKanjiName);
-    //nationalFlagShortKanjiName.shortKanjiName
+    //nationalFlagShortKanjiName.RightCard
 
     this.consoleLogForDebug(this.flippedAreas);
     this.consoleLogForDebug(this.flippedComponents);
 
-   //nationalFlagShortKanjiName.shortKanjiName
-    if (nationalFlag.shortKanjiName === nationalFlagShortKanjiName) {
+   //nationalFlagShortKanjiName.RightCard
+    if (nationalFlag.RightCard === nationalFlagShortKanjiName) {
 
-      console.log("左カードOK:" + nationalFlag.shortKanjiName);
+      console.log("左カードOK:" + nationalFlag.RightCard);
       console.log("右カードOK:" + nationalFlagShortKanjiName);
 
       setTimeout(() => {
