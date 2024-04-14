@@ -1,4 +1,4 @@
-export const Subject = [
+export const Color = [
   {
     LeftCard:'assets/img/Color/色_左_イラスト/オレンジ　おれんじ.png',
     LeftID: 'オレンジ',

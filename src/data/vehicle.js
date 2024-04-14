@@ -12,7 +12,7 @@ export const vehicle = [
     RightCard:'assets/img/vehicle/乗り物_右_ルビ付き漢字/クレーン車　くれえん車.png',
    },
    {
-    LeftCard:'assets/img/vehicle/乗り物_左_イラスト/タクシー　イラスト.png　',
+    LeftCard:'assets/img/vehicle/乗り物_左_イラスト/タクシー　イラスト.png',
     LeftID: 'タクシー',
     RightID: 'たくしい',
     RightCard:'assets/img/vehicle/乗り物_右_ルビ付き漢字/タクシー　たくしい.png',

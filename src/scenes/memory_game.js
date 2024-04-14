@@ -9,6 +9,12 @@ import { PrefecturalCapital } from "../data/PrefecturalCapital";
 import { calendar } from "../data/calendar";
 import { CountThing } from "../data/CountThing";
 import { Day } from "../data/Day";
+import { Subject } from "../data/Subject";
+import { Color } from "../data/Color";
+import { vehicle } from "../data/vehicle";
+import { instrument } from "../data/instrument";
+import { sweets } from "../data/sweets";
+
 import SoundButton from "../components/sound_button";
 import BackGround from "./ui/BackGround";
 import { LEVEL1, LEVEL2, LEVEL3 } from "./constants/level";
@@ -137,8 +143,31 @@ export default class MemoryGame extends Phaser.Scene {
           this.RightCardType = "char";
           this.LeftCardType = "char";
         break
-        
-
+        case "Subject":
+          this.nationalFlags = Subject;
+          this.RightCardType = "img";
+          this.LeftCardType = "char";
+        break
+        case "color":
+          this.nationalFlags = Color;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "Vehicle":
+          this.nationalFlags = vehicle;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "Instrument":
+          this.nationalFlags = instrument;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "sweets":
+          this.nationalFlags = sweets;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
         // default:
         //   this.nationalFlags = countries;
       }
@@ -218,7 +247,6 @@ export default class MemoryGame extends Phaser.Scene {
         case "prefecture":
           FONT_SIZE = 35;
           break;
-
         // default:
         //   this.nationalFlags = countries;
       }
@@ -270,6 +298,9 @@ export default class MemoryGame extends Phaser.Scene {
         case "prefecture":
           FONT_SIZE = 35;
           break;
+        case "Subject": 
+          FONT_SIZE = 35;
+        break
         // default:
         //   this.nationalFlags = countries;
       }

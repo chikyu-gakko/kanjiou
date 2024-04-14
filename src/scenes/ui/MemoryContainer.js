@@ -85,7 +85,7 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       text: "乗り物",
     },
     MusicalInstrument: {
-      name: "MusicalInstrument",
+      name: "Instrument",
       text: "楽器",
     },
     date:{
