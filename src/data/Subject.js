@@ -24,8 +24,8 @@ export const Subject = [
     RightCard:'assets/img/Subject/教科_右_ルビなし漢字/ぎじゅつ　技術　漢字　小.png',
    },
    {
-    LeftCard:'ぎじゅつ・かてい',
-    LeftID: 'ぎじゅつ・かてい',
+    LeftCard:'ぎじゅつかてい',
+    LeftID: 'ぎじゅつかてい',
     RightID: '技術・家庭',
     RightCard:'assets/img/Subject/教科_右_ルビなし漢字/ぎじゅつ・かてい　技術・家庭　漢字　中.png',
    },

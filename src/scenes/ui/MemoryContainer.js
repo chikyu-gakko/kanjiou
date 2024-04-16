@@ -89,7 +89,7 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       text: "楽器",
     },
     date:{
-      name: "date",
+      name: "day",
       text: "日にち",
     },
     CountPeople:{
@@ -97,7 +97,7 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       text: "人の数え方",
     },
     CountThings:{
-      name: "CountThings",
+      name: "CountThing",
       text: "物の数え方",
     }
   };

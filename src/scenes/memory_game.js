@@ -200,38 +200,57 @@ export default class MemoryGame extends Phaser.Scene {
           this.RightCardType = "img";
           this.LeftCardType = "img";
         break
-
         case "bard":
-        this.nationalFlags = bard;
-        this.RightCardType = "img";
-        this.LeftCardType = "img";
-      break
-      case "fruit":
-        this.nationalFlags = fruits;
-        this.RightCardType = "img";
-        this.LeftCardType = "img";
-      break
-      case "plant":
-        this.nationalFlags = plant;
-        this.RightCardType = "img";
-        this.LeftCardType = "img";
-      break
-      case "flower":
-        this.nationalFlags = flower;
-        this.RightCardType = "img";
-        this.LeftCardType = "img";
-      break
-      case "zodiac":
-        this.nationalFlags = zodiac;
-        this.RightCardType = "img";
-        this.LeftCardType = "img";
-      break
-      case "MapSymbol":
-        this.nationalFlags = MapSymbol;
-        this.RightCardType = "img";
-        this.LeftCardType = "img";
-      break
-      
+          this.nationalFlags = bard;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "fruit":
+          this.nationalFlags = fruits;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "plant":
+          this.nationalFlags = plant;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "flower":
+          this.nationalFlags = flower;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "zodiac":
+          this.nationalFlags = zodiac;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "MapSymbol":
+          this.nationalFlags = MapSymbol;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "day":
+          this.nationalFlags = Day;
+          this.RightCardType = "char";
+          this.LeftCardType = "char";
+        break
+        case "CountPeople":
+          this.nationalFlags = CountPeople;
+          this.RightCardType = "char";
+          this.LeftCardType = "char";
+        break
+        case "CountThing":
+          this.nationalFlags = CountThing;
+          this.RightCardType = "char";
+          this.LeftCardType = "char";
+        break
+        case "LunarCalendar":
+          this.nationalFlags = calendar;
+          this.RightCardType = "char";
+          this.LeftCardType = "img";
+        break
+    
         // default:
         //   this.nationalFlags = countries;
       }
@@ -305,14 +324,24 @@ export default class MemoryGame extends Phaser.Scene {
         case "flag":
           FONT_SIZE = 64;
         break
+        case "prefecture":
+          FONT_SIZE = 45;
+          break;
+        case "PrefecturalCapital":
+          FONT_SIZE = 50;
+        break;
+        case "day":
+          FONT_SIZE = 30;
+        break;
         case "CountPeople":
           FONT_SIZE = 35;
+        break;
+        case "CountThing":
+          FONT_SIZE = 55;
         break
-        case "prefecture":
-          FONT_SIZE = 35;
-          break;
-        // default:
-        //   this.nationalFlags = countries;
+        case "LunarCalendar":
+          FONT_SIZE = 60;
+        break
       }
 
       let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (FONT_SIZE * nationalFlagShortKanjiName.length / 2);
@@ -356,17 +385,24 @@ export default class MemoryGame extends Phaser.Scene {
         case "flag":
           FONT_SIZE = 64;
         break
-        case "CountPeople":
-          FONT_SIZE = 35;
-        break
         case "prefecture":
-          FONT_SIZE = 35;
+          FONT_SIZE = 60;
           break;
         case "Subject": 
-          FONT_SIZE = 35;
+          FONT_SIZE = 40;
         break
-        // default:
-        //   this.nationalFlags = countries;
+        case "PrefecturalCapital":
+          FONT_SIZE = 60;
+        break;
+        case "day":
+          FONT_SIZE = 60;
+        break
+        case "CountPeople":
+          FONT_SIZE = 60;
+        break
+        case "CountThing":
+          FONT_SIZE = 70;
+        break
       }
 
       let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (FONT_SIZE * LeftCardChar.length / 2);
