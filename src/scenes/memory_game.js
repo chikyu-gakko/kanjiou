@@ -97,7 +97,8 @@ export default class MemoryGame extends Phaser.Scene {
 
     this.load.image("LeftPattern", 'assets/img/pattern.png');
     this.load.image("RightPattern", 'assets/img/pattern.png');
-    
+
+    this.load.audio("CardSe", "assets/audio/card_se.mp3");
   }
   
 
@@ -611,6 +612,8 @@ export default class MemoryGame extends Phaser.Scene {
           if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas || this.flippedComponents.includes(nationalFlagComponent)) {
             return;
           }
+          const CardSe = this.sound.add("CardSe");
+          CardSe.play();
 
           isFinishedFlipAnimation = false;
 
@@ -664,6 +667,9 @@ export default class MemoryGame extends Phaser.Scene {
           if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas || this.flippedComponents.includes(nationalFlagComponent)) {
             return;
           }
+
+          const CardSe = this.sound.add("CardSe");
+          CardSe.play();
 
           isFinishedFlipAnimation = false;
 
@@ -744,7 +750,8 @@ export default class MemoryGame extends Phaser.Scene {
           if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas || this.flippedComponents.includes(nationalFlagShortKanjiNameComponent)) {
             return;
           }
-          
+          const CardSe = this.sound.add("CardSe");
+          CardSe.play();
           isFinishedFlipAnimation = false;
           
           this.flipAnimation(
@@ -797,8 +804,11 @@ export default class MemoryGame extends Phaser.Scene {
             return;
           }
 
+          const CardSe = this.sound.add("CardSe");
+          CardSe.play();
+
           isFinishedFlipAnimation = false;
-          console.log(nationalFlagShortKanjiName)
+
           this.flipAnimation(
             nationalFlagShortKanjiNameComponent,
             nationalFlagShortKanjiName,
