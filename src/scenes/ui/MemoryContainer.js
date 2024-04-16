@@ -116,7 +116,7 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       text: "メニュー",
     },
     Animal:{
-      name: "Animal",
+      name: "animal",
       text: "動物",
     },
     SeaAnimals:{ 
@@ -136,7 +136,7 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       text: "植物",
     },
     Flower:{
-      name: "Flower",
+      name: "flower",
       text: "花",
     },
     Zodiac:{

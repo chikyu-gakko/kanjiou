@@ -135,7 +135,7 @@ export const menu = [
     LeftCard:'assets/img/menu/メニュー_左_イラスト/刺身.png',
     LeftID: '刺身',
     RightID: 'さしみ',
-    RightCard:'assets/img/menu/メニュー_右　ルビ付き漢字　カタカナ/刺身.png',
+    RightCard:'assets/img/menu/メニュー_右　ルビ付き漢字　カタカナ/刺身　さしみ.png',
    },
    {
     LeftCard:'assets/img/menu/メニュー_左_イラスト/唐揚げ.png',
@@ -147,7 +147,7 @@ export const menu = [
     LeftCard:'assets/img/menu/メニュー_左_イラスト/天丼.png',
     LeftID: '天丼',
     RightID: 'てんどん',
-    RightCard:'assets/img/menu/メニュー_右　ルビ付き漢字　カタカナ/天丼.png',
+    RightCard:'assets/img/menu/メニュー_右　ルビ付き漢字　カタカナ/天丼　てんどん.png',
    },
    {
     LeftCard:'assets/img/menu/メニュー_左_イラスト/寿司.png',
@@ -165,13 +165,13 @@ export const menu = [
     LeftCard:'assets/img/menu/メニュー_左_イラスト/焼肉.png',
     LeftID: '焼肉',
     RightID: 'やきにく',
-    RightCard:'assets/img/menu/メニュー_右　ルビ付き漢字　カタカナ/焼肉.png',
+    RightCard:'assets/img/menu/メニュー_右　ルビ付き漢字　カタカナ/焼肉　やきにく.png',
    },
    {
     LeftCard:'assets/img/menu/メニュー_左_イラスト/牛丼.png',
     LeftID: '牛丼',
     RightID: 'ぎゅうどん',
-    RightCard:'assets/img/menu/メニュー_右　ルビ付き漢字　カタカナ/牛丼.png',
+    RightCard:'assets/img/menu/メニュー_右　ルビ付き漢字　カタカナ/牛丼　ぎゅうどん.png',
    },
    {
     LeftCard:'assets/img/menu/メニュー_左_イラスト/親子丼.png',

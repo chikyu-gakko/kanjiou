@@ -24,7 +24,7 @@ export const flower = [
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/マリーゴールド.png',
    },
    {
-    LeftCard:'assets/img/flower/花_左_イラスト/向日葵　ひまわり.png',
+    LeftCard:'assets/img/flower/花_左_イラスト/向日葵　ひまわり　イラスト.png',
     LeftID: '向日葵',
     RightID: 'ひまわり',
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/向日葵　ひまわり.png',
@@ -42,7 +42,7 @@ export const flower = [
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/朝顔　あさがお.png',
    },
    {
-    LeftCard:'assets/img/flower/花_左_イラスト/水仙　すいせん　イラスト.png',
+    LeftCard:'assets/img/flower/花_左_イラスト/水仙　イラスト.png',
     LeftID: '水仙',
     RightID: 'すいせん',
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/水仙　すいせん.png',
@@ -54,7 +54,7 @@ export const flower = [
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/沈丁花　じんちょうげ　.png',
    },
    {
-    LeftCard:'assets/img/flower/花_左_イラスト/牡丹　ぼたん　イラスト.png',
+    LeftCard:'assets/img/flower/花_左_イラスト/牡丹　ぼたん.png',
     LeftID: '牡丹',
     RightID: 'ぼたん',
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/牡丹　ぼたん.png',
@@ -66,13 +66,13 @@ export const flower = [
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/百合　ゆり.png',
    },
    {
-    LeftCard:'assets/img/flower/花_左_イラスト/秋桜　こすもす　イラスト.png',
+    LeftCard:'assets/img/flower/花_左_イラスト/秋桜　コスモス　イラスト.png',
     LeftID: '秋桜',
     RightID: 'こすもす',
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/秋桜　こすもす.png',
    },
    {
-    LeftCard:'assets/img/flower/花_左_イラスト/紫陽花　あじさい　イラスト.png',
+    LeftCard:'assets/img/flower/花_左_イラスト/紫陽花　あじさい.png',
     LeftID: '紫陽花',
     RightID: 'あじさい',
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/紫陽花　あじさい.png',
@@ -90,7 +90,7 @@ export const flower = [
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/菖蒲　あやめ.png',
    },
    {
-    LeftCard:'assets/img/flower/花_左_イラスト/菜の花　なのはな　イラスト.png',
+    LeftCard:'assets/img/flower/花_左_イラスト/菜の花　イラスト.png',
     LeftID: '菜の花',
     RightID: 'なのはな',
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/菜の花　なのはな.png',
@@ -102,7 +102,7 @@ export const flower = [
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/菫　すみれ.png',
    },
    {
-    LeftCard:'assets/img/flower/花_左_イラスト/蒲公英　たんぽぽ　イラスト.png',
+    LeftCard:'assets/img/flower/花_左_イラスト/蒲公英　たんぽぽ.png',
     LeftID: '蒲公英',
     RightID: 'たんぽぽ',
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/蒲公英　たんぽぽ.png',
@@ -114,7 +114,7 @@ export const flower = [
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/蓮　はす.png',
    },
    {
-    LeftCard:'assets/img/flower/花_左_イラスト/蓮華　れんげ.png　イラスト',
+    LeftCard:'assets/img/flower/花_左_イラスト/蓮華　れんげ　イラスト.png',
     LeftID: '蓮華',
     RightID: 'れんげ',
     RightCard:'assets/img/flower/花_右_ルビ付き漢字　カタカナ/蓮華　れんげ.png',

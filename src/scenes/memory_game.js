@@ -14,6 +14,18 @@ import { Color } from "../data/Color";
 import { vehicle } from "../data/vehicle";
 import { instrument } from "../data/instrument";
 import { sweets } from "../data/sweets";
+import { vegetable } from "../data/vegetable";
+import { menu } from "../data/menu";
+import { animal } from "../data/animal";
+import { SeaCreature } from "../data/Sea​​Creature";
+import { bard } from "../data/bard";
+import { fruits } from "../data/fruits";
+import { plant } from "../data/plant";
+import { flower } from "../data/flower";
+import { MapSymbol } from "../data/MapSymbol";
+
+import { zodiac } from "../data/zodiac";
+
 
 import SoundButton from "../components/sound_button";
 import BackGround from "./ui/BackGround";
@@ -168,6 +180,58 @@ export default class MemoryGame extends Phaser.Scene {
           this.RightCardType = "img";
           this.LeftCardType = "img";
         break
+        case "vegetables":
+          this.nationalFlags = vegetable;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "menu":
+          this.nationalFlags = menu;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "animal":
+          this.nationalFlags = animal;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+        case "SeaAnimals":
+          this.nationalFlags = SeaCreature;
+          this.RightCardType = "img";
+          this.LeftCardType = "img";
+        break
+
+        case "bard":
+        this.nationalFlags = bard;
+        this.RightCardType = "img";
+        this.LeftCardType = "img";
+      break
+      case "fruit":
+        this.nationalFlags = fruits;
+        this.RightCardType = "img";
+        this.LeftCardType = "img";
+      break
+      case "plant":
+        this.nationalFlags = plant;
+        this.RightCardType = "img";
+        this.LeftCardType = "img";
+      break
+      case "flower":
+        this.nationalFlags = flower;
+        this.RightCardType = "img";
+        this.LeftCardType = "img";
+      break
+      case "zodiac":
+        this.nationalFlags = zodiac;
+        this.RightCardType = "img";
+        this.LeftCardType = "img";
+      break
+      case "MapSymbol":
+        this.nationalFlags = MapSymbol;
+        this.RightCardType = "img";
+        this.LeftCardType = "img";
+      break
+      
         // default:
         //   this.nationalFlags = countries;
       }

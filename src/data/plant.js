@@ -1,6 +1,6 @@
 export const plant = [
 {
-  LeftCard:'assets/img/plant/植物_左_イラスト/すぎ　イラスト.png',
+  LeftCard:'assets/img/plant/植物_左_イラスト/杉　すぎ　イラスト.png',
   LeftID: '杉',
   RightID: 'すぎ',
   RightCard:'assets/img/plant/植物_右_ルビ付き漢字　カタカナ/すぎ.png',
@@ -18,7 +18,7 @@ export const plant = [
   RightCard:'assets/img/plant/植物_右_ルビ付き漢字　カタカナ/サボテン.png',
  },
  {
-  LeftCard:'assets/img/plant/植物_左_イラスト/モミの木　イラスト.png',
+  LeftCard:'assets/img/plant/植物_左_イラスト/もみのき　イラスト.png',
   LeftID: 'もみの木',
   RightID: 'もみのき',
   RightCard:'assets/img/plant/植物_右_ルビ付き漢字　カタカナ/モミの木.png',
@@ -42,7 +42,7 @@ export const plant = [
   RightCard:'assets/img/plant/植物_右_ルビ付き漢字　カタカナ/栗　くり.png',
  },
  {
-  LeftCard:'assets/img/plant/植物_左_イラスト/桃　もも　イラスト.png',
+  LeftCard:'assets/img/plant/植物_左_イラスト/桃　イラスト.png',
   LeftID: '桃',
   RightID: 'もも',
   RightCard:'assets/img/plant/植物_右_ルビ付き漢字　カタカナ/桃　もも.png',
@@ -54,7 +54,7 @@ export const plant = [
   RightCard:'assets/img/plant/植物_右_ルビ付き漢字　カタカナ/桑　くわ.png',
  },
  {
-  LeftCard:'assets/img/plant/植物_左_イラスト/桜　さくら.png　イラスト',
+  LeftCard:'assets/img/plant/植物_左_イラスト/桜　さくら　イラスト.png',
   LeftID: '桜',
   RightID: 'さくら',
   RightCard:'assets/img/plant/植物_右_ルビ付き漢字　カタカナ/桜　さくら.png',
@@ -66,7 +66,7 @@ export const plant = [
   RightCard:'assets/img/plant/植物_右_ルビ付き漢字　カタカナ/梅　うめ.png',
  },
  {
-  LeftCard:'assets/img/plant/植物_左_イラスト/椿　つばき　イラスト.png',
+  LeftCard:'assets/img/plant/植物_左_イラスト/椿　つばき.png',
   LeftID: '椿',
   RightID: 'つばき',
   RightCard:'assets/img/plant/植物_右_ルビ付き漢字　カタカナ/椿　つばき.png',
@@ -107,7 +107,7 @@ export const plant = [
   RightID: 'ふじ',
   RightCard:'assets/img/plant/植物_右_ルビ付き漢字　カタカナ/藤　ふじ.png',
  },
- {
+{
   LeftCard:'assets/img/plant/植物_左_イラスト/躑躅　つつじ　イラスト.png',
   LeftID: '躑躅',
   RightID: 'つつじ',

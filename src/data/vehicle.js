@@ -54,7 +54,7 @@ export const vehicle = [
     RightCard:'assets/img/vehicle/乗り物_右_ルビ付き漢字/ヘリコプター　へりこぷたあ.png',
    },
    {
-    LeftCard:'assets/img/vehicle/乗り物_左_イラスト/モノレール　イラスト.png',
+    LeftCard:'assets/img/vehicle/乗り物_左_イラスト/モノレール.png',
     LeftID: 'モノレール',
     RightID: 'ものれえる',
     RightCard:'assets/img/vehicle/乗り物_右_ルビ付き漢字/モノレール　ものれえる.png',

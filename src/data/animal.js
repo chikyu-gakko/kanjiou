@@ -18,7 +18,7 @@ export const animal = [
     RightCard:'assets/img/animal/動物_右_ルビ付き漢字　カタカナ/ゴリラ　ごりら.png',
    },
    {
-    LeftCard:'assets/img/animal/動物_左_イラスト/シマウマ　しまうま　イラスト.png',
+    LeftCard:'assets/img/animal/動物_左_イラスト/シマウマ　イラスト.png',
     LeftID: 'シマウマ',
     RightID: 'しまうま',
     RightCard:'assets/img/animal/動物_右_ルビ付き漢字　カタカナ/シマウマ　しまうま.png',
@@ -30,7 +30,7 @@ export const animal = [
     RightCard:'assets/img/animal/動物_右_ルビ付き漢字　カタカナ/チーター　ちいたあ.png',
    },
    {
-    LeftCard:'assets/img/animal/動物_左_イラスト/トナカイ　となかい　イラスト.png',
+    LeftCard:'assets/img/animal/動物_左_イラスト/トナカイ　イラスト.png',
     LeftID: 'トナカイ',
     RightID: 'となかい',
     RightCard:'assets/img/animal/動物_右_ルビ付き漢字　カタカナ/トナカイ　となかい.png',
