@@ -34,7 +34,7 @@ import { COLOR_LIGHT_BLACK, COLOR_LIGHT_GRAY, COLOR_PALE_GREEN,COLOR_WHITE } fro
 
 const DEBUG_MODE = false;
 const ERROR_MESSAGE_FOR_LEVEL = 'invalid level.';
-const ERROR_MESSAGE_FOR_NATIONAL_FLAGS_COUNT = 'count out of bounds for nationalFlags length.';
+const ERROR_MESSAGE_FOR_NATIONAL_FLAGS_COUNT = 'count out of bounds for cardsData length.';
 
 const CARD_BACK_SIDE_IMAGE_KEY = '3:2Mogra';
 const ANIMATION_DURATION_FLIP = 900;
@@ -46,7 +46,7 @@ const FLIPED_AREA = {
 }
 
 /**
-* @typedef {Object} NationalFlag
+* @typedef {Object} cardData
 * @property {string} LeftCard
 * @property {string} LeftID
 * @property {string} RightID
@@ -56,10 +56,10 @@ export default class MemoryGame extends Phaser.Scene {
   constructor() {
     super({ key: "memory_game", active: false });
 
-    this.nationalFlags               = []; //カードのデータ用配列
+    this.cardsData               = []; //カードのデータ用配列
     
     this.nationalFlagShortKanjiNames = [];
-    this.nationalFlagsCount          = 0;
+    this.cardsCount          = 0;
 
     this.gameConfig = {
       level: 0,
@@ -70,26 +70,26 @@ export default class MemoryGame extends Phaser.Scene {
     
     this.TryLimitComponent = undefined;
 
-    this.Now_PlayerComponent = undefined;
-    this.Player1PointComponent = undefined;
-    this.Player2PointComponent = undefined;
+    this.nowPlayerComponent = undefined;
+    this.player1PointComponent = undefined;
+    this.player2PointComponent = undefined;
 
     this.flippedAreas      = {};
     this.flippedComponents = [];
 
-    this.LeftCardType = "";
-    this.RightCardType = "";
+    this.leftCardType = "";
+    this.rightCardType = "";
   }
 
   preload = () => {
     //左のカード用写真を登録
-    this.nationalFlags.forEach((nationalFlag) => {
-      this.load.image(nationalFlag.LeftID, nationalFlag.LeftCard);
+    this.cardsData.forEach((cardData) => {
+      this.load.image(cardData.LeftID, cardData.LeftCard);
     });
 
     //右のカード用写真を登録
-    this.nationalFlags.forEach((nationalFlag) => {
-         this.load.image(nationalFlag.LeftID + "KANA", nationalFlag.RightCard);
+    this.cardsData.forEach((cardData) => {
+         this.load.image(cardData.LeftID + "KANA", cardData.RightCard);
     });
 
     this.load.image(CARD_BACK_SIDE_IMAGE_KEY, 'assets/img/card/card_back.png');
@@ -127,133 +127,142 @@ export default class MemoryGame extends Phaser.Scene {
 
       switch(this.prevSceneData.genre){
         case "flag":
-          this.nationalFlags = nationalFlags;
-          this.RightCardType = "char";
-          this.LeftCardType = "img";
+          this.cardsData = nationalFlags;
+          this.rightCardType = "char";
+          this.leftCardType = "img";
+          this.leftFontSize = 64;
+          this.rightFontSize = 64;
         break
         case "job":
-          this.nationalFlags = jobs;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = jobs;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "constellation":
-          this.nationalFlags = constellations;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = constellations;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "CountPeople":
-          this.nationalFlags = CountPeople;
-          this.RightCardType = "char";
-          this.LeftCardType = "char";
+          this.cardsData = CountPeople;
+          this.rightCardType = "char";
+          this.leftCardType = "char";
+          this.leftFontSize = 60;
+          this.rightFontSize = 35;
         break
         case "prefecture":
-          this.nationalFlags = Prefecture;
-          this.RightCardType = "char";
-          this.LeftCardType = "char";
+          this.cardsData = Prefecture;
+          this.rightCardType = "char";
+          this.leftCardType = "char";
+          this.leftFontSize = 60;
+          this.rightFontSize = 45;
         break
         case "PrefecturalCapital":
-          this.nationalFlags = PrefecturalCapital;
-          this.RightCardType = "char";
-          this.LeftCardType = "char";
+          this.cardsData = PrefecturalCapital;
+          this.rightCardType = "char";
+          this.leftCardType = "char";
+          this.leftFontSize = 60;
+          this.rightFontSize = 50;
         break
         case "Subject":
-          this.nationalFlags = Subject;
-          this.RightCardType = "img";
-          this.LeftCardType = "char";
+          this.cardsData = Subject;
+          this.rightCardType = "img";
+          this.leftCardType = "char";
+          this.leftFontSize = 40;
         break
         case "color":
-          this.nationalFlags = Color;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = Color;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "Vehicle":
-          this.nationalFlags = vehicle;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = vehicle;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "Instrument":
-          this.nationalFlags = instrument;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = instrument;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "sweets":
-          this.nationalFlags = sweets;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = sweets;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "vegetables":
-          this.nationalFlags = vegetable;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = vegetable;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "menu":
-          this.nationalFlags = menu;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = menu;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "animal":
-          this.nationalFlags = animal;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = animal;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "SeaAnimals":
-          this.nationalFlags = SeaCreature;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = SeaCreature;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "bard":
-          this.nationalFlags = bard;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = bard;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "fruit":
-          this.nationalFlags = fruits;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = fruits;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "plant":
-          this.nationalFlags = plant;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = plant;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "flower":
-          this.nationalFlags = flower;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = flower;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "zodiac":
-          this.nationalFlags = zodiac;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = zodiac;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "MapSymbol":
-          this.nationalFlags = MapSymbol;
-          this.RightCardType = "img";
-          this.LeftCardType = "img";
+          this.cardsData = MapSymbol;
+          this.rightCardType = "img";
+          this.leftCardType = "img";
         break
         case "day":
-          this.nationalFlags = Day;
-          this.RightCardType = "char";
-          this.LeftCardType = "char";
-        break
-        case "CountPeople":
-          this.nationalFlags = CountPeople;
-          this.RightCardType = "char";
-          this.LeftCardType = "char";
+          this.cardsData = Day;
+          this.rightCardType = "char";
+          this.leftCardType = "char";
+          this.leftFontSize = 60;
+          this.rightFontSize = 30;
         break
         case "CountThing":
-          this.nationalFlags = CountThing;
-          this.RightCardType = "char";
-          this.LeftCardType = "char";
+          this.cardsData = CountThing;
+          this.rightCardType = "char";
+          this.leftCardType = "char";
+          this.leftFontSize = 70;
+          this.rightFontSize = 55;
         break
         case "LunarCalendar":
-          this.nationalFlags = calendar;
-          this.RightCardType = "char";
-          this.LeftCardType = "img";
+          this.cardsData = calendar;
+          this.rightCardType = "char";
+          this.leftCardType = "img";
+          this.rightFontSize = 60;
         break
     
         // default:
-        //   this.nationalFlags = countries;
+        //   this.cardsData = countries;
       }
       
       console.log(this.prevSceneData.level);
@@ -268,20 +277,23 @@ export default class MemoryGame extends Phaser.Scene {
     this.triedCount  = 0;
     this.maxTryCount                 = this.levelToMaxTryCount(this.gameConfig.level)
     
-    this.nationalFlagsCount          = this.levelToNationalFlagsCount(this.gameConfig.level);
-    this.nationalFlags               = this.randomlySelectNationalFlags(this.nationalFlagsCount);
-    this.nationalFlagShortKanjiNames = this.mixedUpArray(this.nationalFlags.map(({ RightCard }) => RightCard));
+    this.cardsCount          = this.levelToCardsCount(this.gameConfig.level);
+    this.cardsData               = this.randomlySelectCards(this.cardsCount);
+    this.nationalFlagShortKanjiNames = this.mixedUpArray(this.cardsData.map(({ RightCard }) => RightCard));
 
-    this.RightCardImg = this.mixedUpArray(this.nationalFlags.map(( LeftID ) => LeftID));
+    this.RightCardImg = this.mixedUpArray(this.cardsData.map(( LeftID ) => LeftID));
     console.log("test:"+this.RightCardImg);
 
-    this.LeftCardChar = this.mixedUpArray(this.nationalFlags.map(({ LeftCard }) => LeftCard));
+    this.LeftCardChar = this.mixedUpArray(this.cardsData.map(({ LeftCard }) => LeftCard));
     
-    this.createShortKanjiNameTextures();
+    this.createCardsTextures();
 
-    this.Now_PlayerName = "プレイヤー1の番";
-    this.Player1PointCounter = 0;
-    this.Player2PointCounter = 0;
+    this.nowPlayerName = "プレイヤー1の番";
+    this.player1PointCounter = 0;
+    this.player2PointCounter = 0;
+
+    this.leftFontSize = 0;
+    this.rightFontSize = 0;
   }
 
   create = () => {
@@ -300,15 +312,15 @@ export default class MemoryGame extends Phaser.Scene {
       this.Player1PointCountText();
       this.Player2PointCountText();
     }
-    this.createNationalFlagImages(); //左カード表示
-    this.createNationalFlagShortKanjiNames(); //右カード表示
+    this.createLeftCards(); //左カード表示
+    this.createRightCards(); //右カード表示
   }
 
   initFlippedArea = () => {
     this.flippedAreas = {};
   }
 
-  createShortKanjiNameTextures = () => {
+  createCardsTextures = () => {
     const IMAGE_SIZE_WIDTH = 300;
     const IMAGE_SIZE_HEIGHT = 200;
     
@@ -319,34 +331,9 @@ export default class MemoryGame extends Phaser.Scene {
     const GLOBAL_START_POSITION_Y = 0;
 
     this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName) => {
-      let FONT_SIZE;
-
-      switch(this.prevSceneData.genre){
-        case "flag":
-          FONT_SIZE = 64;
-        break
-        case "prefecture":
-          FONT_SIZE = 45;
-          break;
-        case "PrefecturalCapital":
-          FONT_SIZE = 50;
-        break;
-        case "day":
-          FONT_SIZE = 30;
-        break;
-        case "CountPeople":
-          FONT_SIZE = 35;
-        break;
-        case "CountThing":
-          FONT_SIZE = 55;
-        break
-        case "LunarCalendar":
-          FONT_SIZE = 60;
-        break
-      }
-
-      let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (FONT_SIZE * nationalFlagShortKanjiName.length / 2);
-      let localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - FONT_SIZE / 2;
+      
+      let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (this.rightFontSize * nationalFlagShortKanjiName.length / 2);
+      let localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - this.rightFontSize / 2;
 
       const shortKanjiNameBackground = this.add
         .rectangle(GLOBAL_START_POSITION_X, GLOBAL_START_POSITION_Y, IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, COLOR_LIGHT_GRAY.toNumber(), 1)
@@ -358,7 +345,7 @@ export default class MemoryGame extends Phaser.Scene {
           localStartPositionXForText,
           localStartPositionYForText,
           nationalFlagShortKanjiName,
-          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${FONT_SIZE}px` }
+          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${this.rightFontSize}px` }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
 
@@ -380,34 +367,8 @@ export default class MemoryGame extends Phaser.Scene {
     
     this.LeftCardChar.forEach((LeftCardChar) => {
 
-      let FONT_SIZE;
-
-      switch(this.prevSceneData.genre){
-        case "flag":
-          FONT_SIZE = 64;
-        break
-        case "prefecture":
-          FONT_SIZE = 60;
-          break;
-        case "Subject": 
-          FONT_SIZE = 40;
-        break
-        case "PrefecturalCapital":
-          FONT_SIZE = 60;
-        break;
-        case "day":
-          FONT_SIZE = 60;
-        break
-        case "CountPeople":
-          FONT_SIZE = 60;
-        break
-        case "CountThing":
-          FONT_SIZE = 70;
-        break
-      }
-
-      let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (FONT_SIZE * LeftCardChar.length / 2);
-      let localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - FONT_SIZE / 2;
+      let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (this.leftFontSize * LeftCardChar.length / 2);
+      let localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - this.leftFontSize / 2;
   
       const shortKanjiNameBackground = this.add
         .rectangle(GLOBAL_START_POSITION_X, GLOBAL_START_POSITION_Y, IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, COLOR_LIGHT_GRAY.toNumber(), 1)
@@ -419,7 +380,7 @@ export default class MemoryGame extends Phaser.Scene {
           localStartPositionXForText,
           localStartPositionYForText,
           LeftCardChar,
-          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${FONT_SIZE}px` }
+          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${this.leftFontSize}px` }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
 
@@ -442,7 +403,7 @@ export default class MemoryGame extends Phaser.Scene {
   /**
    * @param {number} level
    */
-  levelToNationalFlagsCount = (level) => {
+  levelToCardsCount = (level) => {
     
     const LEVEL1_NATIONAL_FLAGS_COUNT = 6;
     const LEVEL2_NATIONAL_FLAGS_COUNT = 9;
@@ -528,18 +489,18 @@ export default class MemoryGame extends Phaser.Scene {
 
   /**
    * @param {number} count 
-   * @returns {NationalFlag[]}
+   * @returns {cardData[]}
    */
-  randomlySelectNationalFlags = (count) => {
-    if (count > this.nationalFlags.length) {
+  randomlySelectCards = (count) => {
+    if (count > this.cardsData.length) {
       throw new Error(ERROR_MESSAGE_FOR_NATIONAL_FLAGS_COUNT);
     }
 
     const result = [];
 
     while (result.length < count) {
-      const randomIndex = Math.floor(Math.random() * this.nationalFlags.length);
-      const randomElement = this.nationalFlags[randomIndex];
+      const randomIndex = Math.floor(Math.random() * this.cardsData.length);
+      const randomElement = this.cardsData[randomIndex];
       
       if (!result.includes(randomElement)) {
         console.log("randomElement:"+randomElement)
@@ -568,14 +529,14 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   isFlippedAll = () => {
-    return this.flippedComponents.length === this.levelToNationalFlagsCount(this.gameConfig.level) * 2;
+    return this.flippedComponents.length === this.levelToCardsCount(this.gameConfig.level) * 2;
   }
 
   isGameOver = () => {
     return this.triedCount === this.maxTryCount;
   }
 
-  createNationalFlagImages = () => {
+  createLeftCards = () => {
 
     const GLOBAL_START_POSITION_X = 40;
     const GLOBAL_START_POSITION_Y = 250;
@@ -586,12 +547,12 @@ export default class MemoryGame extends Phaser.Scene {
     this.consoleLogForDebug(imageSize);
     this.consoleLogForDebug(gridSize);
 
-  if(this.LeftCardType == "img"){
-    this.nationalFlags.forEach((nationalFlag, index) => {
+  if(this.leftCardType == "img"){
+    this.cardsData.forEach((cardData, index) => {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
-      console.log("nationalFlag:" + nationalFlag.LeftID)
+      console.log("cardData:" + cardData.LeftID)
       const column = index % gridSize.maxColumn;
       const row    = Math.floor(index / gridSize.maxColumn);
 
@@ -617,15 +578,15 @@ export default class MemoryGame extends Phaser.Scene {
 
           isFinishedFlipAnimation = false;
 
-          //第二引数 nationalFlag.LeftID = imageの名前
+          //第二引数 cardData.LeftID = imageの名前
           this.flipAnimation(
             nationalFlagComponent,
-            nationalFlag.LeftID,
+            cardData.LeftID,
             nationalFlagComponent.scaleX,
             nationalFlagComponent.scaleY,
           )
 
-          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG] = nationalFlag;
+          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG] = cardData;
           this.flippedComponents.push(nationalFlagComponent);
 
           setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
@@ -640,9 +601,9 @@ export default class MemoryGame extends Phaser.Scene {
       )
     })
 
-  }else if(this.LeftCardType == "char"){
+  }else if(this.leftCardType == "char"){
 
-    this.nationalFlags.forEach((nationalFlag, index) => {
+    this.cardsData.forEach((cardData, index) => {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
@@ -673,15 +634,15 @@ export default class MemoryGame extends Phaser.Scene {
 
           isFinishedFlipAnimation = false;
 
-          //第二引数 nationalFlag.LeftID = imageの名前
+          //第二引数 cardData.LeftID = imageの名前
           this.flipAnimation(
             nationalFlagComponent,
-            nationalFlag.LeftCard,
+            cardData.LeftCard,
             nationalFlagComponent.scaleX,
             nationalFlagComponent.scaleY,
           )
 
-          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG] = nationalFlag;
+          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG] = cardData;
           this.flippedComponents.push(nationalFlagComponent);
 
           setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
@@ -699,7 +660,7 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   
-  createNationalFlagShortKanjiNames = () => {
+  createRightCards = () => {
 
     const globalStartPositionXByLevel = (level) => {
       switch (level) {
@@ -722,7 +683,7 @@ export default class MemoryGame extends Phaser.Scene {
     this.consoleLogForDebug(imageSize);
     this.consoleLogForDebug(gridSize);
     
-    if(this.RightCardType == "img"){
+    if(this.rightCardType == "img"){
       this.RightCardImg.forEach((RightCardImg,index) => {
       
       const gridGap = (gridPosition, maxGridPosition) => {
@@ -775,7 +736,7 @@ export default class MemoryGame extends Phaser.Scene {
         this
       )
     })
-    }else if(this.RightCardType == "char"){
+    }else if(this.rightCardType == "char"){
       
         this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName, index) => {
       const gridGap = (gridPosition, maxGridPosition) => {
@@ -886,16 +847,16 @@ export default class MemoryGame extends Phaser.Scene {
     return `${this.triedCount + 1}回目`;
   }
 
-  NowPlayer_Text = () => {
-    return this.Now_PlayerName = this.triedCount % 2 == 0 ? "プレイヤー1の番" : "プレイヤー2の番";
+  nowPlayerText = () => {
+    return this.nowPlayerName = this.triedCount % 2 == 0 ? "プレイヤー1の番" : "プレイヤー2の番";
   }
 
   Player1NowPoint = () => {
-    return this.Player1PointCounter;
+    return this.player1PointCounter;
   }
 
   Player2NowPoint = () => {
-    return this.Player2PointCounter;
+    return this.player2PointCounter;
   }
   
   createTryCountText = () => {
@@ -953,7 +914,7 @@ export default class MemoryGame extends Phaser.Scene {
     let graphics = this.add.graphics();
     graphics.fillStyle(0X000000, 1).fillRect(BLACK_POS_X + 50, 25,260, 190);
 
-    if(this.Now_PlayerName =="プレイヤー1の番"){
+    if(this.nowPlayerName =="プレイヤー1の番"){
       graphics.fillStyle(0X00FF7F, 1).fillRect(NAME_BACK_X + 50, 30, 250, 45);
       graphics.fillStyle(0X00FF7F, 1).fillRect(GRAY_POS_X + 50, 80,250, 130);
     }else{
@@ -970,7 +931,7 @@ export default class MemoryGame extends Phaser.Scene {
     let graphics = this.add.graphics();
     graphics.fillStyle(0X000000, 1).fillRect(BLACK_POS_X - 110, 25, 260, 190);
 
-    if(this.Now_PlayerName =="プレイヤー2の番"){
+    if(this.nowPlayerName =="プレイヤー2の番"){
       graphics.fillStyle(0X00FF7F, 1).fillRect(NAME_BACK_X - 110, 30, 250, 45);
       graphics.fillStyle(0X00FF7F, 1).fillRect(GRAY_POS_X - 110, 80, 250, 130);
     }else{
@@ -980,11 +941,11 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   createNowPlayerNameText = () =>{
-    this.Now_PlayerComponent = this.add
+    this.nowPlayerComponent = this.add
           .text(
             this.game.canvas.width / 2 - 160,
             50,
-            this.Now_PlayerName,
+            this.nowPlayerName,
             {
               color: COLOR_LIGHT_BLACK.toString(),
               fontSize: '40px',
@@ -1025,12 +986,12 @@ export default class MemoryGame extends Phaser.Scene {
 
   Player1PointCountText = () => {
     
-    this.Player1PointComponent =
+    this.player1PointComponent =
     this.add
     .text(
       130 + 75,
       75,
-      (this.Player1PointCounter.toString()),
+      (this.player1PointCounter.toString()),
       {
         color: COLOR_LIGHT_BLACK.toString(),
         fontSize: '155px',
@@ -1041,12 +1002,12 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   Player2PointCountText = () => {
-    this.Player2PointComponent = 
+    this.player2PointComponent = 
     this.add
           .text(
             800 - 75,
             75,
-            (this.Player2PointCounter.toString()),
+            (this.player2PointCounter.toString()),
             {
               color: COLOR_LIGHT_BLACK.toString(),
               fontSize: '155px',          
@@ -1058,9 +1019,9 @@ export default class MemoryGame extends Phaser.Scene {
 
   PlayerPointAdd = () => {
     if(this.triedCount % 2 == 0){
-      this.Player1PointCounter++;
+      this.player1PointCounter++;
     }else{
-      this.Player2PointCounter++;
+      this.player2PointCounter++;
     }
   }
 
@@ -1085,17 +1046,17 @@ export default class MemoryGame extends Phaser.Scene {
         MaxCount:this.maxTryCount,
         TriedCount:this.triedCount,
         mode:this.prevSceneData.mode,
-        p1point:this.Player1PointCounter,
-        p2point:this.Player2PointCounter
+        p1point:this.player1PointCounter,
+        p2point:this.player2PointCounter
       }
     );
   }
   
   validateNeurastheniaMatch = () => {
-    const nationalFlag = this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG];
+    const cardData = this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG];
     const nationalFlagShortKanjiName = this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI];
 
-    console.log("左カード:" + nationalFlag.RightCard);
+    console.log("左カード:" + cardData.RightCard);
     console.log("右カード:" + nationalFlagShortKanjiName);
     //nationalFlagShortKanjiName.RightCard
 
@@ -1103,9 +1064,9 @@ export default class MemoryGame extends Phaser.Scene {
     this.consoleLogForDebug(this.flippedComponents);
 
    //nationalFlagShortKanjiName.RightCard
-    if (nationalFlag.RightCard === nationalFlagShortKanjiName) {
+    if (cardData.RightCard === nationalFlagShortKanjiName) {
 
-      console.log("左カードOK:" + nationalFlag.RightCard);
+      console.log("左カードOK:" + cardData.RightCard);
       console.log("右カードOK:" + nationalFlagShortKanjiName);
 
       setTimeout(() => {
@@ -1161,10 +1122,10 @@ export default class MemoryGame extends Phaser.Scene {
     if(this.prevSceneData.mode == "practice"){
       this.TryLimitComponent.setText(this.TryCount());
     }else if(this.prevSceneData.mode == "versus"){
-        this.NowPlayer_Text();
+        this.nowPlayerText();
       
-      this.Player1PointComponent.setText((this.Player1NowPoint().toString()));
-      this.Player2PointComponent.setText((this.Player2NowPoint().toString()));
+      this.player1PointComponent.setText((this.Player1NowPoint().toString()));
+      this.player2PointComponent.setText((this.Player2NowPoint().toString()));
 
       this.createPlayer1PointBack();
       this.Player1PointCountText();
