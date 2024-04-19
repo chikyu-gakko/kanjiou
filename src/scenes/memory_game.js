@@ -23,9 +23,7 @@ import { fruits } from "../data/fruits";
 import { plant } from "../data/plant";
 import { flower } from "../data/flower";
 import { MapSymbol } from "../data/MapSymbol";
-
 import { zodiac } from "../data/zodiac";
-
 
 import SoundButton from "../components/sound_button";
 import BackGround from "./ui/BackGround";
@@ -74,8 +72,9 @@ export default class MemoryGame extends Phaser.Scene {
     this.player2PointComponent = undefined;
 
     this.flippedAreas      = {};
-    this.flippedComponents = [];
-
+    
+    
+    
     this.leftCardType = "";
     this.rightCardType = "";
   }
@@ -293,6 +292,8 @@ export default class MemoryGame extends Phaser.Scene {
 
     this.leftFontSize = 0;
     this.rightFontSize = 0;
+
+    this.flippedComponents = [];
   }
 
   create = () => {
@@ -529,10 +530,12 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   isFlippedAll = () => {
-    return this.flippedComponents.length === this.levelToCardsCount(this.gameConfig.level) * 2;
+    console.log("this.flippedComponents.length："+this.flippedComponents.length + "　this.levelToCardsCount：" +this.levelToCardsCount(this.gameConfig.level) * 2)    
+    return this.flippedComponents.length >= this.levelToCardsCount(this.gameConfig.level) * 2;
   }
 
   isGameOver = () => {
+    console.log("this.triedCount：" + this.triedCount +" this.maxTryCount："+ this.maxTryCount)
     return this.triedCount >= this.maxTryCount;
   }
 
@@ -976,7 +979,7 @@ export default class MemoryGame extends Phaser.Scene {
 
    //nationalFlagShortKanjiName.RightCard
     if (cardData.RightCard === nationalFlagShortKanjiName) {
-
+      
       console.log("左カードOK:" + cardData.RightCard);
       console.log("右カードOK:" + nationalFlagShortKanjiName);
 
@@ -1015,7 +1018,9 @@ export default class MemoryGame extends Phaser.Scene {
 
       setTimeout(() => {
         this.triedCount++;
+        
         if(this.prevSceneData.mode === "practice"){
+          
           if (this.isGameOver()) {
             this.goToResultScene({
               isWon: false,
@@ -1029,6 +1034,7 @@ export default class MemoryGame extends Phaser.Scene {
       }, ANIMATION_DURATION_FLIP * 2);
 
     this.flippedComponents = this.flippedComponents.slice(0, this.flippedComponents.length - 2)
+    //console.log("this.flippedComponents："+this.flippedComponents)
   }
 
   refreshCounter = () => {
