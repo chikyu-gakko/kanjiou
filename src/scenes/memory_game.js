@@ -42,7 +42,7 @@ const ANIMATION_DURATION_FLIP = 900;
 
 const FLIPED_AREA = {
   NATIONAL_FLAG: 'national',
-  NATIONAL_FLAG_KANJI: 'national_flag_kanji',
+  RIGTH_CARD: 'RIGTH_CARD',
 }
 
 /**
@@ -57,7 +57,7 @@ export default class MemoryGame extends Phaser.Scene {
 
     this.cardsData               = []; //カードのデータ用配列
     
-    this.nationalFlagShortKanjiNames = [];
+    this.RightCardsData = [];
     this.cardsCount          = 0;
 
     this.gameConfig = {
@@ -278,7 +278,7 @@ export default class MemoryGame extends Phaser.Scene {
     
     this.cardsCount          = this.levelToCardsCount(this.gameConfig.level);
     this.cardsData               = this.randomlySelectCards(this.cardsCount);
-    this.nationalFlagShortKanjiNames = this.mixedUpArray(this.cardsData.map(({ RightCard }) => RightCard));
+    this.RightCardsData = this.mixedUpArray(this.cardsData.map(({ RightCard }) => RightCard));
 
     this.RightCardImg = this.mixedUpArray(this.cardsData.map(( LeftID ) => LeftID));
     console.log("test:"+this.RightCardImg);
@@ -329,12 +329,12 @@ export default class MemoryGame extends Phaser.Scene {
     const GLOBAL_START_POSITION_X = 0;
     const GLOBAL_START_POSITION_Y = 0;
 
-    this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName) => {
+    this.RightCardsData.forEach((nationalFlagShortKanjiName) => {
       
       let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (this.rightFontSize * nationalFlagShortKanjiName.length / 2);
       let localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - this.rightFontSize / 2;
 
-      const shortKanjiNameBackground = this.add
+      const MemoryGameBackground = this.add
         .rectangle(GLOBAL_START_POSITION_X, GLOBAL_START_POSITION_Y, IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, COLOR_LIGHT_GRAY.toNumber(), 1)
         .setOrigin(0, 0)
         .setDisplaySize(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
@@ -355,11 +355,11 @@ export default class MemoryGame extends Phaser.Scene {
         IMAGE_SIZE_HEIGHT,
       );
       console.log("nationalFlagShortKanjiName:"+nationalFlagShortKanjiName)
-      renderTexture.draw(shortKanjiNameBackground);
+      renderTexture.draw(MemoryGameBackground);
       renderTexture.draw(RightCard);
       renderTexture.saveTexture(nationalFlagShortKanjiName);
 
-      shortKanjiNameBackground.destroy();
+      MemoryGameBackground.destroy();
       RightCard.destroy();
       renderTexture.destroy();
     })
@@ -370,7 +370,7 @@ export default class MemoryGame extends Phaser.Scene {
       let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (this.leftFontSize * LeftCardChar.length / 2);
       let localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - this.leftFontSize / 2;
   
-      const shortKanjiNameBackground = this.add
+      const MemoryGameBackground = this.add
         .rectangle(GLOBAL_START_POSITION_X, GLOBAL_START_POSITION_Y, IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT, COLOR_LIGHT_GRAY.toNumber(), 1)
         .setOrigin(0, 0)
         .setDisplaySize(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
@@ -390,11 +390,11 @@ export default class MemoryGame extends Phaser.Scene {
         IMAGE_SIZE_WIDTH,
         IMAGE_SIZE_HEIGHT,
       );
-      renderTexture.draw(shortKanjiNameBackground);
+      renderTexture.draw(MemoryGameBackground);
       renderTexture.draw(RightCard);
       renderTexture.saveTexture(LeftCardChar);
 
-      shortKanjiNameBackground.destroy();
+      MemoryGameBackground.destroy();
       RightCard.destroy();
       renderTexture.destroy();
     })
@@ -533,7 +533,7 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   isGameOver = () => {
-    return this.triedCount === this.maxTryCount;
+    return this.triedCount >= this.maxTryCount;
   }
 
    createLeftCards = () => {
@@ -599,7 +599,7 @@ export default class MemoryGame extends Phaser.Scene {
 
           setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
 
-          if (!(FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
+          if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
             return;
           }
 
@@ -638,7 +638,7 @@ export default class MemoryGame extends Phaser.Scene {
     if(this.rightCardType == "img"){
       RightCardArray = this.RightCardImg
     }else if(this.rightCardType == "char"){
-      RightCardArray = this.nationalFlagShortKanjiNames
+      RightCardArray = this.RightCardsData
     }
 
     RightCardArray.forEach((RightCardImg,index) => {
@@ -653,19 +653,19 @@ export default class MemoryGame extends Phaser.Scene {
       const localStartPositionX = column * imageSize.width + imageSize.width / 2 + gridGap(column, gridSize.maxColumn) + GLOBAL_START_POSITION_X;
       const localStartPositionY = row * imageSize.height + imageSize.height / 2 + gridGap(row, gridSize.maxRow) + GLOBAL_START_POSITION_Y;
       
-      const nationalFlagShortKanjiNameComponent = this.add
+      const RigthCardComponent = this.add
         .sprite(localStartPositionX, localStartPositionY, CARD_BACK_SIDE_IMAGE_KEY)
         .setDisplaySize(imageSize.width, imageSize.height)
         .setInteractive({
           cursor: 'pointer'
         });
-        nationalFlagShortKanjiNameComponent.depth = 2;
+        RigthCardComponent.depth = 2;
 
       let isFinishedFlipAnimation = true;
-      nationalFlagShortKanjiNameComponent.on(
+      RigthCardComponent.on(
         'pointerdown',
         () =>  {
-          if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas || this.flippedComponents.includes(nationalFlagShortKanjiNameComponent)) {
+          if (!isFinishedFlipAnimation || FLIPED_AREA.RIGTH_CARD in this.flippedAreas || this.flippedComponents.includes(RigthCardComponent)) {
             return;
           }
           const CardSe = this.sound.add("CardSe");
@@ -674,26 +674,26 @@ export default class MemoryGame extends Phaser.Scene {
           
           if(this.rightCardType == "img"){
             this.flipAnimation(
-              nationalFlagShortKanjiNameComponent,
+              RigthCardComponent,
               RightCardImg.LeftID + "_RIGHT",
-              nationalFlagShortKanjiNameComponent.scaleX,
-              nationalFlagShortKanjiNameComponent.scaleY,
+              RigthCardComponent.scaleX,
+              RigthCardComponent.scaleY,
             )
-            this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = RightCardImg.RightCard;
+            this.flippedAreas[FLIPED_AREA.RIGTH_CARD] = RightCardImg.RightCard;
           }else if(this.rightCardType == "char"){
           this.flipAnimation(
-            nationalFlagShortKanjiNameComponent,
+            RigthCardComponent,
             RightCardImg,
-            nationalFlagShortKanjiNameComponent.scaleX,
-            nationalFlagShortKanjiNameComponent.scaleY,
+            RigthCardComponent.scaleX,
+            RigthCardComponent.scaleY,
           )
-          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = RightCardImg;
+          this.flippedAreas[FLIPED_AREA.RIGTH_CARD] = RightCardImg;
         }
           
-          this.flippedComponents.push(nationalFlagShortKanjiNameComponent);
+          this.flippedComponents.push(RigthCardComponent);
           setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
 
-          if (!(FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
+          if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
             return;
           }
 
@@ -966,11 +966,10 @@ export default class MemoryGame extends Phaser.Scene {
   
   validateNeurastheniaMatch = () => {
     const cardData = this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG];
-    const nationalFlagShortKanjiName = this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI];
+    const nationalFlagShortKanjiName = this.flippedAreas[FLIPED_AREA.RIGTH_CARD];
 
     console.log("左カード:" + cardData.RightCard);
     console.log("右カード:" + nationalFlagShortKanjiName);
-    //nationalFlagShortKanjiName.RightCard
 
     this.consoleLogForDebug(this.flippedAreas);
     this.consoleLogForDebug(this.flippedComponents);
