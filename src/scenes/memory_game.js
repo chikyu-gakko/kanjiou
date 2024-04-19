@@ -49,7 +49,6 @@ const FLIPED_AREA = {
 * @typedef {Object} cardData
 * @property {string} LeftCard
 * @property {string} LeftID
-* @property {string} RightID
 * @property {string} RightCard
 */
 export default class MemoryGame extends Phaser.Scene {
@@ -84,12 +83,12 @@ export default class MemoryGame extends Phaser.Scene {
   preload = () => {
     //左のカード用写真を登録
     this.cardsData.forEach((cardData) => {
-      this.load.image(cardData.LeftID, cardData.LeftCard);
+      this.load.image(cardData.LeftID + "_LEFT" , cardData.LeftCard);
     });
 
     //右のカード用写真を登録
     this.cardsData.forEach((cardData) => {
-         this.load.image(cardData.LeftID + "KANA", cardData.RightCard);
+         this.load.image(cardData.LeftID + "_RIGHT", cardData.RightCard);
     });
 
     this.load.image(CARD_BACK_SIDE_IMAGE_KEY, 'assets/img/card/card_back.png');
@@ -267,7 +266,7 @@ export default class MemoryGame extends Phaser.Scene {
       
       console.log(this.prevSceneData.level);
       console.log(this.prevSceneData.mode);
-      console.log(this.prevSceneData.genre);
+      console.log("genre ： " + this.prevSceneData.genre);
     
     this.gameConfig = {
       level: data.level,
@@ -355,6 +354,7 @@ export default class MemoryGame extends Phaser.Scene {
         IMAGE_SIZE_WIDTH,
         IMAGE_SIZE_HEIGHT,
       );
+      console.log("nationalFlagShortKanjiName:"+nationalFlagShortKanjiName)
       renderTexture.draw(shortKanjiNameBackground);
       renderTexture.draw(RightCard);
       renderTexture.saveTexture(nationalFlagShortKanjiName);
@@ -581,7 +581,7 @@ export default class MemoryGame extends Phaser.Scene {
             //第二引数 cardData.LeftID = imageの名前
             this.flipAnimation(
               nationalFlagComponent,
-              cardData.LeftID,
+              cardData.LeftID  + "_LEFT",
               nationalFlagComponent.scaleX,
               nationalFlagComponent.scaleY,
             )
@@ -634,13 +634,19 @@ export default class MemoryGame extends Phaser.Scene {
     this.consoleLogForDebug(imageSize);
     this.consoleLogForDebug(gridSize);
     
+    let RightCardArray;
     if(this.rightCardType == "img"){
-      this.RightCardImg.forEach((RightCardImg,index) => {
+      RightCardArray = this.RightCardImg
+    }else if(this.rightCardType == "char"){
+      RightCardArray = this.nationalFlagShortKanjiNames
+    }
+
+    RightCardArray.forEach((RightCardImg,index) => {
       
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
-      console.log("KANA:"+RightCardImg.LeftID + "KANA")
+
       const column = index % gridSize.maxColumn;
       const row    = Math.floor(index / gridSize.maxColumn);
 
@@ -665,16 +671,24 @@ export default class MemoryGame extends Phaser.Scene {
           const CardSe = this.sound.add("CardSe");
           CardSe.play();
           isFinishedFlipAnimation = false;
-
+          
+          if(this.rightCardType == "img"){
             this.flipAnimation(
               nationalFlagShortKanjiNameComponent,
-              RightCardImg.LeftID + "KANA",
+              RightCardImg.LeftID + "_RIGHT",
               nationalFlagShortKanjiNameComponent.scaleX,
               nationalFlagShortKanjiNameComponent.scaleY,
             )
-        
-
-          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = RightCardImg.RightCard;
+            this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = RightCardImg.RightCard;
+          }else if(this.rightCardType == "char"){
+          this.flipAnimation(
+            nationalFlagShortKanjiNameComponent,
+            RightCardImg,
+            nationalFlagShortKanjiNameComponent.scaleX,
+            nationalFlagShortKanjiNameComponent.scaleY,
+          )
+          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = RightCardImg;
+        }
           
           this.flippedComponents.push(nationalFlagShortKanjiNameComponent);
           setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
@@ -688,60 +702,6 @@ export default class MemoryGame extends Phaser.Scene {
         this
       )
     })
-    }else if(this.rightCardType == "char"){
-      
-        this.nationalFlagShortKanjiNames.forEach((nationalFlagShortKanjiName, index) => {
-      const gridGap = (gridPosition, maxGridPosition) => {
-        return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
-      }
-
-      const column = index % gridSize.maxColumn;
-      const row    = Math.floor(index / gridSize.maxColumn);
-
-      const localStartPositionX = column * imageSize.width + imageSize.width / 2 + gridGap(column, gridSize.maxColumn) + GLOBAL_START_POSITION_X;
-      const localStartPositionY = row * imageSize.height + imageSize.height / 2 + gridGap(row, gridSize.maxRow) + GLOBAL_START_POSITION_Y;
-      
-      const nationalFlagShortKanjiNameComponent = this.add
-        .sprite(localStartPositionX, localStartPositionY, CARD_BACK_SIDE_IMAGE_KEY)
-        .setDisplaySize(imageSize.width, imageSize.height)
-        .setInteractive({
-          cursor: 'pointer'
-        });
-        nationalFlagShortKanjiNameComponent.depth = 2;
-
-      let isFinishedFlipAnimation = true;
-      nationalFlagShortKanjiNameComponent.on(
-        'pointerdown',
-        () =>  {
-          if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas || this.flippedComponents.includes(nationalFlagShortKanjiNameComponent)) {
-            return;
-          }
-
-          const CardSe = this.sound.add("CardSe");
-          CardSe.play();
-
-          isFinishedFlipAnimation = false;
-
-          this.flipAnimation(
-            nationalFlagShortKanjiNameComponent,
-            nationalFlagShortKanjiName,
-            nationalFlagShortKanjiNameComponent.scaleX,
-            nationalFlagShortKanjiNameComponent.scaleY,
-          )
-          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = nationalFlagShortKanjiName;
-          this.flippedComponents.push(nationalFlagShortKanjiNameComponent);
-          setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
-
-          if (!(FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
-            return;
-          }
-
-          this.validateNeurastheniaMatch();
-        },
-        this
-      )
-    })
-  }
   }
 
 
@@ -988,7 +948,6 @@ export default class MemoryGame extends Phaser.Scene {
   /**
    * @typedef {Object} InitResultSceneData
    * @property {boolean} isWon
-   * 
    * @param {InitResultSceneData} data 
    */
   goToResultScene = (data) => {
@@ -999,7 +958,8 @@ export default class MemoryGame extends Phaser.Scene {
         TriedCount:this.triedCount,
         mode:this.prevSceneData.mode,
         p1point:this.player1PointCounter,
-        p2point:this.player2PointCounter
+        p2point:this.player2PointCounter,
+        genre:this.prevSceneData.genre
       }
     );
   }
@@ -1058,7 +1018,9 @@ export default class MemoryGame extends Phaser.Scene {
         this.triedCount++;
         if(this.prevSceneData.mode === "practice"){
           if (this.isGameOver()) {
-            this.goToResultScene({isWon: false});
+            this.goToResultScene({
+              isWon: false,
+            });
           }
         }
 

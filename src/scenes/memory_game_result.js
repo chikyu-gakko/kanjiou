@@ -55,7 +55,8 @@ export default class MemoryGameResult extends Phaser.Scene {
       TriedCount:data.TriedCount,
       mode:data.mode,
       p1point:data.p1point,
-      p2point:data.p2point
+      p2point:data.p2point,
+      genre:data.genre
     };
     if (debugMode) this.prevSceneData = dataForDebugging;
     this.fontFamily = this.registry.get("fontFamily");
@@ -195,7 +196,8 @@ export default class MemoryGameResult extends Phaser.Scene {
         this.scene.start("memory_game",
           {
             level:this.prevSceneData.level,
-            mode:this.prevSceneData.mode
+            mode:this.prevSceneData.mode,
+            genre:this.prevSceneData.genre
           }
         );
       },
