@@ -536,7 +536,7 @@ export default class MemoryGame extends Phaser.Scene {
     return this.triedCount === this.maxTryCount;
   }
 
-  createLeftCards = () => {
+   createLeftCards = () => {
 
     const GLOBAL_START_POSITION_X = 40;
     const GLOBAL_START_POSITION_Y = 250;
@@ -547,7 +547,7 @@ export default class MemoryGame extends Phaser.Scene {
     this.consoleLogForDebug(imageSize);
     this.consoleLogForDebug(gridSize);
 
-  if(this.leftCardType == "img"){
+
     this.cardsData.forEach((cardData, index) => {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
@@ -577,14 +577,22 @@ export default class MemoryGame extends Phaser.Scene {
           CardSe.play();
 
           isFinishedFlipAnimation = false;
-
-          //第二引数 cardData.LeftID = imageの名前
-          this.flipAnimation(
-            nationalFlagComponent,
-            cardData.LeftID,
-            nationalFlagComponent.scaleX,
-            nationalFlagComponent.scaleY,
-          )
+          if(this.leftCardType == "img"){
+            //第二引数 cardData.LeftID = imageの名前
+            this.flipAnimation(
+              nationalFlagComponent,
+              cardData.LeftID,
+              nationalFlagComponent.scaleX,
+              nationalFlagComponent.scaleY,
+            )
+          }else if(this.leftCardType == "char"){
+            this.flipAnimation(
+              nationalFlagComponent,
+              cardData.LeftCard,
+              nationalFlagComponent.scaleX,
+              nationalFlagComponent.scaleY,
+            )  
+          }
 
           this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG] = cardData;
           this.flippedComponents.push(nationalFlagComponent);
@@ -600,64 +608,7 @@ export default class MemoryGame extends Phaser.Scene {
         this
       )
     })
-
-  }else if(this.leftCardType == "char"){
-
-    this.cardsData.forEach((cardData, index) => {
-      const gridGap = (gridPosition, maxGridPosition) => {
-        return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
-      }
-
-      const column = index % gridSize.maxColumn;
-      const row    = Math.floor(index / gridSize.maxColumn);
-
-      const localStartPositionX = column * imageSize.width + imageSize.width / 2 + gridGap(column, gridSize.maxColumn) + GLOBAL_START_POSITION_X;
-      const localStartPositionY = row * imageSize.height + imageSize.height / 2 + gridGap(row, gridSize.maxRow) + GLOBAL_START_POSITION_Y;
-      
-      const nationalFlagComponent = this.add
-        .sprite(localStartPositionX, localStartPositionY, CARD_BACK_SIDE_IMAGE_KEY)
-        .setDisplaySize(imageSize.width, imageSize.height)
-        .setInteractive({
-          cursor: 'pointer'
-        });
-      nationalFlagComponent.depth = 2;
-      let isFinishedFlipAnimation = true;
-      nationalFlagComponent.on(
-        'pointerdown',
-        () =>  {
-          if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas || this.flippedComponents.includes(nationalFlagComponent)) {
-            return;
-          }
-
-          const CardSe = this.sound.add("CardSe");
-          CardSe.play();
-
-          isFinishedFlipAnimation = false;
-
-          //第二引数 cardData.LeftID = imageの名前
-          this.flipAnimation(
-            nationalFlagComponent,
-            cardData.LeftCard,
-            nationalFlagComponent.scaleX,
-            nationalFlagComponent.scaleY,
-          )
-
-          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG] = cardData;
-          this.flippedComponents.push(nationalFlagComponent);
-
-          setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
-
-          if (!(FLIPED_AREA.NATIONAL_FLAG_KANJI in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
-            return;
-          }
-
-          this.validateNeurastheniaMatch();
-        },
-        this
-      )
-    })
-  }
-  }
+   }
 
   
   createRightCards = () => {
@@ -714,13 +665,14 @@ export default class MemoryGame extends Phaser.Scene {
           const CardSe = this.sound.add("CardSe");
           CardSe.play();
           isFinishedFlipAnimation = false;
-          
-          this.flipAnimation(
-            nationalFlagShortKanjiNameComponent,
-            RightCardImg.LeftID + "KANA",
-            nationalFlagShortKanjiNameComponent.scaleX,
-            nationalFlagShortKanjiNameComponent.scaleY,
-          )
+
+            this.flipAnimation(
+              nationalFlagShortKanjiNameComponent,
+              RightCardImg.LeftID + "KANA",
+              nationalFlagShortKanjiNameComponent.scaleX,
+              nationalFlagShortKanjiNameComponent.scaleY,
+            )
+        
 
           this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG_KANJI] = RightCardImg.RightCard;
           
