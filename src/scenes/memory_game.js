@@ -330,9 +330,9 @@ export default class MemoryGame extends Phaser.Scene {
     const GLOBAL_START_POSITION_X = 0;
     const GLOBAL_START_POSITION_Y = 0;
 
-    this.RightCardsData.forEach((nationalFlagShortKanjiName) => {
+    this.RightCardsData.forEach((RightCardsData) => {
       
-      let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (this.rightFontSize * nationalFlagShortKanjiName.length / 2);
+      let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (this.rightFontSize * RightCardsData.length / 2);
       let localStartPositionYForText = GLOBAL_START_POSITION_Y + IMAGE_SIZE_HEIGHT / 2 - this.rightFontSize / 2;
 
       const MemoryGameBackground = this.add
@@ -344,7 +344,7 @@ export default class MemoryGame extends Phaser.Scene {
         .text(
           localStartPositionXForText,
           localStartPositionYForText,
-          nationalFlagShortKanjiName,
+          RightCardsData,
           { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${this.rightFontSize}px` }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
@@ -355,10 +355,10 @@ export default class MemoryGame extends Phaser.Scene {
         IMAGE_SIZE_WIDTH,
         IMAGE_SIZE_HEIGHT,
       );
-      console.log("nationalFlagShortKanjiName:"+nationalFlagShortKanjiName)
+      console.log("RightCardsData:"+RightCardsData)
       renderTexture.draw(MemoryGameBackground);
       renderTexture.draw(RightCard);
-      renderTexture.saveTexture(nationalFlagShortKanjiName);
+      renderTexture.saveTexture(RightCardsData);
 
       MemoryGameBackground.destroy();
       RightCard.destroy();
@@ -969,19 +969,19 @@ export default class MemoryGame extends Phaser.Scene {
   
   validateNeurastheniaMatch = () => {
     const cardData = this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG];
-    const nationalFlagShortKanjiName = this.flippedAreas[FLIPED_AREA.RIGTH_CARD];
+    const RightCardsData = this.flippedAreas[FLIPED_AREA.RIGTH_CARD];
 
     console.log("左カード:" + cardData.RightCard);
-    console.log("右カード:" + nationalFlagShortKanjiName);
+    console.log("右カード:" + RightCardsData);
 
     this.consoleLogForDebug(this.flippedAreas);
     this.consoleLogForDebug(this.flippedComponents);
 
-   //nationalFlagShortKanjiName.RightCard
-    if (cardData.RightCard === nationalFlagShortKanjiName) {
+   //RightCardsData.RightCard
+    if (cardData.RightCard === RightCardsData) {
       
       console.log("左カードOK:" + cardData.RightCard);
-      console.log("右カードOK:" + nationalFlagShortKanjiName);
+      console.log("右カードOK:" + RightCardsData);
 
       setTimeout(() => {
         if(this.prevSceneData.mode == "versus"){
