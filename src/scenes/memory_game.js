@@ -32,14 +32,14 @@ import { COLOR_LIGHT_BLACK, COLOR_LIGHT_GRAY, COLOR_PALE_GREEN,COLOR_WHITE } fro
 
 const DEBUG_MODE = false;
 const ERROR_MESSAGE_FOR_LEVEL = 'invalid level.';
-const ERROR_MESSAGE_FOR_NATIONAL_FLAGS_COUNT = 'count out of bounds for cardsData length.';
+const ERROR_MESSAGE_FOR_MEMORY_CARDS_COUNT = 'count out of bounds for cardsData length.';
 
 const CARD_BACK_SIDE_IMAGE_KEY = '3:2Mogra';
 const ANIMATION_DURATION_FLIP = 900;
 
 
 const FLIPED_AREA = {
-  NATIONAL_FLAG: 'national',
+  MEMORY_CARD: 'national',
   RIGTH_CARD: 'RIGTH_CARD',
 }
 
@@ -494,7 +494,7 @@ export default class MemoryGame extends Phaser.Scene {
    */
   randomlySelectCards = (count) => {
     if (count > this.cardsData.length) {
-      throw new Error(ERROR_MESSAGE_FOR_NATIONAL_FLAGS_COUNT);
+      throw new Error(ERROR_MESSAGE_FOR_MEMORY_CARDS_COUNT);
     }
 
     const result = [];
@@ -573,7 +573,7 @@ export default class MemoryGame extends Phaser.Scene {
       nationalFlagComponent.on(
         'pointerdown',
         () =>  {
-          if (!isFinishedFlipAnimation || FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas || this.flippedComponents.includes(nationalFlagComponent)) {
+          if (!isFinishedFlipAnimation || FLIPED_AREA.MEMORY_CARD in this.flippedAreas || this.flippedComponents.includes(nationalFlagComponent)) {
             return;
           }
           const CardSe = this.sound.add("CardSe");
@@ -597,12 +597,12 @@ export default class MemoryGame extends Phaser.Scene {
             )  
           }
 
-          this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG] = cardData;
+          this.flippedAreas[FLIPED_AREA.MEMORY_CARD] = cardData;
           this.flippedComponents.push(nationalFlagComponent);
 
           setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
 
-          if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
+          if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.MEMORY_CARD in this.flippedAreas)) {
             return;
           }
 
@@ -696,7 +696,7 @@ export default class MemoryGame extends Phaser.Scene {
           this.flippedComponents.push(RigthCardComponent);
           setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
 
-          if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.NATIONAL_FLAG in this.flippedAreas)) {
+          if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.MEMORY_CARD in this.flippedAreas)) {
             return;
           }
 
@@ -968,7 +968,7 @@ export default class MemoryGame extends Phaser.Scene {
   }
   
   validateNeurastheniaMatch = () => {
-    const cardData = this.flippedAreas[FLIPED_AREA.NATIONAL_FLAG];
+    const cardData = this.flippedAreas[FLIPED_AREA.MEMORY_CARD];
     const RightCardsData = this.flippedAreas[FLIPED_AREA.RIGTH_CARD];
 
     console.log("左カード:" + cardData.RightCard);
