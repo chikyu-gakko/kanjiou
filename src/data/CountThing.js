@@ -1,56 +1,47 @@
 export const CountThing = [
   {
       LeftCard: '一つ',
-      LeftID: '一つ',
-      RightID: 'ひとつ',
+      id: 'ひとつ',
       RightCard: 'ひとつ',
   },
   {
     LeftCard: '二つ',
-    LeftID: '二つ',
-    RightID: 'ふたつ',
+    id: 'ふたつ',
     RightCard: 'ふたつ',
   },
   {
     LeftCard: '三つ',
-    LeftID: '三つ',
-    RightID: 'みっつ',
+    id: 'みっつ',
     RightCard: 'みっつ',
   },
   {
     LeftCard: '四つ',
-    LeftID: '四つ',
-    RightID: 'よっつ',
+    id: 'よっつ',
     RightCard: 'よっつ',
   },
   {
     LeftCard: '五つ',
-    LeftID: '五つ',
-    RightID: 'いつつ',
+    id: 'いつつ',
     RightCard: 'いつつ',
   },
   {
     LeftCard: '六つ',
-    LeftID: '六つ',
-    RightID: 'むっつ',
+    id: 'むっつ',
     RightCard: 'むっつ',
   },
   {
     LeftCard: '七つ',
-    LeftID: '七つ',
-    RightID: 'ななつ',
+    id: 'ななつ',
     RightCard: 'ななつ',
   },
   {
     LeftCard: '九つ',
-    LeftID: '九つ',
-    RightID: 'ここのつ',
+    id: 'ここのつ',
     RightCard: 'ここのつ',
   },
   {
     LeftCard: '十',
-    LeftID: '十',
-    RightID: 'とお',
+    id: 'とお',
     RightCard: 'とお',
   }
 ]

@@ -46,7 +46,7 @@ const FLIPED_AREA = {
 /**
 * @typedef {Object} cardData
 * @property {string} LeftCard
-* @property {string} LeftID
+* @property {string} id
 * @property {string} RightCard
 */
 export default class MemoryGame extends Phaser.Scene {
@@ -82,12 +82,12 @@ export default class MemoryGame extends Phaser.Scene {
   preload = () => {
     //左のカード用写真を登録
     this.cardsData.forEach((cardData) => {
-      this.load.image(cardData.LeftID + "_LEFT" , cardData.LeftCard);
+      this.load.image(cardData.id + "_LEFT" , cardData.LeftCard);
     });
 
     //右のカード用写真を登録
     this.cardsData.forEach((cardData) => {
-         this.load.image(cardData.LeftID + "_RIGHT", cardData.RightCard);
+         this.load.image(cardData.id + "_RIGHT", cardData.RightCard);
     });
 
     this.load.image(CARD_BACK_SIDE_IMAGE_KEY, 'assets/img/card/card_back.png');
@@ -279,7 +279,7 @@ export default class MemoryGame extends Phaser.Scene {
     this.cardsData               = this.randomlySelectCards(this.cardsCount);
     this.RightCardsData = this.mixedUpArray(this.cardsData.map(({ RightCard }) => RightCard));
 
-    this.RightCardImg = this.mixedUpArray(this.cardsData.map(( LeftID ) => LeftID));
+    this.RightCardImg = this.mixedUpArray(this.cardsData.map(( id ) => id));
     console.log("test:"+this.RightCardImg);
 
     this.LeftCardChar = this.mixedUpArray(this.cardsData.map(({ LeftCard }) => LeftCard));
@@ -555,7 +555,7 @@ export default class MemoryGame extends Phaser.Scene {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
-      console.log("cardData:" + cardData.LeftID)
+      console.log("cardData:" + cardData.id)
       const column = index % gridSize.maxColumn;
       const row    = Math.floor(index / gridSize.maxColumn);
 
@@ -581,10 +581,10 @@ export default class MemoryGame extends Phaser.Scene {
 
           isFinishedFlipAnimation = false;
           if(this.leftCardType == "img"){
-            //第二引数 cardData.LeftID = imageの名前
+            //第二引数 cardData.id = imageの名前
             this.flipAnimation(
               nationalFlagComponent,
-              cardData.LeftID  + "_LEFT",
+              cardData.id  + "_LEFT",
               nationalFlagComponent.scaleX,
               nationalFlagComponent.scaleY,
             )
@@ -678,7 +678,7 @@ export default class MemoryGame extends Phaser.Scene {
           if(this.rightCardType == "img"){
             this.flipAnimation(
               RigthCardComponent,
-              RightCardImg.LeftID + "_RIGHT",
+              RightCardImg.id + "_RIGHT",
               RigthCardComponent.scaleX,
               RigthCardComponent.scaleY,
             )
