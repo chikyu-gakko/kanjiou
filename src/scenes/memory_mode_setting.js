@@ -43,7 +43,7 @@ export default class MemoryModeSetting extends Phaser.Scene {
     // 設定の選択肢の初期値
     this.selectedSettingCategory = Category.data.Mode.name;
     this.challenge = false;
-    this.fontFamily = this.registry.get("fontFamily");
+    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
   }
 
   create() {

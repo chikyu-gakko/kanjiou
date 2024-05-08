@@ -59,7 +59,7 @@ export default class MemoryGameResult extends Phaser.Scene {
       genre:data.genre
     };
     if (debugMode) this.prevSceneData = dataForDebugging;
-    this.fontFamily = this.registry.get("fontFamily");
+    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
   }
   create() {
     this.startCameraFadeIn();
@@ -232,7 +232,7 @@ export default class MemoryGameResult extends Phaser.Scene {
     });
 
     const text2Object = this.add.text(text1Object.width + number1Object.width + number2Object.width + 10
-      , 22, "手でクリア!", {
+      , 22, "回で完成!!!", {
       color: "#333333",
       fontFamily: this.fontFamily,
       fontSize: "32px",

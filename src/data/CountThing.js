@@ -35,6 +35,11 @@ export const CountThing = [
     RightCard: 'ななつ',
   },
   {
+    LeftCard: '八つ',
+    id: 'やっつ',
+    RightCard: 'やっつ',
+  },
+  {
     LeftCard: '九つ',
     id: 'ここのつ',
     RightCard: 'ここのつ',
@@ -43,5 +48,15 @@ export const CountThing = [
     LeftCard: '十',
     id: 'とお',
     RightCard: 'とお',
-  }
+  },
+  {
+    LeftCard: '十一',
+    id: 'じゅういち',
+    RightCard: 'じゅういち',
+  },
+  {
+    LeftCard: '十二',
+    id: 'じゅうに',
+    RightCard: 'じゅうに',
+  },
 ]

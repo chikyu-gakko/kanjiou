@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-
 import { nationalFlags } from "../data/countries"; 
 import { jobs } from "../data/jobs"; 
 import { CountPeople } from "../data/CountPeople";
@@ -128,8 +127,8 @@ export default class MemoryGame extends Phaser.Scene {
           this.cardsData = nationalFlags;
           this.rightCardType = "char";
           this.leftCardType = "img";
-          this.leftFontSize = 64;
-          this.rightFontSize = 64;
+          this.leftFontSize = 80;
+          this.rightFontSize = 80;
         break
         case "job":
           this.cardsData = jobs;
@@ -294,6 +293,8 @@ export default class MemoryGame extends Phaser.Scene {
     this.rightFontSize = 0;
 
     this.flippedComponents = [];
+
+    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
   }
 
   create = () => {
@@ -345,7 +346,7 @@ export default class MemoryGame extends Phaser.Scene {
           localStartPositionXForText,
           localStartPositionYForText,
           RightCardsData,
-          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${this.rightFontSize}px` }
+          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${this.rightFontSize}px`,fontFamily: "BIZ-UDPMincho" }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
 
@@ -381,7 +382,7 @@ export default class MemoryGame extends Phaser.Scene {
           localStartPositionXForText,
           localStartPositionYForText,
           LeftCardChar,
-          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${this.leftFontSize}px` }
+          { color: COLOR_LIGHT_BLACK.toString(), fontSize: `${this.leftFontSize}px`,fontFamily: "BIZ-UDPMincho" }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
 
@@ -785,21 +786,24 @@ export default class MemoryGame extends Phaser.Scene {
       const number1Object = this.add.text(0, 0, "あと", {
         color: COLOR_WHITE.toString(),
         fontSize: "100px",
+        fontFamily: this.fontFamily
       });
       
       this.TryLimitComponent = this.add.text(number1Object.width
         , 0, this.TryCount(), {
         color: "#D53F3F",
         fontSize: "100px",
+        fontFamily: this.fontFamily
       });
   
       const text2Object = this.add.text(number1Object.width + this.TryLimitComponent.width + 10
         , 0, "回", {
         color: COLOR_WHITE.toString(),
         fontSize: "100px",
+        fontFamily: this.fontFamily
       }).setPadding(4, 4, 4, 4)
   
-      const container = this.add.container(0, 70, [
+      const container = this.add.container(0, 55, [
         number1Object,
         this.TryLimitComponent,
         text2Object
@@ -864,7 +868,7 @@ export default class MemoryGame extends Phaser.Scene {
             {
               color: COLOR_LIGHT_BLACK.toString(),
               fontSize: '40px',
-             
+             fontFamily: this.fontFamily
             }
           )
           .setOrigin(0, 0).setPadding(4, 4, 4, 4).setStroke("black",1);
@@ -880,7 +884,7 @@ export default class MemoryGame extends Phaser.Scene {
             {
               color: COLOR_LIGHT_BLACK.toString(),
               fontSize: '30px',
-             
+              fontFamily: this.fontFamily
             }
           )
           .setOrigin(0, 0).setPadding(4, 4, 4, 4).setStroke("black",1);
@@ -893,7 +897,7 @@ export default class MemoryGame extends Phaser.Scene {
             {
               color: COLOR_LIGHT_BLACK.toString(),
               fontSize: '30px',
-             
+              fontFamily: this.fontFamily
             }
           )
           .setOrigin(0, 0).setPadding(4, 4, 4, 4).setStroke("black",1);
@@ -909,7 +913,8 @@ export default class MemoryGame extends Phaser.Scene {
       (this.player1PointCounter.toString()),
       {
         color: COLOR_LIGHT_BLACK.toString(),
-        fontSize: '155px',
+        fontSize: '130px',
+        fontFamily: this.fontFamily
       }
     )
     .setOrigin(0, 0).setPadding(0, 4, 0, 0).setStroke("black",1.3);
@@ -925,7 +930,8 @@ export default class MemoryGame extends Phaser.Scene {
             (this.player2PointCounter.toString()),
             {
               color: COLOR_LIGHT_BLACK.toString(),
-              fontSize: '155px',          
+              fontSize: '130px',
+              fontFamily: this.fontFamily
             }
           )
           .setOrigin(0, 0).setPadding(0, 4, 0, 0).setStroke("black",1);

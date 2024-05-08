@@ -48,7 +48,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     // 設定の選択肢の初期値
     this.selectedSettingCategory = Category.data.Genre2.name;
     this.challenge = false;
-    this.fontFamily = this.registry.get("fontFamily");
+    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
   }
 
   create() {
@@ -60,6 +60,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     this.createGameNextButton();
     this.createGamePreveButton();
     this.createHowToPlayButton();
+    this.createPreveGenruButton();
     this.settingElements = this.createSettingButtons();
     this.updateView();
   }
@@ -106,7 +107,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
 
   createSubTitle = () => {
     this.add
-    .text(430, 150, "ジャンル２", {
+    .text(430, 150, "ジャンル", {
       fontSize: "35px",
       fontFamily: this.fontFamily,
     })
@@ -154,6 +155,40 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     });
   };
 
+  createPreveGenruButton = () => {
+    const gameStartSe = this.sound.add("game_start_se");
+    this.add
+      .graphics()
+      .lineStyle(2, 0x645246)
+      .fillStyle(0xffffff, 1)
+      .fillRoundedRect(50, 320, 60, 60, 30)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(50, 320, 60, 60),
+        Phaser.Geom.Rectangle.Contains
+      )
+      .lineStyle(3, 0x00000).strokeRoundedRect(50, 320, 60, 60, 30)
+      .on(
+        "pointerdown",
+        () => {
+           this.sound.stopAll();
+           this.sound.removeByKey("top_bgm");
+           this.scene.start("MemoryGenre1Setting",
+            {
+              mode:this.selectedMode,
+            }
+          );
+        },
+        this
+      );
+
+    this.add.text(65, 325, "◀", {
+      fontSize: "50px",
+      color: "#333333",
+      fontFamily: this.fontFamily,
+    });
+  };
+
+
   createGamePreveButton = () => {
     const gameStartSe = this.sound.add("game_start_se");
     this.add
@@ -171,7 +206,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
         () => {
            this.sound.stopAll();
            this.sound.removeByKey("top_bgm");
-           this.scene.start("MemoryGenre1Setting",
+           this.scene.start("MemoryModeSetting",
             {
               mode:this.selectedMode,
             }

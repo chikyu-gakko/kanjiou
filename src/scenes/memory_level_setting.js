@@ -52,7 +52,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
     // 設定の選択肢の初期値
     this.selectedSettingCategory = Category.data.Level.name;
     this.challenge = false;
-    this.fontFamily = this.registry.get("fontFamily");
+    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
   }
 
   create() {
@@ -150,7 +150,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
         this
       );
 
-    this.add.text(417, 666, "ゲームスタート", {
+    this.add.text(437, 666, "ゲームスタート", {
       fontSize: "32px",
       color: "#ffffff",
       fontFamily: this.fontFamily,
@@ -178,7 +178,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
         () => {
            this.sound.stopAll();
            this.sound.removeByKey("top_bgm");
-           this.scene.start("MemoryGenre2Setting",
+           this.scene.start("MemoryGenre1Setting",
             {
               genre:this.selectedGenre,
               mode:this.selectedMode,
@@ -188,7 +188,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
         this
       );
 
-    this.add.text(190, 530, "◀戻る", {
+    this.add.text(200, 530, "◀戻る", {
       fontSize: "32px",
       color: "#333333",
       fontFamily: this.fontFamily,
@@ -223,7 +223,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
 
 
   createSettingButtons = () => {
-    const settingButtonArgs = [     
+    let settingButtonArgs = [     
       {
         type: "button",
         x: 415,
@@ -249,20 +249,22 @@ export default class MemoryLevelSetting extends Phaser.Scene {
           [Category.key]: Category.data.Level.name,
           [Category.value]: Level.Level2.name,
         },
-      },{
-        type: "button",
-        x: 415,
-        y: 433,
-        width: 229,
-        height: 56,
-        text: Level.Level3.text,
-        fontSize: 24,
-        data: {
-          [Category.key]: Category.data.Level.name,
-          [Category.value]: Level.Level3.name,
-        },
       }
     ];
+
+    settingButtonArgs.push({
+      type: "button",
+      x: 415,
+      y: 433,
+      width: 229,
+      height: 56,
+      text: Level.Level3.text,
+      fontSize: 24,
+      data: {
+        [Category.key]: Category.data.Level.name,
+        [Category.value]: Level.Level3.name,
+      },
+    })
 
     return settingButtonArgs.map((arg) => {
       switch (arg.type) {

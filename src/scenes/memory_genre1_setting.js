@@ -48,7 +48,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     // 設定の選択肢の初期値
     this.selectedSettingCategory = Category.data.Genre.name;
     this.challenge = false;
-    this.fontFamily = this.registry.get("fontFamily");
+    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
   }
 
   create() {
@@ -57,7 +57,8 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     this.createTitle();
     this.createGameMenu();
     this.createSubTitle();
-    this.createGameNextButton();
+    this.createLevelSettingButton();
+    this.createNextGenruButton();
     this.createGamePreveButton();
     this.createHowToPlayButton();
     this.settingElements = this.createSettingButtons();
@@ -106,7 +107,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
 
   createSubTitle = () => {
     this.add
-    .text(430, 150, "ジャンル１", {
+    .text(430, 150, "ジャンル", {
       fontSize: "35px",
       fontFamily: this.fontFamily,
     })
@@ -119,7 +120,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
 
   };
 
-  createGameNextButton = () => {
+  createLevelSettingButton = () => {
     const gameStartSe = this.sound.add("game_start_se");
     this.add
       .graphics()
@@ -129,6 +130,47 @@ export default class MemoryGenreSetting extends Phaser.Scene {
       .lineStyle(2, 0xFFFFFF).strokeRoundedRect(680, 520, 200, 60, 30)
       .setInteractive(
         new Phaser.Geom.Rectangle(680, 520, 200, 60),
+        Phaser.Geom.Rectangle.Contains
+      )
+      .strokePath()
+      .on(
+        "pointerdown",
+        () => {
+           this.sound.stopAll();
+           this.sound.removeByKey("top_bgm");
+           this.scene.start("MemoryLevelSetting",
+            {
+              genre: this.selectedGenre,
+              mode:this.selectedMode
+            }
+        );
+          // this.scene.start("MemoryGenre2Setting",
+          //   {
+          //     genre: this.selectedGenre,
+          //     mode:this.selectedMode
+          //   }
+          // );
+        },
+        this
+      );
+
+    this.add.text(740, 530, "次へ▶", {
+      fontSize: "32px",
+      color: "#ffffff",
+      fontFamily: this.fontFamily,
+    });
+  };
+
+  createNextGenruButton = () => {
+    const gameStartSe = this.sound.add("game_start_se");
+    this.add
+      .graphics()
+      .lineStyle(2, 0x645246)
+      .fillStyle(0x32b65e, 1)
+      .fillRoundedRect(920, 320, 60, 60, 30)
+      .lineStyle(2, 0xFFFFFF).strokeRoundedRect(920, 320, 60, 60, 30)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(920, 320, 60, 60),
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath()
@@ -152,8 +194,8 @@ export default class MemoryGenreSetting extends Phaser.Scene {
         this
       );
 
-    this.add.text(740, 530, "次へ▶", {
-      fontSize: "32px",
+    this.add.text(935, 325, "▶", {
+      fontSize: "50px",
       color: "#ffffff",
       fontFamily: this.fontFamily,
     });
