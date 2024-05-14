@@ -109,7 +109,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
 
   createSubTitle = () => {
     this.add
-    .text(465, 150, "レベル", {
+    .text(470, 150, "レベル", {
       fontSize: "35px",
       fontFamily: this.fontFamily,
     })

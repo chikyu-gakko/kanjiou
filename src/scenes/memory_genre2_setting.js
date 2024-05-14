@@ -107,7 +107,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
 
   createSubTitle = () => {
     this.add
-    .text(430, 150, "ジャンル", {
+    .text(450, 150, "ジャンル", {
       fontSize: "35px",
       fontFamily: this.fontFamily,
     })
