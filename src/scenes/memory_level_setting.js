@@ -19,7 +19,10 @@ const Level = MemoryContainer.Level;
 
 export default class MemoryLevelSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "MemoryLevelSetting", active: false });
+    super({
+      key: "MemoryLevelSetting",
+      active: false
+    });
     this.prevSceneData = undefined;
     this.settingElements = undefined;
     this.selectedCategory = undefined;
@@ -40,7 +43,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
   init(data) {
     this.prevSceneData = {
       mode: data.mode,
-      genre:data.genre
+      genre: data.genre
     };
     console.log(this.prevSceneData.mode);
     console.log(this.prevSceneData.genre);
@@ -72,7 +75,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
     this.settingElements.forEach((element) => {
       switch (element.getData(Category.key)) {
         case this.selectedSettingCategory:
-            element.setVisible(true);
+          element.setVisible(true);
           switch (element.getData(Category.value)) {
             case this.selectedLevel:
               element.changeSelected();
@@ -90,7 +93,9 @@ export default class MemoryLevelSetting extends Phaser.Scene {
   startMusic = () => {
     if (this.sound.get("top_bgm") === null) {
       this.sound.add("top_bgm");
-      this.sound.play("top_bgm", { loop: true });
+      this.sound.play("top_bgm", {
+        loop: true
+      });
     }
   };
 
@@ -109,11 +114,11 @@ export default class MemoryLevelSetting extends Phaser.Scene {
 
   createSubTitle = () => {
     this.add
-    .text(470, 150, "レベル", {
-      fontSize: "35px",
-      fontFamily: this.fontFamily,
-    })
-    .setPadding(4);
+      .text(470, 150, "レベル", {
+        fontSize: "35px",
+        fontFamily: this.fontFamily,
+      })
+      .setPadding(4);
   }
 
   createGameMenu = () => {
@@ -136,16 +141,14 @@ export default class MemoryLevelSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-           this.sound.stopAll();
-           this.sound.removeByKey("top_bgm");
-           gameStartSe.play();
-           this.scene.start("memory_game",
-            {
-              level: this.selectedLevel,
-              mode:this.prevSceneData.mode,
-              genre:this.prevSceneData.genre
-            }
-          );
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
+          gameStartSe.play();
+          this.scene.start("memory_game", {
+            level: this.selectedLevel,
+            mode: this.prevSceneData.mode,
+            genre: this.prevSceneData.genre
+          });
         },
         this
       );
@@ -176,14 +179,12 @@ export default class MemoryLevelSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-           this.sound.stopAll();
-           this.sound.removeByKey("top_bgm");
-           this.scene.start("MemoryGenre1Setting",
-            {
-              genre:this.selectedGenre,
-              mode:this.selectedMode,
-            }
-          );
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
+          this.scene.start("MemoryGenre1Setting", {
+            genre: this.selectedGenre,
+            mode: this.selectedMode,
+          });
         },
         this
       );
@@ -206,13 +207,13 @@ export default class MemoryLevelSetting extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath()
-      // .on(
-      //   "pointerdown",
-      //   () => {
-      //     this.scene.start("sekai_how_to_play");
-      //   },
-      //   this
-      // );
+      .on(
+        "pointerdown",
+        () => {
+          this.scene.start("memory_how_to_play");
+        },
+        this
+      );
 
     this.add.text(830, 665, "遊び方", {
       fontSize: "32px",
@@ -223,34 +224,32 @@ export default class MemoryLevelSetting extends Phaser.Scene {
 
 
   createSettingButtons = () => {
-    let settingButtonArgs = [     
-      {
-        type: "button",
-        x: 415,
-        y: 233,
-        width: 229,
-        height: 56,
-        text: Level.Level1.text,
-        fontSize: 24,
-        data: {
-          [Category.key]: Category.data.Level.name,
-          [Category.value]: Level.Level1.name,
-        },
-        
-      },{
-        type: "button",
-        x: 415,
-        y: 333,
-        width: 229,
-        height: 56,
-        text: Level.Level2.text,
-        fontSize: 24,
-        data: {
-          [Category.key]: Category.data.Level.name,
-          [Category.value]: Level.Level2.name,
-        },
-      }
-    ];
+    let settingButtonArgs = [{
+      type: "button",
+      x: 415,
+      y: 233,
+      width: 229,
+      height: 56,
+      text: Level.Level1.text,
+      fontSize: 24,
+      data: {
+        [Category.key]: Category.data.Level.name,
+        [Category.value]: Level.Level1.name,
+      },
+
+    }, {
+      type: "button",
+      x: 415,
+      y: 333,
+      width: 229,
+      height: 56,
+      text: Level.Level2.text,
+      fontSize: 24,
+      data: {
+        [Category.key]: Category.data.Level.name,
+        [Category.value]: Level.Level2.name,
+      },
+    }];
 
     settingButtonArgs.push({
       type: "button",
@@ -292,7 +291,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
               );
               return settingButton;
           }
-         break;
+          break;
       }
     });
   };

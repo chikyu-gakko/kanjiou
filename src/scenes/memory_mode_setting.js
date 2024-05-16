@@ -163,13 +163,13 @@ export default class MemoryModeSetting extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath()
-    // .on(
-    //   "pointerdown",
-    //   () => {
-    //     this.scene.start("sekai_how_to_play");
-    //   },
-    //   this
-    // );
+      .on(
+        "pointerdown",
+        () => {
+          this.scene.start("memory_how_to_play");
+        },
+        this
+      );
 
     this.add.text(830, 665, "遊び方", {
       fontSize: "32px",

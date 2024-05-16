@@ -1,4 +1,5 @@
-import Phaser from "phaser";``
+import Phaser from "phaser";
+``
 // import phaserReact from "phaser3-react";
 
 import OpenLogo from "./scenes/open_logo";
@@ -26,8 +27,10 @@ import MemoryModeSetting from "./scenes/memory_mode_setting";
 import MemoryGenre1Setting from "./scenes/memory_genre1_setting";
 import MemoryGenre2Setting from "./scenes/memory_genre2_setting";
 import MemoryLevelSetting from "./scenes/memory_level_setting";
-
-import { worker } from "./mocks/browser";
+import MemoryHowToPlay from "./scenes/memory_how_to_play";
+import {
+  worker
+} from "./mocks/browser";
 
 if (process.env.NODE_ENV === "development") {
   worker.start({
@@ -88,7 +91,8 @@ const config = {
     MemoryGenre2Setting,
     MemoryGame,
     MemoryRuselt,
-    MemoryLevelSetting
+    MemoryLevelSetting,
+    MemoryHowToPlay
   ],
 };
 
