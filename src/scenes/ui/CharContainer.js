@@ -26,7 +26,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
   static Size = {
     S: {
       name: "s",
-      text: "少ない",
+      text: "かんたん",
       y: 3,
       x: 6,
     },
@@ -38,7 +38,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
     },
     L: {
       name: "l",
-      text: "多い",
+      text: "むずかしい",
       y: 6,
       x: 12,
     },
@@ -58,10 +58,14 @@ export default class CharContainer extends Phaser.GameObjects.Container {
     },
     Learn: {
       name: "learn",
-      text: "学習",
+      text: "ことばの学習",
     },
   };
   static Country = {
+    Russian: {
+      name: "russian",
+      text: "ロシア語",
+    },
     Thai: {
       name: "thai",
       text: "タイ語",
@@ -78,6 +82,138 @@ export default class CharContainer extends Phaser.GameObjects.Container {
       name: "korean",
       text: "韓国語",
     },
+    Tagalog: {
+      name: "tagalog",
+      text: "タガログ語",
+    },
+    Arabic: {
+      name: "arabic",
+      text: "アラビア語",
+    },
+    Dzongkha: {
+      name: "dzongkha",
+      text: "ゾンカ語",
+    },
+    Turkish: {
+      name: "turkish",
+      text: "トルコ語",
+    },
+    Urdu: {
+      name: "urdu",
+      text: "ウルドゥー語",
+    },
+    Indonesian: {
+      name: "indonesian",
+      text: "インドネシア語",
+    },
+    Khmer: {
+      name: "khmer",
+      text: "クメール語",
+    },//ここから
+    Burmese: {
+      name: "burmese",
+      text: "ミャンマー語",
+    },
+    Dari: {
+      name: "dari",
+      text: "ダリー語",
+    },
+    French: {
+      name: "french",
+      text: "フランス語",
+    },
+    German: {
+      name: "german",
+      text: "ドイツ語",
+    },
+    Greek: {
+      name: "greek",
+      text: "ギリシャ語",
+    },
+    Hindi: {
+      name: "hindi",
+      text: "ヒンディー語",
+    },
+    Italian: {
+      name: "italian",
+      text: "イタリア語",
+    },
+    Kiswahili: {
+      name: "kiswahili",
+      text: "スワヒリ語",
+    },
+    Latvie: {
+      name: "latvie",
+      text: "ラトビア語",
+    },
+    Malay: {
+      name: "malay",
+      text: "マレー語",
+    },
+    Malayalam: {
+      name: "malayalam",
+      text: "マラヤーラム語",
+    },
+    Nepali: {
+      name: "nepali",
+      text: "ネパール語",
+    },
+    Pasto: {
+      name: "pasto",
+      text: "パシュトー語",
+    },
+    Persian: {
+      name: "persian",
+      text: "ペルシャ語",
+    },
+    PeruSpanish: {
+      name: "peru_spanish",
+      text: "ペルー_スペイン語",
+    },
+    Sinhala: {
+      name: "sinhala",
+      text: "シンハラ語",
+    },
+    Svenska: {
+      name: "svenska",
+      text: "スウェーデン語",
+    },
+    Tamil: {
+      name: "tamil",
+      text: "タミル語",
+    },
+    Vietnamese: {
+      name: "vietnamese",
+      text: "ベトナム語",
+    },
+    VirginPortuguese: {
+      name: "virgin_portuguese",
+      text: "ブラジル_ポルトガル語",
+    },
+    Yoruba: {
+      name: "yoruba",
+      text: "ヨルバ語",
+    },
+    Chinese: {
+      name: "chinese",
+      text: "中国語_簡体字",
+    },
+    ChineseTaiwan: {
+      name: "chinese_taiwan",
+      text: "中国語_繁体字",
+    },
+    English: {
+      name: "english",
+      text: "英語",
+    },
+    JapaneseHiragana: {
+      name: "japanese_hiragana",
+      text: "日本語_ひらがな",
+    },
+    JapaneseKatakana: {
+      name: "japanese_katakana",
+      text: "日本語_カタカナ",
+    },
   };
   static Category = {
     key: "category",
@@ -85,7 +221,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
     data: {
       Size: {
         name: "size",
-        text: "文字の数",
+        text: "レベル",
       },
       Mode: {
         name: "mode",
@@ -93,7 +229,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
       },
       Country: {
         name: "country",
-        text: "どこの国？",
+        text: "文字",
       },
       Challenge: {
         name: "challenge",
@@ -198,6 +334,9 @@ export default class CharContainer extends Phaser.GameObjects.Container {
       character = character;
     } else {
       switch (country) {
+        case CharContainer.Country.Russian.name:
+          character = characterList[CharContainer.Country.Russian.text];
+          break;
         case CharContainer.Country.Bengali.name:
           character = characterList[CharContainer.Country.Bengali.text];
           break;
@@ -206,6 +345,105 @@ export default class CharContainer extends Phaser.GameObjects.Container {
           break;
         case CharContainer.Country.Korean.name:
           character = characterList[CharContainer.Country.Korean.text];
+          break;
+        case CharContainer.Country.Tagalog.name:
+          character = characterList[CharContainer.Country.Tagalog.text];
+          break;
+        case CharContainer.Country.Arabic.name:
+          character = characterList[CharContainer.Country.Arabic.text];
+          break;
+        case CharContainer.Country.Dzongkha.name:
+          character = characterList[CharContainer.Country.Dzongkha.text];
+          break;
+        case CharContainer.Country.Indonesian.name:
+          character = characterList[CharContainer.Country.Indonesian.text];
+          break;
+        case CharContainer.Country.Turkish.name:
+          character = characterList[CharContainer.Country.Turkish.text];
+          break;
+        case CharContainer.Country.Urdu.name:
+          character = characterList[CharContainer.Country.Urdu.text];
+          break;
+        case CharContainer.Country.Khmer.name:
+          character = characterList[CharContainer.Country.Khmer.text];
+          break;
+        case CharContainer.Country.Burmese.name:
+          character = characterList[CharContainer.Country.Burmese.text];
+          break;
+        case CharContainer.Country.Dari.name:
+          character = characterList[CharContainer.Country.Dari.text];
+          break;
+        case CharContainer.Country.French.name:
+          character = characterList[CharContainer.Country.French.text];
+          break;
+        case CharContainer.Country.German.name:
+          character = characterList[CharContainer.Country.German.text];
+          break;
+        case CharContainer.Country.Greek.name:
+          character = characterList[CharContainer.Country.Greek.text];
+          break;
+        case CharContainer.Country.Hindi.name:
+          character = characterList[CharContainer.Country.Hindi.text];
+          break;
+        case CharContainer.Country.Italian.name:
+          character = characterList[CharContainer.Country.Italian.text];
+          break;
+        case CharContainer.Country.Kiswahili.name:
+          character = characterList[CharContainer.Country.Kiswahili.text];
+          break;
+        case CharContainer.Country.Latvie.name:
+          character = characterList[CharContainer.Country.Latvie.text];
+          break;
+        case CharContainer.Country.Malay.name:
+          character = characterList[CharContainer.Country.Malay.text];
+          break;
+        case CharContainer.Country.Malayalam.name:
+          character = characterList[CharContainer.Country.Malayalam.text];
+          break;
+        case CharContainer.Country.Nepali.name:
+          character = characterList[CharContainer.Country.Nepali.text];
+          break;
+        case CharContainer.Country.Pasto.name:
+          character = characterList[CharContainer.Country.Pasto.text];
+          break;
+        case CharContainer.Country.Persian.name:
+          character = characterList[CharContainer.Country.Persian.text];
+          break;
+        case CharContainer.Country.PeruSpanish.name:
+          character = characterList[CharContainer.Country.PeruSpanish.text];
+          break;
+        case CharContainer.Country.Sinhala.name:
+          character = characterList[CharContainer.Country.Sinhala.text];
+          break;
+        case CharContainer.Country.Svenska.name:
+          character = characterList[CharContainer.Country.Svenska.text];
+          break;
+        case CharContainer.Country.Tamil.name:
+          character = characterList[CharContainer.Country.Tamil.text];
+          break;
+        case CharContainer.Country.Vietnamese.name:
+          character = characterList[CharContainer.Country.Vietnamese.text];
+          break;
+        case CharContainer.Country.VirginPortuguese.name:
+          character = characterList[CharContainer.Country.VirginPortuguese.text];
+          break;
+        case CharContainer.Country.Yoruba.name:
+          character = characterList[CharContainer.Country.Yoruba.text];
+          break;
+        case CharContainer.Country.Chinese.name:
+          character = characterList[CharContainer.Country.Chinese.text];
+          break;
+        case CharContainer.Country.ChineseTaiwan.name:
+          character = characterList[CharContainer.Country.ChineseTaiwan.text];
+          break;
+        case CharContainer.Country.English.name:
+          character = characterList[CharContainer.Country.English.text];
+          break;
+        case CharContainer.Country.JapaneseHiragana.name:
+          character = characterList[CharContainer.Country.JapaneseHiragana.text];
+          break;
+        case CharContainer.Country.JapaneseKatakana.name:
+          character = characterList[CharContainer.Country.JapaneseKatakana.text];
           break;
         default:
           character = characterList[CharContainer.Country.Thai.text];
