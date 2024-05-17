@@ -413,7 +413,7 @@ export default class MemoryGame extends Phaser.Scene {
           RightCardsData, {
             color: COLOR_LIGHT_BLACK.toString(),
             fontSize: `${this.rightFontSize}px`,
-            fontFamily: "KleeOne-SemiBold"
+            fontFamily: "KleeOneForStrokeCount"
           }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
@@ -452,7 +452,7 @@ export default class MemoryGame extends Phaser.Scene {
           LeftCardChar, {
             color: COLOR_LIGHT_BLACK.toString(),
             fontSize: `${this.leftFontSize}px`,
-            fontFamily: "KleeOne-SemiBold"
+            fontFamily: "KleeOneForStrokeCount"
           }
         )
         .setOrigin(0, 0).setPadding(0, 4, 0, 0)
@@ -960,7 +960,7 @@ export default class MemoryGame extends Phaser.Scene {
     this.add
       .text(
         this.game.canvas.width / 8 - 45 + 75,
-        40,
+        30,
         "プレイヤー１", {
           color: COLOR_LIGHT_BLACK.toString(),
           fontSize: '30px',
@@ -972,7 +972,7 @@ export default class MemoryGame extends Phaser.Scene {
     this.add
       .text(
         this.game.canvas.width * 0.76 - 100,
-        40,
+        30,
         "プレイヤー２", {
           color: COLOR_LIGHT_BLACK.toString(),
           fontSize: '30px',
@@ -987,7 +987,7 @@ export default class MemoryGame extends Phaser.Scene {
     this.player1PointComponent =
       this.add
       .text(
-        130 + 75,
+        130 + 85,
         75,
         (this.player1PointCounter.toString()), {
           color: COLOR_LIGHT_BLACK.toString(),

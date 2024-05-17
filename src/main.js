@@ -106,5 +106,5 @@ const config = {
 const game = new Phaser.Game(config);
 
 game.registry.set("fontFamily", "'sans-serif',KleeOne, Arial, Sarabun");
-game.registry.set("kanjiFontFamily", 'KleeOne-SemiBold');
+game.registry.set("kanjiFontFamily", 'KleeOneForStrokeCount');
 export default game;

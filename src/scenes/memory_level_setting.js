@@ -197,7 +197,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
         this
       );
 
-    this.add.text(200, 530, "◀戻る", {
+    this.add.text(190, 530, "◀戻る", {
       fontSize: "32px",
       color: "#333333",
       fontFamily: this.fontFamily,
