@@ -89,7 +89,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
     let leftTitleText = 'おおい';
     let rightTitleText = 'すくない';
 
-    if (this.quizzes[currentIndex].correctValues.length > 1) {
+    if (this.quizzes[currentIndex].correctValues.length > 1 || this.quizzes[currentIndex + 1].correctValues.length > 1) {
       leftTitleText = this.quizzes[currentIndex].strokeCount + '画';
       rightTitleText = this.quizzes[currentIndex + 1].strokeCount + '画';
     }
@@ -221,7 +221,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
 
     const leftSideObjs = leftSide.chars.map((e, i) => {
       let fontSize = '120px';
-      if (this.quizzes[currentIndex].correctValues.length > 1) {
+      if (this.quizzes[currentIndex].correctValues.length > 1 || this.quizzes[currentIndex + 1].correctValues.length > 1) {
         fontSize = '80px';
       }
 
