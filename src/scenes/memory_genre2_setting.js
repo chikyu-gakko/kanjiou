@@ -51,7 +51,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     // 設定の選択肢の初期値
     this.selectedSettingCategory = Category.data.Genre2.name;
     this.challenge = false;
-    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
+    this.fontFamily = this.registry.get("fontFamily");
   }
 
   create() {
@@ -64,6 +64,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     this.createGamePreveButton();
     this.createHowToPlayButton();
     this.createPreveGenruButton();
+    this.createCrossButton();
     this.settingElements = this.createSettingButtons();
     this.updateView();
   }
@@ -112,7 +113,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
 
   createSubTitle = () => {
     this.add
-      .text(450, 150, "ジャンル", {
+      .text(440, 150, "ジャンル", {
         fontSize: "35px",
         fontFamily: this.fontFamily,
       })
@@ -182,7 +183,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
         this
       );
 
-    this.add.text(65, 325, "◀", {
+    this.add.text(55, 325, "◀", {
       fontSize: "50px",
       color: "#333333",
       fontFamily: this.fontFamily,
@@ -245,6 +246,21 @@ export default class MemoryGenreSetting extends Phaser.Scene {
       color: "#ffffff",
       fontFamily: this.fontFamily,
     });
+  };
+
+  createCrossButton = () => {
+    const crossButton = this.add.text(967, 36, "✖", {
+      fontSize: "32px",
+      color: "#ffffff",
+    });
+
+    crossButton.setInteractive().on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_menu");
+      },
+      this
+    );
   };
 
 

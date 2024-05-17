@@ -7,6 +7,16 @@
   font-family: 'Noto Sans', sans-serif;
 }
 
+@font-face {
+  font-family: 'KleeOne-SemiBold';
+  src: url('/public/assets/font/KleeOne-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: 'BIZ-UDPMincho';
+  src: url('/public/assets/font/BIZUDPMincho-Regular.ttf');
+}
+
 body {
   background-color: #eaeaea;
 }
@@ -223,14 +233,4 @@ table td {
   font-size: 1rem;
   width: 1024px;
   margin: auto;
-}
-
-@font-face {
-  font-family: KleeOne-SemiBold;
-  src: url('/public/assets/font/KleeOne-SemiBold.ttf');
-}
-
-@font-face {
-  font-family: BIZ-UDPMincho;
-  src: url('/public/assets/font/BIZUDPMincho-Regular.ttf');
 }

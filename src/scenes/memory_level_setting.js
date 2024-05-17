@@ -55,7 +55,8 @@ export default class MemoryLevelSetting extends Phaser.Scene {
     // 設定の選択肢の初期値
     this.selectedSettingCategory = Category.data.Level.name;
     this.challenge = false;
-    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
+    this.fontFamily = this.registry.get("fontFamily");
+    this.fontFamily2 = this.registry.get("kanjiFontFamily");
   }
 
   create() {
@@ -67,6 +68,7 @@ export default class MemoryLevelSetting extends Phaser.Scene {
     this.createGamePreveButton();
     this.createGameStartButton();
     this.createHowToPlayButton();
+    this.createCrossButton();
     this.settingElements = this.createSettingButtons();
     this.updateView();
   }
@@ -159,6 +161,12 @@ export default class MemoryLevelSetting extends Phaser.Scene {
       fontFamily: this.fontFamily,
     });
 
+    this.add.text(437, 666, "", {
+      fontSize: "32px",
+      color: "#ffffff",
+      fontFamily: this.fontFamily2,
+    });
+
     // mogura画像
     this.add.image(410, 680, "mogura");
   };
@@ -220,6 +228,21 @@ export default class MemoryLevelSetting extends Phaser.Scene {
       color: "#ffffff",
       fontFamily: this.fontFamily,
     });
+  };
+
+  createCrossButton = () => {
+    const crossButton = this.add.text(967, 36, "✖", {
+      fontSize: "32px",
+      color: "#ffffff",
+    });
+
+    crossButton.setInteractive().on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_menu");
+      },
+      this
+    );
   };
 
 

@@ -1,8 +1,9 @@
 import Phaser from "phaser";
 
-const HOW_TO_PLAY = `裏向きの左右のカードをペアにするゲームだよ。漢字と読み方、
-文字とイラストをタッチして、早くペアにしてね。記憶力が大切だよ。
-一人で遊ぶこともできるし、誰かと対戦することもできるよ。`;
+const HOW_TO_PLAY = `裏向きの左右のカードをペアにするゲームだよ。
+漢字と読み方、文字とイラストをタッチして、
+早くペアにしてね。記憶力が大切だよ。一人で
+遊ぶこともできるし、誰かと対戦することもできるよ。`;
 
 export default class memory_how_to_play extends Phaser.Scene {
   constructor() {
@@ -48,8 +49,8 @@ export default class memory_how_to_play extends Phaser.Scene {
     this.add.sprite(511, 242, "memory_how_to_play").setScale(0.3, 0.3);
 
     this.add
-      .text(520, 468, HOW_TO_PLAY, {
-        fontSize: "24px",
+      .text(540, 428, HOW_TO_PLAY, {
+        fontSize: "25px",
         color: "#333333",
         fontFamily: this.fontFamily,
       })

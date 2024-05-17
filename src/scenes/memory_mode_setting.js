@@ -47,7 +47,7 @@ export default class MemoryModeSetting extends Phaser.Scene {
     // 設定の選択肢の初期値
     this.selectedSettingCategory = Category.data.Mode.name;
     this.challenge = false;
-    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
+    this.fontFamily = this.registry.get("fontFamily");
   }
 
   create() {
@@ -58,6 +58,7 @@ export default class MemoryModeSetting extends Phaser.Scene {
     this.createSubTitle();
     this.createGameNextButton();
     this.createHowToPlayButton();
+    this.createCrossButton();
     this.settingElements = this.createSettingButtons();
     this.updateView();
   }
@@ -176,6 +177,21 @@ export default class MemoryModeSetting extends Phaser.Scene {
       color: "#ffffff",
       fontFamily: this.fontFamily,
     });
+  };
+
+  createCrossButton = () => {
+    const crossButton = this.add.text(967, 36, "✖", {
+      fontSize: "32px",
+      color: "#ffffff",
+    });
+
+    crossButton.setInteractive().on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_menu");
+      },
+      this
+    );
   };
 
 

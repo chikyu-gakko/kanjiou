@@ -12,7 +12,10 @@ const dataForDebugging = {
 
 export default class MemoryGameResult extends Phaser.Scene {
   constructor() {
-    super({ key: "MemoryRuselt", active: debugMode });
+    super({
+      key: "MemoryRuselt",
+      active: debugMode
+    });
     this.fontFamily = undefined;
     this.prevSceneData = undefined;
   }
@@ -50,16 +53,16 @@ export default class MemoryGameResult extends Phaser.Scene {
   init(data) {
     this.prevSceneData = {
       level: data.level,
-      isWon:data.isWon,
-      MaxCount:data.MaxCount,
-      TriedCount:data.TriedCount,
-      mode:data.mode,
-      p1point:data.p1point,
-      p2point:data.p2point,
-      genre:data.genre
+      isWon: data.isWon,
+      MaxCount: data.MaxCount,
+      TriedCount: data.TriedCount,
+      mode: data.mode,
+      p1point: data.p1point,
+      p2point: data.p2point,
+      genre: data.genre
     };
     if (debugMode) this.prevSceneData = dataForDebugging;
-    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
+    this.fontFamily = this.registry.get("fontFamily");
   }
   create() {
     this.startCameraFadeIn();
@@ -78,9 +81,9 @@ export default class MemoryGameResult extends Phaser.Scene {
     this.backTopButton = this.createBackTopButton();
     this.backGameSetButton = this.createBackGameSetButton();
     this.retryGameButton = this.createRetryGameButton();
-    
-    if(this.prevSceneData.mode == "practice"){
-      if(this.prevSceneData.isWon){
+
+    if (this.prevSceneData.mode == "practice") {
+      if (this.prevSceneData.isWon) {
         // ゲームクリア
         this.add
           .text(
@@ -90,10 +93,10 @@ export default class MemoryGameResult extends Phaser.Scene {
             gameResultFontStyle
           )
           .setOrigin(0.5, 0);
-          this.displayResultDetails();
-        }else{
-          // ゲームオーバー
-          this.add
+        this.displayResultDetails();
+      } else {
+        // ゲームオーバー
+        this.add
           .text(
             this.game.canvas.width / 2,
             200,
@@ -101,15 +104,15 @@ export default class MemoryGameResult extends Phaser.Scene {
             gameResultFontStyle
           )
           .setOrigin(0.5, 0);
-        }
-        this.displayGameClearGraphics();
-    }else if(this.prevSceneData.mode == "versus"){
+      }
+      this.displayGameClearGraphics();
+    } else if (this.prevSceneData.mode == "versus") {
       let VSresult = "";
-      if(this.prevSceneData.p1point > this.prevSceneData.p2point){
+      if (this.prevSceneData.p1point > this.prevSceneData.p2point) {
         VSresult = "プレイヤー1の勝ち!"
-      }else if(this.prevSceneData.p1point < this.prevSceneData.p2point){
+      } else if (this.prevSceneData.p1point < this.prevSceneData.p2point) {
         VSresult = "プレイヤー2の勝ち!"
-      }else{
+      } else {
         VSresult = "引き分け!"
       }
       this.add
@@ -121,16 +124,16 @@ export default class MemoryGameResult extends Phaser.Scene {
         )
         .setOrigin(0.5, 0);
 
-        this.add
+      this.add
         .text(
           this.game.canvas.width / 2,
           250,
-          this.prevSceneData.p1point+" - "+this.prevSceneData.p2point,
+          this.prevSceneData.p1point + " - " + this.prevSceneData.p2point,
           gameResultFontStyle
         )
         .setOrigin(0.5, 0);
-        this.displayGameClearGraphics();
-      }
+      this.displayGameClearGraphics();
+    }
   }
 
   startCameraFadeIn = () => {
@@ -193,13 +196,11 @@ export default class MemoryGameResult extends Phaser.Scene {
     retryGameButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        this.scene.start("memory_game",
-          {
-            level:this.prevSceneData.level,
-            mode:this.prevSceneData.mode,
-            genre:this.prevSceneData.genre
-          }
-        );
+        this.scene.start("memory_game", {
+          level: this.prevSceneData.level,
+          mode: this.prevSceneData.mode,
+          genre: this.prevSceneData.genre
+        });
       },
       this
     );
@@ -216,23 +217,20 @@ export default class MemoryGameResult extends Phaser.Scene {
     const text1Object = this.add.text(
       number1Object.width,
       0,
-      "/",
-      {
+      "/", {
         color: "#333333",
         fontFamily: this.fontFamily,
         fontSize: "64px",
       }
     );
-    const number2Object = this.add.text(text1Object.width + number1Object.width
-      , 0, 
+    const number2Object = this.add.text(text1Object.width + number1Object.width, 0,
       this.prevSceneData.MaxCount, {
-      color: "#D53F3F",
-      fontFamily: this.fontFamily,
-      fontSize: "64px",
-    });
+        color: "#D53F3F",
+        fontFamily: this.fontFamily,
+        fontSize: "64px",
+      });
 
-    const text2Object = this.add.text(text1Object.width + number1Object.width + number2Object.width + 10
-      , 22, "回で完成!!!", {
+    const text2Object = this.add.text(text1Object.width + number1Object.width + number2Object.width + 10, 22, "回で完成!!!", {
       color: "#333333",
       fontFamily: this.fontFamily,
       fontSize: "32px",
@@ -253,8 +251,7 @@ export default class MemoryGameResult extends Phaser.Scene {
 
   displayGameClearGraphics() {
     // 背景
-    this.add.graphics().fillStyle(0xebfdff, 1).fillRect(0, 0, 1024, 768).depth =
-      -1;
+    this.add.graphics().fillStyle(0xebfdff, 1).fillRect(0, 0, 1024, 768).depth = -1;
 
     // 雲2つ
     this.add.image(100, 100, "cloud");
@@ -265,21 +262,38 @@ export default class MemoryGameResult extends Phaser.Scene {
 
     // 地面
     this.add.image(510, 682, "bg");
-    
-    if(this.prevSceneData.isWon){
+
+    if (this.prevSceneData.isWon) {
       // bgm
       this.sound.play("ending");
 
       // 花火
       this.anims.create({
         key: "fireFlower",
-        frames: [
-          { key: "fire1", duration: 300 },
-          { key: "fire2", duration: 200 },
-          { key: "fire3", duration: 200 },
-          { key: "fire4", duration: 200 },
-          { key: "fire5", duration: 200 },
-          { key: "fire6", duration: 200 },
+        frames: [{
+            key: "fire1",
+            duration: 300
+          },
+          {
+            key: "fire2",
+            duration: 200
+          },
+          {
+            key: "fire3",
+            duration: 200
+          },
+          {
+            key: "fire4",
+            duration: 200
+          },
+          {
+            key: "fire5",
+            duration: 200
+          },
+          {
+            key: "fire6",
+            duration: 200
+          },
         ],
         frameRate: 24,
         repeat: -1,
@@ -290,46 +304,162 @@ export default class MemoryGameResult extends Phaser.Scene {
       // 仮もぐらんGIF
       this.anims.create({
         key: "moguraAnimation2",
-        frames: [
-          { key: "moguraAnim1", duration: 100 },
-          { key: "moguraAnim2", duration: 100 },
-          { key: "moguraAnim3", duration: 100 },
-          { key: "moguraAnim4", duration: 100 },
-          { key: "moguraAnim5", duration: 100 },
-          { key: "moguraAnim6", duration: 100 },
-          { key: "moguraAnim7", duration: 100 },
-          { key: "moguraAnim8", duration: 100 },
-          { key: "moguraAnim9", duration: 100 },
-          { key: "moguraAnim10", duration: 100 },
-          { key: "moguraAnim11", duration: 100 },
-          { key: "moguraAnim12", duration: 100 },
-          { key: "moguraAnim13", duration: 100 },
-          { key: "moguraAnim14", duration: 100 },
-          { key: "moguraAnim15", duration: 100 },
-          { key: "moguraAnim16", duration: 100 },
-          { key: "moguraAnim17", duration: 100 },
-          { key: "moguraAnim18", duration: 100 },
-          { key: "moguraAnim19", duration: 100 },
-          { key: "moguraAnim20", duration: 100 },
-          { key: "moguraAnim21", duration: 100 },
-          { key: "moguraAnim22", duration: 100 },
-          { key: "moguraAnim23", duration: 100 },
-          { key: "moguraAnim24", duration: 100 },
-          { key: "moguraAnim25", duration: 100 },
-          { key: "moguraAnim26", duration: 100 },
-          { key: "moguraAnim27", duration: 100 },
-          { key: "moguraAnim28", duration: 100 },
-          { key: "moguraAnim29", duration: 100 },
-          { key: "moguraAnim30", duration: 100 },
-          { key: "moguraAnim31", duration: 100 },
-          { key: "moguraAnim32", duration: 100 },
-          { key: "moguraAnim33", duration: 100 },
-          { key: "moguraAnim34", duration: 100 },
-          { key: "moguraAnim35", duration: 100 },
-          { key: "moguraAnim36", duration: 100 },
-          { key: "moguraAnim23", duration: 100 },
-          { key: "moguraAnim24", duration: 100 },
-          { key: "moguraAnim25", duration: 100 },
+        frames: [{
+            key: "moguraAnim1",
+            duration: 100
+          },
+          {
+            key: "moguraAnim2",
+            duration: 100
+          },
+          {
+            key: "moguraAnim3",
+            duration: 100
+          },
+          {
+            key: "moguraAnim4",
+            duration: 100
+          },
+          {
+            key: "moguraAnim5",
+            duration: 100
+          },
+          {
+            key: "moguraAnim6",
+            duration: 100
+          },
+          {
+            key: "moguraAnim7",
+            duration: 100
+          },
+          {
+            key: "moguraAnim8",
+            duration: 100
+          },
+          {
+            key: "moguraAnim9",
+            duration: 100
+          },
+          {
+            key: "moguraAnim10",
+            duration: 100
+          },
+          {
+            key: "moguraAnim11",
+            duration: 100
+          },
+          {
+            key: "moguraAnim12",
+            duration: 100
+          },
+          {
+            key: "moguraAnim13",
+            duration: 100
+          },
+          {
+            key: "moguraAnim14",
+            duration: 100
+          },
+          {
+            key: "moguraAnim15",
+            duration: 100
+          },
+          {
+            key: "moguraAnim16",
+            duration: 100
+          },
+          {
+            key: "moguraAnim17",
+            duration: 100
+          },
+          {
+            key: "moguraAnim18",
+            duration: 100
+          },
+          {
+            key: "moguraAnim19",
+            duration: 100
+          },
+          {
+            key: "moguraAnim20",
+            duration: 100
+          },
+          {
+            key: "moguraAnim21",
+            duration: 100
+          },
+          {
+            key: "moguraAnim22",
+            duration: 100
+          },
+          {
+            key: "moguraAnim23",
+            duration: 100
+          },
+          {
+            key: "moguraAnim24",
+            duration: 100
+          },
+          {
+            key: "moguraAnim25",
+            duration: 100
+          },
+          {
+            key: "moguraAnim26",
+            duration: 100
+          },
+          {
+            key: "moguraAnim27",
+            duration: 100
+          },
+          {
+            key: "moguraAnim28",
+            duration: 100
+          },
+          {
+            key: "moguraAnim29",
+            duration: 100
+          },
+          {
+            key: "moguraAnim30",
+            duration: 100
+          },
+          {
+            key: "moguraAnim31",
+            duration: 100
+          },
+          {
+            key: "moguraAnim32",
+            duration: 100
+          },
+          {
+            key: "moguraAnim33",
+            duration: 100
+          },
+          {
+            key: "moguraAnim34",
+            duration: 100
+          },
+          {
+            key: "moguraAnim35",
+            duration: 100
+          },
+          {
+            key: "moguraAnim36",
+            duration: 100
+          },
+          {
+            key: "moguraAnim23",
+            duration: 100
+          },
+          {
+            key: "moguraAnim24",
+            duration: 100
+          },
+          {
+            key: "moguraAnim25",
+            duration: 100
+          },
         ],
         frameRate: 24,
         repeat: -1,
