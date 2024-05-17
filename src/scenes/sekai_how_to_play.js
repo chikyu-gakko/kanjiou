@@ -1,9 +1,10 @@
 import Phaser from "phaser";
 
-const HOW_TO_PLAY = `世界の文字のゲームだよ。ひとつだけ違う文字を選んでね！
+const HOW_TO_PLAY = `世界の文字のゲームだよ（全38）。
+ひとつだけ違う文字を選んでね！
 タイムアタックのモードでは10問を早く正解してね。
 学習のモードでは違う文字を選んだあと、
-その文字の言葉・読み方・意味がわかるよ。`;
+言葉・読み方・意味がわかるよ。`;
 
 export default class SekaiHowToPlay extends Phaser.Scene {
   constructor() {
@@ -55,7 +56,7 @@ export default class SekaiHowToPlay extends Phaser.Scene {
     this.add.sprite(511, 242, "sekai_how_to_play").setScale(0.7, 0.7);
 
     this.add
-      .text(520, 468, HOW_TO_PLAY, {
+      .text(520, 418, HOW_TO_PLAY, {
         fontSize: "24px",
         color: "#333333",
         fontFamily: this.fontFamily,

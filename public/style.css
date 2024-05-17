@@ -7,14 +7,15 @@
   font-family: 'Noto Sans', sans-serif;
 }
 
+
 @font-face {
-  font-family: 'KleeOneForStrokeCount';
-  src: url('/public/assets/font/KleeOne-SemiBold.ttf');
+  font-family: BIZUDPMincho;
+  src: url('./assets/font/BIZUDPMincho-Regular.ttf');
 }
 
 @font-face {
-  font-family: 'BIZ-UDPMincho';
-  src: url('/public/assets/font/BIZUDPMincho-Regular.ttf');
+  font-family: KleeOneForStrokeCount;
+  src: url('./assets/font/KleeOne-SemiBold.ttf');
 }
 
 body {
