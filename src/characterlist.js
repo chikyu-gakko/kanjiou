@@ -855,8 +855,8 @@ export const characterList = {
       correct: {
         char: "ñ",
         vocabulary: "Santo Ñiño",
-        read: "santo ninyo:サント　ニーニョ",
-        mean: "幼きイエス",
+        read: "santo ninyo:サント ニーニョ",
+        mean: "幼(おさな)きイエス",
       },
       incorrect: {
         char: "n",
@@ -2939,7 +2939,7 @@ export const characterList = {
         char: "च",
         vocabulary: "चाय",
         read: "cāy:チャーエ",
-        mean: "お茶（ちゃ）、紅茶（こうちゃ）",
+        mean: "茶（ちゃ）、紅茶（こうちゃ）",
       },
       incorrect: {
         char: "ज",
@@ -3395,7 +3395,7 @@ export const characterList = {
         char: "ཡ",
         vocabulary: "ཁོག་ཡངས",
         read: "khokyoang:コーキョアン",
-        mean: "辛抱（しんぼう）強（づよ）い",
+        mean: "辛抱強（しんぼうづよ）い",
       },
       incorrect: {
         char: "ཨ",
@@ -3568,7 +3568,7 @@ export const characterList = {
         char: "嬴",
         vocabulary: "嬴政",
         read: "ㄧㄥˊ ㄓㄥˋ:インヂォン",
-        mean: "始皇帝（しこうてい）の本名（ほんみょう）",
+        mean: "始皇帝(しこうてい)の本名(ほんみょう)",
       },
     },
     {

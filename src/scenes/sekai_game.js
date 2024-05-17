@@ -339,8 +339,8 @@ export default class SekaiGame extends Phaser.Scene {
 
     const correctRead = this.add
       .text(correctX, 400, correctAnsRead, {
-        color: "#aaaaaa",
-        fontSize: "24px",
+        color: "#777777",
+        fontSize: "19px",
         fontFamily: this.fontFamily,
       })
       .setOrigin(0.5, 0.5)
@@ -379,8 +379,8 @@ export default class SekaiGame extends Phaser.Scene {
 
     const wrongRead = this.add
       .text(wrongX, 400, mistakeAnsRead, {
-        color: "#aaaaaa",
-        fontSize: "24px",
+        color: "#777777",
+        fontSize: "19px",
         fontFamily: this.fontFamily,
       })
       .setOrigin(0.5, 0.5)
@@ -393,7 +393,7 @@ export default class SekaiGame extends Phaser.Scene {
         fontSize: "19px",
         fontFamily: this.fontFamily,
       })
-      .setOrigin(0.5, 0)
+      .setOrigin(0.52, 0)
       .setPadding(0, 4, 0, 0);
     wrongMean.depth = 4;
 
