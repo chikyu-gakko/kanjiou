@@ -53,7 +53,7 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
   static Genre = {
     Flag: {
       name: "flag",
-      text: "国旗",
+      text: "国・地域",
     },
     Prefecture: {
       name: "prefecture",
@@ -73,8 +73,9 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
     },
     Subject: {
       name: "Subject",
-      text: "教科",
+      text: "教科名",
     },
+    
     Color: {
       name: "color",
       text: "色",
@@ -84,11 +85,11 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       text: "乗り物",
     },
     MusicalInstrument: {
-      name: "MusicalInstrument",
+      name: "Instrument",
       text: "楽器",
     },
     date:{
-      name: "date",
+      name: "day",
       text: "日にち",
     },
     CountPeople:{
@@ -96,7 +97,7 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       text: "人の数え方",
     },
     CountThings:{
-      name: "CountThings",
+      name: "CountThing",
       text: "物の数え方",
     }
   };
@@ -110,41 +111,41 @@ export default class MemoryContainer extends Phaser.GameObjects.Container {
       name: "vegetables",
       text: "野菜",
     },
-    Fruit:{
-      name: "fruit",
-      text: "果物",
-    },
     Menu:{
       name: "menu",
       text: "メニュー",
     },
-    AnimalKanji:{
-      name: "AnimalKanji",
-      text: "動物(漢字)",
+    Animal:{
+      name: "animal",
+      text: "動物",
     },
-    AnimalKatakana:{
-      name: "Animalkatakana",
-      text: "動物(カタカナ)",
+    SeaAnimals:{ 
+      name: "SeaAnimals",
+      text: "海の生き物",
     },
-    Tree:{
-      name: "tree",
-      text: "木",
+    Bard:{
+      name: "bard",
+      text: "鳥",
     },
-    FlowerKanji:{
-      name: "FlowerKanji",
-      text: "花(漢字)",
+    Fruit:{
+      name: "fruit",
+      text: "果物",
     },
-    FlowerKatakana:{
-      name: "FlowerKatakana",
-      text: "花(カタカナ)",
+    Plant:{ 
+      name: "plant",
+      text: "植物",
+    },
+    Flower:{
+      name: "flower",
+      text: "花",
     },
     Zodiac:{
       name: "zodiac",
-      text: "干支",
+      text: "干支（えと）",
     },
     LunarCalendar:{
       name: "LunarCalendar",
-      text: "旧暦",
+      text: "暦（こよみ）",
     },
     Constellation:{
       name:"constellation",

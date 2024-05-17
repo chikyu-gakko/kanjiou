@@ -17,7 +17,10 @@ const Category = MemoryContainer.Category;
 
 export default class MemoryGenreSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "MemoryGenre1Setting", active: false });
+    super({
+      key: "MemoryGenre1Setting",
+      active: false
+    });
     this.prevSceneData = undefined;
     this.settingElements = undefined;
     this.selectedMode = undefined;
@@ -57,9 +60,11 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     this.createTitle();
     this.createGameMenu();
     this.createSubTitle();
-    this.createGameNextButton();
+    this.createLevelSettingButton();
+    this.createNextGenruButton();
     this.createGamePreveButton();
     this.createHowToPlayButton();
+    this.createCrossButton();
     this.settingElements = this.createSettingButtons();
     this.updateView();
   }
@@ -69,7 +74,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     this.settingElements.forEach((element) => {
       switch (element.getData(Category.key)) {
         case this.selectedSettingCategory:
-            element.setVisible(true);
+          element.setVisible(true);
           switch (element.getData(Category.value)) {
             case this.selectedGenre:
               element.changeSelected();
@@ -87,7 +92,9 @@ export default class MemoryGenreSetting extends Phaser.Scene {
   startMusic = () => {
     if (this.sound.get("top_bgm") === null) {
       this.sound.add("top_bgm");
-      this.sound.play("top_bgm", { loop: true });
+      this.sound.play("top_bgm", {
+        loop: true
+      });
     }
   };
 
@@ -106,11 +113,11 @@ export default class MemoryGenreSetting extends Phaser.Scene {
 
   createSubTitle = () => {
     this.add
-    .text(430, 150, "ジャンル１", {
-      fontSize: "35px",
-      fontFamily: this.fontFamily,
-    })
-    .setPadding(4);
+      .text(440, 150, "ジャンル", {
+        fontSize: "35px",
+        fontFamily: this.fontFamily,
+      })
+      .setPadding(4);
   }
 
   createGameMenu = () => {
@@ -119,7 +126,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
 
   };
 
-  createGameNextButton = () => {
+  createLevelSettingButton = () => {
     const gameStartSe = this.sound.add("game_start_se");
     this.add
       .graphics()
@@ -135,25 +142,62 @@ export default class MemoryGenreSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-           this.sound.stopAll();
-           this.sound.removeByKey("top_bgm");
-          //  this.scene.start("MemoryLevelSetting",
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
+          this.scene.start("MemoryLevelSetting", {
+            genre: this.selectedGenre,
+            mode: this.selectedMode
+          });
+          // this.scene.start("MemoryGenre2Setting",
           //   {
           //     genre: this.selectedGenre,
           //     mode:this.selectedMode
           //   }
-          this.scene.start("MemoryGenre2Setting",
-            {
-              genre: this.selectedGenre,
-              mode:this.selectedMode
-            }
-          );
+          // );
         },
         this
       );
 
     this.add.text(740, 530, "次へ▶", {
       fontSize: "32px",
+      color: "#ffffff",
+      fontFamily: this.fontFamily,
+    });
+  };
+
+  createNextGenruButton = () => {
+    const gameStartSe = this.sound.add("game_start_se");
+    this.add
+      .graphics()
+      .lineStyle(2, 0x645246)
+      .fillStyle(0x32b65e, 1)
+      .fillRoundedRect(920, 320, 60, 60, 30)
+      .lineStyle(2, 0xFFFFFF).strokeRoundedRect(920, 320, 60, 60, 30)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(920, 320, 60, 60),
+        Phaser.Geom.Rectangle.Contains
+      )
+      .strokePath()
+      .on(
+        "pointerdown",
+        () => {
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
+          //  this.scene.start("MemoryLevelSetting",
+          //   {
+          //     genre: this.selectedGenre,
+          //     mode:this.selectedMode
+          //   }
+          this.scene.start("MemoryGenre2Setting", {
+            genre: this.selectedGenre,
+            mode: this.selectedMode
+          });
+        },
+        this
+      );
+
+    this.add.text(925, 325, "▶", {
+      fontSize: "50px",
       color: "#ffffff",
       fontFamily: this.fontFamily,
     });
@@ -174,13 +218,11 @@ export default class MemoryGenreSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-           this.sound.stopAll();
-           this.sound.removeByKey("top_bgm");
-           this.scene.start("MemoryModeSetting",
-            {
-              mode:this.selectedMode,
-            }
-          );
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
+          this.scene.start("MemoryModeSetting", {
+            mode: this.selectedMode,
+          });
         },
         this
       );
@@ -203,13 +245,13 @@ export default class MemoryGenreSetting extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath()
-      // .on(
-      //   "pointerdown",
-      //   () => {
-      //     this.scene.start("sekai_how_to_play");
-      //   },
-      //   this
-      // );
+      .on(
+        "pointerdown",
+        () => {
+          this.scene.start("memory_how_to_play");
+        },
+        this
+      );
 
     this.add.text(830, 665, "遊び方", {
       fontSize: "32px",
@@ -218,10 +260,24 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     });
   };
 
+  createCrossButton = () => {
+    const crossButton = this.add.text(967, 36, "✖", {
+      fontSize: "32px",
+      color: "#ffffff",
+    });
+
+    crossButton.setInteractive().on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_menu");
+      },
+      this
+    );
+  };
+
 
   createSettingButtons = () => {
-    const settingButtonArgs = [     
-      {
+    const settingButtonArgs = [{
         type: "button",
         x: 155,
         y: 225,
@@ -246,7 +302,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.Prefecture.name,
         },
-      },{
+      }, {
         type: "button",
         x: 655,
         y: 225,
@@ -258,8 +314,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.PrefecturalCapital.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 155,
         y: 290,
@@ -271,8 +326,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.MapSymbol.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 405,
         y: 290,
@@ -284,8 +338,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.Job.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 655,
         y: 290,
@@ -297,7 +350,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.Subject.name,
         },
-      },{
+      }, {
         type: "button",
         x: 155,
         y: 355,
@@ -309,8 +362,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.Color.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 405,
         y: 355,
@@ -322,8 +374,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.Vehicle.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 655,
         y: 355,
@@ -335,8 +386,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.MusicalInstrument.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 155,
         y: 420,
@@ -348,7 +398,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.date.name,
         },
-      },{
+      }, {
         type: "button",
         x: 405,
         y: 420,
@@ -360,8 +410,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre.name,
           [Category.value]: Genre.CountPeople.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 655,
         y: 420,
@@ -377,7 +426,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     ];
 
     return settingButtonArgs.map((arg) => {
-      
+
       switch (arg.type) {
         case "button": //ボタン表示処理        
           const settingButton = new SettingButton(
@@ -403,10 +452,10 @@ export default class MemoryGenreSetting extends Phaser.Scene {
               );
               return settingButton;
           }
-         break;
+          break;
       }
-    
-    
+
+
     });
   };
 }

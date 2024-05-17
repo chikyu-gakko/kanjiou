@@ -17,7 +17,10 @@ const Category = MemoryContainer.Category;
 
 export default class MemoryModeSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "MemoryModeSetting", active: false });
+    super({
+      key: "MemoryModeSetting",
+      active: false
+    });
     this.prevSceneData = undefined;
     this.settingElements = undefined;
     this.selectedMode = undefined;
@@ -32,6 +35,7 @@ export default class MemoryModeSetting extends Phaser.Scene {
     bgms.forEach((bgm) => {
       this.load.audio(bgm[0], bgm[1]);
     });
+
   }
 
   init(data) {
@@ -54,6 +58,7 @@ export default class MemoryModeSetting extends Phaser.Scene {
     this.createSubTitle();
     this.createGameNextButton();
     this.createHowToPlayButton();
+    this.createCrossButton();
     this.settingElements = this.createSettingButtons();
     this.updateView();
   }
@@ -81,7 +86,9 @@ export default class MemoryModeSetting extends Phaser.Scene {
   startMusic = () => {
     if (this.sound.get("top_bgm") === null) {
       this.sound.add("top_bgm");
-      this.sound.play("top_bgm", { loop: true });
+      this.sound.play("top_bgm", {
+        loop: true
+      });
     }
   };
 
@@ -92,20 +99,20 @@ export default class MemoryModeSetting extends Phaser.Scene {
 
   createTitle = () => {
     this.add
-      .text(390, 64, "神経衰弱", {
+      .text(380, 64, "神経衰弱", {
         fontSize: "65px",
-        fontFamily: this.fontFamily,
+        fontFamily: this.fontFamily
       })
       .setPadding(4);
   };
 
   createSubTitle = () => {
     this.add
-    .text(415, 150, "ゲームモード", {
-      fontSize: "35px",
-      fontFamily: this.fontFamily,
-    })
-    .setPadding(4);
+      .text(415, 150, "ゲームモード", {
+        fontSize: "35px",
+        fontFamily: this.fontFamily
+      })
+      .setPadding(4);
   }
 
   createGameMenu = () => {
@@ -130,13 +137,11 @@ export default class MemoryModeSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-           this.sound.stopAll();
-           this.sound.removeByKey("top_bgm");
-           this.scene.start("MemoryGenre1Setting",
-            {
-              mode:this.selectedMode,
-            }
-          );
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
+          this.scene.start("MemoryGenre1Setting", {
+            mode: this.selectedMode,
+          });
         },
         this
       );
@@ -144,7 +149,7 @@ export default class MemoryModeSetting extends Phaser.Scene {
     this.add.text(740, 530, "次へ▶", {
       fontSize: "32px",
       color: "#ffffff",
-      fontFamily: this.fontFamily,
+      fontFamily: this.fontFamily
     });
   };
 
@@ -159,13 +164,13 @@ export default class MemoryModeSetting extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath()
-      // .on(
-      //   "pointerdown",
-      //   () => {
-      //     this.scene.start("sekai_how_to_play");
-      //   },
-      //   this
-      // );
+      .on(
+        "pointerdown",
+        () => {
+          this.scene.start("memory_how_to_play");
+        },
+        this
+      );
 
     this.add.text(830, 665, "遊び方", {
       fontSize: "32px",
@@ -174,36 +179,49 @@ export default class MemoryModeSetting extends Phaser.Scene {
     });
   };
 
+  createCrossButton = () => {
+    const crossButton = this.add.text(967, 36, "✖", {
+      fontSize: "32px",
+      color: "#ffffff",
+    });
+
+    crossButton.setInteractive().on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_menu");
+      },
+      this
+    );
+  };
+
 
   createSettingButtons = () => {
-    const settingButtonArgs = [     
-      {
-        type: "button",
-        x: 551,
-        y: 333,
-        width: 229,
-        height: 56,
-        text: Mode.versus.text,
-        fontSize: 24,
-        data: {
-          [Category.key]: Category.data.Mode.name,
-          [Category.value]: Mode.versus.name,
-        },
-        
-      },{
-        type: "button",
-        x: 251,
-        y: 333,
-        width: 229,
-        height: 56,
-        text: Mode.Practice.text,
-        fontSize: 24,
-        data: {
-          [Category.key]: Category.data.Mode.name,
-          [Category.value]: Mode.Practice.name,
-        },
-      }
-    ];
+    const settingButtonArgs = [{
+      type: "button",
+      x: 551,
+      y: 333,
+      width: 229,
+      height: 56,
+      text: Mode.versus.text,
+      fontSize: 24,
+      data: {
+        [Category.key]: Category.data.Mode.name,
+        [Category.value]: Mode.versus.name,
+      },
+
+    }, {
+      type: "button",
+      x: 251,
+      y: 333,
+      width: 229,
+      height: 56,
+      text: Mode.Practice.text,
+      fontSize: 24,
+      data: {
+        [Category.key]: Category.data.Mode.name,
+        [Category.value]: Mode.Practice.name,
+      },
+    }];
 
     return settingButtonArgs.map((arg) => {
       switch (arg.type) {
@@ -231,7 +249,7 @@ export default class MemoryModeSetting extends Phaser.Scene {
               );
               return settingButton;
           }
-         break;
+          break;
       }
     });
   };

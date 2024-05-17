@@ -57,9 +57,10 @@ export default class NakamaGameResult extends Phaser.Scene {
       // rankingRegistered: data.rankingRegistered,
       numberOfCorrected: data.numberOfCorrected,
       questions: data.questions,
+      
     };
     if (debugMode) this.prevSceneData = dataForDebugging;
-    this.fontFamily = this.registry.get("fontFamily");
+    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
   }
   create() {
     this.startCameraFadeIn();

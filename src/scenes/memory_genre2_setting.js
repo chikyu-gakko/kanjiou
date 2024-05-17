@@ -17,7 +17,10 @@ const Category = MemoryContainer.Category;
 
 export default class MemoryGenreSetting extends Phaser.Scene {
   constructor() {
-    super({ key: "MemoryGenre2Setting", active: false });
+    super({
+      key: "MemoryGenre2Setting",
+      active: false
+    });
     this.prevSceneData = undefined;
     this.settingElements = undefined;
     this.selectedMode = undefined;
@@ -60,6 +63,8 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     this.createGameNextButton();
     this.createGamePreveButton();
     this.createHowToPlayButton();
+    this.createPreveGenruButton();
+    this.createCrossButton();
     this.settingElements = this.createSettingButtons();
     this.updateView();
   }
@@ -69,7 +74,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     this.settingElements.forEach((element) => {
       switch (element.getData(Category.key)) {
         case this.selectedSettingCategory:
-            element.setVisible(true);
+          element.setVisible(true);
           switch (element.getData(Category.value)) {
             case this.selectedGenre:
               element.changeSelected();
@@ -87,7 +92,9 @@ export default class MemoryGenreSetting extends Phaser.Scene {
   startMusic = () => {
     if (this.sound.get("top_bgm") === null) {
       this.sound.add("top_bgm");
-      this.sound.play("top_bgm", { loop: true });
+      this.sound.play("top_bgm", {
+        loop: true
+      });
     }
   };
 
@@ -106,11 +113,11 @@ export default class MemoryGenreSetting extends Phaser.Scene {
 
   createSubTitle = () => {
     this.add
-    .text(430, 150, "ジャンル２", {
-      fontSize: "35px",
-      fontFamily: this.fontFamily,
-    })
-    .setPadding(4);
+      .text(440, 150, "ジャンル", {
+        fontSize: "35px",
+        fontFamily: this.fontFamily,
+      })
+      .setPadding(4);
   }
 
   createGameMenu = () => {
@@ -135,14 +142,12 @@ export default class MemoryGenreSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-           this.sound.stopAll();
-           this.sound.removeByKey("top_bgm");
-           this.scene.start("MemoryLevelSetting",
-            {
-              genre: this.selectedGenre,
-              mode:this.selectedMode
-            }
-          );
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
+          this.scene.start("MemoryLevelSetting", {
+            genre: this.selectedGenre,
+            mode: this.selectedMode
+          });
         },
         this
       );
@@ -153,6 +158,38 @@ export default class MemoryGenreSetting extends Phaser.Scene {
       fontFamily: this.fontFamily,
     });
   };
+
+  createPreveGenruButton = () => {
+    const gameStartSe = this.sound.add("game_start_se");
+    this.add
+      .graphics()
+      .lineStyle(2, 0x645246)
+      .fillStyle(0xffffff, 1)
+      .fillRoundedRect(50, 320, 60, 60, 30)
+      .setInteractive(
+        new Phaser.Geom.Rectangle(50, 320, 60, 60),
+        Phaser.Geom.Rectangle.Contains
+      )
+      .lineStyle(3, 0x00000).strokeRoundedRect(50, 320, 60, 60, 30)
+      .on(
+        "pointerdown",
+        () => {
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
+          this.scene.start("MemoryGenre1Setting", {
+            mode: this.selectedMode,
+          });
+        },
+        this
+      );
+
+    this.add.text(55, 325, "◀", {
+      fontSize: "50px",
+      color: "#333333",
+      fontFamily: this.fontFamily,
+    });
+  };
+
 
   createGamePreveButton = () => {
     const gameStartSe = this.sound.add("game_start_se");
@@ -169,13 +206,11 @@ export default class MemoryGenreSetting extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-           this.sound.stopAll();
-           this.sound.removeByKey("top_bgm");
-           this.scene.start("MemoryGenre1Setting",
-            {
-              mode:this.selectedMode,
-            }
-          );
+          this.sound.stopAll();
+          this.sound.removeByKey("top_bgm");
+          this.scene.start("MemoryModeSetting", {
+            mode: this.selectedMode,
+          });
         },
         this
       );
@@ -198,13 +233,13 @@ export default class MemoryGenreSetting extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath()
-      // .on(
-      //   "pointerdown",
-      //   () => {
-      //     this.scene.start("sekai_how_to_play");
-      //   },
-      //   this
-      // );
+      .on(
+        "pointerdown",
+        () => {
+          this.scene.start("memory_how_to_play");
+        },
+        this
+      );
 
     this.add.text(830, 665, "遊び方", {
       fontSize: "32px",
@@ -213,10 +248,24 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     });
   };
 
+  createCrossButton = () => {
+    const crossButton = this.add.text(967, 36, "✖", {
+      fontSize: "32px",
+      color: "#ffffff",
+    });
+
+    crossButton.setInteractive().on(
+      "pointerdown",
+      () => {
+        this.scene.start("game_menu");
+      },
+      this
+    );
+  };
+
 
   createSettingButtons = () => {
-    const settingButtonArgs = [     
-      {
+    const settingButtonArgs = [{
         type: "button",
         x: 155,
         y: 225,
@@ -241,23 +290,11 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre2.name,
           [Category.value]: Genre2.Vegetables.name,
         },
-      },{
+      },
+      {
         type: "button",
         x: 655,
         y: 225,
-        width: 220,
-        height: 56,
-        text: Genre2.Fruit.text,
-        fontSize: 24,
-        data: {
-          [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.Fruit.name,
-        },
-      }
-      ,{
-        type: "button",
-        x: 155,
-        y: 290,
         width: 220,
         height: 56,
         text: Genre2.Menu.text,
@@ -266,72 +303,80 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre2.name,
           [Category.value]: Genre2.Menu.name,
         },
-      }
-      ,{
+      }, {
+        type: "button",
+        x: 155,
+        y: 290,
+        width: 220,
+        height: 56,
+        text: Genre2.Animal.text,
+        fontSize: 24,
+        data: {
+          [Category.key]: Category.data.Genre2.name,
+          [Category.value]: Genre2.Animal.name,
+        },
+      }, {
         type: "button",
         x: 405,
         y: 290,
         width: 220,
         height: 56,
-        text: Genre2.AnimalKanji.text,
+        text: Genre2.SeaAnimals.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.AnimalKanji.name,
+          [Category.value]: Genre2.SeaAnimals.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 655,
         y: 290,
         width: 220,
         height: 56,
-        text: Genre2.AnimalKatakana.text,
+        text: Genre2.Bard.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.AnimalKatakana.name,
+          [Category.value]: Genre2.Bard.name,
         },
-      },{
+      },
+      {
         type: "button",
         x: 155,
         y: 355,
         width: 220,
         height: 56,
-        text: Genre2.Tree.text,
+        text: Genre2.Fruit.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.Tree.name,
+          [Category.value]: Genre2.Fruit.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 405,
         y: 355,
         width: 220,
         height: 56,
-        text: Genre2.FlowerKanji.text,
+        text: Genre2.Plant.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.FlowerKanji.name,
+          [Category.value]: Genre2.Plant.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 655,
         y: 355,
         width: 220,
         height: 56,
-        text: Genre2.FlowerKatakana.text,
+        text: Genre2.Flower.text,
         fontSize: 24,
         data: {
           [Category.key]: Category.data.Genre2.name,
-          [Category.value]: Genre2.FlowerKatakana.name,
+          [Category.value]: Genre2.Flower.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 155,
         y: 420,
@@ -343,7 +388,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre2.name,
           [Category.value]: Genre2.Zodiac.name,
         },
-      },{
+      }, {
         type: "button",
         x: 405,
         y: 420,
@@ -355,8 +400,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
           [Category.key]: Category.data.Genre2.name,
           [Category.value]: Genre2.LunarCalendar.name,
         },
-      }
-      ,{
+      }, {
         type: "button",
         x: 655,
         y: 420,
@@ -372,7 +416,7 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     ];
 
     return settingButtonArgs.map((arg) => {
-      
+
       switch (arg.type) {
         case "button": //ボタン表示処理        
           const settingButton = new SettingButton(
@@ -398,11 +442,11 @@ export default class MemoryGenreSetting extends Phaser.Scene {
               );
               return settingButton;
           }
-         break;
+          break;
       }
-    
-    
+
+
     });
-  
+
   };
 }

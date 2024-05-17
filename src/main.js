@@ -1,4 +1,5 @@
-import Phaser from "phaser";``
+import Phaser from "phaser";
+``
 // import phaserReact from "phaser3-react";
 
 import OpenLogo from "./scenes/open_logo";
@@ -27,8 +28,12 @@ import MemoryGenre1Setting from "./scenes/memory_genre1_setting";
 import MemoryGenre2Setting from "./scenes/memory_genre2_setting";
 import MemoryLevelSetting from "./scenes/memory_level_setting";
 
+import MemoryHowToPlay from "./scenes/memory_how_to_play";
+
+
 import { worker } from "./mocks/browser";
 import NakamaGameStrokeCount from "./scenes/nakama_game_stroke_count";
+
 
 if (process.env.NODE_ENV === "development") {
   worker.start({
@@ -90,7 +95,8 @@ const config = {
     MemoryGenre2Setting,
     MemoryGame,
     MemoryRuselt,
-    MemoryLevelSetting
+    MemoryLevelSetting,
+    MemoryHowToPlay
   ],
 };
 
@@ -102,8 +108,9 @@ const config = {
 // test();
 
 const game = new Phaser.Game(config);
-game.registry.set("kanjiFontFamily", "KleeOne");
+
 game.registry.set("fontFamily", "'sans-serif', KleeOne, Arial, Sarabun");
 game.registry.set("fontFamilyForStrokeCount", "KleeOneForStrokeCount");
+game.registry.set("kanjiFontFamily", 'KleeOneForStrokeCount');
 
 export default game;
