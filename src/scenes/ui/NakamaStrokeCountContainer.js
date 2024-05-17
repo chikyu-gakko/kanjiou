@@ -16,11 +16,12 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
   constructor(scene, x, y, level) {
     super(scene, x, y);
     scene.add.existing(this);
-    NakamaContainer.StrokeCount.forEach(([index, value]) => {
+    Object.entries(NakamaContainer.StrokeCount).forEach(([index, value]) => {
         if (value.name === level) {
-            this.quizzes = this.createRandomQuizList(index);
+            this.quizzes = this.createRandomQuizList(Number(index));
         }
     });
+    this.parentScene = scene;
     this.group = this.createGroup(scene);
     this.answerCounter = 0;
     this.questionsCounter = 0;
@@ -47,7 +48,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
         this.showMoguran(scene);
 
         this.createNextQuizButton(scene, () => {
-          if (9 <= this.answerCounter) {
+          if (20 <= this.answerCounter) {
             whenCleard();
           }
           this.answerCounter += 1;
@@ -65,36 +66,47 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
    * @returns {[Phaser.GameObjects.Text[], Phaser.GameObjects.Text[]]}
    */
   createObjs = (scene, isExampleAnswer) => {
+    // 2個ずつ問題として出すため、indexを調整
+    const currentIndex = this.answerCounter * 2;
+    
     const leftSide = {
-      chars: this.quizzes[this.answerCounter].left.chars,
-      radical: this.quizzes[this.answerCounter].left.radical,
+      chars: this.quizzes[currentIndex].correctValues,
+      strokeCount: this.quizzes[currentIndex].strokeCount,
       x: 400,
       y: 700,
       width: 100,
       height: 100,
     };
     const rightSide = {
-      chars: this.quizzes[this.answerCounter].right.chars,
-      radical: this.quizzes[this.answerCounter].right.radical,
+      chars: this.quizzes[currentIndex + 1].correctValues,
+      strokeCount: this.quizzes[currentIndex + 1].strokeCount,
       x: 30,
       y: 30,
       width: 100,
       height: 100,
     };
 
-    const leftTitle = scene.add.text(306, 80, leftSide.radical, {
+    let leftTitleText = 'おおい';
+    let rightTitleText = 'すくない';
+
+    if (this.quizzes[currentIndex].correctValues.length > 1) {
+      leftTitleText = this.quizzes[currentIndex].strokeCount + '画';
+      rightTitleText = this.quizzes[currentIndex + 1].strokeCount + '画';
+    }
+
+    const leftTitle = scene.add.text(306, 80, leftTitleText, {
       color: "#333333",
       fontSize: "80px",
       strokeThickness: 10,
-      fontFamily: scene.registry.get("fontFamily"),
+      fontFamily: scene.registry.get("fontFamilyForStrokeCount"),
     });
     leftTitle.setOrigin(0.5, 0.5);
     this.group.add(leftTitle);
-    const rightTitle = scene.add.text(718, 80, rightSide.radical, {
+    const rightTitle = scene.add.text(718, 80, rightTitleText, {
       color: "#333333",
       fontSize: "80px",
       strokeThickness: 10,
-      fontFamily: scene.registry.get("fontFamily"),
+      fontFamily: scene.registry.get("fontFamilyForStrokeCount"),
     });
     rightTitle.setOrigin(0.5, 0.5);
     this.group.add(rightTitle);
@@ -103,82 +115,143 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
       if (isExampleAnswer) {
         /** @type {{x: number, y:number}[]} */
         const sequentialPoss = [];
+
         for (let i = 0; i < leftSide.chars.length; i++) {
           const x = ((i / 3) | 0) * 80 + 250;
           const y = (i % 3) * 80 + 320;
           sequentialPoss.push({ x, y });
         }
+
         for (let i = 0; i < rightSide.chars.length; i++) {
           const x = ((i / 3) | 0) * 80 + 512 + 100;
           const y = (i % 3) * 80 + 320;
           sequentialPoss.push({ x, y });
         }
-        return sequentialPoss;
-      } else {
-        /** @type {{x: number, y:number}[]} */
-        const randomPoss = [];
-        for (let i = 0; i < 1000; i++) {
-          const x = Math.floor(Math.random() * (724 - 200)) + 200;
-          const y = Math.floor(Math.random() * (570 - 230)) + 230;
 
-          let overlapped = false;
-          // FIXME: 文字や線に重ならないように位置を決めているがまだ重なるときがある
-          for (let pos of randomPoss) {
-            if (
-              pos.x - 50 < x &&
-              x < pos.x + 50 &&
-              pos.y - 50 < y &&
-              y < pos.y + 50
-            ) {
-              overlapped = true;
-              break;
-            }
-            if (462 < x && x < 562) {
-              // line
-              overlapped = true;
-              break;
-            }
-          }
-          if (overlapped) continue;
-          randomPoss.push({ x, y });
-          if (
-            leftSide.chars.length + rightSide.chars.length <=
-            randomPoss.length
-          )
-            break;
-        }
-        return randomPoss;
+        return sequentialPoss;
       }
+
+      /** @type {{x: number, y:number}[]} */
+      const randomPoss = [];
+      
+      for (let i = 0; i < 1000; i++) {
+        const x = Math.floor(Math.random() * (724 - 200)) + 200;
+        const y = Math.floor(Math.random() * (570 - 230)) + 230;
+
+        let overlapped = false;
+        // FIXME: 文字や線に重ならないように位置を決めているがまだ重なるときがある
+        for (let pos of randomPoss) {
+          if (
+            pos.x - 50 < x &&
+            x < pos.x + 50 &&
+            pos.y - 50 < y &&
+            y < pos.y + 50
+          ) {
+            overlapped = true;
+            break;
+          }
+          if (462 < x && x < 562) {
+            // line
+            overlapped = true;
+            break;
+          }
+        }
+        if (overlapped) {
+          continue;
+        }
+        
+        randomPoss.push({ x, y });
+
+        if (
+          leftSide.chars.length + rightSide.chars.length <=
+          randomPoss.length
+        ) {
+          break;
+        }
+      }
+
+      return randomPoss;
     };
     const poss = generatePoss();
 
+    /**
+     * @param {Phaser.GameObjects.Text} obj 
+     * @param {*} pointer 
+     * @param {number} dragX 
+     * @param {number} dragY 
+     */
+    const dragCallback = (obj, pointer, dragX, dragY) => {
+      if (200 <= dragY && dragY <= 600 && (dragX <= 502 || 522 <= dragX)) {
+        obj.setPosition(dragX, dragY);
+      }
+      // console.log(dragX, dragY);
+    }
+
+    /**
+     * @param {Phaser.GameObjects.Text} obj 
+     * @param {*} pointer 
+     * @param {number} dropX 
+     * @param {number} dropY 
+     */
+    const dragLeaveCallback = (obj, pointer, dropX, dropY) => {
+      if (200 <= dropY && dropY <= 600 && (dropX <= 502 || 522 <= dropX)) {
+        obj.setPosition(dropX, dropX);
+      }
+
+      /**
+       * @param {Phaser.GameObjects.Text} standardObj 
+       */
+      // const checkOverlappedObjCommand = (standardObj) => {
+      //   if (
+      //     standardObj.x <= obj.x &&
+      //     standardObj.x + standardObj.width >= obj.x &&
+      //     standardObj.y  <= obj.y &&
+      //     standardObj.y + standardObj.height >= obj.y
+      //   ) {
+      //     obj.setPosition(
+      //       obj.x + obj.width,
+      //       obj.y + obj.height
+      //     );
+      //   }
+      // }
+      
+      // leftSideObjs.forEach(checkOverlappedObjCommand);
+      // rightSideObjs.forEach(checkOverlappedObjCommand);
+    }
+
     const leftSideObjs = leftSide.chars.map((e, i) => {
+      let fontSize = '120px';
+      if (this.quizzes[currentIndex].correctValues.length > 1) {
+        fontSize = '80px';
+      }
+
       const obj = scene.add.text(poss[i].x, poss[i].y, e[0], {
         color: "#333333",
-        fontSize: "60px",
-        fontFamily: scene.registry.get("fontFamily"),
+        fontSize: fontSize,
+        fontFamily: scene.registry.get("fontFamilyForStrokeCount"),
       });
       obj.setOrigin(0.5, 0.5);
       obj.setDepth(2);
       this.group.add(obj);
       return obj
         .setInteractive({ draggable: true })
-        .on("drag", (pointer, dragX, dragY) => {
-          if (200 <= dragY && dragY <= 600 && (dragX <= 502 || 522 <= dragX)) {
-            obj.setPosition(dragX, dragY);
-          }
-          // console.log(dragX, dragY);
-        });
+        .on("drag", (pointer, dragX, dragY) => dragCallback(obj, pointer, dragX, dragY))
+        .on("dragend", (pointer, dropX, dropY) => dragLeaveCallback(obj, pointer, dropX, dropY));
     });
     const rightSideObjs = rightSide.chars.map((e, i) => {
+      let fontSize = '120px';
+      if (this.quizzes[currentIndex].correctValues.length > 1) {
+        fontSize = '80px';
+      }
+
       const obj = scene.add.text(
         poss[i + leftSide.chars.length].x,
         poss[i + leftSide.chars.length].y,
         e[0],
         {
           color: "#333333",
-          fontSize: "60px",
-          fontFamily: scene.registry.get("fontFamily"),
+          fontSize: fontSize,
+          fontFamily: scene.registry.get("fontFamilyForStrokeCount"),
         }
       );
       obj.setOrigin(0.5, 0.5);
@@ -186,12 +259,8 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
       this.group.add(obj);
       return obj
         .setInteractive({ draggable: true })
-        .on("drag", (pointer, dragX, dragY) => {
-          if (200 <= dragY && dragY <= 600 && (dragX <= 502 || 522 <= dragX)) {
-            obj.setPosition(dragX, dragY);
-          }
-          // console.log(dragX, dragY);
-        });
+        .on("drag", (pointer, dragX, dragY) => dragCallback(obj, pointer, dragX, dragY))
+        .on("dragend", (pointer, dropX, dropY) => dragLeaveCallback(obj, pointer, dropX, dropY));
     });
 
     return [leftSideObjs, rightSideObjs];
@@ -206,51 +275,67 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
     this.showLeftRadicalName(scene);
     this.showRightRadicalName(scene);
     const threshouldX = 512;
+
+    let isCorrect = true;
+    
     leftSideObjs.forEach((e) => {
       e.removeListener("drag");
-      if (e.x < threshouldX) {
-        // NOTE: バツ印は表示しないことに決まりました
-        // const batu = scene.add.sprite(e.x, e.y, "batu");
-        // batu.setScale(0.2);
-        // batu.setOrigin(0.5, 0.5);
-        // this.group.add(batu);
-      } else {
-        const maru = scene.add.sprite(e.x, e.y, "maru");
+      if (e.x >= threshouldX) {
+        const maru = scene.add.sprite(e.x, e.y, "MARU");
         maru.setScale(0.2);
         maru.setOrigin(0.5, 0.5);
         this.group.add(maru);
-        this.correctedCounter += 1;
+        return;
       }
+      isCorrect = false;
     });
     rightSideObjs.forEach((e) => {
       e.removeListener("drag");
-      if (threshouldX < e.x) {
-        // NOTE: バツ印は表示しないことに決まりました
-        // const batu = scene.add.sprite(e.x, e.y, "batu");
-        // batu.setScale(0.2);
-        // batu.setOrigin(0.5, 0.5);
-        // this.group.add(batu);
-      } else {
-        const maru = scene.add.sprite(e.x, e.y, "maru");
+      if (threshouldX >= e.x) {
+        const maru = scene.add.sprite(e.x, e.y, "MARU");
         maru.setScale(0.2);
         maru.setOrigin(0.5, 0.5);
         this.group.add(maru);
-        this.correctedCounter += 1;
+        return;
       }
+      isCorrect = false;
     });
+
+    if (isCorrect) {
+      this.correctedCounter += 1;
+      this.parentScene.sound.play("CORRECT_SE");
+    }
   };
 
   /**
    * @param {Number} level
    */
   createRandomQuizList = (level) => {
-    const quizzes = nakamaStrokeCountList[level];
-    // NOTE: ランダムではなく難易度順に出題することにした
-    // for (let i = 0; i < quizzes.length; i++) {
-    //   const a = Math.floor(Math.random() * quizzes.length);
-    //   const b = Math.floor(Math.random() * quizzes.length);
-    //   [quizzes[a], quizzes[b]] = [quizzes[b], quizzes[a]];
-    // }
+    const quizzes = nakamaStrokeCountData[level - 1];
+
+    for (let i = 0; i < quizzes.length; i++) {
+      const a = Math.floor(Math.random() * quizzes.length);
+      const b = Math.floor(Math.random() * quizzes.length);
+      [quizzes[a], quizzes[b]] = [quizzes[b], quizzes[a]];
+    }
+
+    for (let i = 0; i < quizzes.length / 2; i++) {
+      const currentIndex = i * 2
+
+      if (quizzes[currentIndex].strokeCount === quizzes[currentIndex + 1].strokeCount) {
+        for (let j = i + 1; j < quizzes.length; j++) {
+          if (quizzes[currentIndex].strokeCount > quizzes[j].strokeCount) {
+            [quizzes[j], quizzes[currentIndex + 1]] = [quizzes[currentIndex + 1], quizzes[j]];
+            break;
+          }
+        }
+      }
+
+      if (quizzes[currentIndex].strokeCount < quizzes[currentIndex + 1].strokeCount) {
+        [quizzes[currentIndex], quizzes[currentIndex + 1]] = [quizzes[currentIndex + 1], quizzes[currentIndex]];
+      }
+    }
+    
     return quizzes;
   };
 
@@ -273,7 +358,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
     //     okButton.destroy();
     //   });
     const okButton = scene.add
-      .sprite(512, 680, "ok")
+      .sprite(512, 680, "OK")
       .setInteractive()
       .setScale(0.6, 0.6)
       .setOrigin(0.5, 0.5)
@@ -305,7 +390,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
     //     exampleAnswerButton.destroy();
     //   });
     const exampleAnswerButton = scene.add
-      .sprite(512, 680, "kotae")
+      .sprite(512, 680, "KOTAE")
       .setInteractive()
       .setScale(0.8, 0.8)
       .setOrigin(0.5, 0.5)
@@ -335,7 +420,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
     //     nextButton.destroy();
     //   });
     const nextButton = scene.add
-      .sprite(512, 680, "go")
+      .sprite(512, 680, "GO")
       .setInteractive()
       .setScale(0.8, 0.8)
       .setOrigin(0.5, 0.5)
@@ -359,7 +444,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
   createAnswerComponent = (scene) => {
     if (this.answerComponent) this.answerComponent.destroy();
     const text = scene.add
-      .text(250, 700, `${this.answerCounter + 1} / 10 問`, {
+      .text(250, 700, `${this.answerCounter + 1} / 20 問`, {
         color: "#333333",
         fontSize: "50px",
         fontFamily: scene.registry.get("fontFamily"),
@@ -375,7 +460,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
     const leftRadicalName = scene.add.text(
       306,
       150,
-      this.quizzes[this.answerCounter].left.radicalName,
+      this.quizzes[this.answerCounter * 2].strokeCount + '画',
       {
         color: "#333333",
         fontSize: "40px",
@@ -393,7 +478,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
     const rightRadicalName = scene.add.text(
       718,
       150,
-      this.quizzes[this.answerCounter].right.radicalName,
+      this.quizzes[this.answerCounter * 2 + 1].strokeCount + '画',
       {
         color: "#333333",
         fontSize: "40px",
@@ -409,7 +494,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
    */
   showMoguran = (scene) => {
     const moguran = scene.add
-      .sprite(850, 550, "correctmogura")
+      .sprite(850, 550, "CORRECT_MOGURA")
       .setScale(0.4, 0.4);
     this.group.add(moguran);
   };

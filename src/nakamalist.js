@@ -1,5 +1,5 @@
 export const nakamalist = {
-  レベル1: [
+  level1: [
     {
       number: 1,
       left: {
@@ -131,7 +131,7 @@ export const nakamalist = {
       },
     },
   ],
-  レベル2: [
+  level2: [
     {
       number: 1,
       left: {
@@ -263,7 +263,7 @@ export const nakamalist = {
       },
     },
   ],
-  レベル3: [
+  level3: [
     {
       number: 1,
       left: {
@@ -395,4 +395,268 @@ export const nakamalist = {
       },
     },
   ],
+  level4: [
+    {
+        number: 1,
+        left: {
+            radical: "⺼",
+            radicalName: "にくづき",
+            chars: ["脚", "肝", "股", "肢", "脂", "胴"]
+        },
+        right: {
+            radical: "目",
+            radicalName: "めへん",
+            chars: ["瞬", "睡", "眺", "瞳"]
+        }
+    },
+    {
+        number: 2,
+        left: {
+            radical: "心",
+            radicalName: "したごころ",
+            chars: ["慰", "怒", "忌", "恐", "惑", "怠"]
+        },
+        right: {
+            radical: "灬",
+            radicalName: "れんが・れっか",
+            chars: ["焦", "煎", "黙", "烈"]
+        }
+    },
+    {
+        number: 3,
+        left: {
+            radical: "口",
+            radicalName: "くちへん",
+            chars: ["咽", "唄", "喝", "嗅", "喚", "喫", "叫"]
+        },
+        right: {
+            radical: "日",
+            radicalName: "ひへん",
+            chars: ["曖", "昧", "旺"]
+        }
+    },
+    {
+        number: 4,
+        left: {
+            radical: "⻊",
+            radicalName: "あしへん",
+            chars: ["蹴", "跡", "跳", "踏", "踪", "距", "躍"]
+        },
+        right: {
+            radical: "走",
+            radicalName: "そうにょう",
+            chars: ["越", "趣", "超"]
+        }
+    },
+    {
+        number: 5,
+        left: {
+            radical: "土",
+            radicalName: "つち",
+            chars: ["堅", "塾", "墾", "墨", "塁", "壁", "墜", "塑"]
+        },
+        right: {
+            radical: "玉",
+            radicalName: "たま",
+            chars: ["璧", "璽"]
+        }
+    },
+    {
+        number: 6,
+        left: {
+            radical: "大",
+            radicalName: "だい",
+            chars: ["奥", "契", "臭", "奨", "突"]
+        },
+        right: {
+            radical: "木",
+            radicalName: "き",
+            chars: ["架", "柔", "桑", "奪", "奇"]
+        }
+    },
+    {
+        number: 7,
+        left: {
+            radical: "舟",
+            radicalName: "ふねへん",
+            chars: ["艇", "舶", "般", "艦"]
+        },
+        right: {
+            radical: "車",
+            radicalName: "くるまへん",
+            chars: ["較", "軌", "斬", "軸", "軟", "軒"]
+        }
+    },
+    {
+        number: 8,
+        left: {
+            radical: "馬",
+            radicalName: "うまへん",
+            chars: ["騒", "駄", "駐", "騎", "駆", "駒", "騰", "驚"]
+        },
+        right: {
+            radical: "魚",
+            radicalName: "さかなへん",
+            chars: ["鯨", "鮮"]
+        }
+    },
+    {
+        number: 9,
+        left: {
+            radical: "酉",
+            radicalName: "さけへん",
+            chars: ["酪", "酵", "酌", "醸", "酔", "酢"]
+          },
+          right: {
+              radical: "米",
+              radicalName: "こめへん",
+              chars: ["粒", "粘", "粗", "粋"]
+          }
+      },
+      {
+          number: 10,
+          left: {
+              radical: "氵",
+              radicalName: "さんずい",
+              chars: ["漆", "沼", "漬", "湾", "漏"]
+          },
+          right: {
+              radical: "冫",
+              radicalName: "にすい",
+              chars: ["冶", "凝", "凄", "凍", "准"]
+          }
+      }
+  ],
+  level5: [
+    {
+        number: 1,
+        left: {
+            radical: "木",
+            radicalName: "きへん",
+            chars: ["桜", "根", "極", "枚", "樹", "株"]
+        },
+        right: {
+            radical: "禾",
+            radicalName: "のぎへん",
+            chars: ["科", "秘", "穂", "租"]
+        }
+    },
+    {
+        number: 2,
+        left: {
+            radical: "宀",
+            radicalName: "うかんむり",
+            chars: ["宿", "守", "密", "宛", "審", "宰"]
+        },
+        right: {
+            radical: "亠",
+            radicalName: "なべぶた",
+            chars: ["京", "交", "享", "亭"]
+        }
+    },
+    {
+        number: 3,
+        left: {
+            radical: "礻",
+            radicalName: "しめすへん",
+            chars: ["礼", "祖", "社", "祝", "神", "祈", "禍"]
+        },
+        right: {
+            radical: "衤",
+            radicalName: "ころもへん",
+            chars: ["複", "装", "被"]
+        }
+    },
+    {
+        number: 4,
+        left: {
+            radical: "辶",
+            radicalName: "しんにょう",
+            chars: ["達", "遊", "連", "途", "逃"]
+        },
+        right: {
+            radical: "走",
+            radicalName: "そうにょう",
+            chars: ["起", "超", "趣", "越", "赴"]
+        }
+    },
+    {
+        number: 5,
+        left: {
+            radical: "虫",
+            radicalName: "むしへん",
+            chars: ["蚕", "蛍", "蛇", "虹", "蜂", "蚊"]
+        },
+        right: {
+            radical: "犭",
+            radicalName: "けものへん",
+            chars: ["狩", "独", "猫", "狂"]
+        }
+    },
+    {
+        number: 6,
+        left: {
+            radical: "土",
+            radicalName: "つちへん",
+            chars: ["城", "場", "塩", "塔", "埼"]
+        },
+        right: {
+            radical: "扌",
+            radicalName: "てへん",
+            chars: ["技", "持", "拠", "搭", "撮"]
+        }
+    },
+    {
+        number: 7,
+        left: {
+            radical: "斗",
+            radicalName: "るまた",
+            chars: ["段", "殴", "殻", "殿"]
+        },
+        right: {
+            radical: "攵",
+            radicalName: "のぶん",
+            chars: ["救", "敗", "数", "教", "政", "敬"]
+        }
+    },
+    {
+        number: 8,
+        left: {
+            radical: "尸",
+            radicalName: "かばね・しかばね",
+            chars: ["屋", "居", "属", "展", "尾"]
+        },
+        right: {
+            radical: "疒",
+            radicalName: "やまいだれ",
+            chars: ["病", "痛", "疲", "症", "疾"]
+        }
+    },
+    {
+        number: 9,
+        left: {
+            radical: "歹",
+            radicalName: "はがねへん",
+            chars: ["残", "死", "殉", "殖", "殊"]
+        },
+        right: {
+            radical: "夕",
+            radicalName: "た・ゆうべ",
+            chars: ["外", "多", "夢", "夕", "夜"]
+        }
+    },
+    {
+        number: 10,
+        left: {
+            radical: "忄",
+            radicalName: "りっしんべん",
+            chars: ["快", "怪", "悔", "憧"]
+        },
+        right: {
+            radical: "行",
+            radicalName: "ぎょうにんべん",
+            chars: ["従", "径", "徳", "律", "征", "御"]
+        }
+    }
+]
 };

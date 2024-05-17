@@ -1,29 +1,26 @@
 import Phaser from "phaser";
-import NakamaContainer from "./ui/NakamaContainer";
 import BackGround from "./ui/BackGround";
 import SoundButton from "../components/sound_button";
 import TimeStopLabel from "./ui/TimerStopLabel.js";
 import NakamaGameStrokeCountContainer from "./ui/NakamaStrokeCountContainer";
 
 const BGMS = {
-    GAME_BGM: 'assets/audio/timer.mp3',
+  GAME_BGM: 'assets/audio/timer.mp3',
 };
 const SES = {
-    CORRECT_SE: 'assets/audio/correct.mp3',
-    BUT_SE: 'assets/audio/but_se.mp3',
+  CORRECT_SE: 'assets/audio/correct.mp3',
+  BUT_SE: 'assets/audio/but_se.mp3',
 }
 const IMAGES = {
-    MARU: 'assets/img/maru.png',
-    BATU: 'assets/img/batu.png',
-    CORRECT_MOGURA: 'assets/img/fun_mogura2.png',
-    MISTAKE_MOGURA: 'assets/img/sad_mogura.png',
-    TANNIS_COURT: 'assets/img/tennis_court.png',
-    GO: 'assets/img/navi_go.png',
-    OK: 'assets/img/ok.png',
-    KOTAE: 'assets/img/kotae.png',
+  MARU: 'assets/img/maru.png',
+  BATU: 'assets/img/batu.png',
+  CORRECT_MOGURA: 'assets/img/fun_mogura2.png',
+  MISTAKE_MOGURA: 'assets/img/sad_mogura.png',
+  TANNIS_COURT: 'assets/img/tennis_court.png',
+  GO: 'assets/img/navi_go.png',
+  OK: 'assets/img/ok.png',
+  KOTAE: 'assets/img/kotae.png',
 };
-
-const Level = NakamaContainer.Level;
 
 export default class NakamaGameStrokeCount extends Phaser.Scene {
   constructor() {
@@ -34,13 +31,16 @@ export default class NakamaGameStrokeCount extends Phaser.Scene {
 
   preload() {
     this.load.path = window.location.href.replace("index.html", "");
-    const loadCommand = ([name, path]) => {
+    const loadAudioCommand = ([name, path]) => {
       this.load.audio(name, path);
     }
+    const loadImageCommand = ([name, path]) => {
+      this.load.image(name, path);
+    }
     
-    BGMS.forEach(loadCommand);
-    SES.forEach(loadCommand);
-    IMAGES.forEach(loadCommand);
+    Object.entries(BGMS).forEach(loadAudioCommand);
+    Object.entries(SES).forEach(loadAudioCommand);
+    Object.entries(IMAGES).forEach(loadImageCommand);
   }
 
   init(data) {
@@ -105,7 +105,7 @@ export default class NakamaGameStrokeCount extends Phaser.Scene {
   };
 
   startMusic = () => {
-    this.sound.play("game_bgm", { loop: true });
+    this.sound.play("GAME_BGM", { loop: true });
   };
 
   transitionToResult = () => {
