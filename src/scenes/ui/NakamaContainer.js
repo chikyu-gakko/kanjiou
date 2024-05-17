@@ -5,20 +5,77 @@ import { nakamalist } from "../../nakamalist";
  *
  * @callback afterConfirmationCallback
  */
-
 export default class NakamaContainer extends Phaser.GameObjects.Container {
   static Level = {
     1: {
       name: "level1",
-      text: "レベル1",
+      text: "レベル1 (小学1〜3年)",
     },
     2: {
       name: "level2",
-      text: "レベル2",
+      text: "レベル2 (小学4〜6年)",
     },
     3: {
       name: "level3",
-      text: "レベル3",
+      text: "レベル3 (小学1〜6年)",
+    },
+    4: {
+      name: "level4",
+      text: "レベル4 (中学1〜3年)",
+    },
+    5: {
+      name: "level5",
+      text: "レベル5 (小学1〜中学3年)",
+    },
+  };
+  static StrokeCount = {
+    1: {
+      name: "level1",
+      text: "レベル1 (小1)",
+    },
+    2: {
+      name: "level2",
+      text: "レベル2 (小2)",
+    },
+    3: {
+      name: "level3",
+      text: "レベル3 (小3)",
+    },
+    4: {
+      name: "level4",
+      text: "レベル4 (小4)",
+    },
+    5: {
+      name: "level5",
+      text: "レベル5 (小5)",
+    },
+    6: {
+      name: "level6",
+      text: "レベル6 (小6)",
+    },
+    7: {
+      name: "level7",
+      text: "レベル7 (中学生)",
+    },
+    8: {
+      name: "level8",
+      text: "レベル8 (小中学生)",
+    },
+    9: {
+      name: "level9",
+      text: "レベル9 (小学生)",
+    },
+    10: {
+      name: "level10",
+      text: "レベル10 (小１～中３)",
+    },
+    11: {
+      name: "level11",
+      text: "レベル11 (小１～６)",
+    },
+    12: {
+      name: "level12",
+      text: "レベル12 (小１～中３)",
     },
   };
   static Category = {
@@ -28,6 +85,28 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
       Level: {
         name: "level",
         text: "レベル",
+        width: 434,
+        height: 56,
+        basePositionX: 445,
+        basePositionY: 100,
+        marginX: 19,
+        marginY: 19,
+        row: 1,
+        fontSize: 24,
+        value: this.Level
+      },
+      StrokeCount: {
+        name: "strokeCount",
+        text: "画数",
+        width: 235,
+        height: 56,
+        basePositionX: 410,
+        basePositionY: 100,
+        marginX: 15,
+        marginY: 19,
+        row: 2,
+        fontSize: 16,
+        value: this.StrokeCount
       },
     },
   };
@@ -41,6 +120,7 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
   constructor(scene, x, y, level) {
     super(scene, x, y);
     scene.add.existing(this);
+    // stupid LOL :-)
     switch (level) {
       case NakamaContainer.Level[1].name:
         this.quizzes = this.createRandomQuizList(1);
@@ -50,6 +130,12 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
         break;
       case NakamaContainer.Level[3].name:
         this.quizzes = this.createRandomQuizList(3);
+        break;
+      case NakamaContainer.Level[4].name:
+        this.quizzes = this.createRandomQuizList(4);
+        break;
+      case NakamaContainer.Level[5].name:
+        this.quizzes = this.createRandomQuizList(5);
         break;
       default:
       // throw `${level} does not exist in nakamalist`;
@@ -277,7 +363,8 @@ export default class NakamaContainer extends Phaser.GameObjects.Container {
    * @param {Number} level
    */
   createRandomQuizList = (level) => {
-    const quizzes = nakamalist[NakamaContainer.Level[level].text];
+    const quizzes = nakamalist[NakamaContainer.Level[level].name];
+    console.log(NakamaContainer.Level[level].text)
     // NOTE: ランダムではなく難易度順に出題することにした
     // for (let i = 0; i < quizzes.length; i++) {
     //   const a = Math.floor(Math.random() * quizzes.length);

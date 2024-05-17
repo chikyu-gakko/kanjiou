@@ -284,16 +284,16 @@ export default class NakamaGameResult extends Phaser.Scene {
       repeat: -1,
     });
     this.add
-      .sprite(260, 400, "moguraAnim1")
+      .sprite(160, 400, "moguraAnim1")
       .setOrigin(0, 0)
       .play("moguraAnimation2");
+    this.add
+      .sprite(260, 400, "moguraAnim1")
+       .setOrigin(0, 0)
+   .play("moguraAnimation2");
     this.add
       .sprite(360, 400, "moguraAnim1")
-      .setOrigin(0, 0)
-      .play("moguraAnimation2");
-    this.add
-      .sprite(460, 400, "moguraAnim1")
-      .setOrigin(0, 0)
-      .play("moguraAnimation2");
+       .setOrigin(0, 0)
+   .play("moguraAnimation2");
   }
 }

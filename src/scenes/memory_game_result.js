@@ -335,14 +335,17 @@ export default class MemoryGameResult extends Phaser.Scene {
       this.add
         .sprite(260, 400, "moguraAnim1")
         .setOrigin(0, 0)
+        .setSize(400, 290.8)
         .play("moguraAnimation2");
       this.add
         .sprite(360, 400, "moguraAnim1")
         .setOrigin(0, 0)
+        .setSize(400, 290.8)
         .play("moguraAnimation2");
       this.add
         .sprite(460, 400, "moguraAnim1")
         .setOrigin(0, 0)
+        .setSize(400, 290.8)
         .play("moguraAnimation2");
     }
   }
