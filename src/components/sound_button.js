@@ -15,12 +15,15 @@ export default class SoundButton extends Phaser.GameObjects.Container {
         new Phaser.Geom.Circle(0, 0, radius),
         Phaser.Geom.Circle.Contains
       );
-
+      ;
+      
     // 音声アイコン
     this.soundIcon = scene.add.image(0, 0, "sound");
     this.muteIcon = scene.add.image(0, 0, "mute");
     this.soundIcon.setVisible(!scene.sound.mute);
     this.muteIcon.setVisible(scene.sound.mute);
+
+    
 
     this.soundCircle.on("pointerdown", () => {
       const isMute = !scene.sound.mute;
@@ -28,6 +31,7 @@ export default class SoundButton extends Phaser.GameObjects.Container {
       this.soundIcon.setVisible(!isMute);
       this.muteIcon.setVisible(isMute);
     });
+
 
     this.add([this.soundCircle, this.soundIcon, this.muteIcon]);
   }

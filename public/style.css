@@ -7,6 +7,17 @@
   font-family: 'Noto Sans', sans-serif;
 }
 
+
+@font-face {
+  font-family: BIZUDPMincho;
+  src: url('./assets/font/BIZUDPMincho-Regular.ttf');
+}
+
+@font-face {
+  font-family: KleeOneForStrokeCount;
+  src: url('./assets/font/KleeOne-SemiBold.ttf');
+}
+
 body {
   background-color: #eaeaea;
 }

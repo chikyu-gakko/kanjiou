@@ -5,7 +5,10 @@ import CameraFadeIn from "./ui/CameraFadeIn.js";
 
 export default class GameMenu extends Phaser.Scene {
   constructor() {
-    super({ key: "game_menu", active: false });
+    super({
+      key: "game_menu",
+      active: false
+    });
   }
 
   preload() {
@@ -50,6 +53,7 @@ export default class GameMenu extends Phaser.Scene {
 
   init() {
     this.fontFamily = this.registry.get("fontFamily");
+    this.fontFamily2 = this.registry.get("MemoryGameFontFamiry");
   }
 
   create() {
@@ -62,14 +66,34 @@ export default class GameMenu extends Phaser.Scene {
     // 地面
     this.anims.create({
       key: "ground",
-      frames: [
-        { key: "ground1", duration: 10 },
-        { key: "ground2", duration: 20 },
-        { key: "ground3", duration: 30 },
-        { key: "ground4", duration: 40 },
-        { key: "ground5", duration: 50 },
-        { key: "ground6", duration: 60 },
-        { key: "ground7", duration: 1000 },
+      frames: [{
+          key: "ground1",
+          duration: 10
+        },
+        {
+          key: "ground2",
+          duration: 20
+        },
+        {
+          key: "ground3",
+          duration: 30
+        },
+        {
+          key: "ground4",
+          duration: 40
+        },
+        {
+          key: "ground5",
+          duration: 50
+        },
+        {
+          key: "ground6",
+          duration: 60
+        },
+        {
+          key: "ground7",
+          duration: 1000
+        },
       ],
       frameRate: 24,
     });
@@ -82,14 +106,34 @@ export default class GameMenu extends Phaser.Scene {
     // 木
     this.anims.create({
       key: "tree",
-      frames: [
-        { key: "tree1", duration: 10 },
-        { key: "tree2", duration: 20 },
-        { key: "tree3", duration: 30 },
-        { key: "tree4", duration: 40 },
-        { key: "tree5", duration: 50 },
-        { key: "tree6", duration: 60 },
-        { key: "tree7", duration: 1000 },
+      frames: [{
+          key: "tree1",
+          duration: 10
+        },
+        {
+          key: "tree2",
+          duration: 20
+        },
+        {
+          key: "tree3",
+          duration: 30
+        },
+        {
+          key: "tree4",
+          duration: 40
+        },
+        {
+          key: "tree5",
+          duration: 50
+        },
+        {
+          key: "tree6",
+          duration: 60
+        },
+        {
+          key: "tree7",
+          duration: 1000
+        },
       ],
       frameRate: 24,
     });
@@ -124,7 +168,11 @@ export default class GameMenu extends Phaser.Scene {
     this.tweens.add({
       targets: [doropItem],
       props: {
-        y: { value: 100 + doropItem.depth, duration: 1500, ease: "Power2" },
+        y: {
+          value: 100 + doropItem.depth,
+          duration: 1500,
+          ease: "Power2"
+        },
       },
       delay: 1000,
     });
@@ -134,14 +182,34 @@ export default class GameMenu extends Phaser.Scene {
     // mogura
     this.anims.create({
       key: "mogura",
-      frames: [
-        { key: "mogura1", duration: 300 },
-        { key: "mogura2", duration: 100 },
-        { key: "mogura3", duration: 180 },
-        { key: "mogura4", duration: 100 },
-        { key: "mogura5", duration: 100 },
-        { key: "mogura6", duration: 100 },
-        { key: "mogura7", duration: 1000 },
+      frames: [{
+          key: "mogura1",
+          duration: 300
+        },
+        {
+          key: "mogura2",
+          duration: 100
+        },
+        {
+          key: "mogura3",
+          duration: 180
+        },
+        {
+          key: "mogura4",
+          duration: 100
+        },
+        {
+          key: "mogura5",
+          duration: 100
+        },
+        {
+          key: "mogura6",
+          duration: 100
+        },
+        {
+          key: "mogura7",
+          duration: 1000
+        },
       ],
       frameRate: 24,
     });
@@ -245,16 +313,42 @@ export default class GameMenu extends Phaser.Scene {
         Phaser.Geom.Rectangle.Contains
       )
       .strokePath();
+    memoryGmButton.on("pointerdown", () => {
+      modeDecideSe.play();
+      this.scene.start("MemoryGameSetting");
+    });
     this.add
-      .text(200, 520, "作成中", {
+      .text(200, 520, "神経衰弱", {
         fontSize: "32px",
         fontFamily: this.fontFamily,
         color: "#333333",
       })
       .setOrigin(0.5, 0);
 
-    // 作成中の横モグラ
-    this.add.image(95, 535, "top_mogura");
+
+    this.add
+      .text(200, 520, "", {
+        fontSize: "32px",
+        fontFamily: this.fontFamily2,
+        color: "#00000000",
+      })
+      .setOrigin(0.5, 0);
+
+    memoryGmButton.on("pointerdown", () => {
+      modeDecideSe.play();
+      this.scene.start("MemoryModeSetting");
+    });
+    // this.add
+    //   .text(200, 520, "作成中", {
+    //     fontSize: "32px",
+    //     fontFamily: this.fontFamily,
+    //     color: "#333333",
+    //   })
+    //   .setOrigin(0.5, 0);
+
+    // // 作成中の横モグラ
+    // this.add.image(95, 535, "top_mogura");
+
   }
 
   createBackGround = () => {
@@ -267,6 +361,13 @@ export default class GameMenu extends Phaser.Scene {
      */
     const callback = (scene) => {
       scene.cameras.main.once("camerafadeincomplete", () => {
+        let isFadedGameMenu = false;
+
+        window.addEventListener('click', () => {
+          isFadedGameMenu = true;
+          this.gameMenuFade();
+        });
+
         setTimeout(() => {
           this.groundAnim();
         }, 2000);
@@ -280,6 +381,8 @@ export default class GameMenu extends Phaser.Scene {
           this.moguraAnim();
         }, 5000);
         setTimeout(() => {
+          if (isFadedGameMenu) return;
+
           this.gameMenuFade();
         }, 8000);
       });
