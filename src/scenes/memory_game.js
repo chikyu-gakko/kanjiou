@@ -1,90 +1,34 @@
 import Phaser from "phaser";
-import {
-  nationalFlags
-} from "../data/countries";
-import {
-  jobs
-} from "../data/jobs";
-import {
-  CountPeople
-} from "../data/CountPeople";
-import {
-  constellations
-} from "../data/constellations";
-import {
-  Prefecture
-} from "../data/prefecture";
-import {
-  PrefecturalCapital
-} from "../data/PrefecturalCapital";
-import {
-  calendar
-} from "../data/calendar";
-import {
-  CountThing
-} from "../data/CountThing";
-import {
-  Day
-} from "../data/Day";
-import {
-  Subject
-} from "../data/Subject";
-import {
-  Color
-} from "../data/Color";
-import {
-  vehicle
-} from "../data/vehicle";
-import {
-  instrument
-} from "../data/instrument";
-import {
-  sweets
-} from "../data/sweets";
-import {
-  vegetable
-} from "../data/vegetable";
-import {
-  menu
-} from "../data/menu";
-import {
-  animal
-} from "../data/animal";
-import {
-  SeaCreature
-} from "../data/Sea​​Creature";
-import {
-  bard
-} from "../data/bard";
-import {
-  fruits
-} from "../data/fruits";
-import {
-  plant
-} from "../data/plant";
-import {
-  flower
-} from "../data/flower";
-import {
-  MapSymbol
-} from "../data/MapSymbol";
-import {
-  zodiac
-} from "../data/zodiac";
+import { nationalFlags } from "../data/countries";
+import { jobs } from "../data/jobs";
+import { CountPeople } from "../data/CountPeople";
+import { constellations } from "../data/constellations";
+import { Prefecture } from "../data/prefecture";
+import { PrefecturalCapital } from "../data/PrefecturalCapital";
+import { calendar } from "../data/calendar";
+import { CountThing } from "../data/CountThing";
+import { Day } from "../data/Day";
+import { Subject } from "../data/Subject";
+import { Color } from "../data/Color";
+import { vehicle } from "../data/vehicle";
+import { instrument } from "../data/instrument";
+import { sweets } from "../data/sweets";
+import { vegetable } from "../data/vegetable";
+import { menu } from "../data/menu";
+import { animal } from "../data/animal";
+import { SeaCreature } from "../data/Sea​​Creature";
+import { bard } from "../data/bard";
+import { fruits } from "../data/fruits";
+import { plant } from "../data/plant";
+import { flower } from "../data/flower";
+import { MapSymbol } from "../data/MapSymbol";
+import { zodiac } from "../data/zodiac";
 
 import SoundButton from "../components/sound_button";
+import TimeStopLabel from "./ui/TimerStopLabel.js";
 import BackGround from "./ui/BackGround";
-import {
-  LEVEL1,
-  LEVEL2,
-  LEVEL3
-} from "./constants/level";
-import {
-  COLOR_LIGHT_BLACK,
-  COLOR_LIGHT_GRAY,
-  COLOR_PALE_GREEN,
-  COLOR_WHITE
-} from "./constants/color";
+import { LEVEL1,LEVEL2,LEVEL3 } from "./constants/level";
+import { COLOR_LIGHT_BLACK, COLOR_LIGHT_GRAY, COLOR_PALE_GREEN, COLOR_WHITE } from "./constants/color";
 
 const DEBUG_MODE = false;
 const ERROR_MESSAGE_FOR_LEVEL = 'invalid level.';
@@ -136,26 +80,33 @@ export default class MemoryGame extends Phaser.Scene {
 
     this.leftCardType = "";
     this.rightCardType = "";
+
+    this.DoubleExeFlag; //create関数に2回実行阻止
   }
 
   preload = () => {
-    //左のカード用写真を登録
-    this.cardsData.forEach((cardData) => {
-      this.load.image(cardData.id + "_LEFT", cardData.LeftCard);
-    });
+      this.DoubleExeFlag = false;    
+      
+        //左のカード用写真を登録
+        this.cardsData.forEach((cardData) => {
+          this.load.image(cardData.id + "_LEFT", cardData.LeftCard);
+          console.log("this.load.image_LEFT:"+cardData.LeftCard);
+        });
 
-    //右のカード用写真を登録
-    this.cardsData.forEach((cardData) => {
-      this.load.image(cardData.id + "_RIGHT", cardData.RightCard);
-    });
+        //右のカード用写真を登録
+        this.cardsData.forEach((cardData) => {
+          this.load.image(cardData.id + "_RIGHT", cardData.RightCard);
+          console.log("this.load.image_RIGHT:"+cardData.RightCard);
+        });    
 
-    this.load.image(CARD_BACK_SIDE_IMAGE_KEY, 'assets/img/card/card_back.png');
-    this.load.image("BackCarpet", 'assets/img/carpet.png');
+      this.load.image(CARD_BACK_SIDE_IMAGE_KEY, 'assets/img/card/card_back.png');
+      this.load.image("BackCarpet", 'assets/img/carpet.png');
 
-    this.load.image("LeftPattern", 'assets/img/pattern.png');
-    this.load.image("RightPattern", 'assets/img/pattern.png');
+      this.load.image("LeftPattern", 'assets/img/pattern.png');
+      this.load.image("RightPattern", 'assets/img/pattern.png');
 
-    this.load.audio("CardSe", "assets/audio/card_se.mp3");
+      this.load.audio("CardSe", "assets/audio/card_se.mp3");
+
   }
 
 
@@ -321,33 +272,38 @@ export default class MemoryGame extends Phaser.Scene {
         // default:
         //   this.cardsData = countries;
     }
-
-    console.log(this.prevSceneData.level);
-    console.log(this.prevSceneData.mode);
-    console.log("genre ： " + this.prevSceneData.genre);
+    console.log("init!!:"+Date.now());
+    // console.log("this.cardsData:"+this.cardsData);
+    // console.log(this.prevSceneData.level);
+    // console.log(this.prevSceneData.mode);
+    // console.log("genre ： " + this.prevSceneData.genre);
 
     this.gameConfig = {
       level: data.level,
       mode: data.mode
     };
+    this.DoubleExeFlag = false;
 
-    this.triedCount = 0;
-    this.maxTryCount = this.levelToMaxTryCount(this.gameConfig.level)
+    if(this.DoubleExeFlag == false){
+      this.DoubleExeFlag = true;
+      this.triedCount = 0;
+      this.maxTryCount = this.levelToMaxTryCount(this.gameConfig.level)
 
-    this.cardsCount = this.levelToCardsCount(this.gameConfig.level);
-    this.cardsData = this.randomlySelectCards(this.cardsCount);
-    this.RightCardsData = this.mixedUpArray(this.cardsData.map(({
-      RightCard
-    }) => RightCard));
+      this.cardsCount = 0;
+      this.cardsCount = this.levelToCardsCount(this.gameConfig.level);
+      
+      this.cardsData = this.randomlySelectCards(this.cardsCount);
+      this.RightCardsData = this.mixedUpArray(this.cardsData.map(({
+        RightCard
+      }) => RightCard));
 
-    this.RightCardImg = this.mixedUpArray(this.cardsData.map((id) => id));
-    console.log("test:" + this.RightCardImg);
+      this.RightCardImg = this.mixedUpArray(this.cardsData.map((id) => id));
+      this.LeftCardChar = this.mixedUpArray(this.cardsData.map(({
+        LeftCard
+      }) => LeftCard));
 
-    this.LeftCardChar = this.mixedUpArray(this.cardsData.map(({
-      LeftCard
-    }) => LeftCard));
-
-    this.createCardsTextures();
+      this.createCardsTextures();
+    }
 
     this.nowPlayerName = "プレイヤー1の番";
     this.player1PointCounter = 0;
@@ -359,27 +315,59 @@ export default class MemoryGame extends Phaser.Scene {
     this.flippedComponents = [];
 
     this.fontFamily = this.registry.get("fontFamily");
-
   }
 
   create = () => {
+    if(this.DoubleExeFlag == false){
+      this.DoubleExeFlag = true;
+      console.log("create!!");
+      this.createBackGround();
+      this.createCarpet();
+      this.createSoundButton();
 
-    this.createBackGround();
-    this.createCarpet();
-    this.createSoundButton();
+      this.createGameStopLabel();
+      this.events.on("resume", (scene, data) => {
+        switch (data.status) {
+          case "restart":
+            this.sound.stopAll();
+            this.scene.stop();
+            
+            this.scene.start("memory_game", {
+              mode:this.prevSceneData.mode,
+              genre:this.prevSceneData.genre,
+              level: this.prevSceneData.level
+            });
+            break;
+          case "return-to-top":
+            this.sound.stopAll();
+            this.scene.stop();
+            this.scene.start("game_menu");
+            break;
+          case "return-to-setting":
+            this.sound.stopAll();
+            this.scene.stop();
+            this.scene.start("MemoryModeSetting",{
+              mode:this.prevSceneData.mode
+            });
+            break;
+          default:
+        }
+      });
+    
 
-    if (this.prevSceneData.mode == "practice") {
-      this.createTryCountText();
+      if (this.prevSceneData.mode == "practice") {
+        this.createTryCountText();
+      }
+      if (this.prevSceneData.mode == "versus") {
+        this.createPlayer1PointBack();
+        this.createPlayer2PointBack();
+        this.createPleyerNameText();
+        this.Player1PointCountText();
+        this.Player2PointCountText();
+      }
+      this.createLeftCards(); //左カード表示
+      this.createRightCards(); //右カード表示
     }
-    if (this.prevSceneData.mode == "versus") {
-      this.createPlayer1PointBack();
-      this.createPlayer2PointBack();
-      this.createPleyerNameText();
-      this.Player1PointCountText();
-      this.Player2PointCountText();
-    }
-    this.createLeftCards(); //左カード表示
-    this.createRightCards(); //右カード表示
   }
 
   initFlippedArea = () => {
@@ -589,7 +577,6 @@ export default class MemoryGame extends Phaser.Scene {
       const randomElement = this.cardsData[randomIndex];
 
       if (!result.includes(randomElement)) {
-        console.log("randomElement:" + randomElement)
         result.push(randomElement);
       }
     }
@@ -604,13 +591,11 @@ export default class MemoryGame extends Phaser.Scene {
    */
   mixedUpArray = (array) => {
     const result = array;
-    console.log("befor:" + result);
 
     for (let i = result.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [result[i], result[j]] = [result[j], result[i]];
     }
-    console.log("after:" + result);
     return result;
   }
 
@@ -625,6 +610,7 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   createLeftCards = () => {
+    console.log("createLeftCards!!");
 
     const GLOBAL_START_POSITION_X = 40;
     const GLOBAL_START_POSITION_Y = 250;
@@ -636,11 +622,12 @@ export default class MemoryGame extends Phaser.Scene {
     this.consoleLogForDebug(gridSize);
 
 
+
     this.cardsData.forEach((cardData, index) => {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
-      console.log("cardData:" + cardData.id)
+      console.log("createLeftCards() cardData:" + cardData.id)
       const column = index % gridSize.maxColumn;
       const row = Math.floor(index / gridSize.maxColumn);
 
@@ -734,7 +721,7 @@ export default class MemoryGame extends Phaser.Scene {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
-
+      console.log("createLeftCards() RightCardImg:" + RightCardImg.id)
       const column = index % gridSize.maxColumn;
       const row = Math.floor(index / gridSize.maxColumn);
 
@@ -1014,6 +1001,18 @@ export default class MemoryGame extends Phaser.Scene {
       .setOrigin(0, 0).setPadding(0, 4, 0, 0).setStroke("black", 1);
   }
 
+  createGameStopLabel = () => {
+    const timeStopLabel = new TimeStopLabel(this, 775, 672, "一時停止", {
+      color: "#333333",
+      fontSize: "32px",
+      fontFamily: this.fontFamily,
+    });
+    timeStopLabel.setInteractive().on("pointerdown", () => {
+      this.scene.pause();
+      this.scene.launch("memory_pause_menu");
+    });
+  };
+
 
   PlayerPointAdd = () => {
     if (this.triedCount % 2 == 0) {
@@ -1097,7 +1096,7 @@ export default class MemoryGame extends Phaser.Scene {
           flippedComponent.scaleX,
           flippedComponent.scaleY,
         )
-      }, ANIMATION_DURATION_FLIP);
+      }, 2000);//指定されたミリ秒後にカードを裏返すアニメーション実行
     });
 
     setTimeout(() => {
@@ -1143,7 +1142,6 @@ export default class MemoryGame extends Phaser.Scene {
     if (!DEBUG_MODE) {
       return;
     }
-
     console.log(contents);
   }
 }
