@@ -29,34 +29,34 @@ export const zodiac = [
     id: '寅',
     RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/寅　とら.png',
    },
-   // {
-   //  LeftCard:'assets/img/zodiac/干支_左_イラスト/巳　み.png',
-   //  id: '巳',
-   //  RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/巳　み.png',
-   // },
-   // {
-   //  LeftCard:'assets/img/zodiac/干支_左_イラスト/戌　いぬ.png',
-   //  id: '戌',
-   //  RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/戌　いぬ.png',
-   // },
-   // {
-   //  LeftCard:'assets/img/zodiac/干支_左_イラスト/未　ひつじ.png',
-   //  id: '未',
-   //  RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/未　ひつじ.png',
-   // },
-   // {
-   //  LeftCard:'assets/img/zodiac/干支_左_イラスト/申　さる.png',
-   //  id: '申',
-   //  RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/申　さる.png',
-   // },
-   // {
-   //  LeftCard:'assets/img/zodiac/干支_左_イラスト/辰　たつ.png',
-   //  id: '辰',
-   //  RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/辰　たつ.png',
-   // },
-   // {
-   //  LeftCard:'assets/img/zodiac/干支_左_イラスト/酉　とり.png',
-   //  id: '酉',
-   //  RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/酉　とり.png',
-   // },
+   {
+    LeftCard:'assets/img/zodiac/干支_左_イラスト/巳　へび.png',
+    id: '巳',
+    RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/巳　み.png',
+   },
+   {
+    LeftCard:'assets/img/zodiac/干支_左_イラスト/戌　いぬ.png',
+    id: '戌',
+    RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/戌　いぬ.png',
+   },
+   {
+    LeftCard:'assets/img/zodiac/干支_左_イラスト/未　ひつじ.png',
+    id: '未',
+    RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/未　ひつじ.png',
+   },
+   {
+    LeftCard:'assets/img/zodiac/干支_左_イラスト/申　さる.png',
+    id: '申',
+    RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/申　さる.png',
+   },
+   {
+    LeftCard:'assets/img/zodiac/干支_左_イラスト/辰　たつ.png',
+    id: '辰',
+    RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/辰　たつ.png',
+   },
+   {
+    LeftCard:'assets/img/zodiac/干支_左_イラスト/酉　とり.png',
+    id: '酉',
+    RightCard:'assets/img/zodiac/干支_右_ルビ付き漢字/酉　とり.png',
+   },
 ]
