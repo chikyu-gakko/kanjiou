@@ -827,7 +827,13 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   TryCount = () => {
-    return `${this.maxTryCount - this.triedCount}`;
+    //残り回数が10以下になったらスペースを入れて右揃えを維持する
+    if((this.maxTryCount - this.triedCount) >= 10){
+      return `${this.maxTryCount - this.triedCount}`;
+    }else{
+      return "  "+(`${this.maxTryCount - this.triedCount}`);
+    }
+    
   }
 
   currentTryCount = () => {
@@ -860,11 +866,11 @@ export default class MemoryGame extends Phaser.Scene {
       fontFamily: this.fontFamily
     });
 
-    this.TryLimitComponent = this.add.text(number1Object.width, 0, this.TryCount(), {
-      color: "#D53F3F",
-      fontSize: "100px",
-      fontFamily: this.fontFamily
-    });
+      this.TryLimitComponent = this.add.text(number1Object.width, 0, this.TryCount(), {
+        color: "#D53F3F",
+        fontSize: "100px",
+        fontFamily: this.fontFamily
+      });
 
     const text2Object = this.add.text(number1Object.width + this.TryLimitComponent.width + 10, 0, "回", {
       color: COLOR_WHITE.toString(),
