@@ -16,7 +16,7 @@ export default class NakamaPauseMenu extends Phaser.Scene {
     };
 
     this.add
-      .text(halfOfSceneWidth, 200, "再開する", textStyle)
+      .text(halfOfSceneWidth, 200, "つづける", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
@@ -29,7 +29,7 @@ export default class NakamaPauseMenu extends Phaser.Scene {
       );
 
     this.add
-      .text(halfOfSceneWidth, 312, "やり直す", textStyle)
+      .text(halfOfSceneWidth, 312, "1問目に もどる", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
@@ -44,7 +44,7 @@ export default class NakamaPauseMenu extends Phaser.Scene {
       );
 
     this.add
-      .text(halfOfSceneWidth, 424, "設定画面へ戻る", textStyle)
+      .text(halfOfSceneWidth, 424, "設定に もどる", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
@@ -57,7 +57,7 @@ export default class NakamaPauseMenu extends Phaser.Scene {
       );
 
     this.add
-      .text(halfOfSceneWidth, 536, "トップへ戻る", textStyle)
+      .text(halfOfSceneWidth, 536, "トップへ もどる", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
