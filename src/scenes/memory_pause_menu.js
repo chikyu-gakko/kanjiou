@@ -1,9 +1,8 @@
-import Phaser from "phaser";
-
-export default class PauseMenu extends Phaser.Scene {
+export default class MemoryPauseMenu extends Phaser.Scene {
   constructor() {
-    super("pause_menu");
+    super("memory_pause_menu");
   }
+  
 
   create() {
     const halfOfSceneWidth = this.sys.canvas.width / 2;
@@ -24,7 +23,7 @@ export default class PauseMenu extends Phaser.Scene {
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("hitsuji_game", { status: "continue" });
+          this.scene.resume("memory_game", { status: "continue" });
           this.scene.stop();
         },
         this
@@ -37,7 +36,8 @@ export default class PauseMenu extends Phaser.Scene {
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("hitsuji_game", {
+
+          this.scene.resume("memory_game", {
             status: "restart",
           });
           this.scene.stop();
@@ -52,7 +52,7 @@ export default class PauseMenu extends Phaser.Scene {
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("hitsuji_game", { status: "return-to-setting" });
+          this.scene.resume("memory_game", { status: "return-to-setting" });
           this.scene.stop();
         },
         this
@@ -65,7 +65,7 @@ export default class PauseMenu extends Phaser.Scene {
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("hitsuji_game", { status: "return-to-top" });
+          this.scene.resume("memory_game", { status: "return-to-top" });
           this.scene.stop();
         },
         this
