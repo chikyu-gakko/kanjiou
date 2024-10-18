@@ -319,6 +319,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
    * @returns {string[][]} charlist string[][]
    */
   createCharList = (country, isChallenge) => {
+    //console.log(country);
     let character = [];
     if (isChallenge) {
       Object.values(characterList).forEach((element) => {
@@ -519,7 +520,7 @@ export default class CharContainer extends Phaser.GameObjects.Container {
               .text(x * this.charSpace, y * this.charSpace, character, {
                 fill: 0x333333,
                 fontSize: this.charFontSize,
-                fontFamily: scene.registry.get("fontFamily"),
+                fontFamily: this.country==='chinese' ? 'Noto-Sans-Medium' : this.country==='japanese_hiragana' ? 'Klee-One':  scene.registry.get("fontFamily"),
               })
               .setInteractive().setPadding(0, 4, 0, 0)
           );

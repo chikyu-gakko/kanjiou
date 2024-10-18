@@ -71,7 +71,7 @@ export default class SekaiGame extends Phaser.Scene {
   }
 
   preload() {
-    console.log(this.prevSceneData.country);
+    //console.log(this.prevSceneData.country);
     this.load.path = window.location.href.replace("index.html", "");
     /*
     images.push([
@@ -94,7 +94,7 @@ export default class SekaiGame extends Phaser.Scene {
   }
 
   init(data) {
-    console.log('init.');
+    //console.log('init.');
     this.fontFamily = this.registry.get("fontFamily");
     this.prevSceneData = {
       size: data.size,
@@ -111,7 +111,7 @@ export default class SekaiGame extends Phaser.Scene {
   }
 
   create() {
-    //console.log(this.prevSceneData.country);
+    console.log(this.prevSceneData.mode == "timeAttack");
     this.createBackGround();
     this.createWhiteBoard();
     this.createSoundButton();
@@ -138,25 +138,29 @@ export default class SekaiGame extends Phaser.Scene {
     this.createTimeStopLabel();
     this.createDescriptionButton();
     this.gameTime = this.createGameTime();
-    this.time.addEvent({
-      delay: 1000,
-      repeat: Infinity,
-      callback: () => {
-        this.gameTime.countTime(
-          () => {
-            this.gameTime.check(
-              this.charContainer.mode,
-              this.charContainer.answerCounter,
-              this.charContainer.numberOfQuestions,
-              this.charContainer.wrongFlag,
-              this.transitionToResult
-            );
-          },
-          () => this.createTimerComponent(this.gameTime.timer)
-        );
-      },
-      callbackScope: this,
-    });
+    if(this.prevSceneData.mode == "timeAttack") {
+      console.log('time addedEvent.');
+      this.time.addEvent({
+        delay: 1000,
+        repeat: Infinity,
+        callback: () => {
+          //console.log("result appended???")
+          this.gameTime.countTime(
+            () => {
+              this.gameTime.check(
+                this.charContainer.mode,
+                this.charContainer.answerCounter,
+                this.charContainer.numberOfQuestions,
+                this.charContainer.wrongFlag,
+                this.transitionToResult
+              );
+            },
+            () => this.createTimerComponent(this.gameTime.timer)
+          );
+        },
+        callbackScope: this,
+      });
+    }
     this.createTimerComponent(this.gameTime.timer);
 
     this.events.on("resume", (scene, data) => {
@@ -191,7 +195,7 @@ export default class SekaiGame extends Phaser.Scene {
   }
 
   LanguageDescriptionAnim = () => {
-    console.log('languagedescriptionanim');
+    //console.log('languagedescriptionanim');
     const languageDescription = this.add
       .image(512, 384, `langdesc_${this.prevSceneData.country}`)
       .setScale(0.5, 0.5)
@@ -321,7 +325,7 @@ export default class SekaiGame extends Phaser.Scene {
       .text(correctX, 270, correctCharacter, {
         color: "#d53f3f",
         fontSize: "100px",
-        fontFamily: this.fontFamily,
+        fontFamily: this.prevSceneData.country==='chinese' ? 'Noto-Sans-Medium' : this.prevSceneData.country==='japanese_hiragana' ? 'Klee-One':  this.fontFamily,
       })
       .setOrigin(0.5, 0.5)
       .setPadding(0, 4, 0, 0);
@@ -331,7 +335,7 @@ export default class SekaiGame extends Phaser.Scene {
       .text(correctX, 358, correctAnsExample, {
         color: "#000000",
         fontSize: "32px",
-        fontFamily: this.fontFamily,
+        fontFamily: this.prevSceneData.country==='chinese' ? 'Noto-Sans-Medium' : this.prevSceneData.country==='japanese_hiragana' ? 'Klee-One': this.fontFamily,
       })
       .setOrigin(0.5, 0.5)
       .setPadding(0, 4, 0, 0);
@@ -361,7 +365,7 @@ export default class SekaiGame extends Phaser.Scene {
       .text(wrongX, 270, mistakeCharacter, {
         color: "#000000",
         fontSize: "100px",
-        fontFamily: this.fontFamily,
+        fontFamily: this.prevSceneData.country==='chinese' ? 'Noto-Sans-Medium' : this.prevSceneData.country==='japanese_hiragana' ? 'Klee-One': this.fontFamily,
       })
       .setOrigin(0.5, 0.5)
       .setPadding(0, 4, 0, 0);
@@ -371,7 +375,7 @@ export default class SekaiGame extends Phaser.Scene {
       .text(wrongX, 358, mistakeAnsExample, {
         color: "#000000",
         fontSize: "32px",
-        fontFamily: this.fontFamily,
+        fontFamily: this.prevSceneData.country==='chinese' ? 'Noto-Sans-Medium' : this.prevSceneData.country==='japanese_hiragana' ? 'Klee-One': this.fontFamily,
       })
       .setOrigin(0.5, 0.5)
       .setPadding(0, 4, 0, 0);
@@ -414,6 +418,9 @@ export default class SekaiGame extends Phaser.Scene {
       .setInteractive()
       .on("pointerdown", () => {
         commentGroup.toggleVisible();
+        if(this.charContainer.answerCounter >= 10) {
+          this.transitionToResult();
+        }
       });
     resumeButton.depth = 4;
 
@@ -515,6 +522,7 @@ export default class SekaiGame extends Phaser.Scene {
   };
 
   transitionToResult = () => {
+    //console.log("これより結果画面へ遷移いたします。");
     this.sound.stopAll();
     this.scene.start("sekai_game_result", {
       time: this.gameTime.timer,

@@ -1873,7 +1873,7 @@ export const characterList = {
       number: 4,
       correct: {
         char: "گ",
-        vocabulary: "گا‎نا",
+        vocabulary: "گانا",
         read: "gānā:ガーナー",
         mean: "歌（うた）、歌（うた）う",
       },
@@ -4242,7 +4242,7 @@ export const characterList = {
     {
       number: 10,
       correct: {
-        char: "l",
+        char: "ll",
         vocabulary: "lluvia",
         read: "jyuvia:ジュビア",
         mean: "雨（あめ）",
@@ -4435,7 +4435,7 @@ export const characterList = {
         char: "č",
         vocabulary: "čiekurs",
         read: "chiekurs:チエクルス",
-        mean: "松（まつ）ぼっくり",
+        mean: "モミの木（き）",
       },
     },
     {
@@ -4781,7 +4781,7 @@ export const characterList = {
         mean: "夜（よる）",
       },
       incorrect: {
-        char: "മാ ",
+        char: "റാ",
         vocabulary: "റാണി ",
         read: "rani:ラーニ",
         mean: "女王（じょおう）",

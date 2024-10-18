@@ -108,6 +108,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
   }
 
   create() {
+    console.log(this.countryPage);
     this.startMusic();
     this.createSoundButton();
     this.createCrossButton();
@@ -140,7 +141,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
           this.createCountryNextButton();
           this.createCountryPrevButton();
           if (this.selectedSettingCategory === "country") {
-            console.log("countryPage is...?" + this.countryPage);
+            //console.log("countryPage is...?" + this.countryPage);
             if (
               this.countryButtonPages[this.countryPage].includes(
                 element.data.list["value"]
@@ -307,7 +308,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
         this.selectedSettingCategory === "country" &&
         this.countryPage != this.countryButtonPages.length - 1
       ) {
-        console.log("next pressed");
+        //console.log("next pressed");
         this.countryPage++;
         this.updateView();
       }
@@ -349,7 +350,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
     });
     countryPrevButton.setInteractive().on("pointerdown", () => {
       if (this.selectedSettingCategory === "country" && this.countryPage != 0) {
-        console.log("prev pressed");
+        //console.log("prev pressed");
         this.countryPage--;
         this.updateView();
       }
@@ -428,7 +429,7 @@ export default class SekaiGameSetting extends Phaser.Scene {
         .on(
           "pointerdown",
           () => {
-            console.log(arg.dataValue + "selectedだとっっ!!??");
+            //console.log(arg.dataValue + "selectedだとっっ!!??");
             this.selectedSettingCategory = arg.dataValue;
             this.updateView();
           },
