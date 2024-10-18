@@ -59,7 +59,7 @@ export default class SekaiPauseMenu extends Phaser.Scene {
       );
 
     this.add
-      .text(halfOfSceneWidth, 536, "トップへ もどる", textStyle)
+      .text(halfOfSceneWidth, 536, "トップに もどる", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
