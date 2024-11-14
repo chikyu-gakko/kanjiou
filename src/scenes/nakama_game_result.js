@@ -57,10 +57,10 @@ export default class NakamaGameResult extends Phaser.Scene {
       // rankingRegistered: data.rankingRegistered,
       numberOfCorrected: data.numberOfCorrected,
       questions: data.questions,
-      
+      sceneName: data.sceneName
     };
     if (debugMode) this.prevSceneData = dataForDebugging;
-    this.fontFamily = this.registry.get("MemoryGameFontFamiry");
+    this.fontFamily = this.registry.get("fontFamily");
   }
   create() {
     this.startCameraFadeIn();
@@ -133,7 +133,7 @@ export default class NakamaGameResult extends Phaser.Scene {
     backGameSetButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        this.scene.start("nakama_game_setting", {
+        this.scene.start('nakama_game_setting', {
           level: this.prevSceneData.level,
         });
       },
@@ -156,7 +156,7 @@ export default class NakamaGameResult extends Phaser.Scene {
     retryGameButton.buttonGraphic.on(
       "pointerdown",
       () => {
-        this.scene.start("nakama_game", {
+        this.scene.start(this.prevSceneData.sceneName, {
           level: this.prevSceneData.level,
         });
       },

@@ -16,11 +16,14 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
   constructor(scene, x, y, level) {
     super(scene, x, y);
     scene.add.existing(this);
+    let integerLevel = 0;
     Object.entries(NakamaContainer.StrokeCount).forEach(([index, value]) => {
         if (value.name === level) {
+          integerLevel = Number(index);
             this.quizzes = this.createRandomQuizList(Number(index));
         }
     });
+    this.level = integerLevel;
     this.parentScene = scene;
     this.group = this.createGroup(scene);
     this.answerCounter = 0;
@@ -38,7 +41,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
     this.questionsCounter += leftSideObjs.length;
     this.questionsCounter += rightSideObjs.length;
 
-    const okButton = this.createOKButton(scene, () => {
+    this.createOKButton(scene, () => {
       this.check(scene, leftSideObjs, rightSideObjs);
       this.createExampleAnswerButton(scene, () => {
         this.group.setVisible(false);
@@ -221,7 +224,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
 
     const leftSideObjs = leftSide.chars.map((e, i) => {
       let fontSize = '120px';
-      if (this.quizzes[currentIndex].correctValues.length > 1 || this.quizzes[currentIndex + 1].correctValues.length > 1) {
+      if (this.level >= 10) {
         fontSize = '80px';
       }
 
@@ -240,7 +243,7 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
     });
     const rightSideObjs = rightSide.chars.map((e, i) => {
       let fontSize = '120px';
-      if (this.quizzes[currentIndex].correctValues.length > 1) {
+      if (this.level >= 10) {
         fontSize = '80px';
       }
 
@@ -311,30 +314,19 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
    * @param {Number} level
    */
   createRandomQuizList = (level) => {
-    const quizzes = nakamaStrokeCountData[level - 1];
+    let quizzes = nakamaStrokeCountData[level - 1];
 
-    for (let i = 0; i < quizzes.length; i++) {
-      const a = Math.floor(Math.random() * quizzes.length);
-      const b = Math.floor(Math.random() * quizzes.length);
-      [quizzes[a], quizzes[b]] = [quizzes[b], quizzes[a]];
+    const summarizedQuizzes = [];
+
+    for (let i = 0; i < quizzes.length; i += 2) {
+      summarizedQuizzes.push(quizzes.slice(i, i + 2));
+    }
+    for (let i = summarizedQuizzes.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [summarizedQuizzes[i], summarizedQuizzes[j]] = [summarizedQuizzes[j], summarizedQuizzes[i]]; // 配列の要素を入れ替え
     }
 
-    for (let i = 0; i < quizzes.length / 2; i++) {
-      const currentIndex = i * 2
-
-      if (quizzes[currentIndex].strokeCount === quizzes[currentIndex + 1].strokeCount) {
-        for (let j = i + 1; j < quizzes.length; j++) {
-          if (quizzes[currentIndex].strokeCount > quizzes[j].strokeCount) {
-            [quizzes[j], quizzes[currentIndex + 1]] = [quizzes[currentIndex + 1], quizzes[j]];
-            break;
-          }
-        }
-      }
-
-      if (quizzes[currentIndex].strokeCount < quizzes[currentIndex + 1].strokeCount) {
-        [quizzes[currentIndex], quizzes[currentIndex + 1]] = [quizzes[currentIndex + 1], quizzes[currentIndex]];
-      }
-    }
+    quizzes = summarizedQuizzes.flat();
     
     return quizzes;
   };
@@ -457,6 +449,9 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
    * @param {Phaser.Scene} scene Phaser.Scene
    */
   showLeftRadicalName = (scene) => {
+    if (this.level >= 11) {
+      return;
+    }
     const leftRadicalName = scene.add.text(
       306,
       150,
@@ -475,6 +470,9 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
    * @param {Phaser.Scene} scene Phaser.Scene
    */
   showRightRadicalName = (scene) => {
+    if (this.level >= 11) {
+      return;
+    }
     const rightRadicalName = scene.add.text(
       718,
       150,

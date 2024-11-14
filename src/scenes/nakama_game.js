@@ -85,6 +85,7 @@ export default class NakamaGame extends Phaser.Scene {
   }
 
   createNakamaContainer = () => {
+    console.log(this.prevSceneData.level)
     return new NakamaContainer(this, 0, 0, this.prevSceneData.level);
   };
 
@@ -113,6 +114,7 @@ export default class NakamaGame extends Phaser.Scene {
       level: this.prevSceneData.level,
       questions: this.nakamaContainer.questionsCounter,
       numberOfCorrected: this.nakamaContainer.correctedCounter,
+      sceneName: 'nakama_game'
     });
   };
 
@@ -129,7 +131,7 @@ export default class NakamaGame extends Phaser.Scene {
     });
     timeStopLabel.setInteractive().on("pointerdown", () => {
       this.scene.pause();
-      this.scene.launch("nakama_pause_menu");
+      this.scene.launch("nakama_pause_menu", {sceneName: 'nakama_game'});
     });
   };
 }
