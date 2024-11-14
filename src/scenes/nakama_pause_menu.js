@@ -1,6 +1,13 @@
 export default class NakamaPauseMenu extends Phaser.Scene {
   constructor() {
     super("nakama_pause_menu");
+    this.prevSceneData = undefined;
+  }
+
+  init(data) {
+    this.prevSceneData = {
+      sceneName: data.sceneName || 'nakama_game'
+    };
   }
 
   create() {
@@ -22,7 +29,7 @@ export default class NakamaPauseMenu extends Phaser.Scene {
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("nakama_game", { status: "continue" });
+          this.scene.resume(this.prevSceneData.sceneName, { status: "continue" });
           this.scene.stop();
         },
         this
@@ -35,7 +42,7 @@ export default class NakamaPauseMenu extends Phaser.Scene {
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("nakama_game", {
+          this.scene.resume(this.prevSceneData.sceneName, {
             status: "restart",
           });
           this.scene.stop();
@@ -50,7 +57,7 @@ export default class NakamaPauseMenu extends Phaser.Scene {
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("nakama_game", { status: "return-to-setting" });
+          this.scene.resume(this.prevSceneData.sceneName, { status: "return-to-setting" });
           this.scene.stop();
         },
         this
@@ -63,7 +70,7 @@ export default class NakamaPauseMenu extends Phaser.Scene {
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("nakama_game", { status: "return-to-top" });
+          this.scene.resume(this.prevSceneData.sceneName, { status: "return-to-top" });
           this.scene.stop();
         },
         this

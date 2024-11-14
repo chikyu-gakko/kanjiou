@@ -64,7 +64,7 @@ export default class NakamaGameStrokeCount extends Phaser.Scene {
         case "restart":
           this.sound.stopAll();
           this.scene.stop();
-          this.scene.start("nakama_game", {
+          this.scene.start("nakama_game_stroke_count", {
             level: this.level,
           });
           break;
@@ -114,6 +114,7 @@ export default class NakamaGameStrokeCount extends Phaser.Scene {
       level: this.level,
       questions: this.nakamaGameStrokeCountContainer.questionsCounter,
       numberOfCorrected: this.nakamaGameStrokeCountContainer.correctedCounter,
+      sceneName: 'nakama_game_stroke_count'
     });
   };
 
@@ -130,7 +131,7 @@ export default class NakamaGameStrokeCount extends Phaser.Scene {
     });
     timeStopLabel.setInteractive().on("pointerdown", () => {
       this.scene.pause();
-      this.scene.launch("nakama_pause_menu");
+      this.scene.launch("nakama_pause_menu", {sceneName: 'nakama_game_stroke_count'});
     });
   };
 }

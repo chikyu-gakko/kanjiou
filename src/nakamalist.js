@@ -141,7 +141,7 @@ export const nakamalist = {
       },
       right: {
         radical: "⻖",
-        radicalName: "こざと",
+        radicalName: "こざとへん",
         chars: ["阪", "隊", "防", "限", "降", "険", "除"],
       },
     },
@@ -231,7 +231,7 @@ export const nakamalist = {
         chars: ["芸", "英", "菜", "著", "蔵"],
       },
       right: {
-        radical: "たけかんむり",
+        radical: "⺮",
         radicalName: "",
         chars: ["管", "節", "築", "筋", "簡"],
       },
@@ -570,7 +570,7 @@ export const nakamalist = {
     {
         number: 4,
         left: {
-            radical: "辶",
+            radical: "⻌",
             radicalName: "しんにょう",
             chars: ["達", "遊", "連", "途", "逃"]
         },
@@ -609,7 +609,7 @@ export const nakamalist = {
     {
         number: 7,
         left: {
-            radical: "斗",
+            radical: "⽎",
             radicalName: "るまた",
             chars: ["段", "殴", "殻", "殿"]
         },
@@ -636,7 +636,7 @@ export const nakamalist = {
         number: 9,
         left: {
             radical: "歹",
-            radicalName: "はがねへん",
+            radicalName: "かばねへん",
             chars: ["残", "死", "殉", "殖", "殊"]
         },
         right: {
