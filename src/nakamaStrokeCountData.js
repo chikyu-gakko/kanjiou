@@ -1152,6 +1152,10 @@ export const nakamaStrokeCountData = [
     { strokeCount: 3, correctValues: ["千", "小"] },
     { strokeCount: 3, correctValues: ["上", "大", "弓", "口", "山"] },
     {
+      strokeCount: 4,
+      correctValues: [],
+    },
+    {
       strokeCount: 3,
       correctValues: [],
     },
@@ -1163,10 +1167,6 @@ export const nakamaStrokeCountData = [
       strokeCount: 4,
       correctValues: ["五", "六"],
     },
-    {
-      strokeCount: 11,
-      correctValues: [],
-    },
     { strokeCount: 5, correctValues: ["四", "玉", "正"] },
     { strokeCount: 3, correctValues: ["子"]},
     {
@@ -1177,11 +1177,7 @@ export const nakamaStrokeCountData = [
       strokeCount: 5,
       correctValues: ["圧", "庁", "広", "皮"],
     },
-    {
-      strokeCount: 4,
-      correctValues: [],
-    },
-    { strokeCount: 6, correctValues: ["灰", "危", "机"] },
+    { strokeCount: 6, correctValues: ["灰"] },
     { strokeCount: 5, correctValues: ["包", "犯", "句"] },
     { strokeCount: 6, correctValues: ["危", "机"] },
     { strokeCount: 6, correctValues: ["各", "舌", "名"] },
@@ -1189,7 +1185,6 @@ export const nakamaStrokeCountData = [
     { strokeCount: 7, correctValues: ["囲", "困", "図"] },
     { strokeCount: 8, correctValues: ["固", "国"] },
     { strokeCount: 9, correctValues: ["泉", "海", "洋"] },
-    { strokeCount: 9, correctValues: ["度", "厚"] },
     {
       strokeCount: 10,
       correctValues: [
@@ -1197,6 +1192,7 @@ export const nakamaStrokeCountData = [
         "流",
       ],
     },
+    { strokeCount: 9, correctValues: ["度", "厚"] },
     {
       strokeCount: 10, correctValues: [
         "倉",
@@ -1213,12 +1209,15 @@ export const nakamaStrokeCountData = [
         "班",
       ]
     },
+    {
+      strokeCount: 11, correctValues: []
+    },
     { strokeCount: 11, correctValues: ["黒", "窓", "悪"] },
-    { strokeCount: 11, correctValues: [ "規", "現", "貨"] },
     {
       strokeCount: 12,
       correctValues: ["悲", "無"],
     },
+    { strokeCount: 11, correctValues: [ "規", "現", "貨"] },
     {
       strokeCount: 12,
       correctValues: ["買", "覚"],
@@ -1231,8 +1230,8 @@ export const nakamaStrokeCountData = [
     { strokeCount: 13, correctValues: ["鉄", "鉱"] },
     { strokeCount: 14, correctValues: ["銀", "銭", "銅"] },
     { strokeCount: 14, correctValues: ["様", "模", "構"] },
-    { strokeCount: 15, correctValues: ["権", "標", "暴", "賞"] },
-    { strokeCount: 15, correctValues: ["養", "蔵"] },
+    { strokeCount: 15, correctValues: ["権", "標"] },
+    { strokeCount: 15, correctValues: ["暴", "賞", "養", "蔵"] },
     { strokeCount: 16, correctValues: ["憲"] },
     { strokeCount: 17, correctValues: ["優", "厳", "謝", "縮"] },
     { strokeCount: 20, correctValues: ["競"] },
@@ -1240,12 +1239,12 @@ export const nakamaStrokeCountData = [
     { strokeCount: 19, correctValues: ["願", "識"] },
   ],
   [
+    { strokeCount: 3, correctValues: ["及", "与", "己", "凡"] },
+    { strokeCount: 4, correctValues: ["冗"] },
     {
       strokeCount: 4,
       correctValues: [],
     },
-    { strokeCount: 3, correctValues: ["及", "与", "己", "凡"] },
-    { strokeCount: 4, correctValues: ["冗"] },
     {
       strokeCount: 5,
       correctValues: ["司", "布", "丘", "出", "以"],
@@ -1259,10 +1258,6 @@ export const nakamaStrokeCountData = [
     { strokeCount: 7, correctValues: ["近", "返", "迎"] },
     { strokeCount: 7, correctValues: ["芯", "芽", "花"] },
     {
-      strokeCount: 11,
-      correctValues: [],
-    },
-    {
       strokeCount: 8,
       correctValues: [
         "茎",
@@ -1270,7 +1265,7 @@ export const nakamaStrokeCountData = [
       ],
     },
     {
-      strokeCount: 8,
+      strokeCount: 7,
       correctValues: [
         "麦",
         "寿",
@@ -1294,17 +1289,18 @@ export const nakamaStrokeCountData = [
       ],
     },
     {
+      strokeCount: 9,
+      correctValues: [
+        "咽",
+      ],
+    },
+    {
       strokeCount: 8,
       correctValues: [
         "明",
         "旺",
       ],
     },
-    {
-      strokeCount: 13,
-      correctValues: [],
-    },
-    { strokeCount: 9, correctValues: ["咽"] },
     { strokeCount: 9, correctValues: ["昭", "映", "昧"] },
     { strokeCount: 9, correctValues: ["哀", "怒"] },
     {
@@ -1315,6 +1311,10 @@ export const nakamaStrokeCountData = [
       strokeCount: 10,
       correctValues: ["残", "病", "弱", "骨", "衰"],
     },
+    {
+      strokeCount: 11,
+      correctValues: [],
+    },
     { strokeCount: 11, correctValues: ["著"] },
     {
       strokeCount: 12,
@@ -1324,6 +1324,7 @@ export const nakamaStrokeCountData = [
       strokeCount: 12,
       correctValues: ["寒", "暑", "嵐", "晴", "雲"],
     },
+    { strokeCount: 13, correctValues: [""] },
     { strokeCount: 13, correctValues: ["誇"] },
     {
       strokeCount: 14,
@@ -1343,16 +1344,12 @@ export const nakamaStrokeCountData = [
       ],
     },
     {
-      strokeCount: 14,
-      correctValues: [
-        "静",
-        "精",
-        "漬",
-      ],
-    },
-    {
       strokeCount: 15,
       correctValues: ["器", "趣"],
+    },
+    {
+      strokeCount: 14,
+      correctValues: ["静", "精", "漬"],
     },
     {
       strokeCount: 15,

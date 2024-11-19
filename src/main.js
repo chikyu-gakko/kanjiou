@@ -20,14 +20,13 @@ import NakamaGameResult from "./scenes/nakama_game_result";
 import NakamaPauseMenu from "./scenes/nakama_pause_menu";
 import SekaiHowToPlay from "./scenes/sekai_how_to_play";
 import NakamaHowToPlay from "./scenes/nakama_how_to_play";
-
 import MemoryRuselt from "./scenes/memory_game_result";
 import MemoryGame from "./scenes/memory_game";
 import MemoryModeSetting from "./scenes/memory_mode_setting";
 import MemoryGenre1Setting from "./scenes/memory_genre1_setting";
 import MemoryGenre2Setting from "./scenes/memory_genre2_setting";
 import MemoryLevelSetting from "./scenes/memory_level_setting";
-
+import MemoryPauseMenu from "./scenes/memory_pause_menu";
 import MemoryHowToPlay from "./scenes/memory_how_to_play";
 
 
@@ -96,7 +95,8 @@ const config = {
     MemoryGame,
     MemoryRuselt,
     MemoryLevelSetting,
-    MemoryHowToPlay
+    MemoryHowToPlay,
+    MemoryPauseMenu
   ],
 };
 

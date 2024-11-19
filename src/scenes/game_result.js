@@ -162,7 +162,7 @@ export default class GameResult extends Phaser.Scene {
 
       this.displayResultDetails();
       this.displayGameClearGraphics();
-      this.createRankingPageButton();
+      // this.createRankingPageButton();
     }
   }
 

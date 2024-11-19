@@ -1,6 +1,13 @@
 export default class NakamaPauseMenu extends Phaser.Scene {
   constructor() {
     super("nakama_pause_menu");
+    this.prevSceneData = undefined;
+  }
+
+  init(data) {
+    this.prevSceneData = {
+      sceneName: data.sceneName || 'nakama_game'
+    };
   }
 
   create() {
@@ -16,26 +23,26 @@ export default class NakamaPauseMenu extends Phaser.Scene {
     };
 
     this.add
-      .text(halfOfSceneWidth, 200, "再開する", textStyle)
+      .text(halfOfSceneWidth, 200, "つづける", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("nakama_game", { status: "continue" });
+          this.scene.resume(this.prevSceneData.sceneName, { status: "continue" });
           this.scene.stop();
         },
         this
       );
 
     this.add
-      .text(halfOfSceneWidth, 312, "やり直す", textStyle)
+      .text(halfOfSceneWidth, 312, "1問目に もどる", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("nakama_game", {
+          this.scene.resume(this.prevSceneData.sceneName, {
             status: "restart",
           });
           this.scene.stop();
@@ -44,26 +51,26 @@ export default class NakamaPauseMenu extends Phaser.Scene {
       );
 
     this.add
-      .text(halfOfSceneWidth, 424, "設定画面へ戻る", textStyle)
+      .text(halfOfSceneWidth, 424, "設定に もどる", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("nakama_game", { status: "return-to-setting" });
+          this.scene.resume(this.prevSceneData.sceneName, { status: "return-to-setting" });
           this.scene.stop();
         },
         this
       );
 
     this.add
-      .text(halfOfSceneWidth, 536, "トップへ戻る", textStyle)
+      .text(halfOfSceneWidth, 536, "トップに もどる", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
         "pointerdown",
         () => {
-          this.scene.resume("nakama_game", { status: "return-to-top" });
+          this.scene.resume(this.prevSceneData.sceneName, { status: "return-to-top" });
           this.scene.stop();
         },
         this

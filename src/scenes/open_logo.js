@@ -8,6 +8,7 @@ export default class OpenLogo extends Phaser.Scene {
 
   init() {
     this.fontFamily = this.registry.get("fontFamily");
+    this.fontFamily2 = this.registry.get("fontFamilyForStrokeCount");
   }
 
   preload() {
@@ -17,6 +18,15 @@ export default class OpenLogo extends Phaser.Scene {
   }
 
   create() {
+    // preload font
+    this.add
+      .text(4000, 4000, "フォントロード", {
+        color: "#ffff",
+        fontFamily: this.fontFamily2,
+        fontSize: "48px",
+      })
+      .setOrigin(0.5, 0);
+
     // 画像表示
 
     // logo画像
