@@ -68,6 +68,7 @@ export default class SekaiGameResult extends Phaser.Scene {
   }
 
   create() {
+    console.log(this.prevSceneData.mode);
     this.startCameraFadeIn();
     this.soundButton = new SoundButton(this, 70, 700, 40);
     this.soundButton.depth = 3;
@@ -139,7 +140,7 @@ export default class SekaiGameResult extends Phaser.Scene {
           return "";
       }
     })();
-    const text2 = this.prevSceneData.mode === "suddenDeath" || "learn" ? " 問" : " 秒";
+    const text2 = this.prevSceneData.mode === "suddenDeath" || this.prevSceneData.mode ===  "learn" ? " 問" : " 秒";
 
     const text1Object = this.add.text(0, 22, text1, {
       color: "#333333",
