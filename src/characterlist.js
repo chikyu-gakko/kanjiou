@@ -303,7 +303,7 @@ export const characterList = {
       },
     },
   ],
-  韓国語_ハングル: [
+  韓国語: [
     {
       number: 1,
       correct: {
