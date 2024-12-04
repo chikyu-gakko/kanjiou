@@ -1324,7 +1324,7 @@ export const nakamaStrokeCountData = [
       strokeCount: 12,
       correctValues: ["寒", "暑", "嵐", "晴", "雲"],
     },
-    { strokeCount: 13, correctValues: [""] },
+    { strokeCount: 13, correctValues: [] },
     { strokeCount: 13, correctValues: ["誇"] },
     {
       strokeCount: 14,
