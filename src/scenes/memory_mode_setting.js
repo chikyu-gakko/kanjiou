@@ -65,7 +65,6 @@ export default class MemoryModeSetting extends Phaser.Scene {
 
   updateView() {
     this.settingElements.forEach((element) => {
-      console.log(element.getData(Category.key));
       switch (element.getData(Category.key)) {
         case this.selectedSettingCategory:
           element.setVisible(true);

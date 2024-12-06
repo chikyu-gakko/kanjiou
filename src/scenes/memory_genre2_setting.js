@@ -46,8 +46,6 @@ export default class MemoryGenreSetting extends Phaser.Scene {
     this.selectedMode = this.prevSceneData.mode;
     this.selectedGenre = this.prevSceneData.genre;
 
-    console.log(this.selectedMode);
-
     // 設定の選択肢の初期値
     this.selectedSettingCategory = Category.data.Genre2.name;
     this.challenge = false;
