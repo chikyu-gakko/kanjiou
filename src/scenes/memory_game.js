@@ -637,64 +637,64 @@ export default class MemoryGame extends Phaser.Scene {
       const localStartPositionX = column * imageSize.width + imageSize.width / 2 + gridGap(column, gridSize.maxColumn) + GLOBAL_START_POSITION_X;
       const localStartPositionY = row * imageSize.height + imageSize.height / 2 + gridGap(row, gridSize.maxRow) + GLOBAL_START_POSITION_Y;
 
-      const nationalFlagComponent = this.add
+      const gameCardComponent = this.add
         .sprite(localStartPositionX, localStartPositionY, CARD_BACK_SIDE_IMAGE_KEY)
         .setDisplaySize(imageSize.width, imageSize.height)
         .setInteractive({
           cursor: 'pointer'
         });
-      nationalFlagComponent.depth = 2;
+      gameCardComponent.depth = 2;
       let isFinishedFlipAnimation = true;
 
-      nationalFlagComponent.on(
+      gameCardComponent.on(
         'pointerdown',
         () => {
 
-           if(!this.flipLeftCard){
-             this.flipLeftCard = true;
-            //FLIPED_AREA.MEMORY_CARD in this.flippedAreas ||
-            if (!isFinishedFlipAnimation || this.flippedComponents.includes(nationalFlagComponent)) {
-              return;
-            }
-            const CardSe = this.sound.add("CardSe");
-            CardSe.play();
+          //左カードをめくったら3秒間、クリックを受け付けない
+          if(!this.flipLeftCard){
+              this.flipLeftCard = true;
 
-            isFinishedFlipAnimation = false;
+              if (!isFinishedFlipAnimation || this.flippedComponents.includes(gameCardComponent)) {
+                return;
+              }
+              const CardSe = this.sound.add("CardSe");
+              CardSe.play();
+
+              isFinishedFlipAnimation = false;
+              
+
+              if (this.leftCardType == "img") {
+                //第二引数 cardData.id = imageの名前
+                this.flipAnimation(
+                  gameCardComponent,
+                  cardData.id + "_LEFT",
+                  gameCardComponent.scaleX,
+                  gameCardComponent.scaleY,
+                )
+              } else if (this.leftCardType == "char") {
+                this.flipAnimation(
+                  gameCardComponent,
+                  cardData.LeftCard,
+                  gameCardComponent.scaleX,
+                  gameCardComponent.scaleY,
+                )
+              }
+
+              this.flippedAreas[FLIPED_AREA.MEMORY_CARD] = cardData;
+              this.flippedComponents.push(gameCardComponent);
+
+              setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
+
+              if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.MEMORY_CARD in this.flippedAreas)) {
+                return;
+              }          
             
-
-            if (this.leftCardType == "img") {
-              //第二引数 cardData.id = imageの名前
-              this.flipAnimation(
-                nationalFlagComponent,
-                cardData.id + "_LEFT",
-                nationalFlagComponent.scaleX,
-                nationalFlagComponent.scaleY,
-              )
-            } else if (this.leftCardType == "char") {
-              this.flipAnimation(
-                nationalFlagComponent,
-                cardData.LeftCard,
-                nationalFlagComponent.scaleX,
-                nationalFlagComponent.scaleY,
-              )
-            }
-
-            this.flippedAreas[FLIPED_AREA.MEMORY_CARD] = cardData;
-            this.flippedComponents.push(nationalFlagComponent);
-
-            setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
-
-            if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.MEMORY_CARD in this.flippedAreas)) {
-              return;
-            }          
-          
-            this.validateNeurastheniaMatch();            
+              this.validateNeurastheniaMatch();            
           }
                     
         },
         this
       )
-    //}
     })
   }
 
@@ -755,10 +755,10 @@ export default class MemoryGame extends Phaser.Scene {
         'pointerdown',
         () => {
 
+          //左カードをめくったら3秒間、クリックを受け付けない
           if(!this.flipRightCard){
             this.flipRightCard = true;
 
-            //FLIPED_AREA.RIGTH_CARD in this.flippedAreas
             if (!isFinishedFlipAnimation || this.flippedComponents.includes(RigthCardComponent)) {
               return;
             }
@@ -766,6 +766,7 @@ export default class MemoryGame extends Phaser.Scene {
             CardSe.play();
             isFinishedFlipAnimation = false;
 
+            //カード用のデータ判別(文字・写真)
             if (this.rightCardType == "img") {
               this.flipAnimation(
                 RigthCardComponent,
@@ -1062,6 +1063,7 @@ export default class MemoryGame extends Phaser.Scene {
    * @property {boolean} isWon
    * @param {InitResultSceneData} data 
    */
+
   goToResultScene = (data) => {
     this.scene.start('MemoryRuselt', {
       isWon: data.isWon,
@@ -1083,10 +1085,12 @@ export default class MemoryGame extends Phaser.Scene {
       this.consoleLogForDebug(this.flippedAreas);
       this.consoleLogForDebug(this.flippedComponents);
 
-      //RightCardsData.RightCard
+      //めくったペアが同じペアを立ったら
       if (cardData.RightCard === RightCardsData) {        
 
-        setTimeout(() => {          
+        setTimeout(() => {
+
+          //対戦モードの場合
           if (this.prevSceneData.mode == "versus") {
             this.PlayerPointAdd();
 
@@ -1099,12 +1103,17 @@ export default class MemoryGame extends Phaser.Scene {
 
           this.triedCount++;
 
+          //練習モードの場合
           if (this.prevSceneData.mode == "practice") {            
+            //全てのペアを見つけたか
             if (this.isFlippedAll()) {
+              //結果画面：クリア
               this.goToResultScene({
                 isWon: true
               });
+              //制限回数を超えたか
             }else if (this.isGameOver()) {
+              //結果画面：ゲームオーバー
               this.goToResultScene({
                 isWon: false
               });
@@ -1116,6 +1125,7 @@ export default class MemoryGame extends Phaser.Scene {
 
         }, ANIMATION_DURATION_FLIP * 2);        
 
+        //カードをめくった3秒後にクリック解禁
         setTimeout(() => {
           this.flipLeftCard = false;
           this.flipRightCard = false;          
@@ -1138,6 +1148,7 @@ export default class MemoryGame extends Phaser.Scene {
           )
         }, 1800);//指定されたミリ秒後にカードを裏返すアニメーション実行
         
+        //カードをめくった3秒後にクリック解禁
         setTimeout(() => {
           this.flipLeftCard = false;
           this.flipRightCard = false;
