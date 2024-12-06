@@ -76,8 +76,6 @@ export default class MemoryGame extends Phaser.Scene {
 
     this.flippedAreas = {};
 
-
-
     this.leftCardType = "";
     this.rightCardType = "";
 
@@ -89,14 +87,12 @@ export default class MemoryGame extends Phaser.Scene {
       
         //左のカード用写真を登録
         this.cardsData.forEach((cardData) => {
-          this.load.image(cardData.id + "_LEFT", cardData.LeftCard);
-          console.log("this.load.image_LEFT:"+cardData.LeftCard);
+          this.load.image(cardData.id + "_LEFT", cardData.LeftCard);          
         });
 
         //右のカード用写真を登録
         this.cardsData.forEach((cardData) => {
           this.load.image(cardData.id + "_RIGHT", cardData.RightCard);
-          console.log("this.load.image_RIGHT:"+cardData.RightCard);
         });    
 
       this.load.image(CARD_BACK_SIDE_IMAGE_KEY, 'assets/img/card/card_back.png');
@@ -133,6 +129,7 @@ export default class MemoryGame extends Phaser.Scene {
       genre: data.genre
     };
 
+    //ジャンルの設定
     switch (this.prevSceneData.genre) {
       case "flag":
         this.cardsData = nationalFlags;
@@ -268,16 +265,9 @@ export default class MemoryGame extends Phaser.Scene {
         this.leftCardType = "img";
         this.rightFontSize = 60;
         break
-
-        // default:
-        //   this.cardsData = countries;
     }
-    console.log("init!!:"+Date.now());
-    // console.log("this.cardsData:"+this.cardsData);
-    // console.log(this.prevSceneData.level);
-    // console.log(this.prevSceneData.mode);
-    // console.log("genre ： " + this.prevSceneData.genre);
-
+    
+    //初期値の設定
     this.gameConfig = {
       level: data.level,
       mode: data.mode
@@ -287,17 +277,22 @@ export default class MemoryGame extends Phaser.Scene {
     if(this.DoubleExeFlag == false){
       this.DoubleExeFlag = true;
       this.triedCount = 0;
+
+      //レベルごとに最大回数を指定
       this.maxTryCount = this.levelToMaxTryCount(this.gameConfig.level)
 
+      //レベルごとにカード数を指定
       this.cardsCount = 0;
       this.cardsCount = this.levelToCardsCount(this.gameConfig.level);
       
+      //右側のカードをランダムに並び変える
       this.cardsData = this.randomlySelectCards(this.cardsCount);
       this.RightCardsData = this.mixedUpArray(this.cardsData.map(({
         RightCard
       }) => RightCard));
-
       this.RightCardImg = this.mixedUpArray(this.cardsData.map((id) => id));
+
+      //左側のカードをランダムに並び変える
       this.LeftCardChar = this.mixedUpArray(this.cardsData.map(({
         LeftCard
       }) => LeftCard));
@@ -315,17 +310,23 @@ export default class MemoryGame extends Phaser.Scene {
     this.flippedComponents = [];
 
     this.fontFamily = this.registry.get("fontFamily");
+
+    this.flipLeftCard = false;
+    this.flipRightCard = false;
   }
 
   create = () => {
+
+    //UIの生成
     if(this.DoubleExeFlag == false){
       this.DoubleExeFlag = true;
-      console.log("create!!");
       this.createBackGround();
       this.createCarpet();
       this.createSoundButton();
 
       this.createGameStopLabel();
+      
+      //一時停止画面の処理
       this.events.on("resume", (scene, data) => {
         switch (data.status) {
           case "restart":
@@ -354,10 +355,12 @@ export default class MemoryGame extends Phaser.Scene {
         }
       });
     
-
+      //練習モードが選択されたときのみ実行
       if (this.prevSceneData.mode == "practice") {
         this.createTryCountText();
       }
+
+      //対戦モードが選択されたときのみ実行
       if (this.prevSceneData.mode == "versus") {
         this.createPlayer1PointBack();
         this.createPlayer2PointBack();
@@ -384,6 +387,7 @@ export default class MemoryGame extends Phaser.Scene {
     const GLOBAL_START_POSITION_X = 0;
     const GLOBAL_START_POSITION_Y = 0;
 
+    //右側カードのテクスチャ
     this.RightCardsData.forEach((RightCardsData) => {
 
       let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (this.rightFontSize * RightCardsData.length / 2);
@@ -394,6 +398,7 @@ export default class MemoryGame extends Phaser.Scene {
         .setOrigin(0, 0)
         .setDisplaySize(IMAGE_SIZE_WIDTH, IMAGE_SIZE_HEIGHT);
 
+      //カードに文字を追加
       const RightCard = this.add
         .text(
           localStartPositionXForText,
@@ -412,7 +417,6 @@ export default class MemoryGame extends Phaser.Scene {
         IMAGE_SIZE_WIDTH,
         IMAGE_SIZE_HEIGHT,
       );
-      console.log("RightCardsData:" + RightCardsData)
       renderTexture.draw(MemoryGameBackground);
       renderTexture.draw(RightCard);
       renderTexture.saveTexture(RightCardsData);
@@ -423,6 +427,7 @@ export default class MemoryGame extends Phaser.Scene {
     })
 
 
+    //左側カードのテクスチャ
     this.LeftCardChar.forEach((LeftCardChar) => {
 
       let localStartPositionXForText = GLOBAL_START_POSITION_X + IMAGE_SIZE_WIDTH / 2 - (this.leftFontSize * LeftCardChar.length / 2);
@@ -599,19 +604,16 @@ export default class MemoryGame extends Phaser.Scene {
     return result;
   }
 
-  isFlippedAll = () => {
-    console.log("this.flippedComponents.length：" + this.flippedComponents.length + "　this.levelToCardsCount：" + this.levelToCardsCount(this.gameConfig.level) * 2)
-    return this.flippedComponents.length >= this.levelToCardsCount(this.gameConfig.level) * 2;
+  isFlippedAll = () => {    
+    return this.flippedComponents.length >= this.levelToCardsCount(this.gameConfig.level) * 2;    
   }
 
   isGameOver = () => {
-    console.log("this.triedCount：" + this.triedCount + " this.maxTryCount：" + this.maxTryCount)
     return this.triedCount >= this.maxTryCount;
   }
 
   createLeftCards = () => {
-    console.log("createLeftCards!!");
-
+    
     const GLOBAL_START_POSITION_X = 40;
     const GLOBAL_START_POSITION_Y = 250;
     const GAP = 16;
@@ -627,58 +629,69 @@ export default class MemoryGame extends Phaser.Scene {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
-      console.log("createLeftCards() cardData:" + cardData.id)
+
+
       const column = index % gridSize.maxColumn;
       const row = Math.floor(index / gridSize.maxColumn);
 
       const localStartPositionX = column * imageSize.width + imageSize.width / 2 + gridGap(column, gridSize.maxColumn) + GLOBAL_START_POSITION_X;
       const localStartPositionY = row * imageSize.height + imageSize.height / 2 + gridGap(row, gridSize.maxRow) + GLOBAL_START_POSITION_Y;
 
-      const nationalFlagComponent = this.add
+      const gameCardComponent = this.add
         .sprite(localStartPositionX, localStartPositionY, CARD_BACK_SIDE_IMAGE_KEY)
         .setDisplaySize(imageSize.width, imageSize.height)
         .setInteractive({
           cursor: 'pointer'
         });
-      nationalFlagComponent.depth = 2;
+      gameCardComponent.depth = 2;
       let isFinishedFlipAnimation = true;
-      nationalFlagComponent.on(
+
+      gameCardComponent.on(
         'pointerdown',
         () => {
-          if (!isFinishedFlipAnimation || FLIPED_AREA.MEMORY_CARD in this.flippedAreas || this.flippedComponents.includes(nationalFlagComponent)) {
-            return;
+
+          //左カードをめくったら3秒間、クリックを受け付けない
+          if(!this.flipLeftCard){
+              this.flipLeftCard = true;
+
+              if (!isFinishedFlipAnimation || this.flippedComponents.includes(gameCardComponent)) {
+                return;
+              }
+              const CardSe = this.sound.add("CardSe");
+              CardSe.play();
+
+              isFinishedFlipAnimation = false;
+              
+
+              if (this.leftCardType == "img") {
+                //第二引数 cardData.id = imageの名前
+                this.flipAnimation(
+                  gameCardComponent,
+                  cardData.id + "_LEFT",
+                  gameCardComponent.scaleX,
+                  gameCardComponent.scaleY,
+                )
+              } else if (this.leftCardType == "char") {
+                this.flipAnimation(
+                  gameCardComponent,
+                  cardData.LeftCard,
+                  gameCardComponent.scaleX,
+                  gameCardComponent.scaleY,
+                )
+              }
+
+              this.flippedAreas[FLIPED_AREA.MEMORY_CARD] = cardData;
+              this.flippedComponents.push(gameCardComponent);
+
+              setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
+
+              if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.MEMORY_CARD in this.flippedAreas)) {
+                return;
+              }          
+            
+              this.validateNeurastheniaMatch();            
           }
-          const CardSe = this.sound.add("CardSe");
-          CardSe.play();
-
-          isFinishedFlipAnimation = false;
-          if (this.leftCardType == "img") {
-            //第二引数 cardData.id = imageの名前
-            this.flipAnimation(
-              nationalFlagComponent,
-              cardData.id + "_LEFT",
-              nationalFlagComponent.scaleX,
-              nationalFlagComponent.scaleY,
-            )
-          } else if (this.leftCardType == "char") {
-            this.flipAnimation(
-              nationalFlagComponent,
-              cardData.LeftCard,
-              nationalFlagComponent.scaleX,
-              nationalFlagComponent.scaleY,
-            )
-          }
-
-          this.flippedAreas[FLIPED_AREA.MEMORY_CARD] = cardData;
-          this.flippedComponents.push(nationalFlagComponent);
-
-          setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
-
-          if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.MEMORY_CARD in this.flippedAreas)) {
-            return;
-          }
-
-          this.validateNeurastheniaMatch();
+                    
         },
         this
       )
@@ -721,7 +734,7 @@ export default class MemoryGame extends Phaser.Scene {
       const gridGap = (gridPosition, maxGridPosition) => {
         return gridPosition > 0 && gridPosition < maxGridPosition ? GAP * gridPosition : 0;
       }
-      console.log("createLeftCards() RightCardImg:" + RightCardImg.id)
+
       const column = index % gridSize.maxColumn;
       const row = Math.floor(index / gridSize.maxColumn);
 
@@ -737,42 +750,50 @@ export default class MemoryGame extends Phaser.Scene {
       RigthCardComponent.depth = 2;
 
       let isFinishedFlipAnimation = true;
+
       RigthCardComponent.on(
         'pointerdown',
         () => {
-          if (!isFinishedFlipAnimation || FLIPED_AREA.RIGTH_CARD in this.flippedAreas || this.flippedComponents.includes(RigthCardComponent)) {
-            return;
-          }
-          const CardSe = this.sound.add("CardSe");
-          CardSe.play();
-          isFinishedFlipAnimation = false;
 
-          if (this.rightCardType == "img") {
-            this.flipAnimation(
-              RigthCardComponent,
-              RightCardImg.id + "_RIGHT",
-              RigthCardComponent.scaleX,
-              RigthCardComponent.scaleY,
-            )
-            this.flippedAreas[FLIPED_AREA.RIGTH_CARD] = RightCardImg.RightCard;
-          } else if (this.rightCardType == "char") {
-            this.flipAnimation(
-              RigthCardComponent,
-              RightCardImg,
-              RigthCardComponent.scaleX,
-              RigthCardComponent.scaleY,
-            )
-            this.flippedAreas[FLIPED_AREA.RIGTH_CARD] = RightCardImg;
-          }
+          //左カードをめくったら3秒間、クリックを受け付けない
+          if(!this.flipRightCard){
+            this.flipRightCard = true;
 
-          this.flippedComponents.push(RigthCardComponent);
-          setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
+            if (!isFinishedFlipAnimation || this.flippedComponents.includes(RigthCardComponent)) {
+              return;
+            }
+            const CardSe = this.sound.add("CardSe");
+            CardSe.play();
+            isFinishedFlipAnimation = false;
 
-          if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.MEMORY_CARD in this.flippedAreas)) {
-            return;
-          }
+            //カード用のデータ判別(文字・写真)
+            if (this.rightCardType == "img") {
+              this.flipAnimation(
+                RigthCardComponent,
+                RightCardImg.id + "_RIGHT",
+                RigthCardComponent.scaleX,
+                RigthCardComponent.scaleY,
+              )
+              this.flippedAreas[FLIPED_AREA.RIGTH_CARD] = RightCardImg.RightCard;
+            } else if (this.rightCardType == "char") {
+              this.flipAnimation(
+                RigthCardComponent,
+                RightCardImg,
+                RigthCardComponent.scaleX,
+                RigthCardComponent.scaleY,
+              )
+              this.flippedAreas[FLIPED_AREA.RIGTH_CARD] = RightCardImg;
+            }
 
-          this.validateNeurastheniaMatch();
+            this.flippedComponents.push(RigthCardComponent);
+            setTimeout(() => isFinishedFlipAnimation = true, ANIMATION_DURATION_FLIP)
+
+            if (!(FLIPED_AREA.RIGTH_CARD in this.flippedAreas) || !(FLIPED_AREA.MEMORY_CARD in this.flippedAreas)) {
+              return;
+            }
+
+            this.validateNeurastheniaMatch();
+         }
         },
         this
       )
@@ -820,6 +841,7 @@ export default class MemoryGame extends Phaser.Scene {
       duration: singleMotionAnimationDuration,
       delay: singleMotionAnimationDuration * 3,
     })
+
   }
 
   createSoundButton = () => {
@@ -1041,6 +1063,7 @@ export default class MemoryGame extends Phaser.Scene {
    * @property {boolean} isWon
    * @param {InitResultSceneData} data 
    */
+
   goToResultScene = (data) => {
     this.scene.start('MemoryRuselt', {
       isWon: data.isWon,
@@ -1055,75 +1078,103 @@ export default class MemoryGame extends Phaser.Scene {
   }
 
   validateNeurastheniaMatch = () => {
-    const cardData = this.flippedAreas[FLIPED_AREA.MEMORY_CARD];
-    const RightCardsData = this.flippedAreas[FLIPED_AREA.RIGTH_CARD];
 
-    console.log("左カード:" + cardData.RightCard);
-    console.log("右カード:" + RightCardsData);
+      const cardData = this.flippedAreas[FLIPED_AREA.MEMORY_CARD];
+      const RightCardsData = this.flippedAreas[FLIPED_AREA.RIGTH_CARD];
 
-    this.consoleLogForDebug(this.flippedAreas);
-    this.consoleLogForDebug(this.flippedComponents);
+      this.consoleLogForDebug(this.flippedAreas);
+      this.consoleLogForDebug(this.flippedComponents);
 
-    //RightCardsData.RightCard
-    if (cardData.RightCard === RightCardsData) {
+      //めくったペアが同じペアを立ったら
+      if (cardData.RightCard === RightCardsData) {        
 
-      console.log("左カードOK:" + cardData.RightCard);
-      console.log("右カードOK:" + RightCardsData);
+        setTimeout(() => {
 
+          //対戦モードの場合
+          if (this.prevSceneData.mode == "versus") {
+            this.PlayerPointAdd();
+
+            if (this.isFlippedAll()) {
+              this.goToResultScene({
+                isWon: true
+              });
+            }
+          }
+
+          this.triedCount++;
+
+          //練習モードの場合
+          if (this.prevSceneData.mode == "practice") {            
+            //全てのペアを見つけたか
+            if (this.isFlippedAll()) {
+              //結果画面：クリア
+              this.goToResultScene({
+                isWon: true
+              });
+              //制限回数を超えたか
+            }else if (this.isGameOver()) {
+              //結果画面：ゲームオーバー
+              this.goToResultScene({
+                isWon: false
+              });
+            }
+          }
+
+          this.initFlippedArea();
+          this.refreshCounter();
+
+        }, ANIMATION_DURATION_FLIP * 2);        
+
+        //カードをめくった3秒後にクリック解禁
+        setTimeout(() => {
+          this.flipLeftCard = false;
+          this.flipRightCard = false;          
+        }, 3000);        
+
+        return;
+      }
+
+      this.flippedComponents.forEach((flippedComponent, index) => {
+        if (this.flippedComponents.length - 2 > index) {
+          return;
+        }
+        
+        setTimeout(() => {
+          this.flipAnimation(
+            flippedComponent,
+            CARD_BACK_SIDE_IMAGE_KEY,
+            flippedComponent?.scaleX,
+            flippedComponent?.scaleY,            
+          )
+        }, 1800);//指定されたミリ秒後にカードを裏返すアニメーション実行
+        
+        //カードをめくった3秒後にクリック解禁
+        setTimeout(() => {
+          this.flipLeftCard = false;
+          this.flipRightCard = false;
+        }, 3000);
+        
+      });
+      
       setTimeout(() => {
-        if (this.prevSceneData.mode == "versus") {
-          this.PlayerPointAdd();
-        }
-
-        if (this.isFlippedAll()) {
-          this.goToResultScene({
-            isWon: true
-          });
-        }
-
         this.triedCount++;
+
+        if (this.prevSceneData.mode === "practice") {
+
+          if (this.isGameOver()) {
+            this.goToResultScene({
+              isWon: false,
+            });
+          }
+        }
 
         this.initFlippedArea();
         this.refreshCounter();
 
       }, ANIMATION_DURATION_FLIP * 2);
-      return;
-    }
 
-    this.flippedComponents.forEach((flippedComponent, index) => {
-      if (this.flippedComponents.length - 2 > index) {
-        return;
-      }
-
-      setTimeout(() => {
-        this.flipAnimation(
-          flippedComponent,
-          CARD_BACK_SIDE_IMAGE_KEY,
-          flippedComponent.scaleX,
-          flippedComponent.scaleY,
-        )
-      }, 2000);//指定されたミリ秒後にカードを裏返すアニメーション実行
-    });
-
-    setTimeout(() => {
-      this.triedCount++;
-
-      if (this.prevSceneData.mode === "practice") {
-
-        if (this.isGameOver()) {
-          this.goToResultScene({
-            isWon: false,
-          });
-        }
-      }
-
-      this.initFlippedArea();
-      this.refreshCounter();
-
-    }, ANIMATION_DURATION_FLIP * 2);
-
-    this.flippedComponents = this.flippedComponents.slice(0, this.flippedComponents.length - 2)
-    //console.log("this.flippedComponents："+this.flippedComponents)
+      this.flippedComponents = this.flippedComponents.slice(0, this.flippedComponents.length - 2)
+    
   }
 
   refreshCounter = () => {
@@ -1148,6 +1199,5 @@ export default class MemoryGame extends Phaser.Scene {
     if (!DEBUG_MODE) {
       return;
     }
-    console.log(contents);
   }
 }

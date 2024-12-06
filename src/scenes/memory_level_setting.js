@@ -45,8 +45,6 @@ export default class MemoryLevelSetting extends Phaser.Scene {
       mode: data.mode,
       genre: data.genre
     };
-    console.log(this.prevSceneData.mode);
-    console.log(this.prevSceneData.genre);
 
     this.selectedLevel = Level.Level1.name;
     this.selectedGenre = this.prevSceneData.genre;
