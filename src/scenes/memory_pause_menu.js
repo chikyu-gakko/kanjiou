@@ -30,13 +30,12 @@ export default class MemoryPauseMenu extends Phaser.Scene {
       );
 
     this.add
-      .text(halfOfSceneWidth, 312, "1問目に もどる", textStyle)
+      .text(halfOfSceneWidth, 312, "やりなおす", textStyle)
       .setOrigin(0.5, 0)
       .setInteractive()
       .once(
         "pointerdown",
         () => {
-
           this.scene.resume("memory_game", {
             status: "restart",
           });
