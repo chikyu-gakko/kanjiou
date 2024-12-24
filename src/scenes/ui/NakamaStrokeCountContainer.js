@@ -89,8 +89,8 @@ export default class NakamaGameStrokeCountContainer extends Phaser.GameObjects.C
       height: 100,
     };
 
-    let leftTitleText = 'おおい';
-    let rightTitleText = 'すくない';
+    let leftTitleText = 'すくない';
+    let rightTitleText = 'おおい';
 
     if (this.quizzes[currentIndex].correctValues.length > 1 || this.quizzes[currentIndex + 1].correctValues.length > 1) {
       leftTitleText = this.quizzes[currentIndex].strokeCount + '画';
